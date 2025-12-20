@@ -8,7 +8,7 @@
 </script>
 
 <aside
-	class="flex flex-col justify-between gap-6 lg:sticky lg:top-4 lg:col-span-1 lg:h-[calc(100svh-2rem)] lg:self-start"
+	class="flex flex-col justify-between gap-8 lg:sticky lg:top-4 lg:col-span-1 lg:h-[calc(100svh-2rem)] lg:self-start"
 >
 	<header class="flex items-center gap-2">
 		<span class="text-xl font-medium text-foreground">{title}</span>
@@ -17,7 +17,7 @@
 		<p class="text-xs leading-relaxed text-foreground/70 text-balance">
 			{description}
 		</p>
-		<nav class="flex items-center gap-2 text-xs font-medium uppercase tracking-wide">
+		<nav class="flex items-center gap-2 text-xs font-medium uppercase tracking-wide font-mono">
 			{#each socialLinks as link}
 				<a
 					class="text-foreground underline-offset-4 hover:underline"

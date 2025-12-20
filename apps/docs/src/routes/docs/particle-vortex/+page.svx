@@ -1,0 +1,35 @@
+---
+name: Particle Vortex
+thumbnail: /og-image.jpg
+---
+
+# Particle Vortex
+
+Particle Vortex spins thousands of lightweight sprites around a focal point, perfect for onboarding flows or product explainers that need a hint of sci-fi flair.
+
+## Why It's Cool
+
+- Uses instanced buffer geometry so 5k+ particles stay under 16ms even on laptops.
+- Ships with GSAP timelines for pulsing, reversing, and easing the vortex velocity.
+- Supports depth-based color modulation so particles react to cursor depth.
+
+## Quick Usage
+
+```svelte
+<script lang="ts">
+  import { ParticleVortex } from "motion-core";
+</script>
+
+<ParticleVortex
+  count={4200}
+  radius={280}
+  spin={0.6}
+  colors={["#ff7edb", "#8b5cf6", "#38bdf8"]}
+/>
+```
+
+## Pro Tips
+
+1. **Cull aggressively** – enable `frustumCulled` and dynamic resolution for best perf on low-power devices.
+2. **Sync to audio** – feed the component a normalized FFT band to make spin speed react to music.
+3. **Combine with scroll** – tie `spin` to `MotionScrollTimeline` for buttery scroll-driven hero reveals.

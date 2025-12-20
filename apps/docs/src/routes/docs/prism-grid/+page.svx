@@ -1,0 +1,37 @@
+---
+name: Prism Grid
+thumbnail: /og-image.jpg
+---
+
+# Prism Grid
+
+Prism Grid renders a responsive matrix of panels that refract background imagery. Each cell animates independently, so you can choreograph wave-like reveals or sync them to audio cues.
+
+## Layout Anatomy
+
+| Piece | Description |
+| --- | --- |
+| Grid wrapper | Handles CSS grid sizing + gaps |
+| Prism cell | Applies glassmorphism shaders and GSAP timelines |
+| Overlay | Optional slot for icons, stats, or CTA labels |
+
+## Example
+
+```svelte
+<script lang="ts">
+  import { PrismGrid } from "motion-core";
+</script>
+
+<PrismGrid
+  columns={{ base: 2, md: 3, lg: 4 }}
+  rows={3}
+  shimmer
+  perspective={900}
+/>
+```
+
+## Implementation Notes
+
+- Feed `PrismGrid` a `layout` prop when you need non-rectangular silhouettes (L-shapes, diagonals, etc.).
+- GPU-bound blur can get expensive; prefer CSS `backdrop-filter` for small grids and switch to shader blur only on hero sections.
+- Pair with `MotionScrollObserver` so the refracted texture pauses when off-screen.

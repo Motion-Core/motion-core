@@ -48,11 +48,11 @@
 
 	const getThemeButtonClasses = (mode: ThemeMode) => {
 		const base =
-			"inline-flex size-6 items-center justify-center rounded-sm border text-[10px] transition-colors duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring/40";
+			"relative inline-flex size-6 items-center justify-center rounded-sm border text-[10px] transition-colors duration-150 ease-out";
 
 		return mode === theme
-			? `${base} border-border bg-card text-foreground shadow-sm`
-			: `${base} border-transparent text-foreground/60 hover:text-foreground`;
+			? `${base} border-border bg-card text-foreground shadow-sm card-highlight`
+			: `${base} border-transparent text-foreground/70 hover:text-foreground`;
 	};
 
 	onMount(() => {
@@ -89,7 +89,7 @@
 </script>
 
 <div class="space-y-2 ml-auto">
-	<div class="inline-flex items-center gap-1 rounded-md border border-border bg-card-muted p-0.5">
+	<div class="relative inline-flex items-center gap-1 rounded-md border border-border bg-card-muted p-0.5 card-highlight">
 		<button
 			type="button"
 			class={getThemeButtonClasses("light")}

@@ -1,0 +1,32 @@
+---
+name: Glyph Trail
+thumbnail: /og-image.jpg
+---
+
+# Glyph Trail
+
+Glyph Trail draws ribbons behind text as users scroll or drag across the viewport. It relies on lightweight Three.js instancing, so dozens of glyphs can animate simultaneously without tanking performance.
+
+## Core Concepts
+
+1. **Emitter** – determines where ribbon particles spawn (per character, per word, or global).
+2. **Trail material** – defines trail falloff, blur, and chromatic edge.
+3. **Driver** – listens to pointer + scroll velocity and converts it into shader uniforms.
+
+## Minimal Setup
+
+```svelte
+<script lang="ts">
+  import { GlyphTrail } from "motion-core";
+
+  const text = "Type flows like light.";
+</script>
+
+<GlyphTrail text={text} glow={0.8} decay={0.65} />
+```
+
+## Tips
+
+- Use `colorStops` to map gradients along the trail so each glyph leaves a unique hue.
+- Clamp `maxLength` in crowded layouts to keep ribbons from overlapping navigation chrome.
+- Tie `decay` to `prefers-reduced-motion` (higher decay = shorter trails = calmer motion).

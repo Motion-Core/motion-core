@@ -16,8 +16,8 @@
 	const components = data.components ?? [];
 </script>
 
-<main class="min-h-svh w-full bg-background p-4">
-	<div class="mx-auto grid h-full gap-6 lg:grid-cols-4">
+<main class="min-h-svh w-full p-4">
+	<div class="mx-auto grid h-full gap-4 lg:grid-cols-4">
 		<Sidebar description={landingDescription} {socialLinks} />
 		<ComponentGrid {components} />
 	</div>
