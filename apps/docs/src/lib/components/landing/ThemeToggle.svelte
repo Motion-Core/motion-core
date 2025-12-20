@@ -89,7 +89,7 @@
 </script>
 
 <div class="space-y-2 ml-auto">
-	<div class="relative inline-flex items-center gap-1 rounded-md border border-border bg-card-muted p-0.5 card-highlight">
+	<div class="relative inline-flex items-center gap-1 rounded-md border border-border bg-background p-0.5 card-highlight">
 		<button
 			type="button"
 			class={getThemeButtonClasses("light")}

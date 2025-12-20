@@ -6,7 +6,7 @@
 
 <a
 	href={`/docs/${component.slug}`}
-	class="relative block break-inside-avoid rounded-xl border border-border bg-card shadow-md card-highlight"
+	class="relative block break-inside-avoid rounded-xl border border-border bg-card shadow-sm card-highlight"
 	data-sveltekit-preload-data
 >
 	<div class="relative rounded-xl overflow-hidden">

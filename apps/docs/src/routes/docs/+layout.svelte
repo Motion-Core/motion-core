@@ -26,7 +26,7 @@
 						<div class="grid gap-4 sm:grid-cols-2">
 							{#if previousLink}
 								<a
-									class="group flex flex-col rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted"
+									class="relative group flex flex-col rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted card-highlight"
 									href={previousLink.href}
 									data-sveltekit-preload-data
 								>
@@ -41,7 +41,7 @@
 
 							{#if nextLink}
 								<a
-									class={`group flex flex-col rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted sm:text-right ${previousLink ? "" : "sm:col-start-2"}`}
+									class={`relative group flex flex-col rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted sm:text-right card-highlight ${previousLink ? "" : "sm:col-start-2"}`}
 									href={nextLink.href}
 									data-sveltekit-preload-data
 								>

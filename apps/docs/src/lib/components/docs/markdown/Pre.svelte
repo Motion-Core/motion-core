@@ -28,7 +28,7 @@ const restProps = $derived(() => {
 <div
 	{...restProps}
 	class={cn(
-		"group/pre relative mt-8 rounded-md border border-border bg-card p-4 font-mono text-sm text-foreground",
+		"relative group/pre mt-8 rounded-md border border-border bg-card p-4 font-mono text-sm text-foreground card-highlight shadow-sm",
 		className,
 	)}
 >

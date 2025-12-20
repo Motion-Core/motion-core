@@ -18,7 +18,7 @@
 
 :root {
 	--base-hue: 285;
-	--color-background: oklch(0.9911 0.002 var(--base-hue));
+	--color-background: oklch(0.9642 0.002 var(--base-hue));
 	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
 	--color-border: oklch(0.8925 0.002 var(--base-hue));
 	--color-card: oklch(1 0 0);
