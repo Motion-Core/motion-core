@@ -15,7 +15,7 @@
 		<section class="flex-1 space-y-8 lg:order-2">
 			<a
 				href="/"
-				class="inline-flex items-center text-sm font-medium text-foreground/70 transition-colors hover:text-foreground"
+				class="inline-flex items-center text-sm font-medium text-foreground/70 transition-[color] duration-150 ease-out hover:text-foreground"
 				data-sveltekit-preload-data
 			>
 				<span aria-hidden="true">←</span>

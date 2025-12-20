@@ -15,6 +15,6 @@ const {
 }: ComponentProps = $props();
 </script>
 
-<tr {...restProps} class={cn("transition-colors hover:bg-card-muted/30 data-[state=selected]:bg-card-muted", className)}>
+<tr {...restProps} class={cn("transition-[background-color] duration-150 ease-out hover:bg-card-muted data-[state=selected]:bg-card-muted", className)}>
 	{@render children?.()}
 </tr>
