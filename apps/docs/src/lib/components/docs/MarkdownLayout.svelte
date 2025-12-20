@@ -28,4 +28,6 @@ export { default as ul } from "./markdown/UnorderedList.svelte";
 let { children } = $props();
 </script>
 
-{@render children?.()}
+<article data-doc-content class="w-full max-w-3xl space-y-6 text-base leading-relaxed text-foreground">
+	{@render children?.()}
+</article>

@@ -1,0 +1,36 @@
+---
+name: Nebula Background
+thumbnail: /og-image.jpg
+---
+
+# Nebula Background
+
+Create deep-space gradients with layered noise, animated stars, and an optional parallax sweep. This preset pairs nicely with hero sections or section dividers and exposes granular tokens so you can tune everything from palette to motion intensity.
+
+## Features
+
+- Multiple star fields rendered on a single canvas to keep bundle size modest.
+- Ambient parallax that follows scroll and mouse for subtle depth.
+- Token-driven API that mirrors the rest of the Motion Core primitives.
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { NebulaBackground } from "motion-core";
+
+  const palette = {
+    start: "#120628",
+    mid: "#432c73",
+    end: "#f3a8ff"
+  };
+</script>
+
+<NebulaBackground palette={palette} intensity={0.6} parallax />
+```
+
+## Customization Tips
+
+1. **Swap blend modes** – additive blending yields brighter highlights but can overpower UI chrome, while multiply keeps things moody.
+2. **Sync timelines** – connect the GSAP timeline to route transitions so the space dust animates with navigation events.
+3. **Less is more** – trim star density on text-heavy surfaces to preserve readability.

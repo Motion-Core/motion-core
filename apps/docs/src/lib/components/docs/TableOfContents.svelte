@@ -253,10 +253,10 @@ $effect(() => {
 			On this page
 		</div>
 		<div class="relative flex">
-			<div class="relative mr-2 w-px bg-vs-border" style={`height:${lineHeight}px`}>
+			<div class="relative mr-2 w-px bg-border" style={`height:${lineHeight}px`}>
 				{#if indicatorHeight > 0}
 					<div
-						class="absolute left-0 w-px bg-vs-foreground transition-[transform,height] duration-300 ease-out"
+						class="absolute left-0 w-px bg-foreground transition-[transform,height] duration-300 ease-out"
 						style={`transform: translateY(${indicatorTop}px); height: ${indicatorHeight}px;`}
 					></div>
 				{/if}

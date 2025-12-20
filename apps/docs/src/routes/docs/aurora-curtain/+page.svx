@@ -1,0 +1,36 @@
+---
+name: Aurora Curtain
+thumbnail: /og-image.jpg
+---
+
+# Aurora Curtain
+
+The Aurora Curtain animates translucent ribbons with GLSL noise and a lightweight GSAP timeline. Drop it behind cards or hero copy to add motion without blocking interactions.
+
+## Anatomy
+
+| Layer | Purpose | Notes |
+| --- | --- | --- |
+| Base gradient | Sets hue + contrast | Tie to your light/dark tokens |
+| Ribbon stack | Wavy strips | Each responds to shared noise input |
+| Highlight particles | Sparkles | Optional, rendered via instancing |
+
+## Basic Example
+
+```svelte
+<script lang="ts">
+  import { AuroraCurtain } from "motion-core";
+</script>
+
+<AuroraCurtain
+  ribbons={4}
+  speed={0.55}
+  colors={["#54d8ff", "#84fba2", "#fefcbf"]}
+/>
+```
+
+## Production Notes
+
+- Run it inside an IntersectionObserver so it pauses when out of view.
+- Expose ribbon colors to your CMS so marketing can theme campaigns without code changes.
+- Favor transform animations over filters to keep frame times predictable on low-end GPUs.
