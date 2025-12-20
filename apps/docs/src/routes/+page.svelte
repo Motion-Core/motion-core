@@ -2,7 +2,7 @@
 	import { ComponentGrid, Sidebar } from "$lib";
 	import type { PageData } from "./$types";
 
-	export let data: PageData;
+	const { data } = $props<{ data: PageData }>();
 
 	const socialLinks = [
 		{ label: "GitHub", href: "https://github.com/motion-core" },
@@ -13,7 +13,7 @@
 	const landingDescription =
 		"Animated Svelte component library powered by GSAP and Three.js. Drop-in solutions for motion design, 3D canvases, and interactive animations — ready to use, easy to customize.";
 
-	const components = data.components ?? [];
+	const components = $derived(data.components ?? []);
 </script>
 
 <main class="min-h-svh w-full p-4">

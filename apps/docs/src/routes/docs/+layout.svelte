@@ -1,10 +1,12 @@
 <script lang="ts">
 	import TableOfContents from "$lib/components/docs/TableOfContents.svelte";
 	import type { LayoutData } from "./$types";
+	import type { Snippet } from "svelte";
 
-	const props = $props<{ data: LayoutData }>();
+	const props = $props<{ data: LayoutData; children?: Snippet }>();
 	const previousLink = $derived(props.data.previousLink);
 	const nextLink = $derived(props.data.nextLink);
+	const renderChildren = $derived(props.children);
 </script>
 
 <main class="min-h-svh bg-background text-foreground">
@@ -19,7 +21,7 @@
 				<span class="ml-2">Back to library</span>
 			</a>
 			<div>
-				<slot />
+				{@render renderChildren?.()}
 
 				{#if previousLink || nextLink}
 					<nav class="mt-16 border-t border-border pt-8">
