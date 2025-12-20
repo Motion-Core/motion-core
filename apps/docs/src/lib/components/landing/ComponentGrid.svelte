@@ -28,7 +28,7 @@
 				cards,
 				{
 					autoAlpha: 0,
-					filter: "blur(18px)",
+					filter: "blur(16px)",
 					y: 20
 				},
 				{
@@ -36,8 +36,8 @@
 					scale: 1,
 					y: 0,
 					delay: 0.1,
-					duration: 1,
-					stagger: 0.05,
+					duration: 2,
+					stagger: 0.1,
 					ease: "power3.out",
 					filter: "blur(0px)",
 					clearProps: "all",
@@ -55,7 +55,7 @@
 	class="relative lg:col-span-3 lg:max-h-[calc(100svh-2rem)] rounded-xl bg-background border border-border card-highlight"
 >
 	<div
-		class="w-full h-full p-4 lg:overflow-y-auto"
+		class="w-full h-full p-2 md:p-4 lg:overflow-y-auto"
 		style="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
 	>
 		<div
