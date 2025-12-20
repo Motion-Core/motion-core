@@ -1,5 +1,6 @@
 <script lang="ts">
 	import TableOfContents from "$lib/components/docs/TableOfContents.svelte";
+	import { DocNavigation } from "$lib";
 	import type { LayoutData } from "./$types";
 	import type { Snippet } from "svelte";
 
@@ -23,41 +24,7 @@
 			<div>
 				{@render renderChildren?.()}
 
-				{#if previousLink || nextLink}
-					<nav class="mt-16 border-t border-border pt-8">
-						<div class="grid gap-4 sm:grid-cols-2">
-							{#if previousLink}
-								<a
-									class="relative group flex flex-col rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted card-highlight"
-									href={previousLink.href}
-									data-sveltekit-preload-data
-								>
-									<span class="text-[10px] font-medium uppercase tracking-wide text-foreground/45">
-										Previous
-									</span>
-									<span class="text-base font-normal text-foreground">
-										{previousLink.title}
-									</span>
-								</a>
-							{/if}
-
-							{#if nextLink}
-								<a
-									class={`relative group flex flex-col rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted sm:text-right card-highlight ${previousLink ? "" : "sm:col-start-2"}`}
-									href={nextLink.href}
-									data-sveltekit-preload-data
-								>
-									<span class="text-[10px] font-medium uppercase tracking-wide text-foreground/45">
-										Next
-									</span>
-									<span class="text-base font-normal text-foreground">
-										{nextLink.title}
-									</span>
-								</a>
-							{/if}
-						</div>
-					</nav>
-				{/if}
+				<DocNavigation previous={previousLink} next={nextLink} />
 			</div>
 		</section>
 	</div>
