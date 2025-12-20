@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@font-face {
+	font-family: "GeistVariable";
+	src: url("../lib/assets/fonts/Geist-VF.ttf") format("truetype");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "GeistMonoVariable";
+	src: url("../lib/assets/fonts/GeistMono-VF.ttf") format("truetype");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--base-hue: 265;
+	--color-background: oklch(0.9851 0.002 var(--base-hue));
+	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
+	--color-foreground-invert: oklch(0.9851 0.002 var(--base-hue));
+	--color-border: oklch(0.8925 0.0014 var(--base-hue));
+	--color-card: oklch(1 0 0);
+	--color-card-muted: oklch(0.96 0.002 var(--base-hue));
+	--shadow-sm:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15), 0px 3px 3px -1.5px
+		rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+   	--color-background: oklch(0.1558 0.0044 var(--base-hue));
+    --color-foreground: oklch(0.9824 0.0013 var(--base-hue));
+   	--color-foreground-invert: oklch(0.1408 0.0044 var(--base-hue));
+    --color-border: oklch(0.278 0.012 var(--base-hue));
+    --color-card: oklch(0.1703 0.0065 var(--base-hue));
+   	--color-card-muted: oklch(0.2139 0.0095 var(--base-hue));
+}
+
+@theme {
+    --font-sans: "GeistVariable";
+    --font-mono: "GeistMonoVariable";
+   	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-foreground-invert: var(--foreground-invert);
+	--color-border: var(--border);
+	--color-card: var(--card);
+	--color-card-muted: var(--card-muted);
+	--shadow-sm: var(--shadow-sm);
+}
