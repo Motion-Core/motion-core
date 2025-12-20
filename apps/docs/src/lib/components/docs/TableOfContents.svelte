@@ -1,6 +1,6 @@
 <script lang="ts">
-import { afterNavigate } from "$app/navigation";
 import { onMount } from "svelte";
+import { afterNavigate } from "$app/navigation";
 import { cn } from "$lib/utils/cn";
 
 type TocItem = {
@@ -126,9 +126,9 @@ function collectHeadings() {
 	}
 
 	const slugCounts = new Map<string, number>();
-	const nodeList = Array.from(
-		document.querySelectorAll(selector),
-	).filter((node): node is HTMLElement => node instanceof HTMLElement);
+	const nodeList = Array.from(document.querySelectorAll(selector)).filter(
+		(node): node is HTMLElement => node instanceof HTMLElement,
+	);
 
 	const parsed: TocItem[] = [];
 

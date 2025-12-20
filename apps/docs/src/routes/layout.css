@@ -17,35 +17,64 @@
 }
 
 :root {
-	--base-hue: 265;
-	--color-background: oklch(0.9851 0.002 var(--base-hue));
-	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
-	--color-foreground-invert: oklch(0.9851 0.002 var(--base-hue));
-	--color-border: oklch(0.8925 0.0014 var(--base-hue));
+	--base-hue: 0;
+	--color-background: oklch(0.9911 0 var(--base-hue));
+	--color-foreground: oklch(0.1408 0 var(--base-hue));
+	--color-border: oklch(0.8925 0 var(--base-hue));
 	--color-card: oklch(1 0 0);
-	--color-card-muted: oklch(0.96 0.002 var(--base-hue));
+	--color-card-muted: oklch(0.9642 0 var(--base-hue));
+	--color-card-elevated: oklch(0.9461 0 var(--base-hue));
+	--shadow-xs: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.15);
 	--shadow-sm:
 		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15), 0px 3px 3px -1.5px
 		rgba(0, 0, 0, 0.05);
+	--shadow-md:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
+		0px 6px 6px -3px rgba(0, 0, 0, 0.05);
+	--shadow-lg:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
+		0px 6px 6px -3px rgba(0, 0, 0, 0.05),
+		0px 12px 12px -6px rgba(0, 0, 0, 0.05);
+	--shadow-xl:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
+		0px 6px 6px -3px rgba(0, 0, 0, 0.05),
+		0px 12px 12px -6px rgba(0, 0, 0, 0.05),
+		0px 24px 24px -12px rgba(0, 0, 0, 0.05);
+	--shadow-2xl:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
+		0px 6px 6px -3px rgba(0, 0, 0, 0.05),
+		0px 12px 12px -6px rgba(0, 0, 0, 0.05),
+		0px 24px 24px -12px rgba(0, 0, 0, 0.05),
+		0px 48px 48px -24px rgba(0, 0, 0, 0.05);
 }
 
 .dark {
-   	--color-background: oklch(0.1558 0.0044 var(--base-hue));
-    --color-foreground: oklch(0.9824 0.0013 var(--base-hue));
-   	--color-foreground-invert: oklch(0.1408 0.0044 var(--base-hue));
-    --color-border: oklch(0.278 0.012 var(--base-hue));
-    --color-card: oklch(0.1703 0.0065 var(--base-hue));
-   	--color-card-muted: oklch(0.2139 0.0095 var(--base-hue));
+	--color-background: oklch(0.2002 0 var(--base-hue));
+	--color-foreground: oklch(0.9824 0 var(--base-hue));
+	--color-border: oklch(0.3012 0 var(--base-hue));
+	--color-card: oklch(0.2264 0 var(--base-hue));
+	--color-card-muted: oklch(0.2562 0 var(--base-hue));
+	--color-card-elevated: oklch(0.2727 0 var(--base-hue));
 }
 
 @theme {
-    --font-sans: "GeistVariable";
-    --font-mono: "GeistMonoVariable";
-   	--color-background: var(--background);
+	--font-sans: "GeistVariable";
+	--font-mono: "GeistMonoVariable";
+	--color-background: var(--background);
 	--color-foreground: var(--foreground);
-	--color-foreground-invert: var(--foreground-invert);
 	--color-border: var(--border);
 	--color-card: var(--card);
 	--color-card-muted: var(--card-muted);
+	--color-card-elevated: var(--card-muted);
+	--shadow-xs: var(--shadow-xs);
 	--shadow-sm: var(--shadow-sm);
+	--shadow: var(--shadow);
+	--shadow-md: var(--shadow-md);
+	--shadow-lg: var(--shadow-lg);
+	--shadow-xl: var(--shadow-xl);
+	--shadow-2xl: var(--shadow-2xl);
 }

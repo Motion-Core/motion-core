@@ -15,8 +15,12 @@ const className = $derived((props as ComponentProps).class ?? "");
 const code = $derived((props as ComponentProps).code ?? "");
 const children = $derived((props as ComponentProps).children);
 const restProps = $derived(() => {
-	const { class: _class, children: _children, code: _code, ...rest } =
-		props as ComponentProps;
+	const {
+		class: _class,
+		children: _children,
+		code: _code,
+		...rest
+	} = props as ComponentProps;
 	return rest;
 });
 </script>

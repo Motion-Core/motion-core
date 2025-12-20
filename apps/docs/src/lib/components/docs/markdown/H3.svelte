@@ -8,7 +8,11 @@ type ComponentProps = {
 	[prop: string]: unknown;
 };
 
-let { children, class: className = "", ...restProps }: ComponentProps = $props();
+const {
+	children,
+	class: className = "",
+	...restProps
+}: ComponentProps = $props();
 </script>
 
 <h3

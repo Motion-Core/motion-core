@@ -8,7 +8,11 @@ type ComponentProps = {
 	[prop: string]: unknown;
 };
 
-let { children, class: className = "", ...restProps }: ComponentProps = $props();
+const {
+	children,
+	class: className = "",
+	...restProps
+}: ComponentProps = $props();
 </script>
 
 <thead {...restProps} class={cn("bg-card-muted/50 border-b border-border", className)}>

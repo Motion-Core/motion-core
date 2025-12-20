@@ -8,7 +8,11 @@ type ComponentProps = {
 	[prop: string]: unknown;
 };
 
-let { children, class: className = "", ...restProps }: ComponentProps = $props();
+const {
+	children,
+	class: className = "",
+	...restProps
+}: ComponentProps = $props();
 </script>
 
 <div class="my-8 w-full rounded-xl border border-border bg-card">

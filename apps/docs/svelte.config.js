@@ -1,7 +1,7 @@
+import { fileURLToPath, URL } from "node:url";
 import adapter from "@sveltejs/adapter-auto";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
-import { fileURLToPath, URL } from "node:url";
-import { mdsvex, escapeSvelte } from "mdsvex";
+import { escapeSvelte, mdsvex } from "mdsvex";
 import { createHighlighter } from "shiki";
 
 const themes = {
@@ -12,7 +12,6 @@ const highlighter = await createHighlighter({
 	themes: Object.values(themes),
 	langs: ["svelte", "bash"],
 });
-
 
 const markdownLayout = fileURLToPath(
 	new URL("./src/lib/components/docs/MarkdownLayout.svelte", import.meta.url),
@@ -30,26 +29,26 @@ const config = {
 				docs: markdownLayout,
 			},
 			highlight: {
-					highlighter: async (code, lang = "text") => {
-						const lightHtml = escapeSvelte(
-							highlighter.codeToHtml(code, {
-								lang,
-								theme: themes.light,
-							}),
-						);
-						const darkHtml = escapeSvelte(
-							highlighter.codeToHtml(code, {
-								lang,
-								theme: themes.dark,
-							}),
-						);
-						const htmlLightProp = JSON.stringify(lightHtml);
-						const htmlDarkProp = JSON.stringify(darkHtml);
-						const langProp = JSON.stringify(lang);
-						const rawProp = JSON.stringify(code);
-						return `<svelte:component this={Reflect.get(globalThis, "__MarkdownPre")} lang={${langProp}} htmlLight={${htmlLightProp}} htmlDark={${htmlDarkProp}} raw={${rawProp}} />`;
-					}
+				highlighter: async (code, lang = "text") => {
+					const lightHtml = escapeSvelte(
+						highlighter.codeToHtml(code, {
+							lang,
+							theme: themes.light,
+						}),
+					);
+					const darkHtml = escapeSvelte(
+						highlighter.codeToHtml(code, {
+							lang,
+							theme: themes.dark,
+						}),
+					);
+					const htmlLightProp = JSON.stringify(lightHtml);
+					const htmlDarkProp = JSON.stringify(darkHtml);
+					const langProp = JSON.stringify(lang);
+					const rawProp = JSON.stringify(code);
+					return `<svelte:component this={Reflect.get(globalThis, "__MarkdownPre")} lang={${langProp}} htmlLight={${htmlLightProp}} htmlDark={${htmlDarkProp}} raw={${rawProp}} />`;
 				},
+			},
 		}),
 		vitePreprocess(),
 	],

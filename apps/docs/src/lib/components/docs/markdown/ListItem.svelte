@@ -8,7 +8,11 @@ type ComponentProps = {
 	[prop: string]: unknown;
 };
 
-let { children, class: className = "", ...restProps }: ComponentProps = $props();
+const {
+	children,
+	class: className = "",
+	...restProps
+}: ComponentProps = $props();
 </script>
 
 <li {...restProps} class={cn("leading-relaxed text-foreground/70", className)}>

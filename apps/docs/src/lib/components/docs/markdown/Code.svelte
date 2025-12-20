@@ -8,12 +8,13 @@ type ComponentProps = {
 	[prop: string]: unknown;
 };
 
-let { children, class: className = "", ...restProps }: ComponentProps = $props();
+const {
+	children,
+	class: className = "",
+	...restProps
+}: ComponentProps = $props();
 
-const isBlock = (
-	classValue: string | undefined,
-	dataTheme: unknown,
-) => {
+const isBlock = (classValue: string | undefined, dataTheme: unknown) => {
 	if (dataTheme !== undefined) return true;
 	if (!classValue) return false;
 

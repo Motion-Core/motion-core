@@ -3,7 +3,7 @@ import "./layout.css";
 import { onNavigate } from "$app/navigation";
 import { page } from "$app/state";
 
-let { children } = $props();
+const { children } = $props();
 
 const currentPage = page;
 const isHomePath = (path?: string) => path === "/";
@@ -30,9 +30,7 @@ const homeKeywords = [
 	"interactive backgrounds",
 	"text effects",
 ].join(", ");
-const sharedOgImage = $derived(
-	new URL("/og-image.jpg", currentUrl).href,
-);
+const sharedOgImage = $derived(new URL("/og-image.jpg", currentUrl).href);
 
 onNavigate((navigation) => {
 	if (!document.startViewTransition) return;
@@ -52,7 +50,6 @@ onNavigate((navigation) => {
 		});
 	});
 });
-
 </script>
 
 <svelte:head>

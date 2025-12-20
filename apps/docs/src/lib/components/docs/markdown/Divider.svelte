@@ -2,7 +2,7 @@
 import { cn } from "$lib/utils/cn";
 
 type ComponentProps = Record<string, unknown> & { class?: string };
-let { class: className = "", ...restProps }: ComponentProps = $props();
+const { class: className = "", ...restProps }: ComponentProps = $props();
 </script>
 
 <hr
