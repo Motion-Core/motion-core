@@ -15,10 +15,12 @@ const {
 }: ComponentProps = $props();
 </script>
 
-<div class="my-8 w-full rounded-lg border border-border bg-card">
-	<div class="overflow-x-auto">
-		<table {...restProps} class={cn("w-full text-sm [&_code]:text-sm", className)}>
-			{@render children?.()}
-		</table>
-	</div>
-</div>
+<strong
+	{...restProps}
+	class={cn(
+		"text-foreground font-medium tracking-tight",
+		className,
+	)}
+>
+	{@render children?.()}
+</strong>

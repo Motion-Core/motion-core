@@ -56,8 +56,8 @@
 	--color-background: oklch(0.12 0.0044 var(--base-hue));
 	--color-foreground: oklch(0.95 0.0013 var(--base-hue));
 	--color-border: oklch(0.22 0.015 var(--base-hue));
-	--color-card: oklch(0.15 0.0085 var(--base-hue));
-	--color-card-muted: oklch(0.18 0.0115 var(--base-hue));
+	--color-card: oklch(0.15 0.0065 var(--base-hue));
+	--color-card-muted: oklch(0.18 0.0095 var(--base-hue));
 	--card-highlight: oklch(0.34 0.025 var(--base-hue));
 }
 
@@ -101,6 +101,6 @@
 
 @layer base {
   body {
-    @apply bg-card font-sans text-foreground;
+    @apply bg-card font-sans text-foreground font-light;
   }
 }

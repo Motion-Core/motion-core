@@ -1,5 +1,6 @@
 <script module lang="ts">
 import MarkdownPre from "./markdown/MarkdownPre.svelte";
+import Strong from "./markdown/Strong.svelte";
 
 Reflect.set(globalThis, "__MarkdownPre", MarkdownPre);
 
@@ -14,6 +15,7 @@ export { default as li } from "./markdown/ListItem.svelte";
 export { default as ol } from "./markdown/OrderedList.svelte";
 export { default as p } from "./markdown/Paragraph.svelte";
 export { default as pre } from "./markdown/Pre.svelte";
+export { Strong as strong };
 export { MarkdownPre };
 export { default as table } from "./markdown/Table.svelte";
 export { default as tbody } from "./markdown/Tbody.svelte";
