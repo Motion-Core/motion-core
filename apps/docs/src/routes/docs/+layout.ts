@@ -1,5 +1,6 @@
 import type { LayoutLoad } from "./$types";
 import { getAdjacentDocs } from "$lib/docs/manifest";
+import { getDocMetadata } from "$lib/docs/metadata";
 
 const extractSlug = (pathname: string) => {
 	const normalized = pathname.replace(/\/$/, "");
@@ -13,10 +14,13 @@ export const load: LayoutLoad = ({ url }) => {
 		? getAdjacentDocs(slug)
 		: { previous: null, next: null };
 
+	const metadata = getDocMetadata(url.pathname);
+
 	return {
 		previousLink: previous
 			? { title: previous.name, href: `/docs/${previous.slug}` }
 			: null,
 		nextLink: next ? { title: next.name, href: `/docs/${next.slug}` } : null,
+		metadata,
 	};
 };

@@ -7,8 +7,21 @@
 	const props = $props<{ data: LayoutData; children?: Snippet }>();
 	const previousLink = $derived(props.data.previousLink);
 	const nextLink = $derived(props.data.nextLink);
+	const metadata = $derived(props.data.metadata);
 	const renderChildren = $derived(props.children);
 </script>
+
+<svelte:head>
+	{#if metadata}
+		<title>{metadata.title} - Motion Core</title>
+		<meta name="description" content={metadata.description} />
+
+		<meta property="og:title" content={metadata.title} />
+		<meta property="og:description" content={metadata.description} />
+		<meta property="twitter:title" content={metadata.title} />
+		<meta property="twitter:description" content={metadata.description} />
+	{/if}
+</svelte:head>
 
 <main
 	style="view-transition-name: homepage-content"
