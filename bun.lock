@@ -53,6 +53,7 @@
         "@threlte/extras": "^9.7.1",
         "@types/gsap": "^3.0.0",
         "@types/three": "^0.169.0",
+        "tailwindcss": "^4.1.18",
         "three": "^0.182.0",
       },
       "peerDependencies": {

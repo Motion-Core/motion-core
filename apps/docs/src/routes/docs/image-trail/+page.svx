@@ -4,17 +4,17 @@ thumbnail: /og-image.jpg
 ---
 
 <script lang="ts">
-	import {ImageTrail} from "motion-core"; import ComponentPreview from
-	"$lib/components/docs/ComponentPreview.svelte"; import imageTrailSource from
-	"motion-core/components/image-trail/ImageTrail.svelte?raw"; const demoImages =
-	[
-	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_1.jpg",
-	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg",
-	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_3.jpg",
-	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg",
-	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_5.jpg",
-	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_7.jpg",
-	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_8.jpg",
+	import {ImageTrail} from "motion-core";
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import imageTrailSource from "motion-core/components/image-trail/ImageTrail.svelte?raw";
+	const demoImages = [
+    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_1.jpg",
+    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg",
+    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_3.jpg",
+    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg",
+    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_5.jpg",
+    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_7.jpg",
+    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_8.jpg",
 	];
 </script>
 

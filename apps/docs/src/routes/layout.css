@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../../packages/motion-core/**/*.{svelte,js,ts}";
 
 @font-face {
 	font-family: "Haffer";
