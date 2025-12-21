@@ -99,7 +99,7 @@
 
 @layer base {
 	body {
-		@apply bg-card font-sans text-foreground;
+		@apply bg-card font-sans text-foreground -tracking-[0.02em];
 	}
 }
 

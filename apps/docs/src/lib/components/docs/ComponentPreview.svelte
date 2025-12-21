@@ -115,7 +115,7 @@
 >
 	<div class="flex flex-col">
 		<div
-			class="relative flex-1 flex items-center justify-center border-b border-border min-h-80"
+			class="relative flex-1 flex items-center justify-center border-b border-border min-h-80 rounded-t-lg overflow-hidden"
 		>
 			{@render children?.()}
 		</div>

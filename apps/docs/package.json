@@ -12,9 +12,12 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"dependencies": {
+		"@threlte/core": "^8.3.1",
+		"@threlte/extras": "^9.7.1",
 		"gsap": "^3.14.2",
 		"motion-core": "workspace:*",
-		"svelte-highlight": "^7.9.0"
+		"svelte-highlight": "^7.9.0",
+		"three": "^0.182.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.0",

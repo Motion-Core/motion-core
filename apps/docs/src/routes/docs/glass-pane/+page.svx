@@ -1,0 +1,58 @@
+---
+name: Glass Pane
+thumbnail: /og-image.jpg
+---
+
+<script lang="ts">
+	import { GlassPane } from "motion-core";
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import glassPaneSource from "motion-core/components/glass-pane/GlassPane.svelte?raw";
+	import sceneSource from "motion-core/components/glass-pane/Scene.svelte?raw";
+
+	const demoImage = "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg";
+</script>
+
+# Glass Pane
+
+`GlassPane` provides a glass-like refraction effect over an image using Three.js and Shaders. It simulates a series of moving glass rods that distort the underlying texture with chromatic aberration.
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "GlassPane.svelte", code: glassPaneSource, language: "svelte" },
+		{ name: "Scene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<div class="h-80 w-full">
+		<GlassPane
+			image={demoImage}
+			distortion={1.5}
+			chromaticAberration={0.005}
+			waviness={0.1}
+			frequency={4.0}
+			speed={0.5}
+			class="h-full w-full"
+		>
+		</GlassPane>
+	</div>
+</ComponentPreview>
+
+The component uses Threlte for rendering, so it's optimized for Svelte 5 and provides a high-performance WebGL overlay.
+
+## Props
+
+| Prop         | Type     | Default | Description                                               |
+| ------------ | -------- | ------- | --------------------------------------------------------- |
+| `image`      | `string` | —       | URL of the image to be used as the background.            |
+| `distortion` | `number` | `1.0`   | Strength of the refraction.                               |
+| `chromaticAberration` | `number` | `0.005` | Strength of the chromatic aberration (RGB shift).         |
+| `waviness`   | `number` | `0.05`  | Intensity of the sine wave distortion of the glass panels.|
+| `frequency`  | `number` | `6.0`   | Frequency of the sine wave distortion.                    |
+| `speed`      | `number` | `1.0`   | Animation speed multiplier.                               |
+| `class`      | `string` | `""`    | Additional CSS classes for the container.                 |
+| `children`   | `Snippet`| —       | Optional Svelte snippet to render content over the canvas.|
+
+## Troubleshooting
+
+Ensure that the image URL is accessible and does not violate CORS policies, as Three.js needs to load the image as a texture.
