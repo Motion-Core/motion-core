@@ -1,0 +1,13 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"types": ["svelte", "node"]
+	},
+	"include": [
+		"eslint.config.mjs",
+		"apps/docs/src",
+		"apps/docs/vite.config.ts",
+		"apps/docs/svelte.config.js",
+		"packages/motion-core/src"
+	]
+}

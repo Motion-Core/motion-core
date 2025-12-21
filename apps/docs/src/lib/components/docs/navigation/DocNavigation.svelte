@@ -1,14 +1,17 @@
 <script lang="ts">
-import DocNavButton from "./DocNavButton.svelte";
+	import DocNavButton from "./DocNavButton.svelte";
 
-export type DocNavLink = {
-	title: string;
-	href: string;
-};
+	export type DocNavLink = {
+		title: string;
+		href: string;
+	};
 
-const props = $props<{ previous?: DocNavLink | null; next?: DocNavLink | null }>();
-const previous = $derived(props.previous ?? null);
-const next = $derived(props.next ?? null);
+	const props = $props<{
+		previous?: DocNavLink | null;
+		next?: DocNavLink | null;
+	}>();
+	const previous = $derived(props.previous ?? null);
+	const next = $derived(props.next ?? null);
 </script>
 
 {#if previous || next}

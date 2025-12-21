@@ -13,13 +13,15 @@
 	);
 
 	$effect(() => {
-		animationKey;
+		void animationKey;
 
 		if (typeof window === "undefined" || !listRef) {
 			return;
 		}
 
-		const cards = listRef.querySelectorAll<HTMLElement>("[data-component-card]");
+		const cards = listRef.querySelectorAll<HTMLElement>(
+			"[data-component-card]",
+		);
 		if (!cards.length) {
 			return;
 		}
@@ -30,7 +32,7 @@
 				{
 					autoAlpha: 0,
 					filter: "blur(16px)",
-					y: 20
+					y: 20,
 				},
 				{
 					autoAlpha: 1,
@@ -63,7 +65,7 @@
 			class="columns-1 gap-4 space-y-4 sm:columns-2 lg:columns-2 [column-fill:balance]"
 			bind:this={listRef}
 		>
-			{#each components as component}
+			{#each components as component (component.slug)}
 				<ComponentCard {component} />
 			{/each}
 		</div>

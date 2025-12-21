@@ -33,42 +33,43 @@
 		...restProps
 	}: ComponentProps = $props();
 
-const tabs = $derived(
-	(() => {
-		const normalized = providedSources?.filter(
-			(tab): tab is SourceTab => Boolean(tab?.code),
-		) ?? [];
+	const tabs = $derived(
+		(() => {
+			const normalized =
+				providedSources?.filter((tab): tab is SourceTab =>
+					Boolean(tab?.code),
+				) ?? [];
 
-		if (normalized.length > 0) {
-			return normalized;
-		}
+			if (normalized.length > 0) {
+				return normalized;
+			}
 
-		if (providedCode) {
-			return [
-				{
-					name: providedLabel ?? "Code",
-					code: providedCode,
-					language: providedLanguage,
-				},
-			];
-		}
+			if (providedCode) {
+				return [
+					{
+						name: providedLabel ?? "Code",
+						code: providedCode,
+						language: providedLanguage,
+					},
+				];
+			}
 
-		return [];
-	})() as SourceTab[],
-);
+			return [];
+		})() as SourceTab[],
+	);
 
 	let activeTab = $state(0);
 
 	$effect(() => {
-		tabs;
+		void tabs;
 		if (activeTab > tabs.length - 1) {
 			activeTab = 0;
 		}
 	});
 
-const activeSource = $derived(
-	(tabs.at(activeTab) ?? null) as SourceTab | null,
-);
+	const activeSource = $derived(
+		(tabs.at(activeTab) ?? null) as SourceTab | null,
+	);
 	const resolveLanguage = (language?: string) => {
 		switch (language?.toLowerCase()) {
 			case "svelte":
@@ -87,7 +88,7 @@ const activeSource = $derived(
 		if (!browser) return;
 
 		const updateTheme = () => {
-			isDark = document.documentElement.classList.contains('dark');
+			isDark = document.documentElement.classList.contains("dark");
 		};
 
 		updateTheme();
@@ -95,7 +96,7 @@ const activeSource = $derived(
 		const observer = new MutationObserver(updateTheme);
 		observer.observe(document.documentElement, {
 			attributes: true,
-			attributeFilter: ['class']
+			attributeFilter: ["class"],
 		});
 
 		return () => observer.disconnect();
@@ -113,13 +114,15 @@ const activeSource = $derived(
 	{...restProps}
 >
 	<div class="flex flex-col">
-		<div class="relative flex-1 flex items-center justify-center border-b border-border min-h-80">
+		<div
+			class="relative flex-1 flex items-center justify-center border-b border-border min-h-80"
+		>
 			{@render children?.()}
 		</div>
 		<div class="flex flex-1 flex-col bg-card rounded-b-lg">
 			{#if tabs.length}
 				<div class="relative flex items-center text-xs font-medium">
-					{#each tabs as tab, index}
+					{#each tabs as tab, index (tab.name)}
 						<button
 							type="button"
 							class={`border-b-2 px-3 py-2 transition-colors ${

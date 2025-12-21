@@ -1,60 +1,68 @@
 <script lang="ts">
-import "./layout.css";
-import { onNavigate } from "$app/navigation";
-import { page } from "$app/state";
+	import "./layout.css";
+	import { onNavigate } from "$app/navigation";
+	import { page } from "$app/state";
 
-const { children } = $props();
+	const { children } = $props();
 
-const currentPage = page;
-const isHomePath = (path?: string) => path === "/";
-const isDocsPath = (path?: string) => path?.startsWith("/docs");
+	const currentPage = page;
+	const isHomePath = (path?: string) => path === "/";
+	const isDocsPath = (path?: string) => path?.startsWith("/docs");
 
-const currentUrl = $derived(currentPage.url);
-const currentPath = $derived(currentUrl.pathname);
-const isHomeRoute = $derived(isHomePath(currentPath));
-const isDocsRoute = $derived(isDocsPath(currentPath));
-const canonicalUrl = $derived(currentUrl.href);
+	const currentUrl = $derived(currentPage.url);
+	const currentPath = $derived(currentUrl.pathname);
+	const isHomeRoute = $derived(isHomePath(currentPath));
+	const isDocsRoute = $derived(isDocsPath(currentPath));
+	const canonicalUrl = $derived(currentUrl.href);
 
-const siteName = "Motion Core";
-const authorName = "Motion Core team";
-const homeTitle = `${siteName} — Svelte-native motion toolkit`;
-const homeDescription =
-	"Motion Core delivers ready-to-use GSAP primitives, Three.js powered interactive backgrounds, and animation utilities tailor-made for Svelte and SvelteKit.";
-const homeKeywords = [
-	"motion core",
-	"svelte",
-	"sveltekit",
-	"animations",
-	"gsap",
-	"three.js",
-	"interactive backgrounds",
-	"text effects",
-].join(", ");
-const sharedOgImage = $derived(new URL("/og-image.jpg", currentUrl).href);
+	const siteName = "Motion Core";
+	const authorName = "Motion Core team";
+	const homeTitle = `${siteName} — Svelte-native motion toolkit`;
+	const homeDescription =
+		"Motion Core delivers ready-to-use GSAP primitives, Three.js powered interactive backgrounds, and animation utilities tailor-made for Svelte and SvelteKit.";
+	const homeKeywords = [
+		"motion core",
+		"svelte",
+		"sveltekit",
+		"animations",
+		"gsap",
+		"three.js",
+		"interactive backgrounds",
+		"text effects",
+	].join(", ");
+	const sharedOgImage = $derived(new URL("/og-image.jpg", currentUrl).href);
 
-onNavigate((navigation) => {
-	if (!document.startViewTransition) return;
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
 
-	const fromPath = navigation.from?.url.pathname;
-	const toPath = navigation.to?.url.pathname;
+		const fromPath = navigation.from?.url.pathname;
+		const toPath = navigation.to?.url.pathname;
 
-	const enteringDocs = isHomePath(fromPath) && isDocsPath(toPath);
-	const leavingDocs = isDocsPath(fromPath) && isHomePath(toPath);
+		const enteringDocs = isHomePath(fromPath) && isDocsPath(toPath);
+		const leavingDocs = isDocsPath(fromPath) && isHomePath(toPath);
 
-	if (!enteringDocs && !leavingDocs) return;
+		if (!enteringDocs && !leavingDocs) return;
 
-	return new Promise<void>((resolve) => {
-		document.startViewTransition(async () => {
-			resolve();
-			await navigation.complete;
+		return new Promise<void>((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
 		});
 	});
-});
 </script>
 
 <svelte:head>
-	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B0C0E" />
-	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+	<meta
+		name="theme-color"
+		media="(prefers-color-scheme: dark)"
+		content="#0B0C0E"
+	/>
+	<meta
+		name="theme-color"
+		media="(prefers-color-scheme: light)"
+		content="#ffffff"
+	/>
 	<meta property="og:site_name" content={siteName} />
 	<meta property="og:locale" content="en_US" />
 	<meta name="twitter:card" content="summary_large_image" />
@@ -65,7 +73,10 @@ onNavigate((navigation) => {
 	<link rel="manifest" href="/site.webmanifest" />
 	<link rel="mask-icon" href="/favicon.svg" color="#1f2125" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta
+		name="apple-mobile-web-app-status-bar-style"
+		content="black-translucent"
+	/>
 	<meta name="apple-mobile-web-app-title" content={siteName} />
 	{#if isHomeRoute}
 		<title>{homeTitle}</title>

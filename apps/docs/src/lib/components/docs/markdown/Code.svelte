@@ -1,25 +1,27 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
-import { cn } from "$lib/utils/cn";
+	import type { Snippet } from "svelte";
+	import { cn } from "$lib/utils/cn";
 
-type ComponentProps = {
-	class?: string;
-	children?: Snippet;
-	[prop: string]: unknown;
-};
+	type ComponentProps = {
+		class?: string;
+		children?: Snippet;
+		[prop: string]: unknown;
+	};
 
-const {
-	children,
-	class: className = "",
-	...restProps
-}: ComponentProps = $props();
+	const {
+		children,
+		class: className = "",
+		...restProps
+	}: ComponentProps = $props();
 
-const isBlock = (classValue: string | undefined, dataTheme: unknown) => {
-	if (dataTheme !== undefined) return true;
-	if (!classValue) return false;
+	const isBlock = (classValue: string | undefined, dataTheme: unknown) => {
+		if (dataTheme !== undefined) return true;
+		if (!classValue) return false;
 
-	return classValue.split(/\s+/).some((token) => token.startsWith("language-"));
-};
+		return classValue
+			.split(/\s+/)
+			.some((token) => token.startsWith("language-"));
+	};
 </script>
 
 {#if isBlock(typeof className === "string" ? className : undefined, restProps["data-theme"])}
@@ -33,14 +35,10 @@ const isBlock = (classValue: string | undefined, dataTheme: unknown) => {
 		{@render children?.()}
 	</code>
 {:else}
-	<div class="relative inline-block w-fit rounded card-highlight bg-card border border-border shadow-sm px-1.5 py-0.5 font-mono text-xs text-foreground">
-		<code
-			{...restProps}
-			class={cn(
-				"",
-				className,
-			)}
-		>
+	<div
+		class="relative inline-block w-fit rounded card-highlight bg-card border border-border shadow-sm px-1.5 py-0.5 font-mono text-xs text-foreground"
+	>
+		<code {...restProps} class={cn("", className)}>
 			{@render children?.()}
 		</code>
 	</div>

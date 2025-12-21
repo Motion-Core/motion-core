@@ -69,12 +69,12 @@ The animation runs whenever `SplitReveal` mounts. Changing `mode` or forcing a r
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `mode` | `"lines" \| "words" \| "chars"` | `"lines"` | Pick which SplitText grouping animates. |
-| `class` | `string` | `""` | Adds classes to the wrapping element. |
-| `as` | `keyof HTMLElementTagNameMap` | `"span"` | Tag used for the wrapper (swap to `div`, `p`, etc.). |
-| `config` | `SplitRevealConfig` | `DEFAULT_CONFIG` | Optional per-mode overrides for duration/stagger. |
+| Prop     | Type                            | Default          | Description                                          |
+| -------- | ------------------------------- | ---------------- | ---------------------------------------------------- |
+| `mode`   | `"lines" \| "words" \| "chars"` | `"lines"`        | Pick which SplitText grouping animates.              |
+| `class`  | `string`                        | `""`             | Adds classes to the wrapping element.                |
+| `as`     | `keyof HTMLElementTagNameMap`   | `"span"`         | Tag used for the wrapper (swap to `div`, `p`, etc.). |
+| `config` | `SplitRevealConfig`             | `DEFAULT_CONFIG` | Optional per-mode overrides for duration/stagger.    |
 
 ### Config shape
 

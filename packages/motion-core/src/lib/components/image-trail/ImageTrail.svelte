@@ -51,11 +51,17 @@
 		...(props.config ?? {}),
 	});
 	const restProps = $derived(() => {
-		const { children: _children, class: _class, images: _images, config: _config, ...rest } = props;
+		const {
+			children: _children,
+			class: _class,
+			images: _images,
+			config: _config,
+			...rest
+		} = props;
 		return rest;
 	});
 
-let containerRef: HTMLDivElement | null = null;
+	let containerRef: HTMLDivElement | null = null;
 
 	type TrailItem = {
 		el: HTMLImageElement;
@@ -107,14 +113,18 @@ let containerRef: HTMLDivElement | null = null;
 		const dt = now - state.lastMoveTime;
 		if (dt <= 0) return state.smoothedSpeed;
 
-		const dist = Math.hypot(state.mouseX - state.prevMouseX, state.mouseY - state.prevMouseY);
+		const dist = Math.hypot(
+			state.mouseX - state.prevMouseX,
+			state.mouseY - state.prevMouseY,
+		);
 		const raw = dist / dt;
 
 		if (raw > state.maxSpeed) state.maxSpeed = raw;
 
 		const norm = Math.min(raw / (state.maxSpeed || 0.5), 1);
 		state.smoothedSpeed =
-			state.smoothedSpeed * (1 - cfg.speedSmoothingFactor) + norm * cfg.speedSmoothingFactor;
+			state.smoothedSpeed * (1 - cfg.speedSmoothingFactor) +
+			norm * cfg.speedSmoothingFactor;
 		state.lastMoveTime = now;
 
 		return state.smoothedSpeed;
@@ -125,7 +135,8 @@ let containerRef: HTMLDivElement | null = null;
 		if (el) return el;
 
 		const img = document.createElement("img");
-		img.className = "pointer-events-none select-none absolute will-change-transform";
+		img.className =
+			"pointer-events-none select-none absolute will-change-transform";
 		img.style.transformOrigin = "50% 50%";
 		img.draggable = false;
 		return img;
@@ -135,7 +146,8 @@ let containerRef: HTMLDivElement | null = null;
 		gsap.killTweensOf(img);
 		img.remove();
 		img.removeAttribute("style");
-		img.className = "pointer-events-none select-none absolute will-change-transform";
+		img.className =
+			"pointer-events-none select-none absolute will-change-transform";
 		if (pool.length < POOL_CAP) pool.push(img);
 	};
 
@@ -143,7 +155,12 @@ let containerRef: HTMLDivElement | null = null;
 		const node = containerRef;
 		if (!node) return false;
 		const rect = node.getBoundingClientRect();
-		return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+		return (
+			clientX >= rect.left &&
+			clientX <= rect.right &&
+			clientY >= rect.top &&
+			clientY <= rect.bottom
+		);
 	};
 
 	const spawnTrail = (speed = 0.5) => {
@@ -154,7 +171,9 @@ let containerRef: HTMLDivElement | null = null;
 		const x = state.mouseX - rect.left;
 		const y = state.mouseY - rect.top;
 
-		const size = Math.round(cfg.minImageSize + (cfg.maxImageSize - cfg.minImageSize) * speed);
+		const size = Math.round(
+			cfg.minImageSize + (cfg.maxImageSize - cfg.minImageSize) * speed,
+		);
 		const rotFactor = 1 + speed * (cfg.maxRotationFactor - 1);
 		const rot = (Math.random() - 0.5) * cfg.baseRotation * rotFactor;
 
@@ -176,7 +195,11 @@ let containerRef: HTMLDivElement | null = null;
 			ease: "power2.out",
 		});
 
-		trail.push({ el: img, rotation: rot, removeAt: Date.now() + cfg.imageLifespan });
+		trail.push({
+			el: img,
+			rotation: rot,
+			removeAt: Date.now() + cfg.imageLifespan,
+		});
 	};
 
 	const tryEmit = () => {

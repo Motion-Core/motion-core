@@ -26,17 +26,15 @@
 	--card-highlight: oklch(0.8925 0.002 var(--base-hue));
 	--shadow-xs: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.15);
 	--shadow-sm:
-		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15), 0px 3px 3px -1.5px
-		rgba(0, 0, 0, 0.05);
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05);
 	--shadow-md:
 		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
-		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
-		0px 6px 6px -3px rgba(0, 0, 0, 0.05);
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05), 0px 6px 6px -3px rgba(0, 0, 0, 0.05);
 	--shadow-lg:
 		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
 		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
-		0px 6px 6px -3px rgba(0, 0, 0, 0.05),
-		0px 12px 12px -6px rgba(0, 0, 0, 0.05);
+		0px 6px 6px -3px rgba(0, 0, 0, 0.05), 0px 12px 12px -6px rgba(0, 0, 0, 0.05);
 	--shadow-xl:
 		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
 		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
@@ -94,26 +92,39 @@
 
 	@variant dark {
 		&::before {
-		box-shadow: inset 0 1px 0 0 var(--card-highlight);
+			box-shadow: inset 0 1px 0 0 var(--card-highlight);
 		}
 	}
 }
 
 @layer base {
-  body {
-    @apply bg-card font-sans text-foreground;
-  }
+	body {
+		@apply bg-card font-sans text-foreground;
+	}
 }
-
 
 ::view-transition-old(homepage-content),
 ::view-transition-new(homepage-content) {
-  animation-duration: 1200ms;
-  animation-timing-function: cubic-bezier(0.625, 0.05, 0, 1);
+	animation-duration: 1200ms;
+	animation-timing-function: cubic-bezier(0.625, 0.05, 0, 1);
 }
 
-::view-transition-old(homepage-content) { animation-name: vt-fade-out; }
-::view-transition-new(homepage-content) { animation-name: vt-fade-in; }
+::view-transition-old(homepage-content) {
+	animation-name: vt-fade-out;
+}
+::view-transition-new(homepage-content) {
+	animation-name: vt-fade-in;
+}
 
-@keyframes vt-fade-out { to { opacity: 0; filter: blur(50px); } }
-@keyframes vt-fade-in  { from { opacity: 0; filter: blur(50px) } }
+@keyframes vt-fade-out {
+	to {
+		opacity: 0;
+		filter: blur(50px);
+	}
+}
+@keyframes vt-fade-in {
+	from {
+		opacity: 0;
+		filter: blur(50px);
+	}
+}

@@ -7,9 +7,12 @@ type DocModule = {
 	};
 };
 
-const docModules = import.meta.glob<DocModule>("/src/routes/docs/**/+page.svx", {
-	eager: true,
-});
+const docModules = import.meta.glob<DocModule>(
+	"/src/routes/docs/**/+page.svx",
+	{
+		eager: true,
+	},
+);
 
 const formatName = (slug: string) =>
 	slug
@@ -45,8 +48,7 @@ export const getAdjacentDocs = (slug: string) => {
 	}
 
 	const previous = index > 0 ? docsManifest[index - 1] : null;
-	const next =
-		index < docsManifest.length - 1 ? docsManifest[index + 1] : null;
+	const next = index < docsManifest.length - 1 ? docsManifest[index + 1] : null;
 
 	return { previous, next };
 };

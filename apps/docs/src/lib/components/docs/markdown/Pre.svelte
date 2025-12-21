@@ -1,28 +1,28 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
-import { cn } from "$lib/utils/cn";
-import CopyCodeButton from "./CopyCodeButton.svelte";
+	import type { Snippet } from "svelte";
+	import { cn } from "$lib/utils/cn";
+	import CopyCodeButton from "./CopyCodeButton.svelte";
 
-type ComponentProps = {
-	class?: string;
-	children?: Snippet;
-	code?: string;
-	[prop: string]: unknown;
-};
+	type ComponentProps = {
+		class?: string;
+		children?: Snippet;
+		code?: string;
+		[prop: string]: unknown;
+	};
 
-const props = $props();
-const className = $derived((props as ComponentProps).class ?? "");
-const code = $derived((props as ComponentProps).code ?? "");
-const children = $derived((props as ComponentProps).children);
-const restProps = $derived(() => {
-	const {
-		class: _class,
-		children: _children,
-		code: _code,
-		...rest
-	} = props as ComponentProps;
-	return rest;
-});
+	const props = $props();
+	const className = $derived((props as ComponentProps).class ?? "");
+	const code = $derived((props as ComponentProps).code ?? "");
+	const children = $derived((props as ComponentProps).children);
+	const restProps = $derived(() => {
+		const {
+			class: _class,
+			children: _children,
+			code: _code,
+			...rest
+		} = props as ComponentProps;
+		return rest;
+	});
 </script>
 
 <div
@@ -37,10 +37,7 @@ const restProps = $derived(() => {
 	</div>
 	{#if code}
 		<div class="pointer-events-none absolute right-2 top-2">
-			<CopyCodeButton
-				code={code}
-				class="pointer-events-auto bg-background"
-			/>
+			<CopyCodeButton {code} class="pointer-events-auto bg-background" />
 		</div>
 	{/if}
 </div>

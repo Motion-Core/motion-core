@@ -17,7 +17,9 @@
 			src={component.image}
 			class="h-56 w-full object-cover"
 		/>
-		<div class="pointer-events-none absolute bottom-4 left-4 text-xs font-mono uppercase tracking-wide text-white mix-blend-difference">
+		<div
+			class="pointer-events-none absolute bottom-4 left-4 text-xs font-mono uppercase tracking-wide text-white mix-blend-difference"
+		>
 			{component.name}
 		</div>
 	</div>

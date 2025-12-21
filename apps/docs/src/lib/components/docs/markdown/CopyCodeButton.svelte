@@ -1,59 +1,59 @@
 <script lang="ts">
-import { onDestroy } from "svelte";
-import { cn } from "$lib/utils/cn";
+	import { onDestroy } from "svelte";
+	import { cn } from "$lib/utils/cn";
 
-type Props = {
-	code: string;
-	class?: string;
-};
+	type Props = {
+		code: string;
+		class?: string;
+	};
 
-const props = $props();
-const className = $derived((props as Props).class ?? "");
-const code = $derived((props as Props).code ?? "");
+	const props = $props();
+	const className = $derived((props as Props).class ?? "");
+	const code = $derived((props as Props).code ?? "");
 
-let copied = $state(false);
-let timeoutId: number | null = null;
-let lastCode: string | null = null;
+	let copied = $state(false);
+	let timeoutId: number | null = null;
+	let lastCode: string | null = null;
 
-async function handleCopy(value: string) {
-	if (!value || typeof navigator === "undefined" || !navigator.clipboard) {
-		return;
+	async function handleCopy(value: string) {
+		if (!value || typeof navigator === "undefined" || !navigator.clipboard) {
+			return;
+		}
+
+		try {
+			await navigator.clipboard.writeText(value);
+			copied = true;
+			if (timeoutId) {
+				window.clearTimeout(timeoutId);
+			}
+			timeoutId = window.setTimeout(() => {
+				copied = false;
+				timeoutId = null;
+			}, 2000);
+		} catch (error) {
+			console.error("Failed to copy code snippet", error);
+		}
 	}
 
-	try {
-		await navigator.clipboard.writeText(value);
-		copied = true;
+	onDestroy(() => {
 		if (timeoutId) {
 			window.clearTimeout(timeoutId);
-		}
-		timeoutId = window.setTimeout(() => {
-			copied = false;
 			timeoutId = null;
-		}, 2000);
-	} catch (error) {
-		console.error("Failed to copy code snippet", error);
-	}
-}
+		}
+	});
 
-onDestroy(() => {
-	if (timeoutId) {
-		window.clearTimeout(timeoutId);
-		timeoutId = null;
-	}
-});
+	$effect(() => {
+		if (lastCode === code) {
+			return;
+		}
 
-$effect(() => {
-	if (lastCode === code) {
-		return;
-	}
-
-	lastCode = code;
-	copied = false;
-	if (timeoutId) {
-		window.clearTimeout(timeoutId);
-		timeoutId = null;
-	}
-});
+		lastCode = code;
+		copied = false;
+		if (timeoutId) {
+			window.clearTimeout(timeoutId);
+			timeoutId = null;
+		}
+	});
 </script>
 
 <button

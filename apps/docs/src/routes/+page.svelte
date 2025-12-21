@@ -16,7 +16,10 @@
 	const components = $derived(data.components ?? []);
 </script>
 
-<main style="view-transition-name: homepage-content" class="min-h-svh w-full p-4">
+<main
+	style="view-transition-name: homepage-content"
+	class="min-h-svh w-full p-4"
+>
 	<div class="mx-auto grid h-full gap-4 lg:grid-cols-4">
 		<Sidebar description={landingDescription} {socialLinks} />
 		<ComponentGrid {components} />

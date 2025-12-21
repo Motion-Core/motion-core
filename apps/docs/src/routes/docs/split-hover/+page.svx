@@ -4,12 +4,11 @@ thumbnail: /og-image.jpg
 ---
 
 <script lang="ts">
-	import { SplitHover } from "motion-core";
-	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import splitHoverSource from "motion-core/components/split-hover/SplitHover.svelte?raw";
-	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
-
-	let buttonPreviewRef: HTMLButtonElement | null = null;
+	import {SplitHover} from "motion-core"; import ComponentPreview from
+	"$lib/components/docs/ComponentPreview.svelte"; import splitHoverSource from
+	"motion-core/components/split-hover/SplitHover.svelte?raw"; import
+	gsapHelperSource from "motion-core/helpers/gsap.ts?raw"; let buttonPreviewRef:
+	HTMLButtonElement | null = null;
 </script>
 
 # Split Hover
@@ -33,9 +32,9 @@ The component wraps its children, splits text into characters, and runs a GSAP t
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `hoverTarget` | `HTMLElement \| null` | `null` | Optional element that should trigger hover events (useful for buttons wrapping the text). |
-| `class` | `string` | `""` | Additional classes for the wrapper. |
+| Prop          | Type                  | Default | Description                                                                               |
+| ------------- | --------------------- | ------- | ----------------------------------------------------------------------------------------- |
+| `hoverTarget` | `HTMLElement \| null` | `null`  | Optional element that should trigger hover events (useful for buttons wrapping the text). |
+| `class`       | `string`              | `""`    | Additional classes for the wrapper.                                                       |
 
 > **Note**: Any `hoverTarget` should be bound via `bind:this` and passed to `SplitHover`.

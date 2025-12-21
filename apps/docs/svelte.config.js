@@ -26,8 +26,7 @@ const tableCellFormatter = () => {
 				const directParent = ancestors[ancestors.length - 1];
 				const grandParent = ancestors[ancestors.length - 2];
 				const isCodeBlock =
-					directParent?.tagName === "code" &&
-					grandParent?.tagName === "pre";
+					directParent?.tagName === "code" && grandParent?.tagName === "pre";
 
 				if (!isCodeBlock) {
 					node.value = node.value.replace(/\\\|/g, "|");
@@ -94,7 +93,7 @@ const tableCellFormatter = () => {
 				}
 			}
 
-			const childNodes = isElement || isRoot ? node.children ?? [] : [];
+			const childNodes = isElement || isRoot ? (node.children ?? []) : [];
 			for (let i = 0; i < childNodes.length; i += 1) {
 				visit(childNodes[i], node, i);
 			}

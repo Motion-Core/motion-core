@@ -28,21 +28,20 @@
 	let linksRef: HTMLElement | null = null;
 	let toggleRef: HTMLElement | null = null;
 
-const timelineKey = $derived(
-	`${title}-${description}-${socialLinks
-		.map((link: SocialLink) => link.href)
-		.join("|")}`,
-);
+	const timelineKey = $derived(
+		`${title}-${description}-${socialLinks
+			.map((link: SocialLink) => link.href)
+			.join("|")}`,
+	);
 
 	$effect(() => {
-		timelineKey;
+		void timelineKey;
 		if (typeof window === "undefined" || !containerRef) return;
 
 		let splitText: SplitText | null = null;
 
 		const ctx = gsap.context(() => {
 			if (descriptionRef) {
-
 				splitText = SplitText.create(descriptionRef, {
 					type: "lines",
 					linesClass: "inline-block",
@@ -51,8 +50,8 @@ const timelineKey = $derived(
 
 			const timeline = gsap.timeline({
 				defaults: {
-				    ease: motionCoreEase,
-					duration: 0.5
+					ease: motionCoreEase,
+					duration: 0.5,
 				},
 			});
 
@@ -128,7 +127,7 @@ const timelineKey = $derived(
 			class="flex items-center gap-2 text-xs uppercase tracking-wide font-mono"
 			bind:this={linksRef}
 		>
-			{#each socialLinks as link}
+			{#each socialLinks as link (link.href)}
 				<a
 					class="text-foreground underline-offset-4 hover:underline"
 					href={link.href}

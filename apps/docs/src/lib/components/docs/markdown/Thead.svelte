@@ -1,20 +1,23 @@
 <script lang="ts">
-import type { Snippet } from "svelte";
-import { cn } from "$lib/utils/cn";
+	import type { Snippet } from "svelte";
+	import { cn } from "$lib/utils/cn";
 
-type ComponentProps = {
-	class?: string;
-	children?: Snippet;
-	[prop: string]: unknown;
-};
+	type ComponentProps = {
+		class?: string;
+		children?: Snippet;
+		[prop: string]: unknown;
+	};
 
-const {
-	children,
-	class: className = "",
-	...restProps
-}: ComponentProps = $props();
+	const {
+		children,
+		class: className = "",
+		...restProps
+	}: ComponentProps = $props();
 </script>
 
-<thead {...restProps} class={cn("bg-card-muted/30 border-b border-border", className)}>
+<thead
+	{...restProps}
+	class={cn("bg-card-muted/30 border-b border-border", className)}
+>
 	{@render children?.()}
 </thead>

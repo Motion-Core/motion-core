@@ -20,7 +20,10 @@
 		[prop: string]: unknown;
 	};
 
-	type RequiredConfig = Record<SplitMode, { duration: number; stagger: number }>;
+	type RequiredConfig = Record<
+		SplitMode,
+		{ duration: number; stagger: number }
+	>;
 
 	const DEFAULT_CONFIG: RequiredConfig = {
 		lines: { duration: 0.4, stagger: 0.08 },
@@ -78,10 +81,10 @@
 
 		const targets =
 			currentMode === "lines"
-				? split.lines ?? []
+				? (split.lines ?? [])
 				: currentMode === "words"
-					? split.words ?? []
-					: split.chars ?? [];
+					? (split.words ?? [])
+					: (split.chars ?? []);
 
 		if (!targets.length) {
 			split.revert();

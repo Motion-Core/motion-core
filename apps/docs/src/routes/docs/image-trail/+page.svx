@@ -4,18 +4,17 @@ thumbnail: /og-image.jpg
 ---
 
 <script lang="ts">
-	import { ImageTrail } from "motion-core";
-	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import imageTrailSource from "motion-core/components/image-trail/ImageTrail.svelte?raw";
-
-	const demoImages = [
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_1.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_3.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_5.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_7.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_8.jpg",
+	import {ImageTrail} from "motion-core"; import ComponentPreview from
+	"$lib/components/docs/ComponentPreview.svelte"; import imageTrailSource from
+	"motion-core/components/image-trail/ImageTrail.svelte?raw"; const demoImages =
+	[
+	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_1.jpg",
+	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg",
+	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_3.jpg",
+	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg",
+	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_5.jpg",
+	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_7.jpg",
+	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_8.jpg",
 	];
 </script>
 
@@ -32,8 +31,11 @@ respond to pointer speed.
 		{ name: "ImageTrail.svelte", code: imageTrailSource, language: "svelte" },
 	]}
 >
-	<ImageTrail images={demoImages} class="absolute inset-0 h-80 w-full flex items-center justify-center">
-        <p class="text-foreground text-base">Move your cursor ✨</p>
+	<ImageTrail
+		images={demoImages}
+		class="absolute inset-0 h-80 w-full flex items-center justify-center"
+	>
+		<p class="text-foreground text-base">Move your cursor ✨</p>
 	</ImageTrail>
 </ComponentPreview>
 
@@ -42,27 +44,27 @@ through classes or wrapper styles.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `images` | `string[]` | `[]` | Ordered list of image URLs cycled for the trail. |
-| `class` | `string` | `""` | Adds classes to the wrapping `div`. |
+| Prop     | Type          | Default          | Description                                             |
+| -------- | ------------- | ---------------- | ------------------------------------------------------- |
+| `images` | `string[]`    | `[]`             | Ordered list of image URLs cycled for the trail.        |
+| `class`  | `string`      | `""`             | Adds classes to the wrapping `div`.                     |
 | `config` | `TrailConfig` | `DEFAULT_CONFIG` | Optional overrides for animation behaviour (see below). |
 
 ### Config options
 
-| Key | Type | Default | Description |
-| --- | --- | --- | --- |
-| `imageLifespan` | `number` | `600` | Duration (ms) each image stays before removal starts. |
-| `removalTickMs` | `number` | `16` | Interval (ms) between cleanup checks. |
-| `mouseThreshold` | `number` | `40` | Distance (px) pointer must travel before spawning next image. |
-| `minMovementForImage` | `number` | `5` | Minimum motion to consider the pointer “moving”. |
-| `inDuration` | `number` | `600` | Scale-in animation duration (ms). |
-| `outDuration` | `number` | `800` | Scale-out animation duration (ms). |
-| `maxRotationFactor` | `number` | `3` | Scales random rotation range based on pointer speed. |
-| `baseRotation` | `number` | `30` | Maximum base rotation in degrees when speed factor is 1. |
-| `speedSmoothingFactor` | `number` | `0.25` | Eases pointer speed readings for steadier animation. |
-| `minImageSize` | `number` | `260` | Smallest image size in pixels. |
-| `maxImageSize` | `number` | `340` | Largest image size in pixels. |
-| `staggerOut` | `number` | `40` | Delay (ms) between each image’s exit animation. |
+| Key                    | Type     | Default | Description                                                   |
+| ---------------------- | -------- | ------- | ------------------------------------------------------------- |
+| `imageLifespan`        | `number` | `600`   | Duration (ms) each image stays before removal starts.         |
+| `removalTickMs`        | `number` | `16`    | Interval (ms) between cleanup checks.                         |
+| `mouseThreshold`       | `number` | `40`    | Distance (px) pointer must travel before spawning next image. |
+| `minMovementForImage`  | `number` | `5`     | Minimum motion to consider the pointer “moving”.              |
+| `inDuration`           | `number` | `600`   | Scale-in animation duration (ms).                             |
+| `outDuration`          | `number` | `800`   | Scale-out animation duration (ms).                            |
+| `maxRotationFactor`    | `number` | `3`     | Scales random rotation range based on pointer speed.          |
+| `baseRotation`         | `number` | `30`    | Maximum base rotation in degrees when speed factor is 1.      |
+| `speedSmoothingFactor` | `number` | `0.25`  | Eases pointer speed readings for steadier animation.          |
+| `minImageSize`         | `number` | `260`   | Smallest image size in pixels.                                |
+| `maxImageSize`         | `number` | `340`   | Largest image size in pixels.                                 |
+| `staggerOut`           | `number` | `40`    | Delay (ms) between each image’s exit animation.               |
 
 > **Note**: `images` must contain at least one valid URL; otherwise no trail elements are rendered.

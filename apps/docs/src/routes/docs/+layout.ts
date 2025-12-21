@@ -9,7 +9,9 @@ const extractSlug = (pathname: string) => {
 
 export const load: LayoutLoad = ({ url }) => {
 	const slug = extractSlug(url.pathname);
-	const { previous, next } = slug ? getAdjacentDocs(slug) : { previous: null, next: null };
+	const { previous, next } = slug
+		? getAdjacentDocs(slug)
+		: { previous: null, next: null };
 
 	return {
 		previousLink: previous

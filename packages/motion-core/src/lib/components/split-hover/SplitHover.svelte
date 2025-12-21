@@ -40,8 +40,6 @@
 			type: "chars",
 			charsClass: "inline-block",
 			onSplit: (self) => {
-				cloneSpan.textContent = originalSpan.textContent;
-
 				if (cloneSplit) cloneSplit.revert();
 				cloneSplit = SplitText.create(cloneSpan, {
 					type: "chars",
@@ -54,21 +52,29 @@
 				timeline?.kill();
 				timeline = gsap
 					.timeline({ paused: true })
-					.to(self.chars, {
-						yPercent: -100,
-						stagger: 0.02,
-						duration: 0.35,
-						ease: motionCoreEase,
-					}, 0)
-					.to(cloneSplit.chars, {
-						yPercent: 0,
-						stagger: 0.02,
-						duration: 0.35,
-						ease: motionCoreEase,
-					}, 0);
+					.to(
+						self.chars,
+						{
+							yPercent: -100,
+							stagger: 0.02,
+							duration: 0.35,
+							ease: motionCoreEase,
+						},
+						0,
+					)
+					.to(
+						cloneSplit.chars,
+						{
+							yPercent: 0,
+							stagger: 0.02,
+							duration: 0.35,
+							ease: motionCoreEase,
+						},
+						0,
+					);
 
 				return timeline;
-			}
+			},
 		});
 
 		const handleEnter = () => timeline?.play();
@@ -99,5 +105,7 @@
 		bind:this={cloneSpan}
 		class="pointer-events-none absolute inset-0"
 		aria-hidden="true"
-	></span>
+	>
+		{@render children?.()}
+	</span>
 </span>

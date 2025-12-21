@@ -1,22 +1,22 @@
 <script lang="ts">
-import { cn } from "$lib/utils/cn";
+	import { cn } from "$lib/utils/cn";
 
-type ComponentProps = {
-	label: string;
-	title: string;
-	href: string;
-	align?: "left" | "right";
-	forceSecondColumn?: boolean;
-};
+	type ComponentProps = {
+		label: string;
+		title: string;
+		href: string;
+		align?: "left" | "right";
+		forceSecondColumn?: boolean;
+	};
 
-const {
-	label,
-	title,
-	href,
-	align = "left",
-	forceSecondColumn = false,
-	...rest
-}: ComponentProps = $props();
+	const {
+		label,
+		title,
+		href,
+		align = "left",
+		forceSecondColumn = false,
+		...rest
+	}: ComponentProps = $props();
 </script>
 
 <a

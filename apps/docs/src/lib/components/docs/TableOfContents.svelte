@@ -1,240 +1,246 @@
 <script lang="ts">
-import { onMount } from "svelte";
-import { afterNavigate } from "$app/navigation";
-import { cn } from "$lib/utils/cn";
+	import { onMount } from "svelte";
+	import { SvelteMap } from "svelte/reactivity";
+	import { afterNavigate } from "$app/navigation";
+	import { cn } from "$lib/utils/cn";
 
-type TocItem = {
-	id: string;
-	text: string;
-	level: number;
-	element: HTMLElement;
-};
-
-type Props = {
-	selector?: string;
-};
-
-const props = $props();
-const selector = $derived(
-	(props as Props).selector ?? "[data-doc-content] h2, [data-doc-content] h3",
-);
-
-let headings = $state<Omit<TocItem, "element">[]>([]);
-let activeId = $state("");
-let indicatorTop = $state(0);
-let indicatorHeight = $state(0);
-let lineHeight = $state(0);
-
-const ACTIVE_OFFSET = 140;
-const linkRefs = new Map<string, HTMLAnchorElement>();
-const linkPositions = new Map<string, { top: number; height: number }>();
-let linksWrapper = $state<HTMLOListElement | null>(null);
-let rafId: number | null = null;
-
-const slugify = (value: string) =>
-	value
-		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, "")
-		.toLowerCase()
-		.trim()
-		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/^-+|-+$/g, "");
-
-function scheduleMeasurement() {
-	if (typeof window === "undefined") {
-		return;
-	}
-
-	if (rafId) {
-		window.cancelAnimationFrame(rafId);
-	}
-	rafId = window.requestAnimationFrame(() => {
-		rafId = null;
-		measureLinks();
-		updateIndicator();
-	});
-}
-
-function registerLink(node: HTMLElement, id?: string) {
-	let currentId = id ?? "";
-
-	const assign = () => {
-		if (!currentId) return;
-		linkRefs.set(currentId, node as HTMLAnchorElement);
-		scheduleMeasurement();
+	type TocItem = {
+		id: string;
+		text: string;
+		level: number;
+		element: HTMLElement;
 	};
 
-	assign();
-
-	return {
-		update(newId?: string) {
-			if (newId === currentId) return;
-			if (currentId) {
-				linkRefs.delete(currentId);
-				linkPositions.delete(currentId);
-			}
-			currentId = newId ?? "";
-			assign();
-		},
-		destroy() {
-			if (currentId) {
-				linkRefs.delete(currentId);
-				linkPositions.delete(currentId);
-			}
-			scheduleMeasurement();
-		},
+	type Props = {
+		selector?: string;
 	};
-}
 
-function measureLinks() {
-	if (!linksWrapper) {
-		lineHeight = 0;
-		return;
-	}
-
-	linkPositions.clear();
-	for (const [id, node] of linkRefs.entries()) {
-		linkPositions.set(id, {
-			top: node.offsetTop,
-			height: node.offsetHeight,
-		});
-	}
-	lineHeight = linksWrapper.scrollHeight;
-}
-
-function updateIndicator(targetId = activeId) {
-	const pos = linkPositions.get(targetId);
-
-	if (!pos) {
-		indicatorTop = 0;
-		indicatorHeight = 0;
-		return;
-	}
-
-	indicatorTop = pos.top;
-	indicatorHeight = pos.height;
-}
-
-function collectHeadings() {
-	if (typeof document === "undefined") {
-		headings = [];
-		activeId = "";
-		lineHeight = 0;
-		indicatorTop = 0;
-		indicatorHeight = 0;
-		return undefined;
-	}
-
-	const slugCounts = new Map<string, number>();
-	const nodeList = Array.from(document.querySelectorAll(selector)).filter(
-		(node): node is HTMLElement => node instanceof HTMLElement,
+	const props = $props();
+	const selector = $derived(
+		(props as Props).selector ?? "[data-doc-content] h2, [data-doc-content] h3",
 	);
 
-	const parsed: TocItem[] = [];
+	let headings = $state<Omit<TocItem, "element">[]>([]);
+	let activeId = $state("");
+	let indicatorTop = $state(0);
+	let indicatorHeight = $state(0);
+	let lineHeight = $state(0);
 
-	for (const node of nodeList) {
-		const text = node.textContent?.trim() ?? "";
-		if (!text) continue;
+	const ACTIVE_OFFSET = 140;
+	const linkRefs = new SvelteMap<string, HTMLAnchorElement>();
+	const linkPositions = new SvelteMap<
+		string,
+		{ top: number; height: number }
+	>();
+	let linksWrapper = $state<HTMLOListElement | null>(null);
+	let rafId: number | null = null;
 
-		let id = node.id;
-		if (!id) {
-			let baseSlug = slugify(text);
-			if (!baseSlug) {
-				baseSlug = `section-${parsed.length + 1}`;
-			}
-			const count = slugCounts.get(baseSlug);
-			if (typeof count === "number") {
-				const nextCount = count + 1;
-				slugCounts.set(baseSlug, nextCount);
-				baseSlug = `${baseSlug}-${nextCount}`;
-			} else {
-				slugCounts.set(baseSlug, 0);
-			}
-			id = baseSlug;
-			node.id = id;
+	const slugify = (value: string) =>
+		value
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "")
+			.toLowerCase()
+			.trim()
+			.replace(/[^a-z0-9]+/g, "-")
+			.replace(/^-+|-+$/g, "");
+
+	function scheduleMeasurement() {
+		if (typeof window === "undefined") {
+			return;
 		}
 
-		const level = Number(node.tagName.replace("H", "")) || 2;
-		parsed.push({
-			id,
-			text,
-			level,
-			element: node,
+		if (rafId) {
+			window.cancelAnimationFrame(rafId);
+		}
+		rafId = window.requestAnimationFrame(() => {
+			rafId = null;
+			measureLinks();
+			updateIndicator();
 		});
 	}
 
-	headings = parsed.map(({ element: _element, ...rest }) => rest);
-	activeId = parsed[0]?.id ?? "";
-	lineHeight = 0;
-	indicatorTop = 0;
-	indicatorHeight = 0;
-	scheduleMeasurement();
+	function registerLink(node: HTMLElement, id?: string) {
+		let currentId = id ?? "";
 
-	if (!parsed.length) {
-		return undefined;
+		const assign = () => {
+			if (!currentId) return;
+			linkRefs.set(currentId, node as HTMLAnchorElement);
+			scheduleMeasurement();
+		};
+
+		assign();
+
+		return {
+			update(newId?: string) {
+				if (newId === currentId) return;
+				if (currentId) {
+					linkRefs.delete(currentId);
+					linkPositions.delete(currentId);
+				}
+				currentId = newId ?? "";
+				assign();
+			},
+			destroy() {
+				if (currentId) {
+					linkRefs.delete(currentId);
+					linkPositions.delete(currentId);
+				}
+				scheduleMeasurement();
+			},
+		};
 	}
 
-	const updateActive = () => {
-		let current = parsed[0]?.id ?? "";
-		for (const item of parsed) {
-			const top = item.element.getBoundingClientRect().top;
-			if (top - ACTIVE_OFFSET <= 0) {
-				current = item.id;
-			}
+	function measureLinks() {
+		if (!linksWrapper) {
+			lineHeight = 0;
+			return;
 		}
 
-		const last = parsed[parsed.length - 1];
-		if (last) {
-			const viewportBottom = window.scrollY + window.innerHeight;
-			const docHeight = document.documentElement.scrollHeight;
-			if (viewportBottom >= docHeight - 20) {
-				current = last.id;
-			}
+		linkPositions.clear();
+		for (const [id, node] of linkRefs.entries()) {
+			linkPositions.set(id, {
+				top: node.offsetTop,
+				height: node.offsetHeight,
+			});
+		}
+		lineHeight = linksWrapper.scrollHeight;
+	}
+
+	function updateIndicator(targetId = activeId) {
+		const pos = linkPositions.get(targetId);
+
+		if (!pos) {
+			indicatorTop = 0;
+			indicatorHeight = 0;
+			return;
 		}
 
-		activeId = current;
-		window.requestAnimationFrame(() => updateIndicator(current));
-	};
+		indicatorTop = pos.top;
+		indicatorHeight = pos.height;
+	}
 
-	updateActive();
+	function collectHeadings() {
+		if (typeof document === "undefined") {
+			headings = [];
+			activeId = "";
+			lineHeight = 0;
+			indicatorTop = 0;
+			indicatorHeight = 0;
+			return undefined;
+		}
 
-	const handleResize = () => {
-		updateActive();
+		const slugCounts = new SvelteMap<string, number>();
+		const nodeList = Array.from(document.querySelectorAll(selector)).filter(
+			(node): node is HTMLElement => node instanceof HTMLElement,
+		);
+
+		const parsed: TocItem[] = [];
+
+		for (const node of nodeList) {
+			const text = node.textContent?.trim() ?? "";
+			if (!text) continue;
+
+			let id = node.id;
+			if (!id) {
+				let baseSlug = slugify(text);
+				if (!baseSlug) {
+					baseSlug = `section-${parsed.length + 1}`;
+				}
+				const count = slugCounts.get(baseSlug);
+				if (typeof count === "number") {
+					const nextCount = count + 1;
+					slugCounts.set(baseSlug, nextCount);
+					baseSlug = `${baseSlug}-${nextCount}`;
+				} else {
+					slugCounts.set(baseSlug, 0);
+				}
+				id = baseSlug;
+				node.id = id;
+			}
+
+			const level = Number(node.tagName.replace("H", "")) || 2;
+			parsed.push({
+				id,
+				text,
+				level,
+				element: node,
+			});
+		}
+
+		headings = parsed.map(({ element: _element, ...rest }) => rest);
+		activeId = parsed[0]?.id ?? "";
+		lineHeight = 0;
+		indicatorTop = 0;
+		indicatorHeight = 0;
 		scheduleMeasurement();
-	};
 
-	window.addEventListener("scroll", updateActive, { passive: true });
-	window.addEventListener("resize", handleResize);
+		if (!parsed.length) {
+			return undefined;
+		}
 
-	return () => {
-		window.removeEventListener("scroll", updateActive);
-		window.removeEventListener("resize", handleResize);
-	};
-}
+		const updateActive = () => {
+			let current = parsed[0]?.id ?? "";
+			for (const item of parsed) {
+				const top = item.element.getBoundingClientRect().top;
+				if (top - ACTIVE_OFFSET <= 0) {
+					current = item.id;
+				}
+			}
 
-onMount(() => {
-	let cleanup = collectHeadings();
-	afterNavigate(() => {
-		cleanup?.();
-		cleanup = collectHeadings();
+			const last = parsed[parsed.length - 1];
+			if (last) {
+				const viewportBottom = window.scrollY + window.innerHeight;
+				const docHeight = document.documentElement.scrollHeight;
+				if (viewportBottom >= docHeight - 20) {
+					current = last.id;
+				}
+			}
+
+			activeId = current;
+			window.requestAnimationFrame(() => updateIndicator(current));
+		};
+
+		updateActive();
+
+		const handleResize = () => {
+			updateActive();
+			scheduleMeasurement();
+		};
+
+		window.addEventListener("scroll", updateActive, { passive: true });
+		window.addEventListener("resize", handleResize);
+
+		return () => {
+			window.removeEventListener("scroll", updateActive);
+			window.removeEventListener("resize", handleResize);
+		};
+	}
+
+	onMount(() => {
+		let cleanup = collectHeadings();
+		afterNavigate(() => {
+			cleanup?.();
+			cleanup = collectHeadings();
+		});
+
+		return () => {
+			cleanup?.();
+		};
 	});
 
-	return () => {
-		cleanup?.();
-	};
-});
-
-$effect(() => {
-	if (typeof window === "undefined" || !linksWrapper) {
-		return;
-	}
-	scheduleMeasurement();
-});
+	$effect(() => {
+		if (typeof window === "undefined" || !linksWrapper) {
+			return;
+		}
+		scheduleMeasurement();
+	});
 </script>
 
 {#if headings.length > 0}
 	<nav class="sticky top-22 hidden lg:block">
-		<div class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide text-foreground/70">
+		<div
+			class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide text-foreground/70"
+		>
 			<svg
 				width="15"
 				height="15"
@@ -253,7 +259,10 @@ $effect(() => {
 			On this page
 		</div>
 		<div class="relative flex">
-			<div class="relative mr-2 w-px bg-border" style={`height:${lineHeight}px`}>
+			<div
+				class="relative mr-2 w-px bg-border"
+				style={`height:${lineHeight}px`}
+			>
 				{#if indicatorHeight > 0}
 					<div
 						class="absolute left-0 w-px bg-foreground transition-[transform,height] duration-300 ease-out"
@@ -261,10 +270,7 @@ $effect(() => {
 					></div>
 				{/if}
 			</div>
-			<ol
-				class="relative flex flex-col text-sm"
-				bind:this={linksWrapper}
-			>
+			<ol class="relative flex flex-col text-sm" bind:this={linksWrapper}>
 				{#each headings as heading (heading.id)}
 					<li>
 						<a

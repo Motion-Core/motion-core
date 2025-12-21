@@ -1,0 +1,9 @@
+node_modules
+bun.lockb
+dist
+build
+apps/docs/.svelte-kit
+apps/docs/build
+apps/docs/static
+packages/**/dist
+coverage
