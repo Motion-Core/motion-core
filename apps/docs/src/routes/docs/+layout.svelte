@@ -10,7 +10,7 @@
 	const renderChildren = $derived(props.children);
 </script>
 
-<main class="min-h-svh bg-background text-foreground">
+<main style="view-transition-name: homepage-content" class="min-h-svh bg-background text-foreground">
 	<div class="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 lg:flex-row">
 		<section class="flex-1 space-y-8 lg:order-2">
 			<a

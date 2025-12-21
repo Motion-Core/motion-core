@@ -104,3 +104,16 @@
     @apply bg-card font-sans text-foreground;
   }
 }
+
+
+::view-transition-old(homepage-content),
+::view-transition-new(homepage-content) {
+  animation-duration: 1200ms;
+  animation-timing-function: cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+::view-transition-old(homepage-content) { animation-name: vt-fade-out; }
+::view-transition-new(homepage-content) { animation-name: vt-fade-in; }
+
+@keyframes vt-fade-out { to { opacity: 0; filter: blur(50px); } }
+@keyframes vt-fade-in  { from { opacity: 0; filter: blur(50px) } }
