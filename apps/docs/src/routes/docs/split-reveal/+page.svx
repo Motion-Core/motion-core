@@ -61,13 +61,6 @@ thumbnail: /og-image.jpg
 					{mode}
 				</button>
 			{/each}
-			<button
-				type="button"
-				class="rounded-full border border-border bg-card px-3 py-1 text-xs uppercase tracking-wide text-foreground/70 hover:text-foreground"
-				onclick={replay}
-			>
-				Replay
-			</button>
 		</div>
 	</div>
 </ComponentPreview>

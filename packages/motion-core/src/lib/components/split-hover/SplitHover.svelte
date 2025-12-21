@@ -39,7 +39,6 @@
 		originalSplit = SplitText.create(originalSpan, {
 			type: "chars",
 			charsClass: "inline-block",
-			autoSplit: true,
 			onSplit: (self) => {
 				cloneSpan.textContent = originalSpan.textContent;
 

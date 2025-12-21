@@ -23,9 +23,9 @@
 	type RequiredConfig = Record<SplitMode, { duration: number; stagger: number }>;
 
 	const DEFAULT_CONFIG: RequiredConfig = {
-		lines: { duration: 0.8, stagger: 0.08 },
-		words: { duration: 0.6, stagger: 0.06 },
-		chars: { duration: 0.4, stagger: 0.008 },
+		lines: { duration: 0.4, stagger: 0.08 },
+		words: { duration: 0.3, stagger: 0.06 },
+		chars: { duration: 0.2, stagger: 0.008 },
 	};
 
 	if (typeof window !== "undefined") {
@@ -74,7 +74,6 @@
 			type: "lines, words, chars",
 			tag: currentTag,
 			mask: "lines",
-			autoSplit: true
 		});
 
 		const targets =
