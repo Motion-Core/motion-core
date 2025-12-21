@@ -1,6 +1,8 @@
 ---
 name: Glass Pane
 thumbnail: /og-image.jpg
+video: /previews/glass-pane/preview.mov
+poster: /previews/glass-pane/poster.png
 ---
 
 <script lang="ts">
@@ -26,8 +28,6 @@ thumbnail: /og-image.jpg
 >
     <GlassPaneDemo />
 </ComponentPreview>
-
-The component uses Threlte for rendering, so it's optimized for Svelte 5 and provides a high-performance WebGL overlay.
 
 ## Props
 

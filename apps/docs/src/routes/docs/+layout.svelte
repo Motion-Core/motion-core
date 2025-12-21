@@ -34,7 +34,6 @@
 			<a
 				href="/"
 				class="inline-flex items-center text-sm text-foreground/70 transition-[color] duration-150 ease-out hover:text-foreground"
-				data-sveltekit-preload-data
 			>
 				<span aria-hidden="true">←</span>
 				<span class="ml-2">Back to library</span>

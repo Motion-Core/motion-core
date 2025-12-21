@@ -7,6 +7,10 @@
 	import xml from "svelte-highlight/languages/xml";
 	import githubDark from "svelte-highlight/styles/github-dark";
 	import github from "svelte-highlight/styles/github";
+	import gsap from "gsap";
+	import { Flip } from "gsap/Flip";
+	import { tick, onMount } from "svelte";
+	import { cn } from "$lib/utils/cn";
 
 	type SourceTab = {
 		name: string;
@@ -33,6 +37,54 @@
 		...restProps
 	}: ComponentProps = $props();
 
+	let isFullScreen = $state(false);
+	let previewRef: HTMLElement;
+	let placeholderRef: HTMLElement;
+
+	onMount(() => {
+		gsap.registerPlugin(Flip);
+	});
+
+	const toggleFullScreen = async () => {
+		if (!previewRef || !placeholderRef) return;
+
+		/* eslint-disable svelte/no-dom-manipulating */
+		const state = Flip.getState(previewRef);
+
+		if (!isFullScreen) {
+			const rect = previewRef.getBoundingClientRect();
+			placeholderRef.style.height = `${rect.height}px`;
+			placeholderRef.style.width = `${rect.width}px`;
+
+			isFullScreen = true;
+			await tick();
+
+			document.body.appendChild(previewRef);
+
+			previewRef.style.setProperty("position", "fixed", "important");
+			previewRef.style.setProperty("top", "0", "important");
+			previewRef.style.setProperty("left", "0", "important");
+			previewRef.style.setProperty("width", "100vw", "important");
+			previewRef.style.setProperty("height", "100dvh", "important");
+			previewRef.style.setProperty("margin", "0", "important");
+		} else {
+			isFullScreen = false;
+			placeholderRef.appendChild(previewRef);
+
+			await tick();
+
+			placeholderRef.style.height = "";
+			placeholderRef.style.width = "";
+			previewRef.style.cssText = "";
+		}
+
+		Flip.from(state, {
+			duration: 0.5,
+			ease: "power3.inOut",
+			absolute: true,
+			zIndex: 50,
+		});
+	};
 	const tabs = $derived(
 		(() => {
 			const normalized =
@@ -115,9 +167,67 @@
 >
 	<div class="flex flex-col">
 		<div
-			class="relative flex-1 flex items-center justify-center border-b border-border min-h-80 rounded-t-lg overflow-hidden"
+			bind:this={placeholderRef}
+			class="relative flex min-h-80 flex-1 flex-col items-center justify-center rounded-t-lg border-b border-border"
 		>
-			{@render children?.()}
+			<div
+				bind:this={previewRef}
+				class={cn(
+					"relative flex items-center justify-center overflow-hidden bg-background",
+					isFullScreen ? "" : "flex-1 w-full rounded-t-lg",
+				)}
+			>
+				<button
+					onclick={toggleFullScreen}
+					class="absolute right-1 top-1 z-50 flex size-6 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out card-highlight shadow-sm"
+					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+				>
+					{#if isFullScreen}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-minimize-2"
+							><polyline points="4 14 10 14 10 20" /><polyline
+								points="20 10 14 10 14 4"
+							/><line x1="14" x2="21" y1="10" y2="3" /><line
+								x1="3"
+								x2="10"
+								y1="21"
+								y2="14"
+							/></svg
+						>
+					{:else}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-maximize-2"
+							><polyline points="15 3 21 3 21 9" /><polyline
+								points="9 21 3 21 3 15"
+							/><line x1="21" x2="14" y1="3" y2="10" /><line
+								x1="3"
+								x2="10"
+								y1="21"
+								y2="14"
+							/></svg
+						>
+					{/if}
+				</button>
+				{@render children?.()}
+			</div>
 		</div>
 		<div class="flex flex-1 flex-col bg-card rounded-b-lg">
 			{#if tabs.length}

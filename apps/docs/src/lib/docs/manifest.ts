@@ -4,6 +4,8 @@ type DocModule = {
 	metadata?: {
 		name?: string;
 		thumbnail?: string;
+		video?: string;
+		poster?: string;
 	};
 };
 
@@ -36,6 +38,8 @@ export const docsManifest: ComponentInfo[] = Object.entries(docModules)
 			slug,
 			name: metadata.name ?? formatName(slug),
 			image: metadata.thumbnail ?? "/og-image.jpg",
+			video: metadata.video,
+			poster: metadata.poster,
 		};
 	})
 	.sort((a, b) => a.name.localeCompare(b.name));

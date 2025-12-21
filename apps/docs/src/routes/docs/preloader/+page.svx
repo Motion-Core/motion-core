@@ -1,6 +1,8 @@
 ---
 name: Preloader
 thumbnail: /og-image.jpg
+video: /previews/preloader/preview.mov
+poster: /previews/preloader/poster.png
 ---
 
 <script lang="ts">

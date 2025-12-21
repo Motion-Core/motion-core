@@ -1,6 +1,8 @@
 ---
 name: Split Hover
 thumbnail: /og-image.jpg
+video: /previews/split-hover/preview.mov
+poster: /previews/split-hover/poster.png
 ---
 
 <script lang="ts">
@@ -27,13 +29,9 @@ thumbnail: /og-image.jpg
     <SplitHoverDemo />
 </ComponentPreview>
 
-The component wraps its children, splits text into characters, and runs a GSAP timeline when hovered. Animations depend on `CustomEase` defined by `motionCoreEase`.
-
 ## Props
 
 | Prop          | Type                  | Default | Description                                                                               |
 | ------------- | --------------------- | ------- | ----------------------------------------------------------------------------------------- |
 | `hoverTarget` | `HTMLElement \| null` | `null`  | Optional element that should trigger hover events (useful for buttons wrapping the text). |
 | `class`       | `string`              | `""`    | Additional classes for the wrapper.                                                       |
-
-> **Note**: Any `hoverTarget` should be bound via `bind:this` and passed to `SplitHover`.

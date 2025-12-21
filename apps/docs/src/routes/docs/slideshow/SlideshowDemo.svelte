@@ -17,6 +17,4 @@
 	];
 </script>
 
-<div class="h-80 w-full z-50">
-	<Slideshow {images} />
-</div>
+<Slideshow class="w-full h-full min-h-80" {images} />

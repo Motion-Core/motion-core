@@ -1,6 +1,8 @@
 ---
 name: Image Trail
 thumbnail: /og-image.jpg
+video: /previews/image-trail/preview.mov
+poster: /previews/image-trail/poster.png
 ---
 
 <script lang="ts">
@@ -26,9 +28,6 @@ respond to pointer speed.
 >
     <ImageTrailDemo />
 </ComponentPreview>
-
-Images are appended inside the wrapper, so the component should always receive explicit dimensions
-through classes or wrapper styles.
 
 ## Props
 

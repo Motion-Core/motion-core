@@ -106,7 +106,7 @@
 
 ::view-transition-old(homepage-content),
 ::view-transition-new(homepage-content) {
-	animation-duration: 1200ms;
+	animation-duration: 600ms;
 	animation-timing-function: cubic-bezier(0.625, 0.05, 0, 1);
 }
 

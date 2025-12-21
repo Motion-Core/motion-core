@@ -27,7 +27,6 @@
 		align === "right" && "sm:text-right",
 		forceSecondColumn && "sm:col-start-2",
 	)}
-	data-sveltekit-preload-data
 >
 	<span class="text-[10px] uppercase tracking-wide text-foreground/45">
 		{label}

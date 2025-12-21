@@ -62,7 +62,7 @@
 		style="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
 	>
 		<div
-			class="columns-1 gap-4 space-y-4 sm:columns-2 lg:columns-2 [column-fill:balance]"
+			class="columns-1 gap-4 space-y-4 sm:columns-2 lg:columns-3 [column-fill:balance]"
 			bind:this={listRef}
 		>
 			{#each components as component (component.slug)}

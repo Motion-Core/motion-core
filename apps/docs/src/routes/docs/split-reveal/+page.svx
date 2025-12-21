@@ -1,6 +1,8 @@
 ---
 name: Split Reveal
 thumbnail: /og-image.jpg
+video: /previews/split-reveal/preview.mov
+poster: /previews/split-reveal/poster.png
 ---
 
 <script lang="ts">
@@ -27,8 +29,6 @@ thumbnail: /og-image.jpg
     <SplitRevealDemo />
 </ComponentPreview>
 
-The animation runs whenever `SplitReveal` mounts. Changing `mode` or forcing a remount (like the "Replay" button above) replays the sequence.
-
 ## Props
 
 | Prop     | Type                            | Default          | Description                                          |
@@ -37,31 +37,3 @@ The animation runs whenever `SplitReveal` mounts. Changing `mode` or forcing a r
 | `class`  | `string`                        | `""`             | Adds classes to the wrapping element.                |
 | `as`     | `keyof HTMLElementTagNameMap`   | `"span"`         | Tag used for the wrapper (swap to `div`, `p`, etc.). |
 | `config` | `SplitRevealConfig`             | `DEFAULT_CONFIG` | Optional per-mode overrides for duration/stagger.    |
-
-### Config shape
-
-`SplitRevealConfig` accepts partial overrides for each mode:
-
-```ts
-type SplitMode = "lines" | "words" | "chars";
-type SplitRevealConfig = Partial<
-	Record<
-		SplitMode,
-		{
-			duration?: number;
-			stagger?: number;
-		}
-	>
->;
-```
-
-```svelte
-<SplitReveal
-	mode="chars"
-	config={{
-		chars: { duration: 0.6, stagger: 0.02 },
-	}}
->
-	Future-forward Research
-</SplitReveal>
-```
