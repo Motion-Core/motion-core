@@ -1,7 +1,7 @@
 ---
 name: Split Reveal
-video: /previews/split-reveal/preview.mov
-poster: /previews/split-reveal/poster.png
+video: /previews/split-reveal/preview.mp4
+poster: /previews/split-reveal/poster.webp
 ---
 
 <script lang="ts">

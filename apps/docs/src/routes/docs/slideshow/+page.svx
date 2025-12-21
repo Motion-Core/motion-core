@@ -1,7 +1,7 @@
 ---
 name: Slideshow
-video: /previews/slideshow/preview.mov
-poster: /previews/slideshow/poster.png
+video: /previews/slideshow/preview.mp4
+poster: /previews/slideshow/poster.webp
 ---
 
 <script lang="ts">

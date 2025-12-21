@@ -1,8 +1,7 @@
 ---
 name: Split Hover
-thumbnail: /og-image.jpg
-video: /previews/split-hover/preview.mov
-poster: /previews/split-hover/poster.png
+video: /previews/split-hover/preview.mp4
+poster: /previews/split-hover/poster.webp
 ---
 
 <script lang="ts">

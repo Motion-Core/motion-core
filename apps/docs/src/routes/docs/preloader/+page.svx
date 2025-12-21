@@ -1,7 +1,7 @@
 ---
 name: Preloader
-video: /previews/preloader/preview.mov
-poster: /previews/preloader/poster.png
+video: /previews/preloader/preview.mp4
+poster: /previews/preloader/poster.webp
 ---
 
 <script lang="ts">

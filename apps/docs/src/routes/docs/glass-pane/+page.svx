@@ -1,7 +1,7 @@
 ---
 name: Glass Pane
-video: /previews/glass-pane/preview.mov
-poster: /previews/glass-pane/poster.png
+video: /previews/glass-pane/preview.mp4
+poster: /previews/glass-pane/poster.webp
 ---
 
 <script lang="ts">

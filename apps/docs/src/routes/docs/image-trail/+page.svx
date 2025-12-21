@@ -1,7 +1,7 @@
 ---
 name: Image Trail
-video: /previews/image-trail/preview.mov
-poster: /previews/image-trail/poster.png
+video: /previews/image-trail/preview.mp4
+poster: /previews/image-trail/poster.webp
 ---
 
 <script lang="ts">

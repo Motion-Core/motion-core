@@ -18,7 +18,7 @@
 				loop
 				muted
 				playsinline
-				class="h-full w-full object-cover"
+				class="h-full w-full object-cover scale-105"
 			>
 			</video>
 		{:else}
