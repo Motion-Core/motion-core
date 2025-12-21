@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ComponentCard from "./ComponentCard.svelte";
+	import { motionCoreEase } from "motion-core";
 	import type { ComponentInfo } from "./types";
 	import gsap from "gsap";
 
@@ -36,9 +37,9 @@
 					scale: 1,
 					y: 0,
 					delay: 0.1,
-					duration: 2,
+					duration: 1,
 					stagger: 0.1,
-					ease: "power3.out",
+					ease: motionCoreEase,
 					filter: "blur(0px)",
 					clearProps: "all",
 				},

@@ -15,6 +15,6 @@ const {
 }: ComponentProps = $props();
 </script>
 
-<th {...restProps} class={cn("h-12 px-6 text-left align-middle font-medium text-foreground tracking-tight", className)}>
+<th {...restProps} class={cn("h-12 px-6 text-left align-middle text-foreground tracking-tight", className)}>
 	{@render children?.()}
 </th>

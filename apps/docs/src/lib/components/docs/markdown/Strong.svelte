@@ -18,7 +18,7 @@ const {
 <strong
 	{...restProps}
 	class={cn(
-		"text-foreground font-medium tracking-tight",
+		"text-foreground tracking-tight",
 		className,
 	)}
 >

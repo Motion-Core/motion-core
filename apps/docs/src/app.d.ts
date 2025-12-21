@@ -15,4 +15,19 @@ declare module "*.svx" {
 	export default class extends SvelteComponentTyped<Record<string, unknown>> {}
 }
 
+declare module "*.svg?raw" {
+	const content: string;
+	export default content;
+}
+
+declare module "*.svelte?raw" {
+	const content: string;
+	export default content;
+}
+
+declare module "*.ts?raw" {
+	const content: string;
+	export default content;
+}
+
 export {};

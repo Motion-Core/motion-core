@@ -29,7 +29,7 @@ const {
 	)}
 	data-sveltekit-preload-data
 >
-	<span class="text-[10px] font-medium uppercase tracking-wide text-foreground/45">
+	<span class="text-[10px] uppercase tracking-wide text-foreground/45">
 		{label}
 	</span>
 	<span class="text-base font-normal text-foreground">

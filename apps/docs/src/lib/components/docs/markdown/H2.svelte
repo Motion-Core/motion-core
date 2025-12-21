@@ -18,7 +18,7 @@ const {
 <h2
 	{...restProps}
 	class={cn(
-		"mt-12 scroll-m-24 text-xl font-medium tracking-tight text-foreground",
+		"mt-12 scroll-m-24 text-xl tracking-tight text-foreground",
 		className,
 	)}
 >

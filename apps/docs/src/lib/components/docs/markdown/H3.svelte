@@ -18,7 +18,7 @@ const {
 <h3
 	{...restProps}
 	class={cn(
-		"mt-10 scroll-m-24 text-lg font-medium tracking-tight text-foreground",
+		"mt-10 scroll-m-24 text-lg tracking-tight text-foreground",
 		className,
 	)}
 >

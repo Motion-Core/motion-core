@@ -1,11 +1,11 @@
 <script lang="ts">
 	import ThemeToggle from "./ThemeToggle.svelte";
-	import SplitHover from "./animations/SplitHover.svelte";
+	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
+	import { SplitHover } from "motion-core";
+	import { motionCoreEase } from "motion-core";
 	import type { SocialLink } from "./types";
 	import gsap from "gsap";
 	import SplitText from "gsap/SplitText";
-
-	gsap.registerPlugin(SplitText);
 
 	const props = $props<{
 		title?: string;
@@ -15,7 +15,12 @@
 
 	const title = $derived(props.title ?? "Motion Core");
 	const description = $derived(props.description ?? "");
-	const socialLinks = $derived(props.socialLinks ?? []);
+	const socialLinks = $derived(
+		(props.socialLinks ?? []).map((link: SocialLink) => ({
+			...link,
+			ref: null as HTMLAnchorElement | null,
+		})),
+	);
 
 	let containerRef: HTMLElement | null = null;
 	let descriptionRef: HTMLParagraphElement | null = null;
@@ -46,8 +51,8 @@ const timelineKey = $derived(
 
 			const timeline = gsap.timeline({
 				defaults: {
-					ease: "power3.out",
-					duration: 0.75
+				    ease: motionCoreEase,
+					duration: 0.5
 				},
 			});
 
@@ -69,7 +74,7 @@ const timelineKey = $derived(
 						stagger: 0.08,
 						clearProps: "all",
 					},
-					"-=0.35",
+					"-=0.25",
 				);
 			}
 
@@ -78,7 +83,7 @@ const timelineKey = $derived(
 					linksRef,
 					{ autoAlpha: 0, filter: "blur(16px)" },
 					{ autoAlpha: 1, filter: "blur(0px)", clearProps: "filter" },
-					"-=0.35",
+					"-=0.25",
 				);
 			}
 
@@ -87,7 +92,7 @@ const timelineKey = $derived(
 					toggleRef,
 					{ autoAlpha: 0, filter: "blur(16px)" },
 					{ autoAlpha: 1, filter: "blur(0px)", clearProps: "filter" },
-					"-=0.75",
+					"-=0.5",
 				);
 			}
 		}, containerRef);
@@ -104,7 +109,13 @@ const timelineKey = $derived(
 	bind:this={containerRef}
 >
 	<header class="flex items-center gap-2" bind:this={headerRef}>
-		<span class="text-xl font-medium text-foreground">{title}</span>
+		<span
+			class="inline-flex shrink-0 items-center text-foreground [&>svg]:h-3 [&>svg]:w-8 [&>svg]:fill-current"
+			aria-hidden="true"
+		>
+			{@html motionCoreLogo}
+		</span>
+		<span class="text-xl text-foreground">{title}</span>
 	</header>
 	<div class="space-y-4">
 		<p
@@ -114,12 +125,16 @@ const timelineKey = $derived(
 			{description}
 		</p>
 		<nav
-			class="flex items-center gap-2 text-xs font-medium uppercase tracking-wide font-mono"
+			class="flex items-center gap-2 text-xs uppercase tracking-wide font-mono"
 			bind:this={linksRef}
 		>
 			{#each socialLinks as link}
-				<a class="text-foreground underline-offset-4 hover:underline" href={link.href}>
-					<SplitHover>{link.label}</SplitHover>
+				<a
+					class="text-foreground underline-offset-4 hover:underline"
+					href={link.href}
+					bind:this={link.ref}
+				>
+					<SplitHover hoverTarget={link.ref}>{link.label}</SplitHover>
 				</a>
 			{/each}
 			<div class="ml-auto" bind:this={toggleRef}>

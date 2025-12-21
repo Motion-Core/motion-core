@@ -48,7 +48,7 @@
 	};
 
 	const buttonBaseClasses =
-		"relative z-10 inline-flex size-6 items-center justify-center rounded-sm border border-transparent text-[10px] font-medium transition-colors duration-200 ease-out";
+		"relative z-10 inline-flex size-6 items-center justify-center rounded-sm border border-transparent text-[10px] transition-colors duration-200 ease-out";
 
 	const getThemeButtonClasses = (mode: ThemeMode) =>
 		mode === theme ? `${buttonBaseClasses} text-foreground` : `${buttonBaseClasses} text-foreground/70`;

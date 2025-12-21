@@ -12,7 +12,9 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"dependencies": {
-		"gsap": "^3.14.2"
+		"gsap": "^3.14.2",
+		"motion-core": "workspace:*",
+		"svelte-highlight": "^7.9.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.10",

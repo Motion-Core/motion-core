@@ -1,0 +1,41 @@
+---
+name: Split Hover
+thumbnail: /og-image.jpg
+---
+
+<script lang="ts">
+	import { SplitHover } from "motion-core";
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import splitHoverSource from "motion-core/components/split-hover/SplitHover.svelte?raw";
+	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
+
+	let buttonPreviewRef: HTMLButtonElement | null = null;
+</script>
+
+# Split Hover
+
+`SplitHover` animates text by splitting characters and staggering them out/in with GSAP. Hovering reveals a cloned layer that rises from below, creating a seamless "text swap" effect.
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "SplitHover.svelte", code: splitHoverSource, language: "svelte" },
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" },
+	]}
+>
+	<a class="text-lg font-semibold" href="/components/split-hover">
+		<SplitHover>Orbit the future</SplitHover>
+	</a>
+</ComponentPreview>
+
+The component wraps its children, splits text into characters, and runs a GSAP timeline when hovered. Animations depend on `CustomEase` defined by `motionCoreEase`.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `hoverTarget` | `HTMLElement \| null` | `null` | Optional element that should trigger hover events (useful for buttons wrapping the text). |
+| `class` | `string` | `""` | Additional classes for the wrapper. |
+
+> **Note**: Any `hoverTarget` should be bound via `bind:this` and passed to `SplitHover`.

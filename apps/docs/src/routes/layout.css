@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @font-face {
-	font-family: "GeistVariable";
-	src: url("../lib/assets/fonts/Geist-VF.ttf") format("truetype");
+	font-family: "Haffer";
+	src: url("../lib/assets/fonts/Haffer.woff2") format("woff2");
 	font-weight: 100 900;
 	font-style: normal;
 	font-display: swap;
 }
 
 @font-face {
-	font-family: "GeistMonoVariable";
-	src: url("../lib/assets/fonts/GeistMono-VF.ttf") format("truetype");
+	font-family: "HafferMono";
+	src: url("../lib/assets/fonts/HafferMono.woff2") format("woff2");
 	font-weight: 100 900;
 	font-style: normal;
 	font-display: swap;
@@ -62,8 +62,8 @@
 }
 
 @theme {
-	--font-sans: "GeistVariable";
-	--font-mono: "GeistMonoVariable";
+	--font-sans: "Haffer";
+	--font-mono: "HafferMono";
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-border: var(--border);
@@ -101,6 +101,6 @@
 
 @layer base {
   body {
-    @apply bg-card font-sans text-foreground font-light;
+    @apply bg-card font-sans text-foreground;
   }
 }

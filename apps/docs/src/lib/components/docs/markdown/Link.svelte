@@ -18,7 +18,7 @@ const {
 <a
 	{...restProps}
 	class={cn(
-		"font-medium text-foreground underline decoration-dotted underline-offset-4 hover:text-foreground/70 transition-[color] duration-150 ease-out",
+		"text-foreground underline decoration-dotted underline-offset-4 hover:text-foreground/70 transition-[color] duration-150 ease-out",
 		className,
 	)}
 >
