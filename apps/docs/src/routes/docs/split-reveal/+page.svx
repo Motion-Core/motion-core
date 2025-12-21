@@ -1,6 +1,5 @@
 ---
 name: Split Reveal
-thumbnail: /og-image.jpg
 video: /previews/split-reveal/preview.mov
 poster: /previews/split-reveal/poster.png
 ---

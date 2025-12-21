@@ -1,6 +1,5 @@
 ---
 name: Slideshow
-thumbnail: /og-image.jpg
 video: /previews/slideshow/preview.mov
 poster: /previews/slideshow/poster.png
 ---

@@ -1,6 +1,5 @@
 ---
 name: Glass Pane
-thumbnail: /og-image.jpg
 video: /previews/glass-pane/preview.mov
 poster: /previews/glass-pane/poster.png
 ---

@@ -173,7 +173,7 @@
 			<div
 				bind:this={previewRef}
 				class={cn(
-					"relative flex items-center justify-center overflow-hidden bg-background",
+					"relative flex items-center justify-center overflow-hidden bg-card",
 					isFullScreen ? "" : "flex-1 w-full rounded-t-lg",
 				)}
 			>

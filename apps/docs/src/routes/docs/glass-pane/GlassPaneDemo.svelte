@@ -2,7 +2,7 @@
 	import { GlassPane } from "motion-core";
 
 	const demoImage =
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg";
+		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg";
 </script>
 
 <GlassPane

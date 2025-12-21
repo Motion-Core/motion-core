@@ -1,6 +1,5 @@
 ---
 name: Image Trail
-thumbnail: /og-image.jpg
 video: /previews/image-trail/preview.mov
 poster: /previews/image-trail/poster.png
 ---
