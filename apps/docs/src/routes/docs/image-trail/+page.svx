@@ -4,18 +4,10 @@ thumbnail: /og-image.jpg
 ---
 
 <script lang="ts">
-	import {ImageTrail} from "motion-core";
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
 	import imageTrailSource from "motion-core/components/image-trail/ImageTrail.svelte?raw";
-	const demoImages = [
-    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_1.jpg",
-    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg",
-    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_3.jpg",
-    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg",
-    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_5.jpg",
-    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_7.jpg",
-    	"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_8.jpg",
-	];
+    import ImageTrailDemo from "./ImageTrailDemo.svelte";
+    import imageTrailDemoSource from "./ImageTrailDemo.svelte?raw";
 </script>
 
 # Image Trail
@@ -28,15 +20,11 @@ respond to pointer speed.
 
 <ComponentPreview
 	sources={[
-		{ name: "ImageTrail.svelte", code: imageTrailSource, language: "svelte" },
+	    { name: "Example", code: imageTrailDemoSource, language: "svelte" },
+		{ name: "ImageTrail.svelte", code: imageTrailSource, language: "svelte" }
 	]}
 >
-	<ImageTrail
-		images={demoImages}
-		class="absolute inset-0 h-80 w-full flex items-center justify-center"
-	>
-		<p class="text-foreground text-base">Move your cursor ✨</p>
-	</ImageTrail>
+    <ImageTrailDemo />
 </ComponentPreview>
 
 Images are appended inside the wrapper, so the component should always receive explicit dimensions
@@ -66,5 +54,3 @@ through classes or wrapper styles.
 | `minImageSize`         | `number` | `260`   | Smallest image size in pixels.                                |
 | `maxImageSize`         | `number` | `340`   | Largest image size in pixels.                                 |
 | `staggerOut`           | `number` | `40`    | Delay (ms) between each image’s exit animation.               |
-
-> **Note**: `images` must contain at least one valid URL; otherwise no trail elements are rendered.

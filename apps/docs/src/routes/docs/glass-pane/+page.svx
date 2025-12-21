@@ -4,12 +4,11 @@ thumbnail: /og-image.jpg
 ---
 
 <script lang="ts">
-	import { GlassPane } from "motion-core";
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
 	import glassPaneSource from "motion-core/components/glass-pane/GlassPane.svelte?raw";
 	import sceneSource from "motion-core/components/glass-pane/Scene.svelte?raw";
-
-	const demoImage = "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg";
+    import GlassPaneDemo from "./GlassPaneDemo.svelte";
+    import glassPaneDemoSource from "./GlassPaneDemo.svelte?raw";
 </script>
 
 # Glass Pane
@@ -20,22 +19,12 @@ thumbnail: /og-image.jpg
 
 <ComponentPreview
 	sources={[
+	    { name: "Example", code: glassPaneDemoSource, language: "svelte" },
 		{ name: "GlassPane.svelte", code: glassPaneSource, language: "svelte" },
-		{ name: "Scene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "Scene.svelte", code: sceneSource, language: "svelte" }
 	]}
 >
-	<div class="h-80 w-full">
-		<GlassPane
-			image={demoImage}
-			distortion={1.5}
-			chromaticAberration={0.005}
-			waviness={0.1}
-			frequency={4.0}
-			speed={0.5}
-			class="h-full w-full"
-		>
-		</GlassPane>
-	</div>
+    <GlassPaneDemo />
 </ComponentPreview>
 
 The component uses Threlte for rendering, so it's optimized for Svelte 5 and provides a high-performance WebGL overlay.
@@ -52,7 +41,3 @@ The component uses Threlte for rendering, so it's optimized for Svelte 5 and pro
 | `speed`      | `number` | `1.0`   | Animation speed multiplier.                               |
 | `class`      | `string` | `""`    | Additional CSS classes for the container.                 |
 | `children`   | `Snippet`| —       | Optional Svelte snippet to render content over the canvas.|
-
-## Troubleshooting
-
-Ensure that the image URL is accessible and does not violate CORS policies, as Three.js needs to load the image as a texture.

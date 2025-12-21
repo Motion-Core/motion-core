@@ -7,6 +7,7 @@ thumbnail: /og-image.jpg
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
 	import preloaderSource from "motion-core/components/preloader/Preloader.svelte?raw";
     import PreloaderDemo from "./PreloaderDemo.svelte";
+    import preloaderDemoSource from "./PreloaderDemo.svelte?raw";
 </script>
 
 # Preloader
@@ -17,7 +18,8 @@ A cinematic loading animation component that features sliding image strips and a
 
 <ComponentPreview
 	sources={[
-		{ name: "Preloader.svelte", code: preloaderSource, language: "svelte" },
+	    { name: "Example", code: preloaderDemoSource, language: "svelte" },
+		{ name: "Preloader.svelte", code: preloaderSource, language: "svelte" }
 	]}
 >
     <PreloaderDemo />
