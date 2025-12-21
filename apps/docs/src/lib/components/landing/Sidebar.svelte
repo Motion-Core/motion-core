@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ThemeToggle from "./ThemeToggle.svelte";
+	import SplitHover from "./animations/SplitHover.svelte";
 	import type { SocialLink } from "./types";
 	import gsap from "gsap";
 	import SplitText from "gsap/SplitText";
@@ -32,18 +33,14 @@ const timelineKey = $derived(
 		timelineKey;
 		if (typeof window === "undefined" || !containerRef) return;
 
-		let splitParent: SplitText | null = null;
 		let splitText: SplitText | null = null;
 
 		const ctx = gsap.context(() => {
 			if (descriptionRef) {
-				splitParent = new SplitText(descriptionRef, {
+
+				splitText = SplitText.create(descriptionRef, {
 					type: "lines",
-					linesClass: "sidebar-desc-parent",
-				});
-				splitText = new SplitText(descriptionRef, {
-					type: "lines",
-					linesClass: "sidebar-desc-line",
+					linesClass: "inline-block",
 				});
 			}
 
@@ -98,7 +95,6 @@ const timelineKey = $derived(
 		return () => {
 			ctx.revert();
 			splitText?.revert();
-			splitParent?.revert();
 		};
 	});
 </script>
@@ -123,7 +119,7 @@ const timelineKey = $derived(
 		>
 			{#each socialLinks as link}
 				<a class="text-foreground underline-offset-4 hover:underline" href={link.href}>
-					{link.label}
+					<SplitHover>{link.label}</SplitHover>
 				</a>
 			{/each}
 			<div class="ml-auto" bind:this={toggleRef}>

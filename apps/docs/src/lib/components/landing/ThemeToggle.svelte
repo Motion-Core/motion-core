@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import { browser } from "$app/environment";
 	import type { ThemeMode } from "./types";
+	import gsap from "gsap";
 
 	type ConcreteTheme = Exclude<ThemeMode, "system">;
 	const themeStorageKey = "motion-core-theme";
@@ -46,13 +47,52 @@
 		window.localStorage.setItem(themeStorageKey, value);
 	};
 
-	const getThemeButtonClasses = (mode: ThemeMode) => {
-		const base =
-			"relative inline-flex size-6 items-center justify-center rounded-sm border text-[10px] transition-colors duration-150 ease-out";
+	const buttonBaseClasses =
+		"relative z-10 inline-flex size-6 items-center justify-center rounded-sm border border-transparent text-[10px] font-medium transition-colors duration-200 ease-out";
 
-		return mode === theme
-			? `${base} border-border bg-card text-foreground shadow-sm card-highlight`
-			: `${base} border-transparent text-foreground/70 hover:text-foreground`;
+	const getThemeButtonClasses = (mode: ThemeMode) =>
+		mode === theme ? `${buttonBaseClasses} text-foreground` : `${buttonBaseClasses} text-foreground/70`;
+
+	let containerRef: HTMLDivElement | null = null;
+	let lightButton: HTMLButtonElement | null = null;
+	let systemButton: HTMLButtonElement | null = null;
+	let darkButton: HTMLButtonElement | null = null;
+	let highlightTween: gsap.core.Tween | null = null;
+
+	const getButtonForMode = (mode: ThemeMode) => {
+		if (mode === "light") return lightButton;
+		if (mode === "system") return systemButton;
+		return darkButton;
+	};
+
+	const applyHighlight = (options: { immediate?: boolean } = {}) => {
+		if (!browser || !containerRef) return;
+		const button = getButtonForMode(theme);
+		if (!button) return;
+
+		const x = button.offsetLeft;
+		const y = button.offsetTop;
+		const width = button.offsetWidth;
+		const height = button.offsetHeight;
+
+		const vars = {
+			"--toggle-highlight-x": `${x}px`,
+			"--toggle-highlight-y": `${y}px`,
+			"--toggle-highlight-width": `${width}px`,
+			"--toggle-highlight-height": `${height}px`,
+		};
+
+		if (options.immediate) {
+			gsap.set(containerRef, vars);
+			return;
+		}
+
+		highlightTween?.kill();
+		highlightTween = gsap.to(containerRef, {
+			...vars,
+			duration: 0.45,
+			ease: "power3.out",
+		});
 	};
 
 	onMount(() => {
@@ -82,20 +122,31 @@
 		applyTheme(theme);
 		mediaQuery.addEventListener("change", handlePreferenceChange);
 
+		applyHighlight({ immediate: true });
+
 		return () => {
 			mediaQuery?.removeEventListener("change", handlePreferenceChange);
 		};
 	});
+
+	$effect(() => {
+		theme;
+		applyHighlight();
+	});
 </script>
 
 <div class="space-y-2">
-	<div class="relative inline-flex items-center gap-1 rounded-md border border-border bg-background p-0.5 card-highlight">
+	<div
+		class="theme-toggle relative inline-flex items-center gap-1 rounded-md border border-border bg-background p-0.5"
+		bind:this={containerRef}
+	>
 		<button
 			type="button"
 			class={getThemeButtonClasses("light")}
 			onclick={() => setTheme("light")}
 			aria-label="Use light theme"
 			aria-pressed={theme === "light"}
+			bind:this={lightButton}
 		>
 			<svg
 				width="15"
@@ -119,6 +170,7 @@
 			onclick={() => setTheme("system")}
 			aria-label="Use system theme"
 			aria-pressed={theme === "system"}
+			bind:this={systemButton}
 		>
 			<svg
 				width="15"
@@ -142,6 +194,7 @@
 			onclick={() => setTheme("dark")}
 			aria-label="Use dark theme"
 			aria-pressed={theme === "dark"}
+			bind:this={darkButton}
 		>
 			<svg
 				width="15"
@@ -161,3 +214,28 @@
 		</button>
 	</div>
 </div>
+
+<style>
+	:global(.theme-toggle) {
+		--toggle-highlight-x: 0px;
+		--toggle-highlight-y: 0px;
+		--toggle-highlight-width: 0px;
+		--toggle-highlight-height: 0px;
+		overflow: hidden;
+	}
+
+	:global(.theme-toggle)::before {
+		content: "";
+		position: absolute;
+		left: var(--toggle-highlight-x);
+		top: var(--toggle-highlight-y);
+		width: var(--toggle-highlight-width);
+		height: var(--toggle-highlight-height);
+		border-radius: 0.25rem;
+		background: var(--color-card);
+		border: 1px solid color-mix(in oklab, var(--color-border), transparent 15%);
+		box-shadow: var(--shadow-sm);
+		transition: opacity 0.2s ease;
+		pointer-events: none;
+	}
+</style>
