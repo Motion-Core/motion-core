@@ -33,29 +33,29 @@
 		...restProps
 	}: ComponentProps = $props();
 
-	const tabs = $derived(
-		(() => {
-			const normalized = providedSources?.filter(
-				(tab): tab is SourceTab => Boolean(tab?.code),
-			) ?? [];
+const tabs = $derived(
+	(() => {
+		const normalized = providedSources?.filter(
+			(tab): tab is SourceTab => Boolean(tab?.code),
+		) ?? [];
 
-			if (normalized.length > 0) {
-				return normalized;
-			}
+		if (normalized.length > 0) {
+			return normalized;
+		}
 
-			if (providedCode) {
-				return [
-					{
-						name: providedLabel ?? "Code",
-						code: providedCode,
-						language: providedLanguage,
-					},
-				];
-			}
+		if (providedCode) {
+			return [
+				{
+					name: providedLabel ?? "Code",
+					code: providedCode,
+					language: providedLanguage,
+				},
+			];
+		}
 
-			return [];
-		})(),
-	);
+		return [];
+	})() as SourceTab[],
+);
 
 	let activeTab = $state(0);
 
@@ -66,9 +66,9 @@
 		}
 	});
 
-	const activeSource = $derived(
-		(() => tabs[activeTab])(),
-	);
+const activeSource = $derived(
+	(tabs.at(activeTab) ?? null) as SourceTab | null,
+);
 	const resolveLanguage = (language?: string) => {
 		switch (language?.toLowerCase()) {
 			case "svelte":

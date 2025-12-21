@@ -32,7 +32,7 @@
 		gsap.registerPlugin(SplitText);
 	}
 
-	const props = $props<ComponentProps>();
+	const props: ComponentProps = $props();
 	const children = $derived(props.children);
 	const className = $derived(props.class ?? "");
 	const mode = $derived<SplitMode>(props.mode ?? "lines");

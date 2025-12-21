@@ -42,7 +42,7 @@
 		[prop: string]: unknown;
 	};
 
-	const props = $props<ComponentProps>();
+	const props: ComponentProps = $props();
 	const children = $derived(props.children);
 	const className = $derived(props.class ?? "");
 	const images = $derived(props.images ?? []);
@@ -239,7 +239,7 @@ let containerRef: HTMLDivElement | null = null;
 		const node = containerRef;
 		if (!node || !images.length) return;
 
-		let pointerIdleTimeout: ReturnType<typeof setTimeout> | null = null;
+		let pointerIdleTimeout: number | null = null;
 
 		const onPointerMove = (event: PointerEvent) => {
 			state.prevMouseX = state.mouseX;
@@ -250,7 +250,7 @@ let containerRef: HTMLDivElement | null = null;
 
 			if (state.isPointerIn) {
 				state.isMoving = true;
-				if (pointerIdleTimeout) clearTimeout(pointerIdleTimeout);
+				if (pointerIdleTimeout) window.clearTimeout(pointerIdleTimeout);
 				pointerIdleTimeout = window.setTimeout(() => {
 					state.isMoving = false;
 					pointerIdleTimeout = null;
@@ -300,7 +300,7 @@ let containerRef: HTMLDivElement | null = null;
 		state.raf = requestAnimationFrame(tick);
 
 		return () => {
-			if (pointerIdleTimeout) clearTimeout(pointerIdleTimeout);
+			if (pointerIdleTimeout) window.clearTimeout(pointerIdleTimeout);
 			cancelAnimationFrame(state.raf);
 			node.removeEventListener("pointermove", onPointerMove);
 			node.removeEventListener("pointerenter", onPointerEnter);
