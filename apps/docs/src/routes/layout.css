@@ -2,7 +2,7 @@
 
 @font-face {
 	font-family: "Haffer";
-	src: url("../lib/assets/fonts/Haffer.woff2") format("woff2");
+	src: url("/fonts/Haffer.woff2") format("woff2");
 	font-weight: 100 900;
 	font-style: normal;
 	font-display: swap;
@@ -10,7 +10,7 @@
 
 @font-face {
 	font-family: "HafferMono";
-	src: url("../lib/assets/fonts/HafferMono.woff2") format("woff2");
+	src: url("/fonts/HafferMono.woff2") format("woff2");
 	font-weight: 100 900;
 	font-style: normal;
 	font-display: swap;
