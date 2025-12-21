@@ -1,6 +1,7 @@
 <script lang="ts">
 	import gsap from "gsap";
 	import { motionCoreEase } from "../../helpers/gsap";
+	import { cn } from "../../utils/cn";
 	type Image = {
 		src: string;
 		alt?: string;
@@ -57,7 +58,7 @@
 
 <div
 	bind:this={containerRef}
-	class="relative h-full w-full overflow-hidden {className}"
+	class={cn("relative h-full w-full overflow-hidden", className)}
 	{...restProps}
 >
 	{#each images as image, i (image.src)}

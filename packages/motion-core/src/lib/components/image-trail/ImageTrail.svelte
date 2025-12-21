@@ -1,6 +1,7 @@
 <script lang="ts">
 	import gsap from "gsap";
 	import type { Snippet } from "svelte";
+	import { cn } from "../../utils/cn";
 
 	type TrailConfig = {
 		imageLifespan?: number;
@@ -336,7 +337,7 @@
 
 <div
 	{...restProps}
-	class="relative overflow-hidden {className}"
+	class={cn("relative overflow-hidden", className)}
 	bind:this={containerRef}
 >
 	{@render children?.()}

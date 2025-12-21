@@ -1,6 +1,7 @@
 <script lang="ts">
 	import gsap from "gsap";
 	import { onMount } from "svelte";
+	import { cn } from "../../utils/cn";
 
 	type Image = {
 		src: string;
@@ -93,10 +94,16 @@
 
 <div
 	bind:this={containerRef}
-	class="fixed inset-0 z-999 flex items-center justify-center overflow-hidden bg-white {className}"
+	class={cn(
+		"fixed inset-0 z-999 flex items-center justify-center overflow-hidden",
+		className,
+	)}
 	{...restProps}
 >
-	<div class="relative flex items-center justify-center">
+	<div
+		class="relative flex items-center justify-center"
+		style="mask-image: linear-gradient(to right, transparent, black 5em, black calc(100% - 5em), transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 5em, black calc(100% - 5em), transparent);"
+	>
 		<div class="relative overflow-hidden">
 			<div class="absolute flex items-center justify-center rounded-[0.5em]">
 				{#each images as image, i (image.src)}
@@ -153,13 +160,5 @@
 			</div>
 		</div>
 
-		<div
-			class="pointer-events-none absolute -left-px -top-px h-[calc(100%+2px)] w-[5em]"
-			style="background-image: linear-gradient(90deg, #ffffff 20%, #0000);"
-		></div>
-		<div
-			class="pointer-events-none absolute -right-px -top-px h-[calc(100%+2px)] w-[5em] scale-x-[-1]"
-			style="background-image: linear-gradient(90deg, #ffffff 20%, #0000);"
-		></div>
 	</div>
 </div>

@@ -3,6 +3,7 @@
 	import SplitText from "gsap/SplitText";
 	import type { Snippet } from "svelte";
 	import { motionCoreEase } from "../../helpers/gsap";
+	import { cn } from "../../utils/cn";
 
 	type SplitMode = "lines" | "words" | "chars";
 	type ModeSettings = {
@@ -109,7 +110,7 @@
 
 <span
 	{...restProps()}
-	class="relative align-baseline font-inherit text-inherit {className}"
+	class={cn("relative align-baseline font-inherit text-inherit", className)}
 	bind:this={wrapperRef}
 >
 	{@render children?.()}

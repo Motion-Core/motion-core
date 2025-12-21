@@ -3,6 +3,7 @@
 	import SplitText from "gsap/SplitText";
 	import type { Snippet } from "svelte";
 	import { motionCoreEase } from "../../helpers/gsap";
+	import { cn } from "../../utils/cn";
 
 	type ComponentProps = {
 		children?: Snippet;
@@ -95,7 +96,10 @@
 
 <span
 	{...restProps}
-	class="relative inline-flex overflow-hidden align-baseline font-inherit text-inherit leading-none {className}"
+	class={cn(
+		"relative inline-flex overflow-hidden align-baseline font-inherit text-inherit leading-none",
+		className,
+	)}
 	bind:this={wrapperRef}
 >
 	<span bind:this={originalSpan}>

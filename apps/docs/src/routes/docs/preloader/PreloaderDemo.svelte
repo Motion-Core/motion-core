@@ -52,7 +52,11 @@
 
 	{#if showPreloader}
 		<div use:portal>
-			<Preloader {images} onComplete={() => (showPreloader = false)} />
+			<Preloader
+				class="bg-background"
+				{images}
+				onComplete={() => (showPreloader = false)}
+			/>
 		</div>
 	{/if}
 </div>

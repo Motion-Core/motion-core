@@ -2,6 +2,7 @@
 	import { Canvas } from "@threlte/core";
 	import Scene from "./Scene.svelte";
 	import type { Snippet } from "svelte";
+	import { cn } from "../../utils/cn";
 
 	type Props = {
 		image: string;
@@ -30,7 +31,7 @@
 	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
-<div class="relative w-full h-full overflow-hidden {className}" {...rest}>
+<div class={cn("relative w-full h-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
 		<Canvas {dpr}>
 			<Scene
