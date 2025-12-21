@@ -8,14 +8,14 @@
 	} from "three";
 	import { useTexture } from "@threlte/extras";
 
-	interface Props {
+	type Props = {
 		image: string;
 		distortion?: number;
 		chromaticAberration?: number;
 		speed?: number;
 		waviness?: number;
 		frequency?: number;
-	}
+	};
 
 	let {
 		image,

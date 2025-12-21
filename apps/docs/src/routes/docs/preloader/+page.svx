@@ -1,0 +1,32 @@
+---
+name: Preloader
+thumbnail: /og-image.jpg
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import preloaderSource from "motion-core/components/preloader/Preloader.svelte?raw";
+    import PreloaderDemo from "./PreloaderDemo.svelte";
+</script>
+
+# Preloader
+
+A cinematic loading animation component that features sliding image strips and a scale-up reveal effect, inspired by Osmo.
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Preloader.svelte", code: preloaderSource, language: "svelte" },
+	]}
+>
+    <PreloaderDemo />
+</ComponentPreview>
+
+## Props
+
+| Prop         | Type                           | Default | Description                                      |
+| ------------ | ------------------------------ | ------- | ------------------------------------------------ |
+| `images`     | `{src: string, alt?: string}[]`| `[]`    | Array of image objects (ideally 5 for best look).|
+| `class`      | `string`                       | `""`    | Additional CSS classes for the container.        |
+| `onComplete` | `() => void`                   | `undefined`| Callback function when animation finishes.     |

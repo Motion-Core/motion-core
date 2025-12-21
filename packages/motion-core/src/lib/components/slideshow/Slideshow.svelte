@@ -1,16 +1,16 @@
 <script lang="ts">
 	import gsap from "gsap";
 	import { motionCoreEase } from "../../helpers/gsap";
-	interface Image {
+	type Image = {
 		src: string;
 		alt?: string;
-	}
+	};
 
-	interface ComponentProps {
+	type ComponentProps = {
 		images: Image[];
 		class?: string;
 		[prop: string]: unknown;
-	}
+	};
 	const {
 		images,
 		class: className = "",

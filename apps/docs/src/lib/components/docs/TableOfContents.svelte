@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { SvelteMap } from "svelte/reactivity";
-	import { afterNavigate } from "$app/navigation";
 	import { cn } from "$lib/utils/cn";
 
 	type TocItem = {
@@ -218,10 +217,6 @@
 
 	onMount(() => {
 		let cleanup = collectHeadings();
-		afterNavigate(() => {
-			cleanup?.();
-			cleanup = collectHeadings();
-		});
 
 		return () => {
 			cleanup?.();

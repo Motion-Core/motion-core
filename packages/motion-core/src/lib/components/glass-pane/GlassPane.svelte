@@ -3,7 +3,7 @@
 	import Scene from "./Scene.svelte";
 	import type { Snippet } from "svelte";
 
-	interface Props {
+	type Props = {
 		image: string;
 		class?: string;
 		children?: Snippet;
@@ -13,7 +13,7 @@
 		waviness?: number;
 		frequency?: number;
 		[key: string]: unknown;
-	}
+	};
 
 	let {
 		image,
