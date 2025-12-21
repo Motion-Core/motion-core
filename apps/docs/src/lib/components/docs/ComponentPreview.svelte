@@ -113,7 +113,7 @@
 	{...restProps}
 >
 	<div class="flex flex-col">
-		<div class="flex-1 flex items-center justify-center border-b border-border p-4 min-h-80">
+		<div class="relative flex-1 flex items-center justify-center border-b border-border min-h-80">
 			{@render children?.()}
 		</div>
 		<div class="flex flex-1 flex-col bg-card rounded-b-lg">

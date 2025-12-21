@@ -1,0 +1,112 @@
+---
+name: Split Reveal
+thumbnail: /og-image.jpg
+---
+
+<script lang="ts">
+	import { SplitReveal } from "motion-core";
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import splitRevealSource from "motion-core/components/split-reveal/SplitReveal.svelte?raw";
+	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
+
+	type SplitMode = "lines" | "words" | "chars";
+
+	const modes: SplitMode[] = ["lines", "words", "chars"];
+	let activeMode: SplitMode = "lines";
+	let replayKey = 0;
+
+	const handleModeChange = (value: SplitMode) => {
+		activeMode = value;
+		replayKey += 1;
+	};
+
+	const replay = () => {
+		replayKey += 1;
+	};
+</script>
+
+# Split Reveal
+
+`SplitReveal` masks its children with GSAP `SplitText` and animates them into view when the component mounts. Pick between line, word, or character motion—each mode comes with tuned durations and stagger for a slick "page refresh" reveal.
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "SplitReveal.svelte", code: splitRevealSource, language: "svelte" },
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" },
+	]}
+>
+	<div class="absolute inset-0 flex w-full h-full p-4 flex items-center justify-center">
+		{#key `${activeMode}-${replayKey}`}
+			<SplitReveal mode={activeMode} class="block text-xl text-center">
+				We’re using GSAP’s SplitText to break this
+                content into lines, words, and individual
+                characters. Experiment with staggered tweens,
+                custom ease functions, and dynamic
+                transforms to bring your headlines to life.
+			</SplitReveal>
+		{/key}
+		<div class="absolute left-1/2 -translate-x-1/2 w-full bottom-4 flex justify-center flex-wrap gap-2">
+			{#each modes as mode}
+				<button
+					type="button"
+					class={`rounded-full border px-3 py-1 text-xs uppercase tracking-wide ${
+						mode === activeMode
+							? "border-primary bg-primary/10 text-primary"
+							: "border-border text-foreground/70 hover:text-foreground"
+					}`}
+					onclick={() => handleModeChange(mode)}
+				>
+					{mode}
+				</button>
+			{/each}
+			<button
+				type="button"
+				class="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-wide text-foreground/70 hover:text-foreground"
+				onclick={replay}
+			>
+				Replay
+			</button>
+		</div>
+	</div>
+</ComponentPreview>
+
+The animation runs whenever `SplitReveal` mounts. Changing `mode` or forcing a remount (like the "Replay" button above) replays the sequence.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `mode` | `"lines" \| "words" \| "chars"` | `"lines"` | Pick which SplitText grouping animates. |
+| `class` | `string` | `""` | Adds classes to the wrapping element. |
+| `as` | `keyof HTMLElementTagNameMap` | `"span"` | Tag used for the wrapper (swap to `div`, `p`, etc.). |
+| `config` | `SplitRevealConfig` | `DEFAULT_CONFIG` | Optional per-mode overrides for duration/stagger. |
+
+### Config shape
+
+`SplitRevealConfig` accepts partial overrides for each mode:
+
+```ts
+type SplitMode = "lines" | "words" | "chars";
+type SplitRevealConfig = Partial<
+	Record<
+		SplitMode,
+		{
+			duration?: number;
+			stagger?: number;
+		}
+	>
+>;
+```
+
+```svelte
+<SplitReveal
+	mode="chars"
+	config={{
+		chars: { duration: 0.6, stagger: 0.02 },
+	}}
+>
+	Future-forward Research
+</SplitReveal>
+```

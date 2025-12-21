@@ -4,8 +4,6 @@
 	import type { Snippet } from "svelte";
 	import { motionCoreEase } from "../../helpers/gsap";
 
-	gsap.registerPlugin(SplitText);
-
 	type ComponentProps = {
 		children?: Snippet;
 		class?: string;
@@ -19,6 +17,10 @@
 		hoverTarget = null,
 		...restProps
 	}: ComponentProps = $props();
+
+	if (typeof window !== "undefined") {
+		gsap.registerPlugin(SplitText);
+	}
 
 	let wrapperRef: HTMLSpanElement;
 	let originalSpan: HTMLSpanElement;
@@ -34,7 +36,7 @@
 
 		let timeline: gsap.core.Timeline | null = null;
 
-		originalSplit = new SplitText(originalSpan, {
+		originalSplit = SplitText.create(originalSpan, {
 			type: "chars",
 			charsClass: "inline-block",
 			autoSplit: true,
@@ -42,7 +44,7 @@
 				cloneSpan.textContent = originalSpan.textContent;
 
 				if (cloneSplit) cloneSplit.revert();
-				cloneSplit = new SplitText(cloneSpan, {
+				cloneSplit = SplitText.create(cloneSpan, {
 					type: "chars",
 					charsClass: "inline-block",
 				});
@@ -91,12 +93,12 @@
 	class="relative inline-flex overflow-hidden align-baseline font-inherit text-inherit leading-none {className}"
 	bind:this={wrapperRef}
 >
-	<span bind:this={originalSpan} class="inline-block">
+	<span bind:this={originalSpan}>
 		{@render children?.()}
 	</span>
 	<span
 		bind:this={cloneSpan}
-		class="pointer-events-none absolute inset-0 inline-block"
+		class="pointer-events-none absolute inset-0"
 		aria-hidden="true"
 	></span>
 </span>
