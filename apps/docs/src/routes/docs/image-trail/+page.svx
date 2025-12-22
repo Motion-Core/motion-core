@@ -6,6 +6,7 @@ poster: /previews/image-trail/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import imageTrailSource from "motion-core/components/image-trail/ImageTrail.svelte?raw";
     import ImageTrailDemo from "./ImageTrailDemo.svelte";
     import imageTrailDemoSource from "./ImageTrailDemo.svelte?raw";
@@ -30,25 +31,108 @@ respond to pointer speed.
 
 ## Props
 
-| Prop     | Type          | Default          | Description                                             |
-| -------- | ------------- | ---------------- | ------------------------------------------------------- |
-| `images` | `string[]`    | `[]`             | Ordered list of image URLs cycled for the trail.        |
-| `class`  | `string`      | `""`             | Adds classes to the wrapping `div`.                     |
-| `config` | `TrailConfig` | `DEFAULT_CONFIG` | Optional overrides for animation behaviour (see below). |
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "images",
+			type: "string[]",
+			default: "[]",
+			description: "Ordered list of image URLs cycled for the trail."
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Adds classes to the wrapping div."
+		},
+		{
+			prop: "config",
+			type: "TrailConfig",
+			default: "DEFAULT_CONFIG",
+			description: "Optional overrides for animation behaviour."
+		}
+	]}
+/>
 
 ### Config options
 
-| Key                    | Type     | Default | Description                                                   |
-| ---------------------- | -------- | ------- | ------------------------------------------------------------- |
-| `imageLifespan`        | `number` | `600`   | Duration (ms) each image stays before removal starts.         |
-| `removalTickMs`        | `number` | `16`    | Interval (ms) between cleanup checks.                         |
-| `mouseThreshold`       | `number` | `40`    | Distance (px) pointer must travel before spawning next image. |
-| `minMovementForImage`  | `number` | `5`     | Minimum motion to consider the pointer “moving”.              |
-| `inDuration`           | `number` | `600`   | Scale-in animation duration (ms).                             |
-| `outDuration`          | `number` | `800`   | Scale-out animation duration (ms).                            |
-| `maxRotationFactor`    | `number` | `3`     | Scales random rotation range based on pointer speed.          |
-| `baseRotation`         | `number` | `30`    | Maximum base rotation in degrees when speed factor is 1.      |
-| `speedSmoothingFactor` | `number` | `0.25`  | Eases pointer speed readings for steadier animation.          |
-| `minImageSize`         | `number` | `260`   | Smallest image size in pixels.                                |
-| `maxImageSize`         | `number` | `340`   | Largest image size in pixels.                                 |
-| `staggerOut`           | `number` | `40`    | Delay (ms) between each image’s exit animation.               |
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "imageLifespan",
+			type: "number",
+			default: "600",
+			description: "Duration (ms) each image stays before removal starts."
+		},
+		{
+			key: "removalTickMs",
+			type: "number",
+			default: "16",
+			description: "Interval (ms) between cleanup checks."
+		},
+		{
+			key: "mouseThreshold",
+			type: "number",
+			default: "40",
+			description: "Distance (px) pointer must travel before spawning next image."
+		},
+		{
+			key: "minMovementForImage",
+			type: "number",
+			default: "5",
+			description: "Minimum motion to consider the pointer “moving”."
+		},
+		{
+			key: "inDuration",
+			type: "number",
+			default: "600",
+			description: "Scale-in animation duration (ms)."
+		},
+		{
+			key: "outDuration",
+			type: "number",
+			default: "800",
+			description: "Scale-out animation duration (ms)."
+		},
+		{
+			key: "maxRotationFactor",
+			type: "number",
+			default: "3",
+			description: "Scales random rotation range based on pointer speed."
+		},
+		{
+			key: "baseRotation",
+			type: "number",
+			default: "30",
+			description: "Maximum base rotation in degrees when speed factor is 1."
+		},
+		{
+			key: "speedSmoothingFactor",
+			type: "number",
+			default: "0.25",
+			description: "Eases pointer speed readings for steadier animation."
+		},
+		{
+			key: "minImageSize",
+			type: "number",
+			default: "260",
+			description: "Smallest image size in pixels."
+		},
+		{
+			key: "maxImageSize",
+			type: "number",
+			default: "340",
+			description: "Largest image size in pixels."
+		},
+		{
+			key: "staggerOut",
+			type: "number",
+			default: "40",
+			description: "Delay (ms) between each image’s exit animation."
+		}
+	]}
+/>

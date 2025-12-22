@@ -6,6 +6,7 @@ poster: /previews/slideshow/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import slideshowSource from "motion-core/components/slideshow/Slideshow.svelte?raw";
 	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
     import SlideshowDemo from "./SlideshowDemo.svelte";
@@ -30,7 +31,21 @@ A cinematic slideshow component with parallax image transitions and thumbnail na
 
 ## Props
 
-| Prop     | Type                | Default | Description                                 |
-| -------- | ------------------- | ------- | ------------------------------------------- |
-| `images` | `{src: string, alt?: string}[]` | `[]`    | Array of image objects to display.          |
-| `class`  | `string`            | `""`    | Additional CSS classes for the container.   |
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "images",
+			type: "{src: string, alt?: string}[]",
+			default: "[]",
+			description: "Array of image objects to display."
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container."
+		}
+	]}
+/>

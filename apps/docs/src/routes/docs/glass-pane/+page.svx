@@ -6,6 +6,7 @@ poster: /previews/glass-pane/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import glassPaneSource from "motion-core/components/glass-pane/GlassPane.svelte?raw";
 	import sceneSource from "motion-core/components/glass-pane/Scene.svelte?raw";
     import GlassPaneDemo from "./GlassPaneDemo.svelte";
@@ -30,13 +31,57 @@ poster: /previews/glass-pane/poster.webp
 
 ## Props
 
-| Prop         | Type     | Default | Description                                               |
-| ------------ | -------- | ------- | --------------------------------------------------------- |
-| `image`      | `string` | —       | URL of the image to be used as the background.            |
-| `distortion` | `number` | `1.0`   | Strength of the refraction.                               |
-| `chromaticAberration` | `number` | `0.005` | Strength of the chromatic aberration (RGB shift).         |
-| `waviness`   | `number` | `0.05`  | Intensity of the sine wave distortion of the glass panels.|
-| `frequency`  | `number` | `6.0`   | Frequency of the sine wave distortion.                    |
-| `speed`      | `number` | `1.0`   | Animation speed multiplier.                               |
-| `class`      | `string` | `""`    | Additional CSS classes for the container.                 |
-| `children`   | `Snippet`| —       | Optional Svelte snippet to render content over the canvas.|
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "image",
+			type: "string",
+			default: "—",
+			description: "URL of the image to be used as the background."
+		},
+		{
+			prop: "distortion",
+			type: "number",
+			default: "1.0",
+			description: "Strength of the refraction."
+		},
+		{
+			prop: "chromaticAberration",
+			type: "number",
+			default: "0.005",
+			description: "Strength of the chromatic aberration (RGB shift)."
+		},
+		{
+			prop: "waviness",
+			type: "number",
+			default: "0.05",
+			description: "Intensity of the sine wave distortion of the glass panels."
+		},
+		{
+			prop: "frequency",
+			type: "number",
+			default: "6.0",
+			description: "Frequency of the sine wave distortion."
+		},
+		{
+			prop: "speed",
+			type: "number",
+			default: "1.0",
+			description: "Animation speed multiplier."
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container."
+		},
+		{
+			prop: "children",
+			type: "Snippet",
+			default: "—",
+			description: "Optional Svelte snippet to render content over the canvas."
+		}
+	]}
+/>

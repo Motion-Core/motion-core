@@ -6,6 +6,7 @@ poster: /previews/preloader/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import preloaderSource from "motion-core/components/preloader/Preloader.svelte?raw";
     import PreloaderDemo from "./PreloaderDemo.svelte";
     import preloaderDemoSource from "./PreloaderDemo.svelte?raw";
@@ -28,8 +29,27 @@ A cinematic loading animation component that features sliding image strips and a
 
 ## Props
 
-| Prop         | Type                           | Default | Description                                      |
-| ------------ | ------------------------------ | ------- | ------------------------------------------------ |
-| `images`     | `{src: string, alt?: string}[]`| `[]`    | Array of image objects (ideally 5 for best look).|
-| `class`      | `string`                       | `""`    | Additional CSS classes for the container.        |
-| `onComplete` | `() => void`                   | `undefined`| Callback function when animation finishes.     |
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "images",
+			type: "{src: string, alt?: string}[]",
+			default: "[]",
+			description: "Array of image objects (ideally 5 for best look)."
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container."
+		},
+		{
+			prop: "onComplete",
+			type: "() => void",
+			default: "undefined",
+			description: "Callback function when animation finishes."
+		}
+	]}
+/>

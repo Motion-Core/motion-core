@@ -6,6 +6,7 @@ poster: /previews/split-reveal/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import splitRevealSource from "motion-core/components/split-reveal/SplitReveal.svelte?raw";
 	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
     import SplitRevealDemo from "./SplitRevealDemo.svelte";
@@ -30,9 +31,33 @@ poster: /previews/split-reveal/poster.webp
 
 ## Props
 
-| Prop     | Type                            | Default          | Description                                          |
-| -------- | ------------------------------- | ---------------- | ---------------------------------------------------- |
-| `mode`   | `"lines" \| "words" \| "chars"` | `"lines"`        | Pick which SplitText grouping animates.              |
-| `class`  | `string`                        | `""`             | Adds classes to the wrapping element.                |
-| `as`     | `keyof HTMLElementTagNameMap`   | `"span"`         | Tag used for the wrapper (swap to `div`, `p`, etc.). |
-| `config` | `SplitRevealConfig`             | `DEFAULT_CONFIG` | Optional per-mode overrides for duration/stagger.    |
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "mode",
+			type: '"lines" | "words" | "chars"',
+			default: '"lines"',
+			description: "Pick which SplitText grouping animates."
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Adds classes to the wrapping element."
+		},
+		{
+			prop: "as",
+			type: "keyof HTMLElementTagNameMap",
+			default: '"span"',
+			description: "Tag used for the wrapper (swap to div, p, etc.)."
+		},
+		{
+			prop: "config",
+			type: "SplitRevealConfig",
+			default: "DEFAULT_CONFIG",
+			description: "Optional per-mode overrides for duration/stagger."
+		}
+	]}
+/>
