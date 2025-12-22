@@ -100,7 +100,16 @@
 
 @layer base {
 	body {
-		@apply bg-card font-sans text-foreground -tracking-[0.02em];
+		@apply bg-card font-sans text-foreground;
+	}
+	h1,
+	h2,
+	h3 {
+		letter-spacing: -0.02em;
+	}
+
+	p {
+		letter-spacing: 0.02em;
 	}
 }
 
