@@ -76,22 +76,19 @@
 </script>
 
 <span
-	class={cn(
-		"relative inline-block align-middle font-inherit text-inherit",
-		className,
-	)}
-	style="clip-path: inset(-100vh 0 -100vh 0);"
->
-	{#key currentIndex}
-		<span
-			class={cn(
-				"whitespace-nowrap font-inherit text-inherit",
-				isFirst ? "relative inline-block" : "absolute left-0 top-0",
-			)}
-			in:gsapTransition={{ direction: "in" }}
-			out:gsapTransition={{ direction: "out" }}
+	class={cn("relative inline-block font-inherit text-inherit", className)}
+			style="clip-path: inset(-100vh 0 -100vh 0);"
 		>
-			{texts[currentIndex]}
+			<span class="invisible inline-block font-inherit text-inherit w-0" aria-hidden="true"
+				>&nbsp;</span
+			>{#key currentIndex}<span
+					class={cn(
+						"whitespace-nowrap font-inherit text-inherit",
+						isFirst ? "relative inline-block" : "absolute left-0 top-0",
+					)}
+					in:gsapTransition={{ direction: "in" }}
+					out:gsapTransition={{ direction: "out" }}
+				>
+					{texts[currentIndex]}
+				</span>{/key}
 		</span>
-	{/key}
-</span>

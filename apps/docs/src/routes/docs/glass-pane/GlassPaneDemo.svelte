@@ -7,7 +7,7 @@
 
 <GlassPane
 	image={demoImage}
-	distortion={1.5}
+	distortion={0.5}
 	chromaticAberration={0.005}
 	waviness={0.1}
 	frequency={4.0}
