@@ -36,7 +36,7 @@
 
 			gsap.fromTo(
 				node,
-				{ yPercent: 50, opacity: 0, filter: "blur(6px)" },
+				{ yPercent: 50, opacity: 0, filter: "blur(8px)" },
 				{
 					yPercent: 0,
 					opacity: 1,
@@ -59,6 +59,7 @@
 		gsap.to(node, {
 			yPercent: -50,
 			opacity: 0,
+			filter: "blur(6px)",
 			duration: 0.2,
 			ease: "power2.in",
 		});
@@ -77,18 +78,19 @@
 
 <span
 	class={cn("relative inline-block font-inherit text-inherit", className)}
-			style="clip-path: inset(-100vh 0 -100vh 0);"
+	style="clip-path: inset(-100vh 0 -100vh 0);"
+>
+	<span
+		class="invisible inline-block font-inherit text-inherit w-0"
+		aria-hidden="true">&nbsp;</span
+	>{#key currentIndex}<span
+			class={cn(
+				"whitespace-nowrap font-inherit text-inherit",
+				isFirst ? "relative inline-block" : "absolute left-0 top-0",
+			)}
+			in:gsapTransition={{ direction: "in" }}
+			out:gsapTransition={{ direction: "out" }}
 		>
-			<span class="invisible inline-block font-inherit text-inherit w-0" aria-hidden="true"
-				>&nbsp;</span
-			>{#key currentIndex}<span
-					class={cn(
-						"whitespace-nowrap font-inherit text-inherit",
-						isFirst ? "relative inline-block" : "absolute left-0 top-0",
-					)}
-					in:gsapTransition={{ direction: "in" }}
-					out:gsapTransition={{ direction: "out" }}
-				>
-					{texts[currentIndex]}
-				</span>{/key}
-		</span>
+			{texts[currentIndex]}
+		</span>{/key}
+</span>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type Component } from "svelte";
+	import { type Component, onMount } from "svelte";
 	import LogoColumn from "./LogoColumn.svelte";
 	import { cn } from "../../utils/cn";
 
@@ -23,6 +23,12 @@
 		class: className,
 	}: Props = $props();
 
+	let isMounted = $state(false);
+
+	onMount(() => {
+		isMounted = true;
+	});
+
 	const shuffleArray = <T,>(array: T[]): T[] => {
 		const shuffled = [...array];
 		for (let i = shuffled.length - 1; i > 0; i--) {
@@ -32,8 +38,12 @@
 		return shuffled;
 	};
 
-	const distributeLogos = (allLogos: Logo[], columnCount: number): Logo[][] => {
-		const shuffled = shuffleArray(allLogos);
+	const distributeLogos = (
+		allLogos: Logo[],
+		columnCount: number,
+		shuffle: boolean,
+	): Logo[][] => {
+		const shuffled = shuffle ? shuffleArray(allLogos) : [...allLogos];
 		const columns: Logo[][] = Array.from({ length: columnCount }, () => []);
 
 		shuffled.forEach((logo, index) => {
@@ -43,14 +53,16 @@
 		const maxLength = Math.max(...columns.map((col) => col.length));
 		columns.forEach((col) => {
 			while (col.length < maxLength) {
-				col.push(shuffled[Math.floor(Math.random() * shuffled.length)]);
+				col.push(
+					shuffled[Math.floor(Math.random() * shuffled.length)] || shuffled[0],
+				);
 			}
 		});
 
 		return columns;
 	};
 
-	let logoSets = $derived(distributeLogos(logos, columnCount));
+	let logoSets = $derived(distributeLogos(logos, columnCount, isMounted));
 </script>
 
 <div class={cn("flex space-x-4", className)}>

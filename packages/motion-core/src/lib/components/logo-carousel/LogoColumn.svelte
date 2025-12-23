@@ -78,8 +78,8 @@
 
 	onMount(() => {
 		let interval: ReturnType<typeof setInterval>;
-		
-		const initialDelay = cycleInterval + (index * 200);
+
+		const initialDelay = cycleInterval + index * 200;
 
 		const timeout = setTimeout(() => {
 			isFirst = false;
