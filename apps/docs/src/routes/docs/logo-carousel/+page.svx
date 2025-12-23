@@ -1,0 +1,65 @@
+---
+name: Logo Carousel
+video: /previews/logo-carousel/preview.mp4
+poster: /previews/logo-carousel/poster.webp
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import logoCarouselSource from "motion-core/components/logo-carousel/LogoCarousel.svelte?raw";
+	import logoColumnSource from "motion-core/components/logo-carousel/LogoColumn.svelte?raw";
+    import LogoCarouselDemo from "./LogoCarouselDemo.svelte";
+    import logoCarouselDemoSource from "./LogoCarouselDemo.svelte?raw";
+</script>
+
+# Logo Carousel
+
+A multi-column logo carousel with shuffle animation using GSAP.
+
+## Usage
+
+<ComponentPreview
+	sources={[
+	    { name: "Example", code: logoCarouselDemoSource, language: "svelte" },
+		{ name: "LogoCarousel.svelte", code: logoCarouselSource, language: "svelte" },
+		{ name: "LogoColumn.svelte", code: logoColumnSource, language: "svelte" }
+	]}
+>
+    <LogoCarouselDemo />
+</ComponentPreview>
+
+## Props
+
+### LogoCarousel
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "logos",
+			type: "Logo[]",
+			default: "—",
+			description: "Array of logo objects { name, id, component }."
+		},
+		{
+			prop: "columnCount",
+			type: "number",
+			default: "2",
+			description: "Number of columns to distribute logos into."
+		},
+		{
+			prop: "cycleInterval",
+			type: "number",
+			default: "2000",
+			description: "Time in milliseconds between logo transitions."
+		},
+        {
+			prop: "class",
+			type: "string",
+			default: "—",
+			description: "Additional CSS classes."
+		}
+	]}
+/>

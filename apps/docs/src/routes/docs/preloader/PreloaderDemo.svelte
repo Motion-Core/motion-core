@@ -53,7 +53,7 @@
 	{#if showPreloader}
 		<div use:portal>
 			<Preloader
-				class="bg-background"
+				class="bg-card"
 				{images}
 				onComplete={() => (showPreloader = false)}
 			/>
