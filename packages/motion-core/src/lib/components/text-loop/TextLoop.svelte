@@ -67,6 +67,7 @@
 
 	onMount(() => {
 		const loopInterval = setInterval(() => {
+			if (document.hidden) return;
 			isFirst = false;
 			currentIndex = (currentIndex + 1) % texts.length;
 		}, interval);
