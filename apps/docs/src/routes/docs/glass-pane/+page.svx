@@ -77,11 +77,5 @@ poster: /previews/glass-pane/poster.webp
 			default: '""',
 			description: "Additional CSS classes for the container."
 		},
-		{
-			prop: "children",
-			type: "Snippet",
-			default: "—",
-			description: "Optional Svelte snippet to render content over the canvas."
-		}
 	]}
 />

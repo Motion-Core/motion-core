@@ -77,22 +77,31 @@
 	}
 
 	onMount(() => {
-		let interval: ReturnType<typeof setInterval>;
+		let timeout: ReturnType<typeof setTimeout>;
 
-		const initialDelay = cycleInterval + index * 200;
+		const startTime = Date.now();
+		let targetTime = startTime + cycleInterval + index * 200;
 
-		const timeout = setTimeout(() => {
+		const tick = () => {
 			isFirst = false;
 			currentIndex = (currentIndex + 1) % logos.length;
 
-			interval = setInterval(() => {
-				currentIndex = (currentIndex + 1) % logos.length;
-			}, cycleInterval);
-		}, initialDelay);
+			targetTime += cycleInterval;
+
+			const now = Date.now();
+			if (targetTime <= now) {
+				const drift = now - targetTime;
+				const cyclesMissed = Math.floor(drift / cycleInterval) + 1;
+				targetTime += cyclesMissed * cycleInterval;
+			}
+
+			timeout = setTimeout(tick, targetTime - now);
+		};
+
+		timeout = setTimeout(tick, targetTime - startTime);
 
 		return () => {
 			clearTimeout(timeout);
-			clearInterval(interval);
 		};
 	});
 
@@ -105,6 +114,7 @@
 	{#key currentIndex}
 		<div
 			class="absolute inset-0 flex items-center justify-center"
+			style="opacity: 1;"
 			in:gsapTransition={{ direction: "in" }}
 			out:gsapTransition={{ direction: "out" }}
 		>

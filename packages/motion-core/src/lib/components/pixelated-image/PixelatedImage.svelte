@@ -2,26 +2,21 @@
 	import { Canvas } from "@threlte/core";
 	import Scene from "./Scene.svelte";
 	import { cn } from "../../utils/cn";
+	import { NoToneMapping } from "three";
 
-	type Props = {
-		image: string;
+	interface Props {
+		src: string;
 		class?: string;
-		distortion?: number;
-		chromaticAberration?: number;
-		speed?: number;
-		waviness?: number;
-		frequency?: number;
+		initialGridSize?: number;
+		stepDuration?: number;
 		[key: string]: unknown;
-	};
+	}
 
 	let {
-		image,
+		src,
 		class: className = "",
-		distortion = 1.0,
-		chromaticAberration = 0.005,
-		speed = 1.0,
-		waviness = 0.05,
-		frequency = 6.0,
+		initialGridSize = 6.0,
+		stepDuration = 0.15,
 		...rest
 	}: Props = $props();
 
@@ -30,15 +25,8 @@
 
 <div class={cn("relative w-full h-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr}>
-			<Scene
-				{image}
-				{distortion}
-				{chromaticAberration}
-				{speed}
-				{waviness}
-				{frequency}
-			/>
+		<Canvas {dpr} toneMapping={NoToneMapping}>
+			<Scene image={src} {initialGridSize} {stepDuration} />
 		</Canvas>
 	</div>
 </div>
