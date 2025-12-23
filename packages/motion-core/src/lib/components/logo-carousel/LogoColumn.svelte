@@ -23,9 +23,9 @@
 		class: className,
 	}: Props = $props();
 
-	const columnDelay = $derived(index * 200);
 	let currentIndex = $state(0);
-	let isPlaying = $state(false);
+	let isFirst = $state(true);
+
 	function gsapTransition(
 		node: HTMLElement,
 		params: { direction: "in" | "out" },
@@ -33,6 +33,18 @@
 		gsap.killTweensOf(node);
 
 		if (params.direction === "in") {
+			if (isFirst) {
+				gsap.set(node, {
+					yPercent: 0,
+					opacity: 1,
+					filter: "blur(0px)",
+				});
+				return {
+					duration: 0,
+					tick: () => {},
+				};
+			}
+
 			gsap.fromTo(
 				node,
 				{ yPercent: 10, opacity: 0, filter: "blur(8px)" },
@@ -65,16 +77,23 @@
 	}
 
 	onMount(() => {
-		const startTimeout = setTimeout(() => {
-			isPlaying = true;
-			const interval = setInterval(() => {
+		let interval: ReturnType<typeof setInterval>;
+		
+		const initialDelay = cycleInterval + (index * 200);
+
+		const timeout = setTimeout(() => {
+			isFirst = false;
+			currentIndex = (currentIndex + 1) % logos.length;
+
+			interval = setInterval(() => {
 				currentIndex = (currentIndex + 1) % logos.length;
 			}, cycleInterval);
+		}, initialDelay);
 
-			return () => clearInterval(interval);
-		}, columnDelay);
-
-		return () => clearTimeout(startTimeout);
+		return () => {
+			clearTimeout(timeout);
+			clearInterval(interval);
+		};
 	});
 
 	let CurrentLogoComponent = $derived(logos[currentIndex].component);
@@ -83,18 +102,15 @@
 <div
 	class={cn("relative h-14 w-24 overflow-hidden md:h-24 md:w-48", className)}
 >
-	{#if isPlaying}
-		{#key currentIndex}
-			<div
-				class="absolute inset-0 flex items-center justify-center"
-				style="opacity: 0;"
-				in:gsapTransition={{ direction: "in" }}
-				out:gsapTransition={{ direction: "out" }}
-			>
-				<CurrentLogoComponent
-					class="h-auto w-auto max-h-[70%] max-w-[70%] object-contain"
-				/>
-			</div>
-		{/key}
-	{/if}
+	{#key currentIndex}
+		<div
+			class="absolute inset-0 flex items-center justify-center"
+			in:gsapTransition={{ direction: "in" }}
+			out:gsapTransition={{ direction: "out" }}
+		>
+			<CurrentLogoComponent
+				class="h-auto w-auto max-h-[70%] max-w-[70%] object-contain"
+			/>
+		</div>
+	{/key}
 </div>
