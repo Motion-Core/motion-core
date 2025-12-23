@@ -38,8 +38,13 @@
 	}: ComponentProps = $props();
 
 	let isFullScreen = $state(false);
+	let previewKey = $state(0);
 	let previewRef: HTMLElement;
 	let placeholderRef: HTMLElement;
+
+	const reloadPreview = () => {
+		previewKey += 1;
+	};
 
 	onMount(() => {
 		gsap.registerPlugin(Flip);
@@ -178,6 +183,27 @@
 				)}
 			>
 				<button
+					onclick={reloadPreview}
+					class="absolute right-8 top-1 z-50 flex size-6 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out card-highlight shadow-sm"
+					aria-label="Reload Preview"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-rotate-cw"
+					>
+						<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+						<path d="M21 3v5h-5" />
+					</svg>
+				</button>
+				<button
 					onclick={toggleFullScreen}
 					class="absolute right-1 top-1 z-50 flex size-6 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out card-highlight shadow-sm"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
@@ -226,7 +252,9 @@
 						>
 					{/if}
 				</button>
-				{@render children?.()}
+				{#key previewKey}
+					{@render children?.()}
+				{/key}
 			</div>
 		</div>
 		<div class="flex flex-1 flex-col bg-card rounded-b-lg">
