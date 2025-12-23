@@ -15,6 +15,4 @@
 <ImageTrail
 	images={demoImages}
 	class="absolute inset-0 h-full w-full flex items-center justify-center"
->
-	<p class="text-foreground text-base">Move your cursor ✨</p>
-</ImageTrail>
+/>

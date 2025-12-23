@@ -1,6 +1,5 @@
 <script lang="ts">
 	import gsap from "gsap";
-	import type { Snippet } from "svelte";
 	import { cn } from "../../utils/cn";
 
 	type TrailConfig = {
@@ -37,14 +36,12 @@
 
 	type ComponentProps = {
 		images: string[];
-		children?: Snippet;
 		class?: string;
 		config?: TrailConfig;
 		[prop: string]: unknown;
 	};
 
 	const props: ComponentProps = $props();
-	const children = $derived(props.children);
 	const className = $derived(props.class ?? "");
 	const images = $derived(props.images ?? []);
 	const cfg = $derived<Required<TrailConfig>>({
@@ -52,13 +49,7 @@
 		...(props.config ?? {}),
 	});
 	const restProps = $derived(() => {
-		const {
-			children: _children,
-			class: _class,
-			images: _images,
-			config: _config,
-			...rest
-		} = props;
+		const { class: _class, images: _images, config: _config, ...rest } = props;
 		return rest;
 	});
 
@@ -337,8 +328,6 @@
 
 <div
 	{...restProps}
-	class={cn("relative overflow-hidden", className)}
+	class={cn("relative w-full h-full overflow-hidden", className)}
 	bind:this={containerRef}
->
-	{@render children?.()}
-</div>
+></div>

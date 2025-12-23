@@ -6,7 +6,7 @@
 
 <a
 	href={`/docs/${component.slug}`}
-	class="relative block break-inside-avoid rounded-xl border border-border bg-card shadow-sm card-highlight group"
+	class="relative block break-inside-avoid rounded-xl border border-border bg-card shadow-sm group"
 	data-component-card
 >
 	<div class="relative rounded-xl overflow-hidden aspect-video">

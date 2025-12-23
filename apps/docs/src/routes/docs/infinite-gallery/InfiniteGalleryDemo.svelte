@@ -13,4 +13,9 @@
 	];
 </script>
 
-<InfiniteGallery {images} speed={1.5} visibleCount={10} />
+<InfiniteGallery
+	class="h-full min-h-80 w-full"
+	{images}
+	speed={1.5}
+	visibleCount={10}
+/>

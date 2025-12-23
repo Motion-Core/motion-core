@@ -28,7 +28,7 @@
 <div
 	{...restProps}
 	class={cn(
-		"relative group/pre mt-8 rounded-md border border-border bg-card p-4 font-mono text-sm text-foreground card-highlight shadow-sm",
+		"relative group/pre mt-8 rounded-md border border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm",
 		className,
 	)}
 >

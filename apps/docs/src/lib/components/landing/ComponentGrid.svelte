@@ -55,7 +55,7 @@
 </script>
 
 <section
-	class="relative lg:col-span-3 lg:max-h-[calc(100svh-2rem)] rounded-xl bg-background border border-border card-highlight"
+	class="relative lg:col-span-3 lg:max-h-[calc(100svh-2rem)] rounded-xl bg-background border border-border"
 >
 	<div
 		class="w-full h-full p-2 md:p-4 lg:overflow-y-auto"
