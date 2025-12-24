@@ -19,7 +19,7 @@
 
 :root {
 	--base-hue: 285;
-	--color-background: oklch(0.9642 0.002 var(--base-hue));
+	--color-background: oklch(0.9542 0.002 var(--base-hue));
 	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
 	--color-border: oklch(0.9225 0.002 var(--base-hue));
 	--color-card: oklch(1 0 0);
@@ -51,11 +51,11 @@
 }
 
 .dark {
-	--color-background: oklch(0.12 0.0044 var(--base-hue));
+	--color-background: oklch(0.18 0.0044 var(--base-hue));
 	--color-foreground: oklch(0.95 0.0013 var(--base-hue));
-	--color-border: oklch(0.21 0.015 var(--base-hue));
-	--color-card: oklch(0.15 0.0065 var(--base-hue));
-	--color-card-muted: oklch(0.18 0.0085 var(--base-hue));
+	--color-border: oklch(0.28 0.015 var(--base-hue));
+	--color-card: oklch(0.21 0.0065 var(--base-hue));
+	--color-card-muted: oklch(0.26 0.0085 var(--base-hue));
 }
 
 @theme {
