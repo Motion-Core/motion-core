@@ -2,14 +2,14 @@
 	import { InfiniteGallery } from "motion-core";
 
 	const images = [
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img1.jpeg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img2.jpeg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img3.jpeg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img4.jpeg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img5.jpeg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img6.jpeg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img7.jpeg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img8.jpeg",
+		"/images/demos/sample-8.jpg",
+		"/images/demos/sample-9.jpg",
+		"/images/demos/sample-10.jpg",
+		"/images/demos/sample-11.jpg",
+		"/images/demos/sample-12.jpg",
+		"/images/demos/sample-13.jpg",
+		"/images/demos/sample-14.jpg",
+		"/images/demos/sample-15.jpg",
 	];
 </script>
 

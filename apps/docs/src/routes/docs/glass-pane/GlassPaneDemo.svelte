@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { GlassPane } from "motion-core";
 
-	const demoImage =
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg";
+	const demoImage = "/images/demos/sample-4.jpg";
 </script>
 
 <GlassPane

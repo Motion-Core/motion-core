@@ -3,23 +3,23 @@
 
 	const images = [
 		{
-			src: "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_1.jpg",
+			src: "/images/demos/sample-1.jpg",
 			alt: "Alt 1",
 		},
 		{
-			src: "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg",
+			src: "/images/demos/sample-2.jpg",
 			alt: "Alt 2",
 		},
 		{
-			src: "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_7.jpg",
+			src: "/images/demos/sample-6.jpg",
 			alt: "Alt 3",
 		},
 		{
-			src: "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg",
+			src: "/images/demos/sample-4.jpg",
 			alt: "Alt 4",
 		},
 		{
-			src: "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_5.jpg",
+			src: "/images/demos/sample-5.jpg",
 			alt: "Alt 5",
 		},
 	];

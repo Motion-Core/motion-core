@@ -3,7 +3,7 @@
 </script>
 
 <PixelatedImage
-	src="https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img6.jpeg"
+	src="/images/demos/sample-13.jpg"
 	class="w-full h-full min-h-80"
 	initialGridSize={2}
 	stepDuration={0.2}

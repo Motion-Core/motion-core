@@ -2,13 +2,13 @@
 	import { ImageTrail } from "motion-core";
 
 	const demoImages = [
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_1.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_3.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_4.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_5.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_7.jpg",
-		"https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_8.jpg",
+		"/images/demos/sample-1.jpg",
+		"/images/demos/sample-2.jpg",
+		"/images/demos/sample-3.jpg",
+		"/images/demos/sample-4.jpg",
+		"/images/demos/sample-5.jpg",
+		"/images/demos/sample-6.jpg",
+		"/images/demos/sample-7.jpg",
 	];
 </script>
 

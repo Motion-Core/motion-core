@@ -3,15 +3,15 @@
 
 	const images = [
 		{
-			src: "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_1.jpg",
+			src: "/images/demos/sample-1.jpg",
 			alt: "Alt 1",
 		},
 		{
-			src: "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_10.jpg",
+			src: "/images/demos/sample-2.jpg",
 			alt: "Alt 2",
 		},
 		{
-			src: "https://raw.githubusercontent.com/66HEX/free-photos/refs/heads/main/img_3.jpg",
+			src: "/images/demos/sample-3.jpg",
 			alt: "Alt 3",
 		},
 	];
