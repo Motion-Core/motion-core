@@ -3,16 +3,8 @@
 
 @font-face {
 	font-family: "Haffer";
-	src: url("/fonts/Haffer.woff2") format("woff2");
-	font-weight: 100 900;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "HafferMono";
-	src: url("/fonts/HafferMono.woff2") format("woff2");
-	font-weight: 100 900;
+	src: url("/fonts/Haffer-VF.woff2") format("woff2");
+	font-weight: 100 1000;
 	font-style: normal;
 	font-display: swap;
 }
@@ -60,7 +52,7 @@
 
 @theme {
 	--font-sans: "Haffer";
-	--font-mono: "HafferMono";
+	--mono: "HafferMono";
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-border: var(--border);
@@ -78,7 +70,16 @@
 @layer base {
 	body {
 		@apply bg-card font-sans text-foreground;
+		font-feature-settings: "ss01";
 	}
+}
+
+@utility font-display {
+	font-variation-settings: "XHGT" 100;
+}
+
+@utility mono {
+	font-variation-settings: "MONO" 100;
 }
 
 ::view-transition-old(homepage-content),

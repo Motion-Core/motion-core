@@ -7,6 +7,10 @@ export { default as Preloader } from "./preloader/Preloader.svelte";
 export { default as InfiniteGallery } from "./infinite-gallery/InfiniteGallery.svelte";
 export { default as LogoCarousel } from "./logo-carousel/LogoCarousel.svelte";
 export { default as TextLoop } from "./text-loop/TextLoop.svelte";
+export { default as Marquee } from "./marquee/Marquee.svelte";
 export { default as PixelatedImage } from "./pixelated-image/PixelatedImage.svelte";
-export { default as MacosDock, type DockItem } from "./macos-dock/MacosDock.svelte";
+export {
+	default as MacosDock,
+	type DockItem,
+} from "./macos-dock/MacosDock.svelte";
 export { default as Magnetic } from "./magnetic/Magnetic.svelte";

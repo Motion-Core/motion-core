@@ -234,7 +234,7 @@
 {#if headings.length > 0}
 	<nav class="sticky top-22 hidden lg:block">
 		<div
-			class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide text-foreground/70"
+			class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide font-medium text-foreground/70"
 		>
 			<svg
 				width="15"

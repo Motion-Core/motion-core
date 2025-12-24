@@ -2,6 +2,7 @@
 	import gsap from "gsap";
 	import SplitText from "gsap/SplitText";
 	import type { Snippet } from "svelte";
+	import { onMount } from "svelte";
 	import { motionCoreEase } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
 
@@ -32,9 +33,9 @@
 		chars: { duration: 0.4, stagger: 0.008 },
 	};
 
-	if (typeof window !== "undefined") {
+	onMount(() => {
 		gsap.registerPlugin(SplitText);
-	}
+	});
 
 	const props: ComponentProps = $props();
 	const children = $derived(props.children);

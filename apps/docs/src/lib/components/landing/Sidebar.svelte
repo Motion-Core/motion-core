@@ -114,7 +114,8 @@
 		>
 			{@html motionCoreLogo}
 		</span>
-		<span class="text-xl text-foreground tracking-tight">{title}</span>
+		<span class="text-xl text-foreground font-display font-medium">{title}</span
+		>
 	</header>
 	<div class="space-y-4">
 		<p
@@ -124,7 +125,7 @@
 			{description}
 		</p>
 		<nav
-			class="flex items-center gap-2 text-xs uppercase tracking-wide font-mono"
+			class="flex items-center gap-2 text-xs uppercase tracking-wide mono font-medium"
 			bind:this={linksRef}
 		>
 			{#each socialLinks as link (link.href)}

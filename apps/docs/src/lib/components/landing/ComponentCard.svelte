@@ -25,7 +25,9 @@
 			</video>
 		{/if}
 	</div>
-	<div class="pointer-events-none m-2 text-sm text-foreground">
+	<div
+		class="pointer-events-none m-2 text-sm text-foreground font-display font-medium"
+	>
 		{component.name}
 	</div>
 </a>

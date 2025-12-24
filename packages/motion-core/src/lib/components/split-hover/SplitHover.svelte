@@ -1,6 +1,7 @@
 <script lang="ts">
 	import gsap from "gsap";
 	import SplitText from "gsap/SplitText";
+	import { onMount } from "svelte";
 	import type { Snippet } from "svelte";
 	import { motionCoreEase } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
@@ -19,9 +20,9 @@
 		...restProps
 	}: ComponentProps = $props();
 
-	if (typeof window !== "undefined") {
+	onMount(() => {
 		gsap.registerPlugin(SplitText);
-	}
+	});
 
 	let wrapperRef: HTMLSpanElement;
 	let originalSpan: HTMLSpanElement;

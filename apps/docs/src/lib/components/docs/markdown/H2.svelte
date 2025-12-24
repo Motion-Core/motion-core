@@ -17,10 +17,7 @@
 
 <h2
 	{...restProps}
-	class={cn(
-		"mt-12 scroll-m-24 text-xl tracking-tight text-foreground",
-		className,
-	)}
+	class={cn("mt-12 scroll-m-24 text-xl text-foreground font-medium", className)}
 >
 	{@render children?.()}
 </h2>

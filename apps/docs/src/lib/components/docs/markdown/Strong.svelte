@@ -15,6 +15,6 @@
 	}: ComponentProps = $props();
 </script>
 
-<strong {...restProps} class={cn("text-foreground tracking-tight", className)}>
+<strong {...restProps} class={cn("text-foreground", className)}>
 	{@render children?.()}
 </strong>

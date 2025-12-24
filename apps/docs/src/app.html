@@ -3,15 +3,26 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="preload" href="/fonts/Haffer.woff2" as="font" type="font/woff2" crossorigin />
-		<link rel="preload" href="/fonts/HafferMono.woff2" as="font" type="font/woff2" crossorigin />
+		<link
+			rel="preload"
+			href="/fonts/Haffer-VF.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
 		<script>
 			(function () {
 				try {
 					const theme = localStorage.getItem("motion-core-theme");
-					const system = window.matchMedia("(prefers-color-scheme: dark)").matches;
-					
-					if (theme === "dark" || (!theme && system) || (theme === "system" && system)) {
+					const system = window.matchMedia(
+						"(prefers-color-scheme: dark)",
+					).matches;
+
+					if (
+						theme === "dark" ||
+						(!theme && system) ||
+						(theme === "system" && system)
+					) {
 						document.documentElement.classList.add("dark");
 					} else {
 						document.documentElement.classList.remove("dark");
