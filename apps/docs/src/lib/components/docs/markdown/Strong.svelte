@@ -15,6 +15,6 @@
 	}: ComponentProps = $props();
 </script>
 
-<strong {...restProps} class={cn("text-foreground", className)}>
+<strong {...restProps} class={cn("text-base text-foreground", className)}>
 	{@render children?.()}
 </strong>

@@ -81,7 +81,7 @@
 		<div
 			bind:this={popoverRef}
 			transition:scale={{ duration: 150, start: 0.95 }}
-			class="fixed w-64 p-3 rounded-md border border-border bg-card text-foreground shadow-lg z-50 text-xs leading-normal"
+			class="fixed w-64 p-3 rounded-md border border-border bg-card text-foreground shadow-lg z-50 text-sm leading-normal"
 			style="top: {coords.top -
 				8}px; left: {coords.left}px; transform: translate(-50%, -100%);"
 		>

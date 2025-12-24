@@ -45,7 +45,7 @@
 <style>
 	:global(.shiki) {
 		background-color: transparent !important;
-		font-size: 12px;
+		font-size: 14px;
 		font-weight: 400;
 	}
 	:global(.shiki-theme-dark) {

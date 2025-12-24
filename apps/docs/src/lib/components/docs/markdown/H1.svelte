@@ -17,7 +17,7 @@
 
 <h1
 	{...restProps}
-	class={cn("scroll-m-24 text-2xl text-foreground font-medium", className)}
+	class={cn("scroll-m-24 text-3xl text-foreground font-medium", className)}
 >
 	{@render children?.()}
 </h1>

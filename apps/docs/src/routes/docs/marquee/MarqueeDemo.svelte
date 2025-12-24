@@ -13,7 +13,7 @@
 </script>
 
 <div
-	class="h-full min-h-80 w-full flex flex-col items-center justify-center gap-4"
+	class="h-full min-h-96 w-full flex flex-col items-center justify-center gap-4"
 >
 	<Marquee class="h-fit" gap={32} duration={20} velocity={1}>
 		{#each companies as company (company)}

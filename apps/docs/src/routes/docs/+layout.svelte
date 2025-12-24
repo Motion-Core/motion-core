@@ -33,7 +33,7 @@
 		<section class="flex-1 space-y-8 lg:order-2">
 			<a
 				href="/"
-				class="inline-flex items-center text-sm font-medium text-foreground/70 transition-[color] duration-150 ease-out hover:text-accent"
+				class="inline-flex items-center text-base font-medium text-foreground/70 transition-[color] duration-150 ease-out hover:text-accent"
 			>
 				<span aria-hidden="true">←</span>
 				<span class="ml-2">Back to library</span>

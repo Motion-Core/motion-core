@@ -21,7 +21,7 @@
 	<div class="overflow-x-auto rounded-lg">
 		<table
 			{...restProps}
-			class={cn("w-full text-sm [&_code]:text-xs", className)}
+			class={cn("w-full text-base [&_code]:text-sm", className)}
 		>
 			{@render children?.()}
 		</table>

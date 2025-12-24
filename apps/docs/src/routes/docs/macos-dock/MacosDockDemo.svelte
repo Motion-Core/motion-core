@@ -60,7 +60,7 @@
 </script>
 
 <div
-	class="w-full h-full min-h-80 flex items-center justify-center relative overflow-hidden"
+	class="w-full h-full min-h-96 flex items-center justify-center relative overflow-hidden"
 >
 	<div class="absolute bottom-0">
 		<MacosDock {items} />

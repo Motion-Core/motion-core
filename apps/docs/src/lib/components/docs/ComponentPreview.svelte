@@ -173,7 +173,7 @@
 	<div class="flex flex-col">
 		<div
 			bind:this={placeholderRef}
-			class="relative flex min-h-80 flex-1 flex-col items-center justify-center rounded-t-lg border-b border-border"
+			class="relative flex min-h-96 flex-1 flex-col items-center justify-center rounded-t-lg border-b border-border"
 		>
 			<div
 				bind:this={previewRef}
@@ -184,7 +184,7 @@
 			>
 				<button
 					onclick={reloadPreview}
-					class="absolute right-8 top-1 z-50 flex size-6 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
+					class="absolute right-10 top-1 z-50 flex size-8 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -204,7 +204,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="absolute right-1 top-1 z-50 flex size-6 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
+					class="absolute right-1 top-1 z-50 flex size-8 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}
@@ -257,7 +257,7 @@
 		</div>
 		<div class="flex flex-1 flex-col bg-card rounded-b-lg">
 			{#if tabs.length}
-				<div class="relative flex items-center text-xs">
+				<div class="relative flex items-center text-sm">
 					{#each tabs as tab, index (tab.name)}
 						<button
 							type="button"
@@ -278,7 +278,7 @@
 					</div>
 				</div>
 			{/if}
-			<div class="relative max-h-80 flex-1 overflow-auto p-1 text-xs">
+			<div class="relative max-h-96 flex-1 overflow-auto p-1 text-sm">
 				{#if activeSource}
 					<Highlight
 						class="bg-transparent h-full"

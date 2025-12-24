@@ -59,7 +59,7 @@
 <button
 	type="button"
 	class={cn(
-		"group relative flex size-6 items-center justify-center rounded-sm bg-card border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm",
+		"group relative flex size-8 items-center justify-center rounded-sm bg-card border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm",
 		className,
 	)}
 	onclick={(event) => {
@@ -77,8 +77,8 @@
 		)}
 	>
 		<svg
-			width="15"
-			height="15"
+			width="16"
+			height="16"
 			viewBox="0 0 15 15"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
