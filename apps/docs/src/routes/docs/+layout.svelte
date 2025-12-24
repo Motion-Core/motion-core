@@ -28,7 +28,7 @@
 	class="min-h-svh bg-background text-foreground"
 >
 	<div
-		class="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 lg:flex-row"
+		class="mx-auto flex w-full max-w-4xl flex-col gap-8 px-4 py-8 lg:flex-row"
 	>
 		<section class="flex-1 space-y-8 lg:order-2">
 			<a
@@ -46,7 +46,7 @@
 		</section>
 	</div>
 	<aside
-		class="fixed right-8 top-8 hidden h-[calc(100svh-5rem)] w-64 shrink-0 flex-col lg:flex"
+		class="fixed right-8 top-8 hidden h-[calc(100svh-5rem)] w-48 shrink-0 flex-col lg:flex"
 	>
 		<TableOfContents />
 	</aside>

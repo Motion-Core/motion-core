@@ -167,7 +167,7 @@
 </svelte:head>
 
 <section
-	class="relative rounded-lg border bg-background border-border shadow-sm max-w-[calc(var(--container-3xl)-2rem)]"
+	class="relative rounded-lg border bg-background border-border shadow-sm max-w-[calc(var(--container-4xl)-2rem)]"
 	{...restProps}
 >
 	<div class="flex flex-col">
