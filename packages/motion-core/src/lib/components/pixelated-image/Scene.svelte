@@ -102,7 +102,6 @@
 
 			currentGridSize = nextGrid;
 
-			// If grid size exceeds screen height, finish
 			if (currentGridSize > canvasHeight) {
 				isDone = true;
 				if ($texture) {
@@ -140,7 +139,6 @@
        vec2 s = uResolution;
        float rs = s.x / max(s.y, 0.00001);
 
-       // Pixelate in Screen Space to ensure square pixels
        vec2 grid = vec2(uGridSize * rs, uGridSize);
        vec2 pixelatedScreenUv = floor(vUv * grid) / grid + (0.5 / grid);
 

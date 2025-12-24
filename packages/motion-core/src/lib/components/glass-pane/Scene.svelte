@@ -29,6 +29,52 @@
 	let time = 0;
 	const { size, renderer } = useThrelte();
 
+	let canvasWidth = $state(1);
+	let canvasHeight = $state(1);
+	let imageWidth = $state(1);
+	let imageHeight = $state(1);
+
+	const coverScaleUniform = new Vector2(1, 1);
+	const coverOffsetUniform = new Vector2(0, 0);
+
+	const updateCoverUniforms = () => {
+		if (
+			canvasWidth <= 0 ||
+			canvasHeight <= 0 ||
+			imageWidth <= 0 ||
+			imageHeight <= 0
+		) {
+			return;
+		}
+
+		const screenAspect = canvasWidth / canvasHeight;
+		const imageAspect = imageWidth / imageHeight;
+
+		let scaleX = 1;
+		let scaleY = 1;
+		let offsetX = 0;
+		let offsetY = 0;
+
+		if (screenAspect > imageAspect) {
+			scaleY = imageAspect / screenAspect;
+			offsetY = (1 - scaleY) * 0.5;
+		} else {
+			scaleX = screenAspect / imageAspect;
+			offsetX = (1 - scaleX) * 0.5;
+		}
+
+		coverScaleUniform.set(scaleX, scaleY);
+		coverOffsetUniform.set(offsetX, offsetY);
+	};
+
+	$effect(() => {
+		const nextWidth = $size.width;
+		const nextHeight = $size.height;
+		canvasWidth = nextWidth;
+		canvasHeight = nextHeight;
+		updateCoverUniforms();
+	});
+
 	const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -45,6 +91,8 @@
     uniform float uChromaticAberration;
     uniform float uWaviness;
     uniform float uFrequency;
+    uniform vec2 uCoverScale;
+    uniform vec2 uCoverOffset;
     varying vec2 vUv;
 
     void main() {
@@ -75,14 +123,17 @@
       uv_hit.x /= (uResolution.x / uResolution.y);
       uv_hit = uv_hit * 0.5 + 0.5;
 
+      vec2 coverScale = max(uCoverScale, vec2(0.00001));
+      vec2 uv_cover = coverScale * uv_hit + uCoverOffset;
+
       float t = uTime * 0.1;
       vec2 flow = vec2(sin(t), cos(t * 0.8)) * 0.05;
 
       float dispersion = uChromaticAberration;
 
-      float r = texture2D(uTexture, uv_hit + flow + vec2(dispersion, 0.0)).r;
-      float g = texture2D(uTexture, uv_hit + flow).g;
-      float b = texture2D(uTexture, uv_hit + flow - vec2(dispersion, 0.0)).b;
+      float r = texture2D(uTexture, uv_cover + flow + vec2(dispersion, 0.0)).r;
+      float g = texture2D(uTexture, uv_cover + flow).g;
+      float b = texture2D(uTexture, uv_cover + flow - vec2(dispersion, 0.0)).b;
 
       float g_factor = 1.0 - abs(n.z);
       g_factor = smoothstep(0.0, 1.0, g_factor);
@@ -108,6 +159,15 @@
 		}),
 	);
 
+	$effect(() => {
+		const tex = $texture;
+		if (tex && tex.image) {
+			imageWidth = tex.image.width;
+			imageHeight = tex.image.height;
+			updateCoverUniforms();
+		}
+	});
+
 	let material = $state<ShaderMaterial>();
 
 	useTask((delta) => {
@@ -119,6 +179,8 @@
 			material.uniforms.uChromaticAberration.value = chromaticAberration;
 			material.uniforms.uWaviness.value = waviness;
 			material.uniforms.uFrequency.value = frequency;
+			material.uniforms.uCoverScale.value = coverScaleUniform;
+			material.uniforms.uCoverOffset.value = coverOffsetUniform;
 		}
 	});
 </script>
@@ -138,6 +200,8 @@
 				uChromaticAberration: { value: chromaticAberration },
 				uWaviness: { value: waviness },
 				uFrequency: { value: frequency },
+				uCoverScale: { value: coverScaleUniform },
+				uCoverOffset: { value: coverOffsetUniform },
 			}}
 		/>
 	</T.Mesh>
