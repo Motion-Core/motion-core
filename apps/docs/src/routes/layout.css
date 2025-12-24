@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @source "../../../../packages/motion-core/**/*.{svelte,js,ts}";
 
+@custom-variant light (html:not(.dark) &);
+
 @font-face {
 	font-family: "Haffer";
 	src: url("/fonts/Haffer-VF.woff2") format("woff2");
@@ -13,6 +15,7 @@
 	--base-hue: 285;
 	--color-background: oklch(0.9542 0.002 var(--base-hue));
 	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
+	--color-accent: oklch(0.6996 0.201959 44.4414);
 	--color-border: oklch(0.9225 0.002 var(--base-hue));
 	--color-card: oklch(1 0 0);
 	--color-card-muted: oklch(0.9642 0.002 var(--base-hue));
@@ -55,6 +58,7 @@
 	--mono: "HafferMono";
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
+	--color-accent: var(--accent);
 	--color-border: var(--border);
 	--color-card: var(--card);
 	--color-card-muted: var(--card-muted);

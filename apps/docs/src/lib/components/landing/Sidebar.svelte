@@ -109,7 +109,7 @@
 >
 	<header class="flex items-center gap-2" bind:this={headerRef}>
 		<span
-			class="inline-flex shrink-0 items-center text-foreground [&>svg]:h-3 [&>svg]:w-8 [&>svg]:fill-current"
+			class="inline-flex shrink-0 items-center text-accent [&>svg]:h-3 [&>svg]:w-8 [&>svg]:fill-current"
 			aria-hidden="true"
 		>
 			{@html motionCoreLogo}

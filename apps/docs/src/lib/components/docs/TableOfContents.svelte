@@ -234,7 +234,7 @@
 {#if headings.length > 0}
 	<nav class="sticky top-22 hidden lg:block">
 		<div
-			class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide font-medium text-foreground/70"
+			class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide font-medium text-accent"
 		>
 			<svg
 				width="15"
@@ -260,7 +260,7 @@
 			>
 				{#if indicatorHeight > 0}
 					<div
-						class="absolute left-0 w-px bg-foreground transition-[transform,height] duration-300 ease-out"
+						class="absolute left-0 w-px bg-accent transition-[transform,height] duration-300 ease-out"
 						style={`transform: translateY(${indicatorTop}px); height: ${indicatorHeight}px;`}
 					></div>
 				{/if}

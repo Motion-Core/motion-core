@@ -197,7 +197,6 @@
 						stroke-width="2"
 						stroke-linecap="round"
 						stroke-linejoin="round"
-						class="lucide lucide-rotate-cw"
 					>
 						<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
 						<path d="M21 3v5h-5" />
@@ -240,7 +239,6 @@
 							stroke-width="2"
 							stroke-linecap="round"
 							stroke-linejoin="round"
-							class="lucide lucide-maximize-2"
 							><polyline points="15 3 21 3 21 9" /><polyline
 								points="9 21 3 21 3 15"
 							/><line x1="21" x2="14" y1="3" y2="10" /><line
@@ -265,7 +263,7 @@
 							type="button"
 							class={`border-b-2 px-3 py-2 transition-colors ${
 								index === activeTab
-									? "border-primary text-foreground"
+									? "border-accent text-foreground"
 									: "border-transparent text-foreground/70 hover:text-foreground"
 							}`}
 							onclick={() => (activeTab = index)}
