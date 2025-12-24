@@ -1,5 +1,7 @@
 ---
 name: Text Loop
+video: /previews/text-loop/preview.mp4
+poster: /previews/text-loop/poster.webp
 ---
 
 <script lang="ts">

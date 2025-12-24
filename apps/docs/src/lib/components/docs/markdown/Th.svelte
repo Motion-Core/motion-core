@@ -18,7 +18,7 @@
 <th
 	{...restProps}
 	class={cn(
-		"h-12 px-6 text-left align-middle text-foreground tracking-tight",
+		"h-12 px-6 text-left align-middle font-normal text-foreground tracking-tight",
 		className,
 	)}
 >

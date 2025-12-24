@@ -184,7 +184,7 @@
 			>
 				<button
 					onclick={reloadPreview}
-					class="absolute right-8 top-1 z-50 flex size-6 items-center justify-center bg-card-muted rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
+					class="absolute right-8 top-1 z-50 flex size-6 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -205,7 +205,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="absolute right-1 top-1 z-50 flex size-6 items-center justify-center bg-card-muted rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
+					class="absolute right-1 top-1 z-50 flex size-6 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}
@@ -259,7 +259,7 @@
 		</div>
 		<div class="flex flex-1 flex-col bg-card rounded-b-lg">
 			{#if tabs.length}
-				<div class="relative flex items-center text-xs font-medium">
+				<div class="relative flex items-center text-xs">
 					{#each tabs as tab, index (tab.name)}
 						<button
 							type="button"

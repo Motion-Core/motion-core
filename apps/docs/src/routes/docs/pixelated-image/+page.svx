@@ -1,5 +1,8 @@
 ---
 name: Pixelated Image
+video: /previews/pixelated-image/preview.mp4
+poster: /previews/pixelated-image/poster.webp
+
 ---
 
 <script lang="ts">

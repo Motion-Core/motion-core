@@ -53,7 +53,7 @@
 .dark {
 	--color-background: oklch(0.12 0.0044 var(--base-hue));
 	--color-foreground: oklch(0.95 0.0013 var(--base-hue));
-	--color-border: oklch(0.19 0.015 var(--base-hue));
+	--color-border: oklch(0.21 0.015 var(--base-hue));
 	--color-card: oklch(0.15 0.0065 var(--base-hue));
 	--color-card-muted: oklch(0.18 0.0085 var(--base-hue));
 }
@@ -74,25 +74,10 @@
 	--shadow-xl: var(--shadow-xl);
 	--shadow-2xl: var(--shadow-2xl);
 }
-&::before {
-	content: "";
-	position: absolute;
-	inset: -1px;
-	border-radius: inherit;
-}
 
 @layer base {
 	body {
 		@apply bg-card font-sans text-foreground;
-	}
-	h1,
-	h2,
-	h3 {
-		letter-spacing: -0.02em;
-	}
-
-	p {
-		letter-spacing: 0.02em;
 	}
 }
 

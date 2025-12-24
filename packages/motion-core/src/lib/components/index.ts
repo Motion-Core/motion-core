@@ -8,3 +8,4 @@ export { default as InfiniteGallery } from "./infinite-gallery/InfiniteGallery.s
 export { default as LogoCarousel } from "./logo-carousel/LogoCarousel.svelte";
 export { default as TextLoop } from "./text-loop/TextLoop.svelte";
 export { default as PixelatedImage } from "./pixelated-image/PixelatedImage.svelte";
+export { default as Magnetic } from "./magnetic/Magnetic.svelte";

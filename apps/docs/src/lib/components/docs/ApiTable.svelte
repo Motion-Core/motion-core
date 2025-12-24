@@ -40,10 +40,7 @@
 						<span class="inline-flex items-center">
 							<code
 								class={cn(
-									"rounded border border-border/50 px-1.5 py-0.5 font-mono font-normal",
-									index === 0
-										? "bg-primary/10 text-primary font-medium border-primary/20"
-										: "bg-muted/40 text-muted-foreground",
+									"rounded bg-card-muted border border-border px-1.5 py-0.5 font-mono font-normal text-foreground",
 								)}
 							>
 								{row[key]}
