@@ -114,7 +114,7 @@
 		>
 			{@html motionCoreLogo}
 		</span>
-		<span class="text-xl text-foreground">{title}</span>
+		<span class="text-xl text-foreground tracking-tight">{title}</span>
 	</header>
 	<div class="space-y-4">
 		<p

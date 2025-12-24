@@ -6,10 +6,12 @@
 
 <a
 	href={`/docs/${component.slug}`}
-	class="relative block break-inside-avoid rounded-xl border border-border bg-card shadow-sm group"
+	class="relative block break-inside-avoid rounded-xl border border-border bg-card shadow-sm p-1 group"
 	data-component-card
 >
-	<div class="relative rounded-xl overflow-hidden aspect-video">
+	<div
+		class="relative rounded-lg overflow-hidden aspect-video border border-border/60"
+	>
 		{#if component.video}
 			<video
 				src={component.video}
@@ -18,14 +20,12 @@
 				loop
 				muted
 				playsinline
-				class="h-full w-full object-cover scale-105"
+				class="h-full w-full object-cover scale-110"
 			>
 			</video>
 		{/if}
-		<div
-			class="pointer-events-none absolute bottom-4 left-4 text-xs font-mono uppercase tracking-wide text-white mix-blend-difference"
-		>
-			{component.name}
-		</div>
+	</div>
+	<div class="pointer-events-none m-2 text-sm text-foreground">
+		{component.name}
 	</div>
 </a>
