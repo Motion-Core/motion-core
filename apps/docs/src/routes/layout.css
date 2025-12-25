@@ -86,6 +86,10 @@
 	font-variation-settings: "MONO" 100;
 }
 
+::selection {
+	@apply bg-accent text-white;
+}
+
 ::view-transition-old(homepage-content),
 ::view-transition-new(homepage-content) {
 	animation-duration: 600ms;

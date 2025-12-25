@@ -133,7 +133,6 @@
 	$effect(() => {
 		getHighlighter().then((highlighter) => {
 			tabs.forEach((tab) => {
-				// Actually using tab.name as key in record implies names are unique per preview.
 				if (!highlightedSources[tab.name]) {
 					const lang = tab.language ?? "typescript";
 					const light = highlighter.codeToHtml(tab.code, {
