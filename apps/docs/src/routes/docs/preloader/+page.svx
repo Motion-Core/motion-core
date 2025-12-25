@@ -45,6 +45,8 @@ import { Preloader } from "motion-core";
 
 ## Props
 
+### Preloader
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}
@@ -52,7 +54,7 @@ import { Preloader } from "motion-core";
 		{
 			prop: "images",
 			type: "{src: string, alt?: string}[]",
-			default: "[]",
+			default: "—",
 			description: "Array of image objects (ideally 5 for best look).",
 		},
 		{

@@ -45,6 +45,8 @@ import { ImageTrail } from "motion-core";
 
 ## Props
 
+### ImageTrail
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}
@@ -52,7 +54,7 @@ import { ImageTrail } from "motion-core";
 		{
 			prop: "images",
 			type: "string[]",
-			default: "[]",
+			default: "—",
 			description: "Ordered list of image URLs cycled for the trail.",
 		},
 		{

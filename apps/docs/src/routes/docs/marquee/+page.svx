@@ -45,6 +45,8 @@ import { Marquee } from "motion-core";
 
 ## Props
 
+### Marquee
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}

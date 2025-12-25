@@ -57,6 +57,8 @@ import { InfiniteGallery } from "motion-core";
 
 ## Props
 
+### ImageTrail
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}
@@ -64,7 +66,7 @@ import { InfiniteGallery } from "motion-core";
 		{
 			prop: "images",
 			type: "ImageItem[]",
-			default: "[]",
+			default: "—",
 			description: "Array of image URLs or objects {src, alt}.",
 		},
 		{
@@ -82,13 +84,13 @@ import { InfiniteGallery } from "motion-core";
 		{
 			prop: "fadeSettings",
 			type: "FadeSettings",
-			default: "—",
+			default: "Default Fade",
 			description: "Configures where images fade in/out along the Z axis.",
 		},
 		{
 			prop: "blurSettings",
 			type: "BlurSettings",
-			default: "—",
+			default: "Default Blur",
 			description: "Configures where images blur in/out along the Z axis.",
 		},
 		{
@@ -100,19 +102,74 @@ import { InfiniteGallery } from "motion-core";
 	]}
 />
 
-### Type Definitions
+### Fade Settings
 
-```typescript
-type ImageItem = string | { src: string; alt?: string };
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "fadeIn.start",
+			type: "number",
+			default: "0.05",
+			description: "Z-position where images start fading in.",
+		},
+		{
+			key: "fadeIn.end",
+			type: "number",
+			default: "0.25",
+			description: "Z-position where images are fully opaque.",
+		},
+		{
+			key: "fadeOut.start",
+			type: "number",
+			default: "0.4",
+			description: "Z-position where images start fading out.",
+		},
+		{
+			key: "fadeOut.end",
+			type: "number",
+			default: "0.43",
+			description: "Z-position where images are fully transparent.",
+		},
+	]}
+/>
 
-interface FadeSettings {
-	fadeIn: { start: number; end: number };
-	fadeOut: { start: number; end: number };
-}
+### Blur Settings
 
-interface BlurSettings {
-	blurIn: { start: number; end: number };
-	blurOut: { start: number; end: number };
-	maxBlur: number;
-}
-```
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "blurIn.start",
+			type: "number",
+			default: "0.0",
+			description: "Z-position where blur starts decreasing.",
+		},
+		{
+			key: "blurIn.end",
+			type: "number",
+			default: "0.1",
+			description: "Z-position where images are sharp (no blur).",
+		},
+		{
+			key: "blurOut.start",
+			type: "number",
+			default: "0.4",
+			description: "Z-position where blur starts increasing again.",
+		},
+		{
+			key: "blurOut.end",
+			type: "number",
+			default: "0.43",
+			description: "Z-position where images are max blurred.",
+		},
+		{
+			key: "maxBlur",
+			type: "number",
+			default: "8.0",
+			description: "Maximum blur radius applied to images.",
+		},
+	]}
+/>

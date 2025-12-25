@@ -45,6 +45,8 @@ import { Magnetic } from "motion-core";
 
 ## Props
 
+### Magnetic
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}

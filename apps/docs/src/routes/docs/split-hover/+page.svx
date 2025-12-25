@@ -48,6 +48,8 @@ import { SplitHover } from "motion-core";
 
 ## Props
 
+### SplitHover
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}

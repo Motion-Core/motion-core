@@ -47,6 +47,8 @@ import { SplitReveal } from "motion-core";
 
 ## Props
 
+### SplitReveal
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}
@@ -66,7 +68,7 @@ import { SplitReveal } from "motion-core";
 		{
 			prop: "as",
 			type: "keyof HTMLElementTagNameMap",
-			default: '"span"',
+			default: '"div"',
 			description: "Tag used for the wrapper (swap to div, p, etc.).",
 		},
 		{
@@ -74,6 +76,51 @@ import { SplitReveal } from "motion-core";
 			type: "SplitRevealConfig",
 			default: "DEFAULT_CONFIG",
 			description: "Optional per-mode overrides for duration/stagger.",
+		},
+	]}
+/>
+
+### Config options
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "lines.duration",
+			type: "number",
+			default: "0.8",
+			description: "Animation duration for 'lines' mode.",
+		},
+		{
+			key: "lines.stagger",
+			type: "number",
+			default: "0.08",
+			description: "Stagger delay for 'lines' mode.",
+		},
+		{
+			key: "words.duration",
+			type: "number",
+			default: "0.6",
+			description: "Animation duration for 'words' mode.",
+		},
+		{
+			key: "words.stagger",
+			type: "number",
+			default: "0.06",
+			description: "Stagger delay for 'words' mode.",
+		},
+		{
+			key: "chars.duration",
+			type: "number",
+			default: "0.4",
+			description: "Animation duration for 'chars' mode.",
+		},
+		{
+			key: "chars.stagger",
+			type: "number",
+			default: "0.008",
+			description: "Stagger delay for 'chars' mode.",
 		},
 	]}
 />

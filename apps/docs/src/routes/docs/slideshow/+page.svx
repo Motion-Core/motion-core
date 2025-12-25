@@ -47,6 +47,8 @@ import { Slideshow } from "motion-core";
 
 ## Props
 
+### Slideshow
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}
@@ -54,7 +56,7 @@ import { Slideshow } from "motion-core";
 		{
 			prop: "images",
 			type: "{src: string, alt?: string}[]",
-			default: "[]",
+			default: "—",
 			description: "Array of image objects to display.",
 		},
 		{

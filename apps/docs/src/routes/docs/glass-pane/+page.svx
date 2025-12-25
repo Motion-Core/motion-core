@@ -47,6 +47,8 @@ import { GlassPane } from "motion-core";
 
 ## Props
 
+### GlassPane
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}

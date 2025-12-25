@@ -45,6 +45,8 @@ import { TextLoop } from "motion-core";
 
 ## Props
 
+### TextLoop
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}

@@ -51,6 +51,8 @@ import { PixelatedImage } from "motion-core";
 
 ## Props
 
+### PixelatedImage
+
 <ApiTable
 	headers={["Prop", "Type", "Default"]}
 	keys={["prop", "type", "default"]}
