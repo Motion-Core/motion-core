@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { cn } from "$lib/utils/cn";
 	import CopyCodeButton from "./markdown/CopyCodeButton.svelte";
+	import ShikiCodeBlock from "./ShikiCodeBlock.svelte";
+	import { getHighlighter } from "$lib/utils/highlighter";
 
 	type Props = {
 		component: string;
@@ -13,15 +15,6 @@
 
 	let activeTab = $state<PackageManager>("npm");
 
-	const prefixes: Record<PackageManager, string> = {
-		npm: "npx",
-		pnpm: "pnpm dlx",
-		bun: "bunx",
-		yarn: "yarn dlx",
-	};
-
-	const activePrefix = $derived(prefixes[activeTab]);
-
 	const commands: Record<PackageManager, string> = $derived({
 		npm: `npx @motion-core/cli add ${component}`,
 		pnpm: `pnpm dlx @motion-core/cli add ${component}`,
@@ -30,6 +23,33 @@
 	});
 
 	const activeCommand = $derived(commands[activeTab]);
+
+	let highlightedCommands = $state<
+		Record<PackageManager, { light: string; dark: string } | null>
+	>({
+		npm: null,
+		pnpm: null,
+		bun: null,
+		yarn: null,
+	});
+
+	$effect(() => {
+		getHighlighter().then((highlighter) => {
+			for (const pm of packageManagers) {
+				const cmd = commands[pm];
+				highlightedCommands[pm] = {
+					light: highlighter.codeToHtml(cmd, {
+						lang: "bash",
+						theme: "github-light",
+					}),
+					dark: highlighter.codeToHtml(cmd, {
+						lang: "bash",
+						theme: "github-dark",
+					}),
+				};
+			}
+		});
+	});
 </script>
 
 <div
@@ -51,37 +71,29 @@
 				>
 					{pm}
 					{#if activeTab === pm}
-						<div
-							class="absolute bottom-0 left-0 h-0.5 w-full bg-accent"
-							style="view-transition-name: install-tabs-cursor"
-						></div>
+						<div class="absolute bottom-0 left-0 h-0.5 w-full bg-accent"></div>
 					{/if}
 				</button>
 			{/each}
 		</div>
 
-		<CopyCodeButton
-			code={activeCommand}
-			class="bg-transparent mr-2 border-none shadow-none"
-		/>
+		<CopyCodeButton code={activeCommand} class="mr-2" />
 	</div>
 
-	<div class="p-4">
-		<div class="overflow-x-auto">
+	<div class="p-4 min-h-12.5">
+		{#if highlightedCommands[activeTab]}
+			<ShikiCodeBlock
+				code=""
+				htmlLight={highlightedCommands[activeTab]!.light}
+				htmlDark={highlightedCommands[activeTab]!.dark}
+				unstyled={true}
+			/>
+		{:else}
 			<code
-				class="block text-sm leading-relaxed whitespace-pre mono font-medium"
+				class="block text-sm leading-relaxed whitespace-pre mono font-medium text-foreground"
 			>
-				<span class="text-accent mr-1 select-none">$</span>
-				<span class="light:text-[#6F42C1] dark:text-[#B392F0]"
-					>{activePrefix}</span
-				>
-				<span class="light:text-[#032F62] dark:text-[#9DCBFF]"
-					>@motion-core/cli</span
-				>
-				<span class="light:text-[#032F62] dark:text-[#9DCBFF]">add</span>
-				<span class="light:text-[#032F62] dark:text-[#9DCBFF]">{component}</span
-				>
+				{activeCommand}
 			</code>
-		</div>
+		{/if}
 	</div>
 </div>

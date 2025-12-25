@@ -1,12 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
-	import { browser } from "$app/environment";
 	import CopyCodeButton from "./markdown/CopyCodeButton.svelte";
-	import Highlight from "svelte-highlight";
-	import typescript from "svelte-highlight/languages/typescript";
-	import xml from "svelte-highlight/languages/xml";
-	import githubDark from "svelte-highlight/styles/github-dark";
-	import github from "svelte-highlight/styles/github";
+	import ShikiCodeBlock from "./ShikiCodeBlock.svelte";
+	import { getHighlighter } from "$lib/utils/highlighter";
 	import gsap from "gsap";
 	import { Flip } from "gsap/Flip";
 	import { tick, onMount } from "svelte";
@@ -25,6 +21,7 @@
 		children?: Snippet;
 		codeSlot?: Snippet;
 		sources?: SourceTab[];
+		[key: string]: unknown;
 	};
 
 	const {
@@ -127,44 +124,31 @@
 	const activeSource = $derived(
 		(tabs.at(activeTab) ?? null) as SourceTab | null,
 	);
-	const resolveLanguage = (language?: string) => {
-		switch (language?.toLowerCase()) {
-			case "svelte":
-			case "xml":
-			case "html":
-				return xml;
-			default:
-				return typescript;
-		}
-	};
-	const highlightLanguage = $derived(resolveLanguage(activeSource?.language));
 
-	let isDark = $state(false);
+	let highlightedSources = $state<
+		Record<string, { light: string; dark: string }>
+	>({});
 
 	$effect(() => {
-		if (!browser) return;
-
-		const updateTheme = () => {
-			isDark = document.documentElement.classList.contains("dark");
-		};
-
-		updateTheme();
-
-		const observer = new MutationObserver(updateTheme);
-		observer.observe(document.documentElement, {
-			attributes: true,
-			attributeFilter: ["class"],
+		getHighlighter().then((highlighter) => {
+			tabs.forEach((tab) => {
+				// Actually using tab.name as key in record implies names are unique per preview.
+				if (!highlightedSources[tab.name]) {
+					const lang = tab.language ?? "typescript";
+					const light = highlighter.codeToHtml(tab.code, {
+						lang,
+						theme: "github-light",
+					});
+					const dark = highlighter.codeToHtml(tab.code, {
+						lang,
+						theme: "github-dark",
+					});
+					highlightedSources[tab.name] = { light, dark };
+				}
+			});
 		});
-
-		return () => observer.disconnect();
 	});
-
-	const highlightStyle = $derived(isDark ? githubDark : github);
 </script>
-
-<svelte:head>
-	{@html highlightStyle}
-</svelte:head>
 
 <section
 	class="relative max-w-[calc(var(--container-4xl)-2rem)] rounded-lg border border-border bg-background shadow-sm"
@@ -184,7 +168,7 @@
 			>
 				<button
 					onclick={reloadPreview}
-					class="transition-scale absolute top-1 right-10 z-30 flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
+					class="transition-scale absolute top-2 right-11 z-30 flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -204,7 +188,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="transition-scale absolute top-1 right-1 z-30 flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
+					class="transition-scale absolute top-2 right-2 z-30 flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}
@@ -287,11 +271,16 @@
 			{/if}
 			<div class="relative max-h-96 flex-1 overflow-auto p-1 text-sm">
 				{#if activeSource}
-					<Highlight
-						class="h-full bg-transparent"
-						language={highlightLanguage}
-						code={activeSource.code}
-					/>
+					{#if highlightedSources[activeSource.name]}
+						<ShikiCodeBlock
+							code=""
+							htmlLight={highlightedSources[activeSource.name].light}
+							htmlDark={highlightedSources[activeSource.name].dark}
+							unstyled={true}
+						/>
+					{:else}
+						<pre class="p-4">{activeSource.code}</pre>
+					{/if}
 				{:else}
 					{@render codeSlot?.()}
 				{/if}
@@ -299,9 +288,3 @@
 		</div>
 	</div>
 </section>
-
-<style>
-	:global(.hljs) {
-		background-color: transparent !important;
-	}
-</style>

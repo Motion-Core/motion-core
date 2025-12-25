@@ -19,7 +19,7 @@
 			<span
 				class="absolute -left-4 flex size-8 items-center justify-center rounded-full border border-border bg-card text-xs font-medium text-foreground [counter-increment:step] before:content-[counter(step)]"
 			></span>
-			<h3 class="text-base font-semibold leading-none tracking-tight">
+			<h3 class="text-base font-medium leading-none">
 				{title}
 			</h3>
 		</div>
