@@ -1,5 +1,6 @@
 ---
 name: Split Hover
+description: SplitHover animates text by splitting characters and staggering them out/in with GSAP. Hovering reveals a cloned layer that rises from below, creating a seamless "text swap" effect.
 video: /previews/split-hover/preview.mp4
 poster: /previews/split-hover/poster.webp
 ---
@@ -12,10 +13,6 @@ poster: /previews/split-hover/poster.webp
     import SplitHoverDemo from "./SplitHoverDemo.svelte";
     import splitHoverDemoSource from "./SplitHoverDemo.svelte?raw";
 </script>
-
-# Split Hover
-
-`SplitHover` animates text by splitting characters and staggering them out/in with GSAP. Hovering reveals a cloned layer that rises from below, creating a seamless "text swap" effect.
 
 ## Usage
 

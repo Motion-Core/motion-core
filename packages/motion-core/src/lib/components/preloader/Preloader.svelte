@@ -22,20 +22,25 @@
 		...restProps
 	}: ComponentProps = $props();
 
-	let containerRef: HTMLElement;
-	let revealImagesRef: HTMLElement[] = [];
-	let isScaleDownRef: HTMLElement[] = [];
-	let isScaleUpRef: HTMLElement[] = [];
-	let isRadiusRef: HTMLElement[] = [];
+	let containerRef = $state<HTMLElement>();
+	let revealImagesRef: HTMLElement[] = $state([]);
+	let isScaleUpRef: HTMLElement[] = $state([]);
+	let secondLoopImagesRef: HTMLImageElement[] = $state([]);
 
 	onMount(() => {
+		const middleIndex = Math.floor(images.length / 2);
+		const radiusTarget = isScaleUpRef[images.length + middleIndex];
+		const isScaleDownTargets = secondLoopImagesRef.filter(
+			(_, i) => i !== middleIndex,
+		);
+
 		const tl = gsap.timeline({
 			defaults: {
 				ease: "expo.inOut",
 			},
 			onComplete: () => {
 				if (onComplete) onComplete();
-				containerRef.style.display = "none";
+				if (containerRef) containerRef.style.display = "none";
 			},
 		});
 
@@ -53,9 +58,9 @@
 			);
 		}
 
-		if (isScaleDownRef.length) {
+		if (isScaleDownTargets.length) {
 			tl.to(
-				isScaleDownRef,
+				isScaleDownTargets,
 				{
 					scale: 0.5,
 					duration: 2,
@@ -65,8 +70,8 @@
 						ease: "none",
 					},
 					onComplete: () => {
-						if (isRadiusRef.length) {
-							isRadiusRef.forEach((el) => (el.style.borderRadius = "0"));
+						if (radiusTarget) {
+							radiusTarget.style.borderRadius = "0";
 						}
 					},
 				},
@@ -135,7 +140,6 @@
 						<div
 							bind:this={isScaleUpRef[images.length + i]}
 							class:is--radius={isMiddle}
-							bind:this={isRadiusRef[isMiddle ? 0 : -1]}
 							style={isMiddle
 								? "transition: border-radius 0.5s cubic-bezier(1, 0, 0, 1);"
 								: ""}
@@ -144,9 +148,7 @@
 								: ''}"
 						>
 							<img
-								bind:this={
-									isScaleDownRef[isMiddle ? -1 : isScaleDownRef.length]
-								}
+								bind:this={secondLoopImagesRef[i]}
 								loading="eager"
 								src={image.src}
 								alt={image.alt ?? ""}

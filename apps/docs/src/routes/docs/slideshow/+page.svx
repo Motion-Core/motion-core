@@ -1,5 +1,6 @@
 ---
 name: Slideshow
+description: Slideshow delivers a premium viewing experience with cinematic parallax transitions. It features a synchronized thumbnail navigator and smooth GSAP-powered animations that bring static images to life.
 video: /previews/slideshow/preview.mp4
 poster: /previews/slideshow/poster.webp
 ---
@@ -12,10 +13,6 @@ poster: /previews/slideshow/poster.webp
     import SlideshowDemo from "./SlideshowDemo.svelte";
     import slideshowDemoSource from "./SlideshowDemo.svelte?raw";
 </script>
-
-# Slideshow
-
-A cinematic slideshow component with parallax image transitions and thumbnail navigation, powered by GSAP.
 
 ## Usage
 

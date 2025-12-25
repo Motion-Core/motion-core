@@ -1,5 +1,6 @@
 ---
 name: Text Loop
+description: TextLoop creates an engaging headline effect by cycling through a list of words or phrases. It uses a vertical slide and blur transition to smoothly swap text elements, perfect for highlighting key features or roles.
 video: /previews/text-loop/preview.mp4
 poster: /previews/text-loop/poster.webp
 ---
@@ -11,10 +12,6 @@ poster: /previews/text-loop/poster.webp
     import TextLoopDemo from "./TextLoopDemo.svelte";
     import textLoopDemoSource from "./TextLoopDemo.svelte?raw";
 </script>
-
-# Text Loop
-
-A looping text animation component that smoothly transitions between words or phrases.
 
 ## Usage
 

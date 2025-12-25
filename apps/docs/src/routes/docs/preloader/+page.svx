@@ -1,5 +1,6 @@
 ---
 name: Preloader
+description: Preloader orchestrates a rapid horizontal slide of an image strip across the screen. As the sequence decelerates, the surrounding images scale down while the central "hero" image expands from a thumbnail to fill the entire viewport, creating a seamless transition into the main interface.
 video: /previews/preloader/preview.mp4
 poster: /previews/preloader/poster.webp
 ---
@@ -11,10 +12,6 @@ poster: /previews/preloader/poster.webp
     import PreloaderDemo from "./PreloaderDemo.svelte";
     import preloaderDemoSource from "./PreloaderDemo.svelte?raw";
 </script>
-
-# Preloader
-
-A cinematic loading animation component that features sliding image strips and a scale-up reveal effect, inspired by Osmo.
 
 ## Usage
 

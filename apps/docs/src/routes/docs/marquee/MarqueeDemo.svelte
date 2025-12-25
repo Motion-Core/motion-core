@@ -15,7 +15,13 @@
 <div
 	class="h-full min-h-96 w-full flex flex-col items-center justify-center gap-4"
 >
-	<Marquee class="h-fit" gap={32} duration={20} velocity={1}>
+	<Marquee
+		class="h-fit"
+		gap={32}
+		duration={20}
+		velocity={1}
+		scrollElement="#docs-content-container"
+	>
 		{#each companies as company (company)}
 			<div class="flex items-center text-4xl font-medium">
 				{company}
@@ -23,7 +29,14 @@
 		{/each}
 	</Marquee>
 
-	<Marquee class="h-fit" gap={32} duration={20} velocity={1} reversed>
+	<Marquee
+		class="h-fit"
+		gap={32}
+		duration={20}
+		velocity={1}
+		reversed
+		scrollElement="#docs-content-container"
+	>
 		{#each companies as company (company)}
 			<div class="flex items-center text-4xl font-medium">
 				{company}

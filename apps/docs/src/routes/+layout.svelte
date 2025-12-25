@@ -2,10 +2,12 @@
 	import "./layout.css";
 	import { onNavigate } from "$app/navigation";
 	import { page } from "$app/state";
+	import CommandPalette from "$lib/components/docs/search/CommandPalette.svelte";
 
 	const { children } = $props();
 
 	const currentPage = page;
+
 	const isHomePath = (path?: string) => path === "/";
 	const isDocsPath = (path?: string) => path?.startsWith("/docs");
 
@@ -72,7 +74,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 	<link rel="manifest" href="/site.webmanifest" />
 	<link rel="mask-icon" href="/favicon.svg" color="#1f2125" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes" />
 	<meta
 		name="apple-mobile-web-app-status-bar-style"
 		content="black-translucent"
@@ -120,4 +122,5 @@
 		<title>{siteName}</title>
 	{/if}
 </svelte:head>
+<CommandPalette />
 {@render children()}

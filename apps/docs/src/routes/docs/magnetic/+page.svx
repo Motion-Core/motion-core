@@ -1,5 +1,6 @@
 ---
 name: Magnetic
+description: Magnetic adds a playful, interactive feel to UI elements by making them stick to and follow the cursor. It wraps any child component and applies a spring-physics based movement effect on hover.
 video: /previews/magnetic/preview.mp4
 poster: /previews/magnetic/poster.webp
 ---
@@ -11,10 +12,6 @@ poster: /previews/magnetic/poster.webp
     import MagneticDemo from "./MagneticDemo.svelte";
     import magneticDemoSource from "./MagneticDemo.svelte?raw";
 </script>
-
-# Magnetic
-
-A wrapper component that makes its child element magnetically follow the cursor movement.
 
 ## Usage
 

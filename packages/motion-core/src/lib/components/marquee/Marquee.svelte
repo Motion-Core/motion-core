@@ -13,6 +13,7 @@
 		duration?: number;
 		velocity?: number;
 		reversed?: boolean;
+		scrollElement?: string | HTMLElement;
 	};
 
 	let {
@@ -23,6 +24,7 @@
 		duration = 5,
 		velocity = 0.5,
 		reversed = false,
+		scrollElement,
 	}: Props = $props();
 
 	let container = $state<HTMLElement>();
@@ -54,6 +56,7 @@
 		}
 
 		const trigger = ScrollTrigger.create({
+			scroller: scrollElement,
 			onUpdate(self) {
 				const currentScrollDir = self.direction;
 				const targetDir = reversed ? -currentScrollDir : currentScrollDir;

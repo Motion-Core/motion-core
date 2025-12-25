@@ -1,5 +1,6 @@
 ---
 name: MacOS Dock
+description: MacosDock recreates the iconic Apple-style navigation menu with smooth magnification. It uses a sine wave function to calculate icon scale based on cursor proximity, delivering a fluid and responsive user experience.
 video: /previews/macos-dock/preview.mp4
 poster: /previews/macos-dock/poster.webp
 ---
@@ -11,10 +12,6 @@ poster: /previews/macos-dock/poster.webp
     import MacosDockDemo from "./MacosDockDemo.svelte";
     import macosDockDemoSource from "./MacosDockDemo.svelte?raw";
 </script>
-
-# MacOS Dock
-
-A navigation dock with magnification effect similar to macOS.
 
 ## Usage
 

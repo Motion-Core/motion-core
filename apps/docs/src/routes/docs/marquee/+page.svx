@@ -1,5 +1,6 @@
 ---
 name: Marquee
+description: Marquee is a robust infinite scrolling container that dynamically reacts to scroll velocity and direction. Built with GSAP, it speeds up on scroll and seamlessly loops content for a smooth, continuous flow.
 video: /previews/marquee/preview.mp4
 poster: /previews/marquee/poster.webp
 ---
@@ -11,10 +12,6 @@ poster: /previews/marquee/poster.webp
 	import marqueeDemoSource from './MarqueeDemo.svelte?raw';
 	import marqueeSource from 'motion-core/components/marquee/Marquee.svelte?raw';
 </script>
-
-# Marquee
-
-An infinite scrolling component that reacts to scroll direction and velocity using GSAP.
 
 ## Usage
 
@@ -68,6 +65,12 @@ An infinite scrolling component that reacts to scroll direction and velocity usi
 			type: 'boolean',
 			default: 'false',
 			description: 'Whether to reverse the animation direction.'
+		},
+		{
+			prop: 'scrollElement',
+			type: 'string | HTMLElement',
+			default: 'undefined',
+			description: 'Optional selector or element for the scroll container. Useful when scrolling within a specific div instead of the window.'
 		}
 	]}
 />

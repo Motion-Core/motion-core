@@ -1,8 +1,8 @@
 ---
 name: Pixelated Image
+description: PixelatedImage reveals an image with a retro digital pixelation effect. It starts with large pixel blocks that step down in size (powers of 2) until the full resolution image is revealed.
 video: /previews/pixelated-image/preview.mp4
 poster: /previews/pixelated-image/poster.webp
-
 ---
 
 <script lang="ts">
@@ -13,10 +13,6 @@ poster: /previews/pixelated-image/poster.webp
     import PixelatedImageDemo from "./PixelatedImageDemo.svelte";
     import pixelatedImageDemoSource from "./PixelatedImageDemo.svelte?raw";
 </script>
-
-# Pixelated Image
-
-`PixelatedImage` reveals an image with a retro digital pixelation effect. It starts with large pixel blocks that step down in size (powers of 2) until the full resolution image is revealed.
 
 ## Usage
 

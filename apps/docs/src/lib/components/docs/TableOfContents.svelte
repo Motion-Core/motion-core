@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import { SvelteMap } from "svelte/reactivity";
 	import { cn } from "$lib/utils/cn";
+	import { page } from "$app/stores";
 
 	type TocItem = {
 		id: string;
@@ -33,6 +33,8 @@
 	>();
 	let linksWrapper = $state<HTMLOListElement | null>(null);
 	let rafId: number | null = null;
+
+	const currentPath = $derived($page.url.pathname);
 
 	const slugify = (value: string) =>
 		value
@@ -179,6 +181,19 @@
 
 		const updateActive = () => {
 			let current = parsed[0]?.id ?? "";
+			const container =
+				document.getElementById("docs-content-container") ?? window;
+			const isWindow = container === window;
+			const scrollY = isWindow
+				? window.scrollY
+				: (container as HTMLElement).scrollTop;
+			const viewportHeight = isWindow
+				? window.innerHeight
+				: (container as HTMLElement).clientHeight;
+			const scrollHeight = isWindow
+				? document.documentElement.scrollHeight
+				: (container as HTMLElement).scrollHeight;
+
 			for (const item of parsed) {
 				const top = item.element.getBoundingClientRect().top;
 				if (top - ACTIVE_OFFSET <= 0) {
@@ -188,9 +203,8 @@
 
 			const last = parsed[parsed.length - 1];
 			if (last) {
-				const viewportBottom = window.scrollY + window.innerHeight;
-				const docHeight = document.documentElement.scrollHeight;
-				if (viewportBottom >= docHeight - 20) {
+				const scrolledBottom = scrollY + viewportHeight;
+				if (scrolledBottom >= scrollHeight - 20) {
 					current = last.id;
 				}
 			}
@@ -199,26 +213,48 @@
 			window.requestAnimationFrame(() => updateIndicator(current));
 		};
 
-		updateActive();
+		const container =
+			document.getElementById("docs-content-container") ?? window;
+
+		if (parsed.length > 0) {
+			const isWindow = container === window;
+			const scrollY = isWindow
+				? window.scrollY
+				: (container as HTMLElement).scrollTop;
+
+			if (scrollY < ACTIVE_OFFSET) {
+				activeId = parsed[0].id;
+				updateIndicator(activeId);
+			} else {
+				updateActive();
+			}
+		}
 
 		const handleResize = () => {
 			updateActive();
 			scheduleMeasurement();
 		};
 
-		window.addEventListener("scroll", updateActive, { passive: true });
+		container.addEventListener("scroll", updateActive, { passive: true });
 		window.addEventListener("resize", handleResize);
 
 		return () => {
-			window.removeEventListener("scroll", updateActive);
+			container.removeEventListener("scroll", updateActive);
 			window.removeEventListener("resize", handleResize);
 		};
 	}
 
-	onMount(() => {
-		let cleanup = collectHeadings();
+	$effect(() => {
+		const path = currentPath;
+		void path;
+		let cleanup: (() => void) | undefined;
+
+		const timer = setTimeout(() => {
+			cleanup = collectHeadings();
+		}, 50);
 
 		return () => {
+			clearTimeout(timer);
 			cleanup?.();
 		};
 	});
@@ -232,9 +268,9 @@
 </script>
 
 {#if headings.length > 0}
-	<nav class="sticky top-22 hidden lg:block">
+	<nav class="sticky top-14 hidden lg:block">
 		<div
-			class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide font-medium text-accent"
+			class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide font-medium text-foreground"
 		>
 			<svg
 				width="15"
@@ -272,10 +308,8 @@
 							href={`#${heading.id}`}
 							class={cn(
 								"block px-3 py-1 hover:text-foreground font-normal transition-[color] duration-150 ease-out",
-								heading.level > 2 && "pl-6 text-xs",
-								activeId === heading.id
-									? "text-foreground"
-									: "text-foreground/70",
+								heading.level > 2 && "pl-6 text-sm",
+								activeId === heading.id ? "text-accent" : "text-foreground/70",
 							)}
 							aria-current={activeId === heading.id ? "location" : undefined}
 							use:registerLink={heading.id}

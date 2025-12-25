@@ -1,5 +1,6 @@
 ---
 name: Infinite Gallery
+description: InfiniteGallery is a 3D image gallery that scrolls infinitely through a pool of images. It features a cinematic cloth-like distortion effect, blur-in/out transitions, and interactive planes that respond to hover and scroll speed.
 video: /previews/infinite-gallery/preview.mp4
 poster: /previews/infinite-gallery/poster.webp
 ---
@@ -13,10 +14,6 @@ poster: /previews/infinite-gallery/poster.webp
     import InfiniteGalleryDemo from "./InfiniteGalleryDemo.svelte";
     import infiniteGalleryDemoSource from "./InfiniteGalleryDemo.svelte?raw";
 </script>
-
-# Infinite Gallery
-
-`InfiniteGallery` is a 3D image gallery that scrolls infinitely through a pool of images. It features a cinematic cloth-like distortion effect, blur-in/out transitions, and interactive planes that respond to hover and scroll speed.
 
 ## Usage
 

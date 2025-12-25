@@ -184,7 +184,7 @@
 			>
 				<button
 					onclick={reloadPreview}
-					class="absolute right-10 top-1 z-50 flex size-8 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
+					class="absolute right-10 top-1 z-30 flex size-7 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -204,7 +204,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="absolute right-1 top-1 z-50 flex size-8 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
+					class="absolute right-1 top-1 z-30 flex size-7 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}
@@ -255,23 +255,30 @@
 				{/key}
 			</div>
 		</div>
-		<div class="flex flex-1 flex-col bg-card rounded-b-lg">
+		<div class="flex flex-1 flex-col bg-card rounded-b-lg overflow-hidden">
 			{#if tabs.length}
-				<div class="relative flex items-center text-sm">
-					{#each tabs as tab, index (tab.name)}
-						<button
-							type="button"
-							class={`border-b-2 px-3 py-2 transition-colors ${
-								index === activeTab
-									? "border-accent text-foreground"
-									: "border-transparent text-foreground/70 hover:text-foreground"
-							}`}
-							onclick={() => (activeTab = index)}
-						>
-							{tab.name}
-						</button>
-					{/each}
-					<div class="absolute top-1/2 -translate-y-1/2 right-1">
+				<div
+					class="flex items-center text-sm border-b border-border bg-card-muted/50"
+				>
+					<div
+						class="flex flex-1 items-center overflow-x-auto no-scrollbar mask-gradient-r"
+					>
+						{#each tabs as tab, index (tab.name)}
+							<button
+								type="button"
+								class={cn(
+									"border-b-2 px-4 py-2.5 whitespace-nowrap transition-all duration-150 ease-out",
+									index === activeTab
+										? "border-accent text-foreground font-medium bg-accent/5"
+										: "border-transparent text-foreground/60 hover:text-foreground hover:bg-muted/60",
+								)}
+								onclick={() => (activeTab = index)}
+							>
+								{tab.name}
+							</button>
+						{/each}
+					</div>
+					<div class="flex-none px-2">
 						{#if activeSource}
 							<CopyCodeButton class="size-6" code={activeSource.code} />
 						{/if}
