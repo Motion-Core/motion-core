@@ -7,23 +7,23 @@ poster: /previews/glass-pane/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import glassPaneSource from "motion-core/components/glass-pane/GlassPane.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	glassPaneSource from "motion-core/components/glass-pane/GlassPane.svelte?raw";
 	import sceneSource from "motion-core/components/glass-pane/Scene.svelte?raw";
-    import GlassPaneDemo from "./GlassPaneDemo.svelte";
-    import glassPaneDemoSource from "./GlassPaneDemo.svelte?raw";
+	import GlassPaneDemo from "./GlassPaneDemo.svelte"; import glassPaneDemoSource
+	from "./GlassPaneDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: glassPaneDemoSource, language: "svelte" },
+		{ name: "Example", code: glassPaneDemoSource, language: "svelte" },
 		{ name: "GlassPane.svelte", code: glassPaneSource, language: "svelte" },
-		{ name: "Scene.svelte", code: sceneSource, language: "svelte" }
+		{ name: "Scene.svelte", code: sceneSource, language: "svelte" },
 	]}
 >
-    <GlassPaneDemo />
+	<GlassPaneDemo />
 </ComponentPreview>
 
 ## Props
@@ -36,43 +36,43 @@ poster: /previews/glass-pane/poster.webp
 			prop: "image",
 			type: "string",
 			default: "—",
-			description: "URL of the image to be used as the background."
+			description: "URL of the image to be used as the background.",
 		},
 		{
 			prop: "distortion",
 			type: "number",
 			default: "1.0",
-			description: "Strength of the refraction."
+			description: "Strength of the refraction.",
 		},
 		{
 			prop: "chromaticAberration",
 			type: "number",
 			default: "0.005",
-			description: "Strength of the chromatic aberration (RGB shift)."
+			description: "Strength of the chromatic aberration (RGB shift).",
 		},
 		{
 			prop: "waviness",
 			type: "number",
 			default: "0.05",
-			description: "Intensity of the sine wave distortion of the glass panels."
+			description: "Intensity of the sine wave distortion of the glass panels.",
 		},
 		{
 			prop: "frequency",
 			type: "number",
 			default: "6.0",
-			description: "Frequency of the sine wave distortion."
+			description: "Frequency of the sine wave distortion.",
 		},
 		{
 			prop: "speed",
 			type: "number",
 			default: "1.0",
-			description: "Animation speed multiplier."
+			description: "Animation speed multiplier.",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
-			description: "Additional CSS classes for the container."
+			description: "Additional CSS classes for the container.",
 		},
 	]}
 />

@@ -1,0 +1,32 @@
+{
+	"name": "Pixelated Image",
+	"slug": "pixelated-image",
+	"description": "PixelatedImage reveals media by animating blocky pixel grids that progressively sharpen to full resolution.",
+	"category": "canvas",
+	"preview": {
+		"video": "/previews/pixelated-image/preview.mp4",
+		"poster": "/previews/pixelated-image/poster.webp"
+	},
+	"dependencies": {
+		"@threlte/core": "^8.3.1",
+		"@threlte/extras": "^9.7.1",
+		"three": "^0.182.0"
+	},
+	"devDependencies": {
+		"@types/three": "^0.169.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "PixelatedImage.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "Scene.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

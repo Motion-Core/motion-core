@@ -270,7 +270,7 @@
 {#if headings.length > 0}
 	<nav class="sticky top-14 hidden lg:block">
 		<div
-			class="mb-4 flex items-center gap-2 text-xs uppercase tracking-wide font-medium text-foreground"
+			class="mb-4 flex items-center gap-2 text-xs font-medium tracking-wide text-foreground uppercase"
 		>
 			<svg
 				width="15"
@@ -307,7 +307,7 @@
 						<a
 							href={`#${heading.id}`}
 							class={cn(
-								"block px-3 py-1 hover:text-foreground font-normal transition-[color] duration-150 ease-out",
+								"block px-3 py-1 font-normal transition-[color] duration-150 ease-out hover:text-foreground",
 								heading.level > 2 && "pl-6 text-sm",
 								activeId === heading.id ? "text-accent" : "text-foreground/70",
 							)}

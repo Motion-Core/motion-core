@@ -1,0 +1,27 @@
+{
+	"name": "Marquee",
+	"slug": "marquee",
+	"description": "Marquee animates multi-line headline loops with ScrollTrigger support so rows accelerate, reverse, or sync with scroll position.",
+	"category": "motion",
+	"preview": {
+		"video": "/previews/marquee/preview.mp4",
+		"poster": "/previews/marquee/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "Marquee.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

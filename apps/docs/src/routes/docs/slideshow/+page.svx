@@ -7,23 +7,23 @@ poster: /previews/slideshow/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import slideshowSource from "motion-core/components/slideshow/Slideshow.svelte?raw";
-	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
-    import SlideshowDemo from "./SlideshowDemo.svelte";
-    import slideshowDemoSource from "./SlideshowDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	slideshowSource from "motion-core/components/slideshow/Slideshow.svelte?raw";
+	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw"; import
+	SlideshowDemo from "./SlideshowDemo.svelte"; import slideshowDemoSource from
+	"./SlideshowDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: slideshowDemoSource, language: "svelte" },
+		{ name: "Example", code: slideshowDemoSource, language: "svelte" },
 		{ name: "Slideshow.svelte", code: slideshowSource, language: "svelte" },
-		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" }
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" },
 	]}
 >
-    <SlideshowDemo />
+	<SlideshowDemo />
 </ComponentPreview>
 
 ## Props
@@ -36,13 +36,13 @@ poster: /previews/slideshow/poster.webp
 			prop: "images",
 			type: "{src: string, alt?: string}[]",
 			default: "[]",
-			description: "Array of image objects to display."
+			description: "Array of image objects to display.",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
-			description: "Additional CSS classes for the container."
-		}
+			description: "Additional CSS classes for the container.",
+		},
 	]}
 />

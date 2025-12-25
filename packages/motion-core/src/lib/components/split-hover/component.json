@@ -1,0 +1,31 @@
+{
+	"name": "Split Hover",
+	"slug": "split-hover",
+	"description": "SplitHover splits text into characters and animates stacked layers on hover for a premium swap effect.",
+	"category": "ui",
+	"preview": {
+		"video": "/previews/split-hover/preview.mp4",
+		"poster": "/previews/split-hover/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "SplitHover.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		},
+		{
+			"path": "../../helpers/gsap.ts",
+			"target": "helper"
+		}
+	]
+}

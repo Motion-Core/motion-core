@@ -7,21 +7,21 @@ poster: /previews/macos-dock/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import macosDockSource from "motion-core/components/macos-dock/MacosDock.svelte?raw";
-    import MacosDockDemo from "./MacosDockDemo.svelte";
-    import macosDockDemoSource from "./MacosDockDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	macosDockSource from "motion-core/components/macos-dock/MacosDock.svelte?raw";
+	import MacosDockDemo from "./MacosDockDemo.svelte"; import macosDockDemoSource
+	from "./MacosDockDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: macosDockDemoSource, language: "svelte" },
-		{ name: "MacosDock.svelte", code: macosDockSource, language: "svelte" }
+		{ name: "Example", code: macosDockDemoSource, language: "svelte" },
+		{ name: "MacosDock.svelte", code: macosDockSource, language: "svelte" },
 	]}
 >
-    <MacosDockDemo />
+	<MacosDockDemo />
 </ComponentPreview>
 
 ## Props
@@ -36,31 +36,31 @@ poster: /previews/macos-dock/poster.webp
 			prop: "items",
 			type: "DockItem[]",
 			default: "—",
-			description: "Array of items to display { src, alt, label, href }."
+			description: "Array of items to display { src, alt, label, href }.",
 		},
 		{
 			prop: "baseWidth",
 			type: "number",
 			default: "4",
-			description: "Base width of each icon in em units."
+			description: "Base width of each icon in em units.",
 		},
 		{
 			prop: "magnification",
 			type: "number",
 			default: "1.5",
-			description: "Magnification factor for the hovered icon."
+			description: "Magnification factor for the hovered icon.",
 		},
 		{
 			prop: "distance",
 			type: "number",
 			default: "3",
-			description: "Number of adjacent icons affected by the magnification."
+			description: "Number of adjacent icons affected by the magnification.",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: "—",
-			description: "Additional CSS classes for the nav container."
-		}
+			description: "Additional CSS classes for the nav container.",
+		},
 	]}
 />

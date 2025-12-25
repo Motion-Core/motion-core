@@ -80,26 +80,26 @@
 	});
 </script>
 
-<nav class={cn("flex justify-center items-end p-4", className)}>
+<nav class={cn("flex items-end justify-center p-4", className)}>
 	<ul
-		class="flex items-end justify-center gap-0 p-0 m-0 list-none"
+		class="m-0 flex list-none items-end justify-center gap-0 p-0"
 		onmouseleave={() => (hoveredIndex = null)}
 	>
 		{#each items as item, index (index)}
 			<li
 				bind:this={dockItems[index]}
-				class="relative flex justify-center items-center"
+				class="relative flex items-center justify-center"
 				style="width: {baseWidth}em;"
 				onmouseenter={() => (hoveredIndex = index)}
 			>
 				<a
 					href={item.href || "#"}
-					class="flex justify-center items-center w-full h-full p-2 z-10 cursor-pointer"
+					class="z-10 flex h-full w-full cursor-pointer items-center justify-center p-2"
 				>
 					<img
 						src={item.src}
 						alt={item.alt}
-						class="w-full h-full object-contain pointer-events-none"
+						class="pointer-events-none h-full w-full object-contain"
 						loading="eager"
 					/>
 				</a>
@@ -107,7 +107,7 @@
 				{#if item.label}
 					<div
 						bind:this={dockTooltips[index]}
-						class="absolute top-0 left-1/2 bg-neutral-100 px-2 py-1 rounded text-sm whitespace-nowrap opacity-0 pointer-events-none z-0 border border-neutral-200/50 shadow-md text-black"
+						class="pointer-events-none absolute top-0 left-1/2 z-0 rounded border border-neutral-200/50 bg-neutral-100 px-2 py-1 text-sm whitespace-nowrap text-black opacity-0 shadow-md"
 					>
 						{item.label}
 					</div>

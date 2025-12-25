@@ -1,0 +1,30 @@
+{
+	"name": "Logo Carousel",
+	"slug": "logo-carousel",
+	"description": "LogoCarousel renders multi-column brand stacks that shuffle infinitely with GSAP-driven fades and vertical motion.",
+	"category": "motion",
+	"preview": {
+		"video": "/previews/logo-carousel/preview.mp4",
+		"poster": "/previews/logo-carousel/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "LogoCarousel.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "LogoColumn.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

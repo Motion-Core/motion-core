@@ -7,18 +7,18 @@ poster: /previews/marquee/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from '$lib/components/docs/ComponentPreview.svelte';
-	import ApiTable from '$lib/components/docs/ApiTable.svelte';
-	import MarqueeDemo from './MarqueeDemo.svelte';
-	import marqueeDemoSource from './MarqueeDemo.svelte?raw';
-	import marqueeSource from 'motion-core/components/marquee/Marquee.svelte?raw';
+	import ApiTable from '$lib/components/docs/ApiTable.svelte'; import
+	MarqueeDemo from './MarqueeDemo.svelte'; import marqueeDemoSource from
+	'./MarqueeDemo.svelte?raw'; import marqueeSource from
+	'motion-core/components/marquee/Marquee.svelte?raw';
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-		{ name: 'Example', code: marqueeDemoSource, language: 'svelte' },
-		{ name: 'Marquee.svelte', code: marqueeSource, language: 'svelte' }
+		{ name: "Example", code: marqueeDemoSource, language: "svelte" },
+		{ name: "Marquee.svelte", code: marqueeSource, language: "svelte" },
 	]}
 >
 	<MarqueeDemo />
@@ -27,50 +27,54 @@ poster: /previews/marquee/poster.webp
 ## Props
 
 <ApiTable
-	headers={['Prop', 'Type', 'Default']}
-	keys={['prop', 'type', 'default']}
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
 	data={[
 		{
-			prop: 'duration',
-			type: 'number',
-			default: '5',
-			description: 'The time in seconds for one full loop cycle.'
+			prop: "duration",
+			type: "number",
+			default: "5",
+			description: "The time in seconds for one full loop cycle.",
 		},
 		{
-			prop: 'velocity',
-			type: 'number',
-			default: '0.5',
-			description: 'Sensitivity to scroll velocity. Higher numbers make it speed up more when scrolling.'
+			prop: "velocity",
+			type: "number",
+			default: "0.5",
+			description:
+				"Sensitivity to scroll velocity. Higher numbers make it speed up more when scrolling.",
 		},
 		{
-			prop: 'repeat',
-			type: 'number',
-			default: '3',
-			description: 'Number of times to duplicate the content for seamless looping.'
+			prop: "repeat",
+			type: "number",
+			default: "3",
+			description:
+				"Number of times to duplicate the content for seamless looping.",
 		},
 		{
-			prop: 'class',
-			type: 'string',
+			prop: "class",
+			type: "string",
 			default: "''",
-			description: 'Classes for the outer container.'
+			description: "Classes for the outer container.",
 		},
 		{
-			prop: 'gap',
-			type: 'number',
-			default: '32',
-			description: 'Gap between items and horizontal padding for the track (px).'
+			prop: "gap",
+			type: "number",
+			default: "32",
+			description:
+				"Gap between items and horizontal padding for the track (px).",
 		},
 		{
-			prop: 'reversed',
-			type: 'boolean',
-			default: 'false',
-			description: 'Whether to reverse the animation direction.'
+			prop: "reversed",
+			type: "boolean",
+			default: "false",
+			description: "Whether to reverse the animation direction.",
 		},
 		{
-			prop: 'scrollElement',
-			type: 'string | HTMLElement',
-			default: 'undefined',
-			description: 'Optional selector or element for the scroll container. Useful when scrolling within a specific div instead of the window.'
-		}
+			prop: "scrollElement",
+			type: "string | HTMLElement",
+			default: "undefined",
+			description:
+				"Optional selector or element for the scroll container. Useful when scrolling within a specific div instead of the window.",
+		},
 	]}
 />

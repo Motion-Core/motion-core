@@ -53,11 +53,11 @@
 	});
 </script>
 
-<div class="relative inline-flex items-center ml-1.5 align-middle">
+<div class="relative ml-1.5 inline-flex items-center align-middle">
 	<button
 		bind:this={triggerRef}
 		onclick={toggle}
-		class="text-foreground/70 hover:text-accent transition-[color] duration-150 ease-out"
+		class="text-foreground/70 transition-[color] duration-150 ease-out hover:text-accent"
 		aria-label="More info"
 	>
 		<svg
@@ -81,7 +81,7 @@
 		<div
 			bind:this={popoverRef}
 			transition:scale={{ duration: 150, start: 0.95 }}
-			class="fixed w-64 p-3 rounded-md border border-border bg-card text-foreground shadow-lg z-50 text-sm leading-normal"
+			class="fixed z-50 w-64 rounded-md border border-border bg-card p-3 text-sm leading-normal text-foreground shadow-lg"
 			style="top: {coords.top -
 				8}px; left: {coords.left}px; transform: translate(-50%, -100%);"
 		>

@@ -16,7 +16,7 @@
 	$effect(() => {
 		if (material && texture) {
 			material.uniforms.map.value = texture;
-            material.needsUpdate = true;
+			material.needsUpdate = true;
 		}
 	});
 

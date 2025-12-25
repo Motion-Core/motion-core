@@ -7,23 +7,24 @@ poster: /previews/split-hover/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import splitHoverSource from "motion-core/components/split-hover/SplitHover.svelte?raw";
-	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
-    import SplitHoverDemo from "./SplitHoverDemo.svelte";
-    import splitHoverDemoSource from "./SplitHoverDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	splitHoverSource from
+	"motion-core/components/split-hover/SplitHover.svelte?raw"; import
+	gsapHelperSource from "motion-core/helpers/gsap.ts?raw"; import SplitHoverDemo
+	from "./SplitHoverDemo.svelte"; import splitHoverDemoSource from
+	"./SplitHoverDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: splitHoverDemoSource, language: "svelte" },
+		{ name: "Example", code: splitHoverDemoSource, language: "svelte" },
 		{ name: "SplitHover.svelte", code: splitHoverSource, language: "svelte" },
-		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" }
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" },
 	]}
 >
-    <SplitHoverDemo />
+	<SplitHoverDemo />
 </ComponentPreview>
 
 ## Props
@@ -36,13 +37,14 @@ poster: /previews/split-hover/poster.webp
 			prop: "hoverTarget",
 			type: "HTMLElement | null",
 			default: "null",
-			description: "Optional element that should trigger hover events (useful for buttons wrapping the text)."
+			description:
+				"Optional element that should trigger hover events (useful for buttons wrapping the text).",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
-			description: "Additional classes for the wrapper."
-		}
+			description: "Additional classes for the wrapper.",
+		},
 	]}
 />

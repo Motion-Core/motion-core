@@ -7,23 +7,29 @@ poster: /previews/logo-carousel/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import logoCarouselSource from "motion-core/components/logo-carousel/LogoCarousel.svelte?raw";
-	import logoColumnSource from "motion-core/components/logo-carousel/LogoColumn.svelte?raw";
-    import LogoCarouselDemo from "./LogoCarouselDemo.svelte";
-    import logoCarouselDemoSource from "./LogoCarouselDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	logoCarouselSource from
+	"motion-core/components/logo-carousel/LogoCarousel.svelte?raw"; import
+	logoColumnSource from
+	"motion-core/components/logo-carousel/LogoColumn.svelte?raw"; import
+	LogoCarouselDemo from "./LogoCarouselDemo.svelte"; import
+	logoCarouselDemoSource from "./LogoCarouselDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: logoCarouselDemoSource, language: "svelte" },
-		{ name: "LogoCarousel.svelte", code: logoCarouselSource, language: "svelte" },
-		{ name: "LogoColumn.svelte", code: logoColumnSource, language: "svelte" }
+		{ name: "Example", code: logoCarouselDemoSource, language: "svelte" },
+		{
+			name: "LogoCarousel.svelte",
+			code: logoCarouselSource,
+			language: "svelte",
+		},
+		{ name: "LogoColumn.svelte", code: logoColumnSource, language: "svelte" },
 	]}
 >
-    <LogoCarouselDemo />
+	<LogoCarouselDemo />
 </ComponentPreview>
 
 ## Props
@@ -38,25 +44,25 @@ poster: /previews/logo-carousel/poster.webp
 			prop: "logos",
 			type: "Logo[]",
 			default: "—",
-			description: "Array of logo objects { name, id, component }."
+			description: "Array of logo objects { name, id, component }.",
 		},
 		{
 			prop: "columnCount",
 			type: "number",
 			default: "2",
-			description: "Number of columns to distribute logos into."
+			description: "Number of columns to distribute logos into.",
 		},
 		{
 			prop: "cycleInterval",
 			type: "number",
 			default: "2000",
-			description: "Time in milliseconds between logo transitions."
+			description: "Time in milliseconds between logo transitions.",
 		},
-        {
+		{
 			prop: "class",
 			type: "string",
 			default: "—",
-			description: "Additional CSS classes."
-		}
+			description: "Additional CSS classes.",
+		},
 	]}
 />

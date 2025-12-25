@@ -55,14 +55,14 @@
 </script>
 
 <section
-	class="relative lg:col-span-3 lg:max-h-[calc(100svh-2rem)] rounded-xl bg-background border border-border"
+	class="relative rounded-xl border border-border bg-background lg:col-span-3 lg:max-h-[calc(100svh-2rem)]"
 >
 	<div
-		class="w-full h-full p-2 md:p-4 lg:overflow-y-auto"
+		class="h-full w-full p-2 md:p-4 lg:overflow-y-auto"
 		style="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
 	>
 		<div
-			class="columns-1 gap-4 space-y-4 sm:columns-2 lg:columns-3 [column-fill:balance]"
+			class="columns-1 gap-4 space-y-4 [column-fill:balance] sm:columns-2 lg:columns-3"
 			bind:this={listRef}
 		>
 			{#each components as component (component.slug)}

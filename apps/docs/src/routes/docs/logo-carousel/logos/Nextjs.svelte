@@ -34,13 +34,7 @@
 			d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z"
 			fill="url(#nextjs-paint0)"
 		/>
-		<rect
-			x={115}
-			y={54}
-			width={12}
-			height={72}
-			fill="url(#nextjs-paint1)"
-		/>
+		<rect x={115} y={54} width={12} height={72} fill="url(#nextjs-paint1)" />
 	</g>
 	<defs>
 		<linearGradient

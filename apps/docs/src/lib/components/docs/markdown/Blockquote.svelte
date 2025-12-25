@@ -18,7 +18,7 @@
 <blockquote
 	{...restProps}
 	class={cn(
-		"mt-6 rounded-lg border border-border bg-card px-5 py-3 text-sm italic text-foreground/70 shadow-sm",
+		"mt-6 rounded-lg border border-border bg-card px-5 py-3 text-sm text-foreground/70 italic shadow-sm",
 		className,
 	)}
 >

@@ -111,7 +111,7 @@
 
 <span
 	{...restProps()}
-	class={cn("relative align-baseline font-inherit text-inherit", className)}
+	class={cn("font-inherit relative align-baseline text-inherit", className)}
 	bind:this={wrapperRef}
 >
 	{@render children?.()}

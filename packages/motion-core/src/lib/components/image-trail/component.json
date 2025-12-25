@@ -1,0 +1,27 @@
+{
+	"name": "Image Trail",
+	"slug": "image-trail",
+	"description": "ImageTrail spawns pooled images that follow the cursor, scaling and rotating each asset before fading it out for a responsive trailing effect.",
+	"category": "motion",
+	"preview": {
+		"video": "/previews/image-trail/preview.mp4",
+		"poster": "/previews/image-trail/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "ImageTrail.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

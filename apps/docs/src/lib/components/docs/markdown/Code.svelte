@@ -27,13 +27,13 @@
 {#if isBlock(typeof className === "string" ? className : undefined, restProps["data-theme"])}
 	<code
 		{...restProps}
-		class={cn("block whitespace-pre mono text-sm leading-relaxed", className)}
+		class={cn("block text-sm leading-relaxed whitespace-pre mono", className)}
 	>
 		{@render children?.()}
 	</code>
 {:else}
 	<div
-		class="relative inline-block w-fit rounded bg-card border border-border shadow-sm px-1.5 py-0.5 mono text-sm text-foreground"
+		class="relative inline-block w-fit rounded border border-border bg-card px-1.5 py-0.5 text-sm text-foreground shadow-sm mono"
 	>
 		<code {...restProps} class={cn("", className)}>
 			{@render children?.()}

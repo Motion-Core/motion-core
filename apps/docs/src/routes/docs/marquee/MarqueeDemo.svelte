@@ -13,7 +13,7 @@
 </script>
 
 <div
-	class="h-full min-h-96 w-full flex flex-col items-center justify-center gap-4"
+	class="flex h-full min-h-96 w-full flex-col items-center justify-center gap-4"
 >
 	<Marquee
 		class="h-fit"

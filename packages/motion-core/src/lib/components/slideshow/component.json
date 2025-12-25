@@ -1,0 +1,31 @@
+{
+	"name": "Slideshow",
+	"slug": "slideshow",
+	"description": "Slideshow presents full-bleed imagery with GSAP-driven parallax transitions and a synced thumbnail navigator.",
+	"category": "motion",
+	"preview": {
+		"video": "/previews/slideshow/preview.mp4",
+		"poster": "/previews/slideshow/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "Slideshow.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		},
+		{
+			"path": "../../helpers/gsap.ts",
+			"target": "helper"
+		}
+	]
+}

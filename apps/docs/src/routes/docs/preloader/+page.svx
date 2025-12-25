@@ -7,21 +7,21 @@ poster: /previews/preloader/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import preloaderSource from "motion-core/components/preloader/Preloader.svelte?raw";
-    import PreloaderDemo from "./PreloaderDemo.svelte";
-    import preloaderDemoSource from "./PreloaderDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	preloaderSource from "motion-core/components/preloader/Preloader.svelte?raw";
+	import PreloaderDemo from "./PreloaderDemo.svelte"; import preloaderDemoSource
+	from "./PreloaderDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: preloaderDemoSource, language: "svelte" },
-		{ name: "Preloader.svelte", code: preloaderSource, language: "svelte" }
+		{ name: "Example", code: preloaderDemoSource, language: "svelte" },
+		{ name: "Preloader.svelte", code: preloaderSource, language: "svelte" },
 	]}
 >
-    <PreloaderDemo />
+	<PreloaderDemo />
 </ComponentPreview>
 
 ## Props
@@ -34,19 +34,19 @@ poster: /previews/preloader/poster.webp
 			prop: "images",
 			type: "{src: string, alt?: string}[]",
 			default: "[]",
-			description: "Array of image objects (ideally 5 for best look)."
+			description: "Array of image objects (ideally 5 for best look).",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
-			description: "Additional CSS classes for the container."
+			description: "Additional CSS classes for the container.",
 		},
 		{
 			prop: "onComplete",
 			type: "() => void",
 			default: "undefined",
-			description: "Callback function when animation finishes."
-		}
+			description: "Callback function when animation finishes.",
+		},
 	]}
 />

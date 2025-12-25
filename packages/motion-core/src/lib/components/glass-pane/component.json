@@ -1,0 +1,32 @@
+{
+	"name": "Glass Pane",
+	"slug": "glass-pane",
+	"description": "GlassPane provides a glass-like refraction effect over an image using Three.js and shaders. Moving glass rods distort the texture with controlled chromatic aberration.",
+	"category": "canvas",
+	"preview": {
+		"video": "/previews/glass-pane/preview.mp4",
+		"poster": "/previews/glass-pane/poster.webp"
+	},
+	"dependencies": {
+		"@threlte/core": "^8.3.1",
+		"@threlte/extras": "^9.7.1",
+		"three": "^0.182.0"
+	},
+	"devDependencies": {
+		"@types/three": "^0.169.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "GlassPane.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "Scene.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

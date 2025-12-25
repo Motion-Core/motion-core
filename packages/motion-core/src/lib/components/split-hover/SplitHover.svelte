@@ -98,7 +98,7 @@
 <span
 	{...restProps}
 	class={cn(
-		"relative inline-flex overflow-hidden align-baseline font-inherit text-inherit leading-none",
+		"font-inherit relative inline-flex overflow-hidden align-baseline leading-none text-inherit",
 		className,
 	)}
 	bind:this={wrapperRef}

@@ -1,0 +1,35 @@
+{
+	"name": "Infinite Gallery",
+	"slug": "infinite-gallery",
+	"description": "InfiniteGallery is a 3D canvas gallery that scrolls endlessly through textured planes with cloth-like distortion, blur transitions, and hover parallax.",
+	"category": "canvas",
+	"preview": {
+		"video": "/previews/infinite-gallery/preview.mp4",
+		"poster": "/previews/infinite-gallery/poster.webp"
+	},
+	"dependencies": {
+		"@threlte/core": "^8.3.1",
+		"@threlte/extras": "^9.7.1",
+		"three": "^0.182.0"
+	},
+	"devDependencies": {
+		"@types/three": "^0.169.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "InfiniteGallery.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "GalleryScene.svelte"
+		},
+		{
+			"path": "ImagePlane.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

@@ -23,7 +23,7 @@
 	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
-<div class={cn("relative w-full h-full overflow-hidden", className)} {...rest}>
+<div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
 		<Canvas {dpr} toneMapping={NoToneMapping}>
 			<Scene image={src} {initialGridSize} {stepDuration} />

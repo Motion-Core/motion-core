@@ -2,7 +2,7 @@
 	import { TextLoop } from "motion-core";
 </script>
 
-<p class="text-5xl text-center font-medium text-foreground">
+<p class="text-center text-5xl font-medium text-foreground">
 	Create <TextLoop
 		class="text-accent"
 		texts={["magic", "wonder", "impact", "value"]}

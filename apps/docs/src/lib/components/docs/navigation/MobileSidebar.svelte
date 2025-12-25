@@ -22,7 +22,7 @@
 </script>
 
 <div
-	class="lg:hidden flex items-center justify-between px-4 py-2 border-b border-border bg-card sticky top-0 z-50"
+	class="sticky top-0 z-50 flex items-center justify-between border-b border-border bg-card px-4 py-2 lg:hidden"
 >
 	<a href="/" class="flex items-center gap-2">
 		<span
@@ -31,13 +31,13 @@
 		>
 			{@html motionCoreLogo}
 		</span>
-		<span class="text-xl text-foreground font-display font-medium"
+		<span class="text-xl font-medium text-foreground font-display"
 			>Motion Core</span
 		>
 	</a>
 	<button
 		onclick={toggle}
-		class="p-2 -mr-2 text-foreground/70 hover:text-foreground"
+		class="-mr-2 p-2 text-foreground/70 hover:text-foreground"
 		aria-label="Toggle menu"
 	>
 		<svg
@@ -46,7 +46,7 @@
 			viewBox="0 0 24 24"
 			stroke-width="1.5"
 			stroke="currentColor"
-			class="w-6 h-6"
+			class="h-6 w-6"
 		>
 			<path
 				stroke-linecap="round"

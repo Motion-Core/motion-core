@@ -1,0 +1,21 @@
+[package]
+name = "motion-core-cli-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Core library for Motion Core CLI"
+
+[dependencies]
+anyhow.workspace = true
+camino.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+reqwest.workspace = true
+base64.workspace = true
+dirs.workspace = true
+
+[dev-dependencies]
+tempfile = "3.10"

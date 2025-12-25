@@ -23,15 +23,15 @@
 	{href}
 	{...rest}
 	class={cn(
-		"relative group flex flex-col rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted/60",
+		"group relative flex flex-col rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted/60",
 		align === "right" && "sm:text-right",
 		forceSecondColumn && "sm:col-start-2",
 	)}
 >
-	<span class="text-xs uppercase tracking-wide text-foreground/45">
+	<span class="text-xs tracking-wide text-foreground/45 uppercase">
 		{label}
 	</span>
-	<span class="text-lg text-foreground font-medium">
+	<span class="text-lg font-medium text-foreground">
 		{title}
 	</span>
 </a>

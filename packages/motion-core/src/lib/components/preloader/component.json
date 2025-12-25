@@ -1,0 +1,27 @@
+{
+	"name": "Preloader",
+	"slug": "preloader",
+	"description": "Preloader plays a kinetic strip of images that decelerates before scaling the hero asset to full screen for seamless page reveals.",
+	"category": "motion",
+	"preview": {
+		"video": "/previews/preloader/preview.mp4",
+		"poster": "/previews/preloader/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "Preloader.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

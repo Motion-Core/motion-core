@@ -7,25 +7,36 @@ poster: /previews/infinite-gallery/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import infiniteGallerySource from "motion-core/components/infinite-gallery/InfiniteGallery.svelte?raw";
-	import gallerySceneSource from "motion-core/components/infinite-gallery/GalleryScene.svelte?raw";
-	import imagePlaneSource from "motion-core/components/infinite-gallery/ImagePlane.svelte?raw";
-    import InfiniteGalleryDemo from "./InfiniteGalleryDemo.svelte";
-    import infiniteGalleryDemoSource from "./InfiniteGalleryDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	infiniteGallerySource from
+	"motion-core/components/infinite-gallery/InfiniteGallery.svelte?raw"; import
+	gallerySceneSource from
+	"motion-core/components/infinite-gallery/GalleryScene.svelte?raw"; import
+	imagePlaneSource from
+	"motion-core/components/infinite-gallery/ImagePlane.svelte?raw"; import
+	InfiniteGalleryDemo from "./InfiniteGalleryDemo.svelte"; import
+	infiniteGalleryDemoSource from "./InfiniteGalleryDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: infiniteGalleryDemoSource, language: "svelte" },
-		{ name: "InfiniteGallery.svelte", code: infiniteGallerySource, language: "svelte" },
-		{ name: "GalleryScene.svelte", code: gallerySceneSource, language: "svelte" },
-		{ name: "ImagePlane.svelte", code: imagePlaneSource, language: "svelte" }
+		{ name: "Example", code: infiniteGalleryDemoSource, language: "svelte" },
+		{
+			name: "InfiniteGallery.svelte",
+			code: infiniteGallerySource,
+			language: "svelte",
+		},
+		{
+			name: "GalleryScene.svelte",
+			code: gallerySceneSource,
+			language: "svelte",
+		},
+		{ name: "ImagePlane.svelte", code: imagePlaneSource, language: "svelte" },
 	]}
 >
-    <InfiniteGalleryDemo />
+	<InfiniteGalleryDemo />
 </ComponentPreview>
 
 ## Props
@@ -38,38 +49,38 @@ poster: /previews/infinite-gallery/poster.webp
 			prop: "images",
 			type: "ImageItem[]",
 			default: "[]",
-			description: "Array of image URLs or objects {src, alt}."
+			description: "Array of image URLs or objects {src, alt}.",
 		},
 		{
 			prop: "speed",
 			type: "number",
 			default: "1.0",
-			description: "Multiplier for scroll and auto-play speed."
+			description: "Multiplier for scroll and auto-play speed.",
 		},
 		{
 			prop: "visibleCount",
 			type: "number",
 			default: "8",
-			description: "Number of image planes rendered in the scene."
+			description: "Number of image planes rendered in the scene.",
 		},
 		{
 			prop: "fadeSettings",
 			type: "FadeSettings",
 			default: "—",
-			description: "Configures where images fade in/out along the Z axis."
+			description: "Configures where images fade in/out along the Z axis.",
 		},
 		{
 			prop: "blurSettings",
 			type: "BlurSettings",
 			default: "—",
-			description: "Configures where images blur in/out along the Z axis."
+			description: "Configures where images blur in/out along the Z axis.",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
-			description: "Additional CSS classes for the container."
-		}
+			description: "Additional CSS classes for the container.",
+		},
 	]}
 />
 

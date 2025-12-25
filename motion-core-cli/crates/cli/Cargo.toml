@@ -1,0 +1,25 @@
+[package]
+name = "motion-core-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Command line interface for Motion Core"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+motion-core-cli-core = { path = "../core" }
+serde_json.workspace = true
+serde.workspace = true
+pathdiff.workspace = true
+owo-colors.workspace = true
+indicatif.workspace = true
+dialoguer.workspace = true
+
+[dev-dependencies]
+tempfile = "3.10"
+serde_json = "1.0"
+base64 = "0.22"

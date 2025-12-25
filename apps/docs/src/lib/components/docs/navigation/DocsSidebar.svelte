@@ -18,7 +18,7 @@
 			>
 				{@html motionCoreLogo}
 			</span>
-			<span class="font-display text-xl font-medium text-foreground"
+			<span class="text-xl font-medium text-foreground font-display"
 				>Motion Core</span
 			>
 		</a>
@@ -27,7 +27,7 @@
 
 		<nav class="flex flex-col gap-1">
 			<h4
-				class="mb-2 ml-2 text-xs font-medium uppercase tracking-wider text-foreground/45"
+				class="mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
 			>
 				Components
 			</h4>

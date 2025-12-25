@@ -14,5 +14,5 @@
 
 <ImageTrail
 	images={demoImages}
-	class="absolute inset-0 h-full w-full flex items-center justify-center"
+	class="absolute inset-0 flex h-full w-full items-center justify-center"
 />

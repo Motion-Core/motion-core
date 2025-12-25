@@ -7,23 +7,24 @@ poster: /previews/split-reveal/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import splitRevealSource from "motion-core/components/split-reveal/SplitReveal.svelte?raw";
-	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
-    import SplitRevealDemo from "./SplitRevealDemo.svelte";
-    import splitRevealDemoSource from "./SplitRevealDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	splitRevealSource from
+	"motion-core/components/split-reveal/SplitReveal.svelte?raw"; import
+	gsapHelperSource from "motion-core/helpers/gsap.ts?raw"; import
+	SplitRevealDemo from "./SplitRevealDemo.svelte"; import splitRevealDemoSource
+	from "./SplitRevealDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: splitRevealDemoSource, language: "svelte" },
+		{ name: "Example", code: splitRevealDemoSource, language: "svelte" },
 		{ name: "SplitReveal.svelte", code: splitRevealSource, language: "svelte" },
-		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" }
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" },
 	]}
 >
-    <SplitRevealDemo />
+	<SplitRevealDemo />
 </ComponentPreview>
 
 ## Props
@@ -36,25 +37,25 @@ poster: /previews/split-reveal/poster.webp
 			prop: "mode",
 			type: '"lines" | "words" | "chars"',
 			default: '"lines"',
-			description: "Pick which SplitText grouping animates."
+			description: "Pick which SplitText grouping animates.",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
-			description: "Adds classes to the wrapping element."
+			description: "Adds classes to the wrapping element.",
 		},
 		{
 			prop: "as",
 			type: "keyof HTMLElementTagNameMap",
 			default: '"span"',
-			description: "Tag used for the wrapper (swap to div, p, etc.)."
+			description: "Tag used for the wrapper (swap to div, p, etc.).",
 		},
 		{
 			prop: "config",
 			type: "SplitRevealConfig",
 			default: "DEFAULT_CONFIG",
-			description: "Optional per-mode overrides for duration/stagger."
-		}
+			description: "Optional per-mode overrides for duration/stagger.",
+		},
 	]}
 />

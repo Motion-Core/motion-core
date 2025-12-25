@@ -6,11 +6,11 @@
 
 <a
 	href={`/docs/${component.slug}`}
-	class="relative group block break-inside-avoid rounded-xl border border-border bg-card hover:bg-accent hover:border-transparent transition-[background-color] duration-150 ease-out shadow-sm p-1 group"
+	class="group group relative block break-inside-avoid rounded-xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:border-transparent hover:bg-accent"
 	data-component-card
 >
 	<div
-		class="relative rounded-lg overflow-hidden aspect-video border border-border/60 group-hover:border-transparent transition-[border] duration-150 ease-out"
+		class="relative aspect-video overflow-hidden rounded-lg border border-border/60 transition-[border] duration-150 ease-out group-hover:border-transparent"
 	>
 		{#if component.video}
 			<video
@@ -20,13 +20,13 @@
 				loop
 				muted
 				playsinline
-				class="h-full w-full object-cover scale-110"
+				class="h-full w-full scale-110 object-cover"
 			>
 			</video>
 		{/if}
 	</div>
 	<div
-		class="pointer-events-none m-2 text-sm text-foreground group-hover:text-card transition-[color,border] duration-150 ease-out font-display font-medium"
+		class="pointer-events-none m-2 text-sm font-medium text-foreground transition-[color,border] duration-150 ease-out font-display group-hover:text-card"
 	>
 		{component.name}
 	</div>

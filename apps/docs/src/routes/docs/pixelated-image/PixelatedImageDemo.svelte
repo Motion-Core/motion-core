@@ -4,7 +4,7 @@
 
 <PixelatedImage
 	src="/images/demos/sample-13.jpg"
-	class="w-full h-full min-h-96"
+	class="h-full min-h-96 w-full"
 	initialGridSize={2}
 	stepDuration={0.2}
 />

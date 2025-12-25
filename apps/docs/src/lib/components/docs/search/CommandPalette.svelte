@@ -92,9 +92,7 @@
 				easing: cubicOut,
 			}}
 		>
-			<div
-				class="flex items-center border-b border-border px-3"
-			>
+			<div class="flex items-center border-b border-border px-3">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="18"
@@ -118,14 +116,14 @@
 					aria-label="Search documentation"
 				/>
 				<kbd
-					class="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-card-muted/50 px-1.5 mono text-[10px] font-medium text-foreground/50 sm:flex"
+					class="pointer-events-none hidden h-5 items-center gap-1 rounded border border-border bg-card-muted/50 px-1.5 text-[10px] font-medium text-foreground/50 select-none mono sm:flex"
 				>
 					ESC
 				</kbd>
 			</div>
 
 			<div
-				class="transition-[height] duration-200 ease-out overflow-hidden"
+				class="overflow-hidden transition-[height] duration-200 ease-out"
 				style="height: {contentHeight}px"
 			>
 				<div bind:clientHeight={contentHeight}>
@@ -135,7 +133,7 @@
 								{@const isChild = result.matchType === "heading"}
 								<button
 									class={cn(
-										"group flex w-full flex-col items-start gap-1 rounded-md px-3 py-2 text-sm relative",
+										"group relative flex w-full flex-col items-start gap-1 rounded-md px-3 py-2 text-sm",
 										isChild && "pl-8",
 										i === selectedIndex
 											? "bg-accent/10 text-accent"
@@ -147,7 +145,7 @@
 									{#if isChild}
 										<div
 											class={cn(
-												"absolute left-3 top-0 bottom-0 w-px",
+												"absolute top-0 bottom-0 left-3 w-px",
 												i === selectedIndex ? "bg-accent/30" : "bg-border",
 											)}
 										></div>

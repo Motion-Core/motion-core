@@ -90,7 +90,7 @@
 
 <div
 	bind:this={container}
-	class={cn("overflow-hidden flex w-full h-full", className)}
+	class={cn("flex h-full w-full overflow-hidden", className)}
 >
 	{#each Array(repeat) as _, i (i)}
 		<div

@@ -7,21 +7,21 @@ poster: /previews/text-loop/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import textLoopSource from "motion-core/components/text-loop/TextLoop.svelte?raw";
-    import TextLoopDemo from "./TextLoopDemo.svelte";
-    import textLoopDemoSource from "./TextLoopDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	textLoopSource from "motion-core/components/text-loop/TextLoop.svelte?raw";
+	import TextLoopDemo from "./TextLoopDemo.svelte"; import textLoopDemoSource
+	from "./TextLoopDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: textLoopDemoSource, language: "svelte" },
-		{ name: "TextLoop.svelte", code: textLoopSource, language: "svelte" }
+		{ name: "Example", code: textLoopDemoSource, language: "svelte" },
+		{ name: "TextLoop.svelte", code: textLoopSource, language: "svelte" },
 	]}
 >
-    <TextLoopDemo />
+	<TextLoopDemo />
 </ComponentPreview>
 
 ## Props
@@ -34,19 +34,19 @@ poster: /previews/text-loop/poster.webp
 			prop: "texts",
 			type: "string[]",
 			default: "—",
-			description: "Array of strings to loop through."
+			description: "Array of strings to loop through.",
 		},
 		{
 			prop: "interval",
 			type: "number",
 			default: "2000",
-			description: "Time in milliseconds between transitions."
+			description: "Time in milliseconds between transitions.",
 		},
-        {
+		{
 			prop: "class",
 			type: "string",
 			default: "—",
-			description: "Additional CSS classes."
-		}
+			description: "Additional CSS classes.",
+		},
 	]}
 />

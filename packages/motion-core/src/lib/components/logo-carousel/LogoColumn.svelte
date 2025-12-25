@@ -119,7 +119,7 @@
 			out:gsapTransition={{ direction: "out" }}
 		>
 			<CurrentLogoComponent
-				class="h-auto w-auto max-h-[70%] max-w-[70%] object-contain"
+				class="h-auto max-h-[70%] w-auto max-w-[70%] object-contain"
 			/>
 		</div>
 	{/key}

@@ -328,6 +328,6 @@
 
 <div
 	{...restProps}
-	class={cn("relative w-full h-full overflow-hidden", className)}
+	class={cn("relative h-full w-full overflow-hidden", className)}
 	bind:this={containerRef}
 ></div>

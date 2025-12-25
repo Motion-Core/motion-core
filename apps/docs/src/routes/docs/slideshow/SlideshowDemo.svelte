@@ -17,4 +17,4 @@
 	];
 </script>
 
-<Slideshow class="w-full h-full min-h-96" {images} />
+<Slideshow class="h-full min-h-96 w-full" {images} />

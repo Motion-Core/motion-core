@@ -7,21 +7,21 @@ poster: /previews/magnetic/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import magneticSource from "motion-core/components/magnetic/Magnetic.svelte?raw";
-    import MagneticDemo from "./MagneticDemo.svelte";
-    import magneticDemoSource from "./MagneticDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	magneticSource from "motion-core/components/magnetic/Magnetic.svelte?raw";
+	import MagneticDemo from "./MagneticDemo.svelte"; import magneticDemoSource
+	from "./MagneticDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: magneticDemoSource, language: "svelte" },
-		{ name: "Magnetic.svelte", code: magneticSource, language: "svelte" }
+		{ name: "Example", code: magneticDemoSource, language: "svelte" },
+		{ name: "Magnetic.svelte", code: magneticSource, language: "svelte" },
 	]}
 >
-    <MagneticDemo />
+	<MagneticDemo />
 </ComponentPreview>
 
 ## Props
@@ -34,19 +34,19 @@ poster: /previews/magnetic/poster.webp
 			prop: "duration",
 			type: "number",
 			default: "1",
-			description: "Duration of the magnetic movement."
+			description: "Duration of the magnetic movement.",
 		},
 		{
 			prop: "ease",
 			type: "string",
 			default: "'elastic.out(1, 0.3)'",
-			description: "GSAP easing function for the movement."
+			description: "GSAP easing function for the movement.",
 		},
-        {
+		{
 			prop: "class",
 			type: "string",
 			default: "—",
-			description: "Additional CSS classes for the wrapper."
-		}
+			description: "Additional CSS classes for the wrapper.",
+		},
 	]}
 />

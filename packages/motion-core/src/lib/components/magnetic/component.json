@@ -1,0 +1,27 @@
+{
+	"name": "Magnetic",
+	"slug": "magnetic",
+	"description": "Magnetic wraps any element with a cursor-following spring so buttons feel sticky and playful on hover.",
+	"category": "ui",
+	"preview": {
+		"video": "/previews/magnetic/preview.mp4",
+		"poster": "/previews/magnetic/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "Magnetic.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

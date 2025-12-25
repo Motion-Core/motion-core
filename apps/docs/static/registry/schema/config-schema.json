@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$title": "Motion Core Config",
+  "$type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://motion-core.dev/registry/schema/config-schema.json"
+    },
+    "style": {
+      "type": "string",
+      "default": "default"
+    },
+    "tailwind": {
+      "type": "object",
+      "properties": {
+        "css": {
+          "type": "string",
+          "default": "src/app.css"
+        }
+      },
+      "additionalProperties": false
+    },
+    "aliases": {
+      "type": "object",
+      "properties": {
+        "components": {
+          "type": "object",
+          "properties": {
+            "filesystem": {
+              "type": "string"
+            },
+            "import": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "filesystem",
+            "import"
+          ],
+          "additionalProperties": false,
+          "default": {
+            "filesystem": "src/lib/motion",
+            "import": "$lib/motion"
+          }
+        },
+        "helpers": {
+          "type": "object",
+          "properties": {
+            "filesystem": {
+              "type": "string"
+            },
+            "import": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "filesystem",
+            "import"
+          ],
+          "additionalProperties": false,
+          "default": {
+            "filesystem": "src/lib/motion/helpers",
+            "import": "$lib/motion/helpers"
+          }
+        },
+        "utils": {
+          "type": "object",
+          "properties": {
+            "filesystem": {
+              "type": "string"
+            },
+            "import": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "filesystem",
+            "import"
+          ],
+          "additionalProperties": false,
+          "default": {
+            "filesystem": "src/lib/motion/utils",
+            "import": "$lib/motion/utils"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "aliasPrefixes": {
+      "type": "object",
+      "properties": {
+        "components": {
+          "type": "string",
+          "default": "$lib/motion"
+        }
+      },
+      "additionalProperties": false
+    },
+    "exports": {
+      "type": "object",
+      "properties": {
+        "components": {
+          "type": "object",
+          "properties": {
+            "barrel": {
+              "type": "string",
+              "default": "src/lib/motion/index.ts"
+            },
+            "strategy": {
+              "type": "string",
+              "enum": [
+                "named"
+              ],
+              "default": "named"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "style",
+    "aliases",
+    "aliasPrefixes",
+    "exports"
+  ],
+  "additionalProperties": false
+}

@@ -167,7 +167,7 @@
 </svelte:head>
 
 <section
-	class="relative rounded-lg border bg-background border-border shadow-sm max-w-[calc(var(--container-4xl)-2rem)]"
+	class="relative max-w-[calc(var(--container-4xl)-2rem)] rounded-lg border border-border bg-background shadow-sm"
 	{...restProps}
 >
 	<div class="flex flex-col">
@@ -179,12 +179,12 @@
 				bind:this={previewRef}
 				class={cn(
 					"relative flex items-center justify-center overflow-hidden bg-card",
-					isFullScreen ? "" : "flex-1 w-full rounded-t-lg",
+					isFullScreen ? "" : "w-full flex-1 rounded-t-lg",
 				)}
 			>
 				<button
 					onclick={reloadPreview}
-					class="absolute right-10 top-1 z-30 flex size-7 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
+					class="transition-scale absolute top-1 right-10 z-30 flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -204,7 +204,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="absolute right-1 top-1 z-30 flex size-7 items-center justify-center bg-card rounded-sm border border-border text-foreground cursor-pointer active:scale-[0.95] transition-scale duration-150 ease-out shadow-sm"
+					class="transition-scale absolute top-1 right-1 z-30 flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}
@@ -255,13 +255,13 @@
 				{/key}
 			</div>
 		</div>
-		<div class="flex flex-1 flex-col bg-card rounded-b-lg overflow-hidden">
+		<div class="flex flex-1 flex-col overflow-hidden rounded-b-lg bg-card">
 			{#if tabs.length}
 				<div
-					class="flex items-center text-sm border-b border-border bg-card-muted/50"
+					class="flex items-center border-b border-border bg-card-muted/50 text-sm"
 				>
 					<div
-						class="flex flex-1 items-center overflow-x-auto no-scrollbar mask-gradient-r"
+						class="no-scrollbar mask-gradient-r flex flex-1 items-center overflow-x-auto"
 					>
 						{#each tabs as tab, index (tab.name)}
 							<button
@@ -269,8 +269,8 @@
 								class={cn(
 									"border-b-2 px-4 py-2.5 whitespace-nowrap transition-all duration-150 ease-out",
 									index === activeTab
-										? "border-accent text-foreground font-medium bg-accent/5"
-										: "border-transparent text-foreground/60 hover:text-foreground hover:bg-muted/60",
+										? "border-accent bg-accent/5 font-medium text-foreground"
+										: "hover:bg-muted/60 border-transparent text-foreground/60 hover:text-foreground",
 								)}
 								onclick={() => (activeTab = index)}
 							>
@@ -288,7 +288,7 @@
 			<div class="relative max-h-96 flex-1 overflow-auto p-1 text-sm">
 				{#if activeSource}
 					<Highlight
-						class="bg-transparent h-full"
+						class="h-full bg-transparent"
 						language={highlightLanguage}
 						code={activeSource.code}
 					/>

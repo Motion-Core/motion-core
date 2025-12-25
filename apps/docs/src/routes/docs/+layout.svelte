@@ -51,26 +51,26 @@
 
 <main
 	style="view-transition-name: homepage-content"
-	class="h-svh bg-card lg:py-4 text-foreground"
+	class="h-svh bg-card text-foreground lg:py-4"
 >
 	<MobileSidebar />
 
-	<aside class="fixed left-0 top-0 hidden w-88 shrink-0 lg:block">
+	<aside class="fixed top-0 left-0 hidden w-88 shrink-0 lg:block">
 		<DocsSidebar />
 	</aside>
 
 	<div
 		id="docs-content-container"
-		class="mx-auto flex w-full bg-background border border-border lg:rounded-xl lg:max-h-[calc(100svh-2rem)] overflow-auto max-w-4xl flex-col gap-8 px-4 py-8 lg:ml-88 lg:px-8 xl:mr-88"
+		class="mx-auto flex w-full max-w-4xl flex-col gap-8 overflow-auto border border-border bg-background px-4 py-8 lg:ml-88 lg:max-h-[calc(100svh-2rem)] lg:rounded-xl lg:px-8 xl:mr-88"
 	>
-		<section class="flex-1 space-y-8 min-w-0">
+		<section class="min-w-0 flex-1 space-y-8">
 			{#if metadata}
 				<div class="space-y-4">
 					<h1 class="scroll-m-20 text-3xl font-medium">
 						{metadata.name || metadata.title}
 					</h1>
 					{#if metadata.description}
-						<p class="text-base text-foreground/70 max-w-4xl">
+						<p class="max-w-4xl text-base text-foreground/70">
 							{metadata.description}
 						</p>
 					{/if}
@@ -87,7 +87,7 @@
 	</div>
 
 	<aside
-		class="fixed right-8 top-8 hidden h-[calc(100svh-5rem)] w-48 shrink-0 flex-col xl:flex"
+		class="fixed top-8 right-8 hidden h-[calc(100svh-5rem)] w-48 shrink-0 flex-col xl:flex"
 	>
 		<TableOfContents />
 	</aside>

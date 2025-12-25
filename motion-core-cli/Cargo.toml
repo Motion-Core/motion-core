@@ -1,0 +1,38 @@
+[workspace]
+members = [
+    "crates/core",
+    "crates/cli",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+authors = ["Marek Jóźwiak <hexthecoder@gmail.com>"]
+license = "MIT"
+description = "Motion Core CLI tooling"
+
+[workspace.dependencies]
+anyhow = "1.0.100"
+clap = { version = "4.5.53", features = ["derive", "env"] }
+dialoguer = "0.11"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+thiserror = "2.0.17"
+toml = "0.8"
+camino = "1.1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
+base64 = "0.22.1"
+dirs = "5.0"
+pathdiff = "0.2.3"
+owo-colors = "4.2.3"
+indicatif = "0.17"
+
+[profile.release]
+opt-level = "z"
+lto = "thin"
+codegen-units = 1
+strip = true
+panic = "abort"

@@ -28,7 +28,7 @@
 <div
 	{...restProps}
 	class={cn(
-		"relative group/pre mt-8 rounded-md border border-border bg-card p-4 mono text-sm text-foreground shadow-sm",
+		"group/pre relative mt-8 rounded-md border border-border bg-card p-4 text-sm text-foreground shadow-sm mono",
 		className,
 	)}
 >
@@ -36,7 +36,7 @@
 		{@render children?.()}
 	</div>
 	{#if code}
-		<div class="pointer-events-none absolute right-2 top-2">
+		<div class="pointer-events-none absolute top-2 right-2">
 			<CopyCodeButton {code} class="pointer-events-auto bg-background" />
 		</div>
 	{/if}

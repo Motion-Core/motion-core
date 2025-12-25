@@ -13,9 +13,12 @@ type DocModule = {
 	};
 };
 
-const docModules = import.meta.glob<DocModule>("/src/routes/docs/**/+page.svx", {
-	eager: true,
-});
+const docModules = import.meta.glob<DocModule>(
+	"/src/routes/docs/**/+page.svx",
+	{
+		eager: true,
+	},
+);
 
 export function getDocMetadata(path: string): DocMetadata | null {
 	const normalizedPath = normalizePath(path);

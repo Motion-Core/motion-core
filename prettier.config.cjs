@@ -2,7 +2,9 @@
 module.exports = {
 	useTabs: true,
 	singleQuote: false,
-	plugins: ["prettier-plugin-svelte"],
+	plugins: ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
+	tailwindStylesheet: "./apps/docs/src/routes/layout.css",
+	tailwindFunctions: ["cn", "clsx"],
 	overrides: [
 		{
 			files: "*.svelte",

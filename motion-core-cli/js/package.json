@@ -1,0 +1,34 @@
+{
+	"name": "@motion-core/cli",
+	"version": "0.1.0",
+	"description": "Motion Core CLI tooling",
+	"license": "MIT",
+	"bin": {
+		"motion-core": "./bin/motion-core.js"
+	},
+	"files": [
+		"bin",
+		"dist",
+		"README.md"
+	],
+	"keywords": [
+		"motion-core",
+		"cli",
+		"svelte",
+		"tailwind"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/motion-core/motion-core.git",
+		"directory": "motion-core-cli/js"
+	},
+	"bugs": {
+		"url": "https://github.com/motion-core/motion-core/issues"
+	},
+	"homepage": "https://motion-core.dev/docs/cli",
+	"type": "module",
+	"main": "./bin/motion-core.js",
+	"engines": {
+		"node": ">=18.0.0"
+	}
+}

@@ -130,18 +130,18 @@
 		>
 			{@html motionCoreLogo}
 		</span>
-		<span class="text-xl text-foreground font-display font-medium">{title}</span
+		<span class="text-xl font-medium text-foreground font-display">{title}</span
 		>
 	</header>
 	<div class="space-y-4">
 		<p
-			class="text-sm leading-relaxed text-foreground/70 text-balance overflow-hidden"
+			class="overflow-hidden text-sm leading-relaxed text-balance text-foreground/70"
 			bind:this={descriptionRef}
 		>
 			{description}
 		</p>
 		<nav
-			class="flex items-center gap-2 text-sm uppercase tracking-wide mono font-medium"
+			class="flex items-center gap-2 text-sm font-medium tracking-wide uppercase mono"
 			bind:this={linksRef}
 		>
 			{#each socialLinks as link (link.href)}

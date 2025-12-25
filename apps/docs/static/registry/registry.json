@@ -1,0 +1,395 @@
+{
+  "name": "Motion Core Registry",
+  "description": "Curated Motion Core Svelte components",
+  "version": "0.1.0",
+  "requirements": {
+    "svelte": "^5.0.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "components": {
+    "glass-pane": {
+      "slug": "glass-pane",
+      "name": "Glass Pane",
+      "description": "GlassPane provides a glass-like refraction effect over an image using Three.js and shaders. Moving glass rods distort the texture with controlled chromatic aberration.",
+      "category": "canvas",
+      "preview": {
+        "video": "/previews/glass-pane/preview.mp4",
+        "poster": "/previews/glass-pane/poster.webp"
+      },
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/glass-pane/GlassPane.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/glass-pane/Scene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "image-trail": {
+      "slug": "image-trail",
+      "name": "Image Trail",
+      "description": "ImageTrail spawns pooled images that follow the cursor, scaling and rotating each asset before fading it out for a responsive trailing effect.",
+      "category": "motion",
+      "preview": {
+        "video": "/previews/image-trail/preview.mp4",
+        "poster": "/previews/image-trail/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/image-trail/ImageTrail.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "infinite-gallery": {
+      "slug": "infinite-gallery",
+      "name": "Infinite Gallery",
+      "description": "InfiniteGallery is a 3D canvas gallery that scrolls endlessly through textured planes with cloth-like distortion, blur transitions, and hover parallax.",
+      "category": "canvas",
+      "preview": {
+        "video": "/previews/infinite-gallery/preview.mp4",
+        "poster": "/previews/infinite-gallery/poster.webp"
+      },
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/infinite-gallery/InfiniteGallery.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/infinite-gallery/GalleryScene.svelte"
+        },
+        {
+          "path": "components/infinite-gallery/ImagePlane.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "logo-carousel": {
+      "slug": "logo-carousel",
+      "name": "Logo Carousel",
+      "description": "LogoCarousel renders multi-column brand stacks that shuffle infinitely with GSAP-driven fades and vertical motion.",
+      "category": "motion",
+      "preview": {
+        "video": "/previews/logo-carousel/preview.mp4",
+        "poster": "/previews/logo-carousel/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/logo-carousel/LogoCarousel.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/logo-carousel/LogoColumn.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "macos-dock": {
+      "slug": "macos-dock",
+      "name": "MacOS Dock",
+      "description": "MacosDock recreates the Apple dock magnification experience with cursor tracking and smooth easing for each icon.",
+      "category": "ui",
+      "preview": {
+        "video": "/previews/macos-dock/preview.mp4",
+        "poster": "/previews/macos-dock/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/macos-dock/MacosDock.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "magnetic": {
+      "slug": "magnetic",
+      "name": "Magnetic",
+      "description": "Magnetic wraps any element with a cursor-following spring so buttons feel sticky and playful on hover.",
+      "category": "ui",
+      "preview": {
+        "video": "/previews/magnetic/preview.mp4",
+        "poster": "/previews/magnetic/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/magnetic/Magnetic.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "marquee": {
+      "slug": "marquee",
+      "name": "Marquee",
+      "description": "Marquee animates multi-line headline loops with ScrollTrigger support so rows accelerate, reverse, or sync with scroll position.",
+      "category": "motion",
+      "preview": {
+        "video": "/previews/marquee/preview.mp4",
+        "poster": "/previews/marquee/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/marquee/Marquee.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "pixelated-image": {
+      "slug": "pixelated-image",
+      "name": "Pixelated Image",
+      "description": "PixelatedImage reveals media by animating blocky pixel grids that progressively sharpen to full resolution.",
+      "category": "canvas",
+      "preview": {
+        "video": "/previews/pixelated-image/preview.mp4",
+        "poster": "/previews/pixelated-image/poster.webp"
+      },
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/pixelated-image/PixelatedImage.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/pixelated-image/Scene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "preloader": {
+      "slug": "preloader",
+      "name": "Preloader",
+      "description": "Preloader plays a kinetic strip of images that decelerates before scaling the hero asset to full screen for seamless page reveals.",
+      "category": "motion",
+      "preview": {
+        "video": "/previews/preloader/preview.mp4",
+        "poster": "/previews/preloader/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/preloader/Preloader.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "slideshow": {
+      "slug": "slideshow",
+      "name": "Slideshow",
+      "description": "Slideshow presents full-bleed imagery with GSAP-driven parallax transitions and a synced thumbnail navigator.",
+      "category": "motion",
+      "preview": {
+        "video": "/previews/slideshow/preview.mp4",
+        "poster": "/previews/slideshow/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/slideshow/Slideshow.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        },
+        {
+          "path": "helpers/gsap.ts",
+          "target": "helper"
+        }
+      ]
+    },
+    "split-hover": {
+      "slug": "split-hover",
+      "name": "Split Hover",
+      "description": "SplitHover splits text into characters and animates stacked layers on hover for a premium swap effect.",
+      "category": "ui",
+      "preview": {
+        "video": "/previews/split-hover/preview.mp4",
+        "poster": "/previews/split-hover/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/split-hover/SplitHover.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        },
+        {
+          "path": "helpers/gsap.ts",
+          "target": "helper"
+        }
+      ]
+    },
+    "split-reveal": {
+      "slug": "split-reveal",
+      "name": "Split Reveal",
+      "description": "SplitReveal uses GSAP SplitText to mask content and animate lines, words, or characters into view on mount.",
+      "category": "ui",
+      "preview": {
+        "video": "/previews/split-reveal/preview.mp4",
+        "poster": "/previews/split-reveal/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/split-reveal/SplitReveal.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        },
+        {
+          "path": "helpers/gsap.ts",
+          "target": "helper"
+        }
+      ]
+    },
+    "text-loop": {
+      "slug": "text-loop",
+      "name": "Text Loop",
+      "description": "TextLoop cycles through phrases with blurred vertical slides, ideal for rotating headlines or feature lists.",
+      "category": "ui",
+      "preview": {
+        "video": "/previews/text-loop/preview.mp4",
+        "poster": "/previews/text-loop/poster.webp"
+      },
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/text-loop/TextLoop.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    }
+  }
+}

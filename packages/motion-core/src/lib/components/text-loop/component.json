@@ -1,0 +1,27 @@
+{
+	"name": "Text Loop",
+	"slug": "text-loop",
+	"description": "TextLoop cycles through phrases with blurred vertical slides, ideal for rotating headlines or feature lists.",
+	"category": "ui",
+	"preview": {
+		"video": "/previews/text-loop/preview.mp4",
+		"poster": "/previews/text-loop/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "TextLoop.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

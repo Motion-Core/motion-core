@@ -1,14 +1,20 @@
 {
 	"name": "docs",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
+		"build:registry": "bun ../../scripts/build-registry.ts",
+		"predev": "bun ../../scripts/build-registry.ts",
 		"dev": "vite dev",
+		"prebuild": "bun ../../scripts/build-registry.ts",
 		"build": "vite build",
+		"prepreview": "bun ../../scripts/build-registry.ts",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
+		"precheck": "bun ../../scripts/build-registry.ts",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"precheck:watch": "bun ../../scripts/build-registry.ts",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"dependencies": {

@@ -1,0 +1,27 @@
+{
+	"name": "MacOS Dock",
+	"slug": "macos-dock",
+	"description": "MacosDock recreates the Apple dock magnification experience with cursor tracking and smooth easing for each icon.",
+	"category": "ui",
+	"preview": {
+		"video": "/previews/macos-dock/preview.mp4",
+		"poster": "/previews/macos-dock/poster.webp"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "MacosDock.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

@@ -7,23 +7,28 @@ poster: /previews/pixelated-image/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import pixelatedImageSource from "motion-core/components/pixelated-image/PixelatedImage.svelte?raw";
-	import sceneSource from "motion-core/components/pixelated-image/Scene.svelte?raw";
-    import PixelatedImageDemo from "./PixelatedImageDemo.svelte";
-    import pixelatedImageDemoSource from "./PixelatedImageDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	pixelatedImageSource from
+	"motion-core/components/pixelated-image/PixelatedImage.svelte?raw"; import
+	sceneSource from "motion-core/components/pixelated-image/Scene.svelte?raw";
+	import PixelatedImageDemo from "./PixelatedImageDemo.svelte"; import
+	pixelatedImageDemoSource from "./PixelatedImageDemo.svelte?raw";
 </script>
 
 ## Usage
 
 <ComponentPreview
 	sources={[
-	    { name: "Example", code: pixelatedImageDemoSource, language: "svelte" },
-		{ name: "PixelatedImage.svelte", code: pixelatedImageSource, language: "svelte" },
-		{ name: "Scene.svelte", code: sceneSource, language: "svelte" }
+		{ name: "Example", code: pixelatedImageDemoSource, language: "svelte" },
+		{
+			name: "PixelatedImage.svelte",
+			code: pixelatedImageSource,
+			language: "svelte",
+		},
+		{ name: "Scene.svelte", code: sceneSource, language: "svelte" },
 	]}
 >
-    <PixelatedImageDemo />
+	<PixelatedImageDemo />
 </ComponentPreview>
 
 ## Props
@@ -36,25 +41,26 @@ poster: /previews/pixelated-image/poster.webp
 			prop: "src",
 			type: "string",
 			default: "—",
-			description: "URL of the image to be displayed."
+			description: "URL of the image to be displayed.",
 		},
 		{
 			prop: "initialGridSize",
 			type: "number",
 			default: "6.0",
-			description: "Initial size of the pixel grid (number of vertical blocks)."
+			description:
+				"Initial size of the pixel grid (number of vertical blocks).",
 		},
 		{
 			prop: "stepDuration",
 			type: "number",
 			default: "0.15",
-			description: "Duration (in seconds) of each pixelation step."
+			description: "Duration (in seconds) of each pixelation step.",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
-			description: "Additional CSS classes for the container."
-		}
+			description: "Additional CSS classes for the container.",
+		},
 	]}
 />
