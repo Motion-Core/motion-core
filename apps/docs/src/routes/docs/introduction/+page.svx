@@ -1,0 +1,26 @@
+---
+title: Introduction
+description: An open-source initiative exploring the intersection of motion and interface design.
+---
+
+Motion Core is an open-source initiative born from a simple desire: to bring high-quality, expressive motion to the Svelte ecosystem. It is a curated collection of motion components, heavily inspired by the experimental web, distinct design engineering work, and the creative coding community.
+
+We are not trying to reinvent the wheel. Instead, we are standing on the shoulders of giants—leveraging the power of **GSAP** for timelines and **Three.js** for WebGL—and wrapping them in the developer experience that Svelte 5 provides.
+
+## The Craft
+
+This project is an exploration of what is possible when performance meets aesthetics. It is about those micro-interactions that make a user smile, the fluid transitions that make an app feel "real," and the visual flourishes that turn a tool into an experience.
+
+We believe that great motion design should be accessible to everyone, not just those with a background in creative coding.
+
+## Open Source & Community
+
+Motion Core is, and always will be, free and open source. It is a playground for developers and designers to share, remix, and improve upon these ideas. We encourage you to poke around the code, break things, and contribute back.
+
+## Technology Stack
+
+- **Svelte 5**: Utilizing runes and snippets for reactive, modern UI logic.
+- **Tailwind CSS v4**: For styling that is as fluid as the animations.
+- **GSAP & Three.js**: The industry standards for heavy-lifting motion and 3D.
+
+This is not just a library; it is a starting point for your own creative journey. Use the CLI to grab what you need, and make it your own.

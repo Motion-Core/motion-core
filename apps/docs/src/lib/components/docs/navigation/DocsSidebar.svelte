@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/state";
-	import { docsManifest } from "$lib/docs/manifest";
+	import { gettingStartedManifest, componentManifest } from "$lib/docs/manifest";
 	import { cn } from "$lib/utils/cn";
 	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
 	import ThemeToggle from "$lib/components/landing/ThemeToggle.svelte";
@@ -29,9 +29,30 @@
 			<h4
 				class="mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
 			>
+				Getting Started
+			</h4>
+			{#each gettingStartedManifest as doc (doc.slug)}
+				{@const href = `/docs/${doc.slug}`}
+				{@const isActive = currentPath === href}
+				<a
+					{href}
+					class={cn(
+						"block rounded-md px-3 py-1.5 text-sm transition-all duration-150 ease-out",
+						isActive
+							? "bg-accent/10 font-medium text-accent"
+							: "text-foreground/70 hover:bg-card-muted/60 hover:text-foreground",
+					)}
+				>
+					{doc.name}
+				</a>
+			{/each}
+
+			<h4
+				class="mt-6 mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
+			>
 				Components
 			</h4>
-			{#each docsManifest as doc (doc.slug)}
+			{#each componentManifest as doc (doc.slug)}
 				{@const href = `/docs/${doc.slug}`}
 				{@const isActive = currentPath === href}
 				<a

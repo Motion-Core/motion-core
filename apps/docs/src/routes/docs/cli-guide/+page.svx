@@ -1,0 +1,93 @@
+---
+title: CLI Guide
+description: How to use the Motion Core CLI to manage your workspace.
+---
+
+The Motion Core CLI is the primary way to integrate components into your project. It automates the setup, dependency installation, and component scaffolding.
+
+## Installation
+
+You can run the CLI directly using `npx`, `bunx`, or `pnpm dlx` without installation:
+
+```bash
+npx @motion-core/cli init
+```
+
+## Commands
+
+### `init`
+
+Initialize your project for Motion Core. This command will:
+- Detect your framework (SvelteKit or Vite + Svelte).
+- Detect your package manager.
+- Create a `motion-core.json` file.
+- Scaffold required directories and base utility files (`cn.ts`, `gsap.ts`).
+- Install base dependencies (`clsx`, `tailwind-merge`).
+
+```bash
+motion-core init
+```
+
+### `add`
+
+Add a component from the registry to your project.
+
+```bash
+motion-core add [component-slug]
+```
+
+**Options:**
+- `--dry-run`: See what would be installed without making any changes.
+- `-y, --yes`: Skip confirmation prompts.
+
+### `list`
+
+List all available components in the registry.
+
+```bash
+motion-core list
+```
+
+### `cache`
+
+Manage the local cache for registry data and assets.
+
+```bash
+motion-core cache --clear --force
+```
+
+## Configuration
+
+The `motion-core.json` file allows you to customize where components and utilities are installed.
+
+```json
+{
+  "$schema": "https://motion-core.dev/registry/schema/config-schema.json",
+  "tailwind": {
+    "css": "src/routes/layout.css"
+  },
+  "aliases": {
+    "components": {
+      "filesystem": "src/lib/motion-core",
+      "import": "$lib/motion-core"
+    },
+    "helpers": {
+      "filesystem": "src/lib/motion-core/helpers",
+      "import": "$lib/motion-core/helpers"
+    },
+    "utils": {
+      "filesystem": "src/lib/motion-core/utils",
+      "import": "$lib/motion-core/utils"
+    }
+  },
+  "aliasPrefixes": {
+    "components": "$lib/motion-core"
+  },
+  "exports": {
+    "components": {
+      "barrel": "src/lib/motion-core/index.ts",
+      "strategy": "named"
+    }
+  }
+}
+```
