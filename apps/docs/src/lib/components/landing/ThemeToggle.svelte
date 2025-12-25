@@ -52,7 +52,7 @@
 
 	const getThemeButtonClasses = (mode: ThemeMode) =>
 		mode === theme
-			? `${buttonBaseClasses} light:text-card dark:text-foreground bg-accent`
+			? `${buttonBaseClasses} text-accent bg-accent/10`
 			: `${buttonBaseClasses} text-foreground/70`;
 
 	let containerRef: HTMLDivElement | null = null;

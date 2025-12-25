@@ -5,10 +5,11 @@
 
 	type Props = {
 		class?: string;
+		id?: string;
 		children?: Snippet;
 	};
 
-	let { class: className, children }: Props = $props();
+	let { class: className, id, children }: Props = $props();
 
 	let viewport: HTMLDivElement;
 	let isDragging = $state(false);
@@ -108,6 +109,7 @@
 <div class={cn("relative overflow-hidden flex flex-col", className)}>
 	<div
 		bind:this={viewport}
+		{id}
 		class="scrollbar-hide flex-1 w-full min-h-0 overflow-y-auto overflow-x-hidden"
 		onscroll={handleScroll}
 	>

@@ -61,12 +61,10 @@
 	</aside>
 
 	<ScrollArea
+		id="docs-content-container"
 		class="mx-auto w-full max-w-4xl border border-border bg-background lg:ml-88 lg:max-h-[calc(100svh-2rem)] lg:rounded-xl xl:mr-88"
 	>
-		<div
-			id="docs-content-container"
-			class="flex flex-col gap-8 px-4 py-8 lg:px-8"
-		>
+		<div class="flex flex-col gap-8 px-4 py-8 lg:px-8">
 			<section class="min-w-0 flex-1 space-y-8">
 				{#if metadata}
 					<div class="space-y-4">

@@ -307,9 +307,11 @@
 						<a
 							href={`#${heading.id}`}
 							class={cn(
-								"block px-3 py-1 font-normal transition-[color] duration-150 ease-out hover:text-foreground",
+								"block px-3 py-1 font-normal transition-[color] duration-150 ease-out",
 								heading.level > 2 && "pl-6 text-sm",
-								activeId === heading.id ? "text-accent" : "text-foreground/70",
+								activeId === heading.id
+									? "text-accent"
+									: "text-foreground/70 hover:text-foreground",
 							)}
 							aria-current={activeId === heading.id ? "location" : undefined}
 							use:registerLink={heading.id}

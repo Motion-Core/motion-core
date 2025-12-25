@@ -254,7 +254,7 @@
 								class={cn(
 									"border-b-2 px-4 py-2.5 whitespace-nowrap transition-all duration-150 ease-out",
 									index === activeTab
-										? "border-accent bg-accent/5 font-medium text-foreground"
+										? "border-accent bg-accent/10 font-medium text-accent"
 										: "hover:bg-muted/60 border-transparent text-foreground/60 hover:text-foreground",
 								)}
 								onclick={() => (activeTab = index)}
@@ -271,7 +271,7 @@
 				</div>
 			{/if}
 			<ScrollArea class="relative max-h-96 flex-1">
-				<div class="p-1 text-sm">
+				<div class="p-4 text-sm">
 					{#if activeSource}
 						{#if highlightedSources[activeSource.name]}
 							<ShikiCodeBlock
