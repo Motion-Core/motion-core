@@ -7,7 +7,7 @@
 	const socialLinks = [
 		{ label: "GitHub", href: "https://github.com/motion-core" },
 		{ label: "Community", href: "https://discord.gg/motion-core" },
-		{ label: "Docs", href: "/docs" },
+		{ label: "Docs", href: "/docs/introduction" },
 	];
 
 	const landingDescription =

@@ -7,13 +7,31 @@ poster: /previews/pixelated-image/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
-	pixelatedImageSource from
-	"motion-core/components/pixelated-image/PixelatedImage.svelte?raw"; import
-	sceneSource from "motion-core/components/pixelated-image/Scene.svelte?raw";
-	import PixelatedImageDemo from "./PixelatedImageDemo.svelte"; import
-	pixelatedImageDemoSource from "./PixelatedImageDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import pixelatedImageSource from "motion-core/components/pixelated-image/PixelatedImage.svelte?raw";
+	import sceneSource from "motion-core/components/pixelated-image/Scene.svelte?raw";
+	import PixelatedImageDemo from "./PixelatedImageDemo.svelte";
+	import pixelatedImageDemoSource from "./PixelatedImageDemo.svelte?raw";
 </script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="pixelated-image" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { PixelatedImage } from "motion-core";
+```
+	</Step>
+</Steps>
 
 ## Usage
 

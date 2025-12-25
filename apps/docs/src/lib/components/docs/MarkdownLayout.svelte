@@ -23,6 +23,8 @@
 	export { default as thead } from "./markdown/Thead.svelte";
 	export { default as tr } from "./markdown/Tr.svelte";
 	export { default as ul } from "./markdown/UnorderedList.svelte";
+	export { default as Steps } from "./markdown/Steps.svelte";
+	export { default as Step } from "./markdown/Step.svelte";
 </script>
 
 <script lang="ts">
