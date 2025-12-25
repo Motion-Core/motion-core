@@ -39,7 +39,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
         Some(cfg) => cfg,
         None => {
             reporter.error(format_args!(
-                "no motion-core.config.json found at {}",
+                "no motion-core.json found at {}",
                 ctx.config_path().display()
             ));
             return Ok(CommandOutcome::NoOp);

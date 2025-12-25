@@ -155,7 +155,7 @@ mod tests {
         let cache = CacheStore::from_path(temp.path().join("cache"));
         let ctx = CommandContext::new(
             temp.path(),
-            temp.path().join("motion-core.config.json"),
+            temp.path().join("motion-core.json"),
             RegistryClient::with_registry(registry),
             cache,
         );

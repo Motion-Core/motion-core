@@ -7,10 +7,6 @@
       "type": "string",
       "const": "https://motion-core.dev/registry/schema/config-schema.json"
     },
-    "style": {
-      "type": "string",
-      "default": "default"
-    },
     "tailwind": {
       "type": "object",
       "properties": {

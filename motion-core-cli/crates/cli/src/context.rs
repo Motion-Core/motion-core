@@ -67,7 +67,7 @@ mod tests {
         let cache = test_cache_store(&temp);
         let ctx = CommandContext::new(
             "/tmp/demo/workspace",
-            "/tmp/demo/workspace/motion-core.config.json",
+            "/tmp/demo/workspace/motion-core.json",
             RegistryClient::new("https://registry.motion-core.dev"),
             cache,
         );
@@ -84,7 +84,7 @@ mod tests {
         let cache = test_cache_store(&temp);
         let ctx = CommandContext::new(
             "/workspace",
-            "/workspace/motion-core.config.json",
+            "/workspace/motion-core.json",
             RegistryClient::new("https://registry.motion-core.dev"),
             cache,
         );
