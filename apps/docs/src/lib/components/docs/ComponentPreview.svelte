@@ -2,6 +2,7 @@
 	import type { Snippet } from "svelte";
 	import CopyCodeButton from "./markdown/CopyCodeButton.svelte";
 	import ShikiCodeBlock from "./ShikiCodeBlock.svelte";
+	import ScrollArea from "../ui/ScrollArea.svelte";
 	import { getHighlighter } from "$lib/utils/highlighter";
 	import gsap from "gsap";
 	import { Flip } from "gsap/Flip";
@@ -269,22 +270,24 @@
 					</div>
 				</div>
 			{/if}
-			<div class="relative max-h-96 flex-1 overflow-auto p-1 text-sm">
-				{#if activeSource}
-					{#if highlightedSources[activeSource.name]}
-						<ShikiCodeBlock
-							code=""
-							htmlLight={highlightedSources[activeSource.name].light}
-							htmlDark={highlightedSources[activeSource.name].dark}
-							unstyled={true}
-						/>
+			<ScrollArea class="relative max-h-96 flex-1">
+				<div class="p-1 text-sm">
+					{#if activeSource}
+						{#if highlightedSources[activeSource.name]}
+							<ShikiCodeBlock
+								code=""
+								htmlLight={highlightedSources[activeSource.name].light}
+								htmlDark={highlightedSources[activeSource.name].dark}
+								unstyled={true}
+							/>
+						{:else}
+							<pre class="p-4">{activeSource.code}</pre>
+						{/if}
 					{:else}
-						<pre class="p-4">{activeSource.code}</pre>
+						{@render codeSlot?.()}
 					{/if}
-				{:else}
-					{@render codeSlot?.()}
-				{/if}
-			</div>
+				</div>
+			</ScrollArea>
 		</div>
 	</div>
 </section>

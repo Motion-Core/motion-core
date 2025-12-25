@@ -2,6 +2,7 @@
 	import TableOfContents from "$lib/components/docs/TableOfContents.svelte";
 	import DocsSidebar from "$lib/components/docs/navigation/DocsSidebar.svelte";
 	import MobileSidebar from "$lib/components/docs/navigation/MobileSidebar.svelte";
+	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
 	import { DocNavigation } from "$lib";
 	import type { LayoutData } from "./$types";
 	import type { Snippet } from "svelte";
@@ -59,32 +60,36 @@
 		<DocsSidebar />
 	</aside>
 
-	<div
-		id="docs-content-container"
-		class="mx-auto flex w-full max-w-4xl flex-col gap-8 overflow-auto border border-border bg-background px-4 py-8 lg:ml-88 lg:max-h-[calc(100svh-2rem)] lg:rounded-xl lg:px-8 xl:mr-88"
+	<ScrollArea
+		class="mx-auto w-full max-w-4xl border border-border bg-background lg:ml-88 lg:max-h-[calc(100svh-2rem)] lg:rounded-xl xl:mr-88"
 	>
-		<section class="min-w-0 flex-1 space-y-8">
-			{#if metadata}
-				<div class="space-y-4">
-					<h1 class="scroll-m-20 text-3xl font-medium">
-						{metadata.name || metadata.title}
-					</h1>
-					{#if metadata.description}
-						<p class="max-w-4xl text-base text-foreground/70">
-							{metadata.description}
-						</p>
-					{/if}
+		<div
+			id="docs-content-container"
+			class="flex flex-col gap-8 px-4 py-8 lg:px-8"
+		>
+			<section class="min-w-0 flex-1 space-y-8">
+				{#if metadata}
+					<div class="space-y-4">
+						<h1 class="scroll-m-20 text-3xl font-medium">
+							{metadata.name || metadata.title}
+						</h1>
+						{#if metadata.description}
+							<p class="max-w-4xl text-base text-foreground/70">
+								{metadata.description}
+							</p>
+						{/if}
+					</div>
+					<hr class="text-border" />
+				{/if}
+
+				<div>
+					{@render renderChildren?.()}
+
+					<DocNavigation previous={previousLink} next={nextLink} />
 				</div>
-				<hr class="text-border" />
-			{/if}
-
-			<div>
-				{@render renderChildren?.()}
-
-				<DocNavigation previous={previousLink} next={nextLink} />
-			</div>
-		</section>
-	</div>
+			</section>
+		</div>
+	</ScrollArea>
 
 	<aside
 		class="fixed top-8 right-8 hidden h-[calc(100svh-5rem)] w-48 shrink-0 flex-col xl:flex"
