@@ -1,10 +1,6 @@
 name: Build and Commit Motion Core CLI Binaries
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
   workflow_dispatch:
 
 permissions:
