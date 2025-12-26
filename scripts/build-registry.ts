@@ -108,7 +108,11 @@ async function main() {
 					path.join("components", dir, relativePath),
 				);
 				const contents = await readFile(sourcePath);
-				assetPayload.set(registryPath, contents);
+				const transformedContents = adjustComponentImports(
+					registryPath,
+					contents,
+				);
+				assetPayload.set(registryPath, transformedContents);
 
 				return {
 					path: registryPath,
@@ -182,6 +186,32 @@ function stringify(value: unknown) {
 
 function toPosix(value: string) {
 	return value.split(path.sep).join("/");
+}
+
+function adjustComponentImports(filePath: string, contents: Buffer) {
+	if (!filePath.startsWith("components/")) {
+		return contents;
+	}
+
+	const source = contents.toString("utf8");
+	const replacements = [
+		{ pattern: /(from\s+["'])\.\.\/\.\.\/utils\//g, target: '$1../utils/' },
+		{
+			pattern: /(from\s+["'])\.\.\/\.\.\/helpers\//g,
+			target: '$1../helpers/',
+		},
+	];
+
+	let updated = source;
+	for (const { pattern, target } of replacements) {
+		updated = updated.replace(pattern, target);
+	}
+
+	if (updated === source) {
+		return contents;
+	}
+
+	return Buffer.from(updated, "utf8");
 }
 
 function buildConfigSchema() {
