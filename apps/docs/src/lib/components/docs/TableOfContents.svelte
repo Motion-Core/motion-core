@@ -474,7 +474,7 @@
 </script>
 
 {#if headings.length > 0}
-	<nav class="sticky top-12 px-3 hidden lg:block">
+	<nav class="sticky top-12 hidden px-3 lg:block">
 		<div
 			class="mb-2 flex items-center gap-2 text-xs font-medium tracking-wide text-foreground/45 uppercase"
 		>

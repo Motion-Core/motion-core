@@ -11,9 +11,9 @@ poster: /previews/split-hover/poster.webp
 	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
 	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
 	"$lib/components/docs/markdown/Step.svelte"; import splitHoverSource from
-	"motion-core/components/split-hover/SplitHover.svelte?raw"; import SplitHoverDemo
-	from "./SplitHoverDemo.svelte"; import splitHoverDemoSource from
-	"./SplitHoverDemo.svelte?raw";
+	"motion-core/components/split-hover/SplitHover.svelte?raw"; import
+	SplitHoverDemo from "./SplitHoverDemo.svelte"; import splitHoverDemoSource
+	from "./SplitHoverDemo.svelte?raw";
 </script>
 
 ## Installation
