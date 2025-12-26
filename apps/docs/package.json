@@ -22,7 +22,6 @@
 		"@threlte/extras": "^9.7.1",
 		"gsap": "^3.14.2",
 		"motion-core": "workspace:*",
-		"svelte-highlight": "^7.9.0",
 		"three": "^0.182.0"
 	},
 	"devDependencies": {
