@@ -1,7 +1,7 @@
 <script lang="ts">
-	import gsap from "gsap";
-	import CustomEase from "gsap/CustomEase";
-	import SplitText from "gsap/SplitText";
+	import { gsap } from "gsap/dist/gsap";
+	import { CustomEase } from "gsap/dist/CustomEase";
+	import { SplitText } from "gsap/dist/SplitText";
 	import { onMount } from "svelte";
 	import type { Snippet } from "svelte";
 	import { cn } from "../../utils/cn";

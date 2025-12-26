@@ -4,8 +4,8 @@
 	import ShikiCodeBlock from "./ShikiCodeBlock.svelte";
 	import ScrollArea from "../ui/ScrollArea.svelte";
 	import { getHighlighter } from "$lib/utils/highlighter";
-	import gsap from "gsap";
-	import { Flip } from "gsap/Flip";
+	import { gsap } from "gsap/dist/gsap";
+	import { Flip } from "gsap/dist/Flip";
 	import { tick, onMount } from "svelte";
 	import { cn } from "$lib/utils/cn";
 

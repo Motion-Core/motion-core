@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, type Component } from "svelte";
-	import gsap from "gsap";
+	import { gsap } from "gsap/dist/gsap";
 	import { cn } from "../../utils/cn";
 
 	interface Logo {

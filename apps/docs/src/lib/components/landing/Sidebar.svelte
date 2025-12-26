@@ -3,9 +3,9 @@
 	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
 	import { SplitHover } from "motion-core";
 	import type { SocialLink } from "./types";
-	import gsap from "gsap";
-	import SplitText from "gsap/SplitText";
-	import CustomEase from "gsap/CustomEase";
+	import { gsap } from "gsap/dist/gsap";
+	import { SplitText } from "gsap/dist/SplitText";
+	import { CustomEase } from "gsap/dist/CustomEase";
 	import { onMount } from "svelte";
 
 	class LinkState {

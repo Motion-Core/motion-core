@@ -1,8 +1,8 @@
 <script lang="ts">
 	import ComponentCard from "./ComponentCard.svelte";
 	import type { ComponentInfo } from "./types";
-	import gsap from "gsap";
-	import CustomEase from "gsap/CustomEase";
+	import { gsap } from "gsap/dist/gsap";
+	import { CustomEase } from "gsap/dist/CustomEase";
 	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
 	import { onMount } from "svelte";
 

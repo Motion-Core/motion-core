@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import { browser } from "$app/environment";
 	import type { ThemeMode } from "./types";
-	import gsap from "gsap";
+	import { gsap } from "gsap/dist/gsap";
 
 	type ConcreteTheme = Exclude<ThemeMode, "system">;
 	const themeStorageKey = "motion-core-theme";

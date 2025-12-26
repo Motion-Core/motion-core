@@ -1,6 +1,6 @@
 <script lang="ts">
-	import gsap from "gsap";
-	import CustomEase from "gsap/CustomEase";
+	import { gsap } from "gsap/dist/gsap";
+	import { CustomEase } from "gsap/dist/CustomEase";
 	import { onMount } from "svelte";
 	import { cn } from "../../utils/cn";
 	type Image = {
