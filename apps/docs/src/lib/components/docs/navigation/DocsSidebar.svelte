@@ -40,7 +40,7 @@
 				<a
 					{href}
 					class={cn(
-						"block rounded-md px-3 py-1.5 text-sm transition-all duration-150 ease-out",
+						"block rounded-lg px-3 py-1.5 text-sm transition-all duration-150 ease-out",
 						isActive
 							? "bg-accent/10 text-accent"
 							: "text-foreground/70 hover:bg-card-muted hover:text-foreground",
@@ -61,7 +61,7 @@
 				<a
 					{href}
 					class={cn(
-						"block rounded-md px-3 py-1.5 text-sm transition-all duration-150 ease-out",
+						"block rounded-lg px-3 py-1.5 text-sm transition-all duration-150 ease-out",
 						isActive
 							? "bg-accent/10 text-accent"
 							: "text-foreground/70 hover:bg-card-muted hover:text-foreground",

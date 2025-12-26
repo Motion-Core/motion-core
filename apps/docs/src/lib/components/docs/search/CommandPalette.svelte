@@ -113,7 +113,7 @@
 					aria-label="Search documentation"
 				/>
 				<kbd
-					class="pointer-events-none hidden h-5 items-center gap-1 rounded border border-border bg-card-muted shadow-sm px-1.5 text-[10px] font-medium text-foreground/45 select-none mono sm:flex"
+					class="pointer-events-none hidden h-5 items-center gap-1 rounded-md border border-border bg-card-muted shadow-sm px-1.5 text-[10px] font-medium text-foreground/45 select-none mono sm:flex"
 				>
 					ESC
 				</kbd>
@@ -130,7 +130,7 @@
 								{@const isChild = result.matchType === "heading"}
 								<button
 									class={cn(
-										"group relative flex w-full flex-col items-start gap-1 rounded-md px-3 py-2 text-sm",
+										"group relative flex w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-sm",
 										isChild && "pl-8",
 										i === selectedIndex
 											? "bg-accent/10 text-accent"
