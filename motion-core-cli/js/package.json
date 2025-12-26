@@ -25,7 +25,7 @@
 	"bugs": {
 		"url": "https://github.com/motion-core/motion-core/issues"
 	},
-	"homepage": "https://motion-core.dev/docs/cli",
+	"homepage": "https://motion-core.vercel.app/docs/cli-guide",
 	"type": "module",
 	"main": "./bin/motion-core.js",
 	"engines": {

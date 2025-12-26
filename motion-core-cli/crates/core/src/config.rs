@@ -5,7 +5,8 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 pub const CONFIG_FILE_NAME: &str = "motion-core.json";
-pub const CONFIG_SCHEMA_URL: &str = "https://motion-core.dev/registry/schema/config-schema.json";
+pub const CONFIG_SCHEMA_URL: &str =
+    "https://motion-core.vercel.app/registry/schema/config-schema.json";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]

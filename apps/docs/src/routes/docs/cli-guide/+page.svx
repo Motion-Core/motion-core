@@ -64,7 +64,7 @@ The `motion-core.json` file allows you to customize where components and utiliti
 
 ```json
 {
-	"$schema": "https://motion-core.dev/registry/schema/config-schema.json",
+	"$schema": "https://motion-core.vercel.app/registry/schema/config-schema.json",
 	"tailwind": {
 		"css": "src/routes/layout.css"
 	},
