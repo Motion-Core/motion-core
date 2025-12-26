@@ -22,5 +22,6 @@ export const load: LayoutLoad = ({ url }) => {
 			: null,
 		nextLink: next ? { title: next.name, href: `/docs/${next.slug}` } : null,
 		metadata,
+		docOrigin: url.origin,
 	};
 };

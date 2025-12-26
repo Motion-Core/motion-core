@@ -116,7 +116,7 @@
 	});
 </script>
 
-<div class={cn("relative flex flex-col overflow-hidden", className)} style={style}>
+<div class={cn("relative flex flex-col overflow-hidden", className)} {style}>
 	<div
 		bind:this={viewport}
 		{id}

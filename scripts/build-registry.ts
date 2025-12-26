@@ -166,6 +166,7 @@ async function main() {
 
 	await writeGeneratedDocsManifest(components);
 
+	// eslint-disable-next-line no-console
 	console.log(
 		`Registry built with ${Object.keys(components).length} components.`,
 	);

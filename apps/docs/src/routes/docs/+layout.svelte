@@ -8,12 +8,27 @@
 	import type { Snippet } from "svelte";
 	import { page } from "$app/state";
 	import { tick } from "svelte";
+	import DocShareActions from "$lib/components/docs/DocShareActions.svelte";
 
 	const props = $props<{ data: LayoutData; children?: Snippet }>();
 	const previousLink = $derived(props.data.previousLink);
 	const nextLink = $derived(props.data.nextLink);
 	const metadata = $derived(props.data.metadata);
 	const renderChildren = $derived(props.children);
+	const docSlug = $derived(metadata?.slug);
+	const rawPath = $derived(docSlug ? `/docs/raw/${docSlug}` : null);
+	const docOrigin = $derived(props.data.docOrigin);
+	const rawUrl = $derived(
+		rawPath && docOrigin ? new URL(rawPath, docOrigin).href : null,
+	);
+	const repoRelativePath = $derived(
+		metadata ? `/apps/docs/src/routes${metadata.href}/+page.svx` : null,
+	);
+	const githubUrl = $derived(
+		repoRelativePath
+			? `https://github.com/motion-core/motion-core/blob/master${repoRelativePath}`
+			: null,
+	);
 
 	$effect(() => {
 		const hash = page.url.hash;
@@ -90,8 +105,11 @@
 	</ScrollArea>
 
 	<aside
-		class="fixed top-8 right-8 hidden h-[calc(100svh-5rem)] w-50 shrink-0 flex-col xl:flex"
+		class="fixed top-8 right-8 hidden h-[calc(100svh-4rem)] w-53 shrink-0 flex-col xl:flex"
 	>
 		<TableOfContents />
+		{#if metadata && rawPath && rawUrl && githubUrl}
+			<DocShareActions {rawPath} {rawUrl} {githubUrl} />
+		{/if}
 	</aside>
 </main>
