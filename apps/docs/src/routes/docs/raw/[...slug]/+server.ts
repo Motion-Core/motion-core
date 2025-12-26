@@ -1,9 +1,10 @@
 import { error, type RequestHandler } from "@sveltejs/kit";
 
-const docFiles = import.meta.glob<string>("/src/routes/docs/**/+page.svx", {
-	as: "raw",
+const docFiles = import.meta.glob("/src/routes/docs/**/+page.svx", {
+	query: "?raw",
+	import: "default",
 	eager: true,
-});
+}) as Record<string, string>;
 
 const docsBySlug = new Map<string, string>();
 for (const [filePath, contents] of Object.entries(docFiles)) {
