@@ -3,6 +3,7 @@
 	import { motionCoreEase } from "motion-core";
 	import type { ComponentInfo } from "./types";
 	import gsap from "gsap";
+	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
 
 	const props = $props<{ components?: ComponentInfo[] }>();
 	const components = $derived(props.components ?? []);
@@ -57,9 +58,10 @@
 <section
 	class="relative rounded-xl border border-border bg-background lg:col-span-3 lg:max-h-[calc(100svh-2rem)]"
 >
-	<div
-		class="h-full w-full p-2 md:p-4 lg:overflow-y-auto"
-		style="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
+	<ScrollArea
+		class="h-full w-full"
+		viewportClass="h-full w-full p-2 md:p-4"
+		viewportStyle="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
 	>
 		<div
 			class="columns-1 gap-4 space-y-4 [column-fill:balance] sm:columns-2 lg:columns-3"
@@ -69,5 +71,5 @@
 				<ComponentCard {component} />
 			{/each}
 		</div>
-	</div>
+	</ScrollArea>
 </section>

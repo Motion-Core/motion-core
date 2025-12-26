@@ -7,9 +7,19 @@
 		class?: string;
 		id?: string;
 		children?: Snippet;
+		style?: string;
+		viewportClass?: string;
+		viewportStyle?: string;
 	};
 
-	let { class: className, id, children }: Props = $props();
+	let {
+		class: className,
+		id,
+		children,
+		style,
+		viewportClass,
+		viewportStyle,
+	}: Props = $props();
 
 	let viewport: HTMLDivElement;
 	let isDragging = $state(false);
@@ -106,11 +116,15 @@
 	});
 </script>
 
-<div class={cn("relative flex flex-col overflow-hidden", className)}>
+<div class={cn("relative flex flex-col overflow-hidden", className)} style={style}>
 	<div
 		bind:this={viewport}
 		{id}
-		class="scrollbar-hide min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto"
+		class={cn(
+			"scrollbar-hide min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto",
+			viewportClass,
+		)}
+		style={viewportStyle}
 		onscroll={handleScroll}
 	>
 		{@render children?.()}
