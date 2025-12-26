@@ -23,8 +23,8 @@
 	onMount(() => {
 		gsap.registerPlugin(SplitText);
 		gsap.registerPlugin(CustomEase);
+		CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
 	});
-	CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
 
 	let wrapperRef: HTMLSpanElement;
 	let originalSpan: HTMLSpanElement;

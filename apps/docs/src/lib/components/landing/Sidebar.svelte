@@ -47,14 +47,8 @@
 	);
 
 	onMount(() => {
-		if (easeRegistered) return;
-		easeRegistered = true;
 		gsap.registerPlugin(CustomEase);
-		try {
-			CustomEase.create(motionCoreEase, "0.625, 0.05, 0, 1");
-		} catch {
-			// ignore duplicates
-		}
+		CustomEase.create(motionCoreEase, "0.625, 0.05, 0, 1");
 	});
 
 	$effect(() => {
