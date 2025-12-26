@@ -6,6 +6,8 @@ yarn.lock
 
 # build artifacts
 dist
+!motion-core-cli/js/dist/
+!motion-core-cli/js/dist/**
 build
 .svelte-kit
 .turbo
