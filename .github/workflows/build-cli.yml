@@ -64,8 +64,7 @@ jobs:
           echo "CFLAGS_aarch64_unknown_linux_gnu=-march=armv8-a" >> $GITHUB_ENV
 
       - name: Build CLI binary
-        working-directory: motion-core-cli
-        run: cargo build --release --package motion-core-cli --target ${{ matrix.target }}
+        run: cargo build --release --package motion-core-cli --target ${{ matrix.target }} --target-dir motion-core-cli/target
 
       - name: Stage binary in dist folder
         working-directory: motion-core-cli

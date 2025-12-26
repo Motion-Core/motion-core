@@ -1,7 +1,7 @@
 [workspace]
 members = [
-    "crates/core",
-    "crates/cli",
+    "motion-core-cli/crates/core",
+    "motion-core-cli/crates/cli",
 ]
 resolver = "2"
 

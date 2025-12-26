@@ -16,10 +16,11 @@ fi
 
 echo "Building Rust CLI (target: $TARGET)..."
 cargo build \
-  --manifest-path "$CLI_DIR/Cargo.toml" \
+  --manifest-path "$REPO_ROOT/Cargo.toml" \
   --package motion-core-cli \
   --release \
-  --target "$TARGET"
+  --target "$TARGET" \
+  --target-dir "$CLI_DIR/target"
 
 mkdir -p "$DIST_DIR"
 

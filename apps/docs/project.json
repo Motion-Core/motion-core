@@ -1,0 +1,53 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "docs",
+  "projectType": "application",
+  "root": "apps/docs",
+  "sourceRoot": "apps/docs/src",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun run --cwd apps/docs dev",
+        "forwardAllArgs": true
+      },
+      "cache": false
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/.svelte-kit",
+        "{projectRoot}/build"
+      ],
+      "options": {
+        "command": "bun run --cwd apps/docs build"
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun run --cwd apps/docs preview"
+      },
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun run --cwd apps/docs check"
+      }
+    },
+    "registry": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun run --cwd apps/docs build:registry"
+      },
+      "outputs": [
+        "apps/docs/static/registry",
+        "apps/docs/src/lib/docs/generated-manifest.ts"
+      ]
+    }
+  },
+  "tags": ["scope:docs", "type:app"],
+  "implicitDependencies": ["motion-core"]
+}
