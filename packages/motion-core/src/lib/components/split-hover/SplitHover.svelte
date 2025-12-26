@@ -1,9 +1,9 @@
 <script lang="ts">
 	import gsap from "gsap";
+	import CustomEase from "gsap/CustomEase";
 	import SplitText from "gsap/SplitText";
 	import { onMount } from "svelte";
 	import type { Snippet } from "svelte";
-	import { motionCoreEase } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
 
 	type ComponentProps = {
@@ -22,7 +22,9 @@
 
 	onMount(() => {
 		gsap.registerPlugin(SplitText);
+		gsap.registerPlugin(CustomEase);
 	});
+	CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
 
 	let wrapperRef: HTMLSpanElement;
 	let originalSpan: HTMLSpanElement;
@@ -60,7 +62,7 @@
 							yPercent: -100,
 							stagger: 0.02,
 							duration: 0.35,
-							ease: motionCoreEase,
+							ease: "motion-core-ease",
 						},
 						0,
 					)
@@ -70,7 +72,7 @@
 							yPercent: 0,
 							stagger: 0.02,
 							duration: 0.35,
-							ease: motionCoreEase,
+							ease: "motion-core-ease",
 						},
 						0,
 					);

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import gsap from "gsap";
-	import { motionCoreEase } from "../../helpers/gsap";
+	import CustomEase from "gsap/CustomEase";
+	import { onMount } from "svelte";
 	import { cn } from "../../utils/cn";
 	type Image = {
 		src: string;
@@ -17,6 +18,10 @@
 		class: className = "",
 		...restProps
 	}: ComponentProps = $props();
+	onMount(() => {
+		gsap.registerPlugin(CustomEase);
+	});
+	CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
 	let containerRef: HTMLElement;
 	let slidesRef: HTMLElement[] = $state([]);
 	let innersRef: HTMLElement[] = $state([]);
@@ -36,7 +41,7 @@
 		gsap.set(upcomingSlide, { zIndex: 20 });
 		gsap.set(currentSlide, { zIndex: 10 });
 		const tl = gsap.timeline({
-			defaults: { duration: animationDuration, ease: motionCoreEase },
+			defaults: { duration: animationDuration, ease: "motion-core-ease" },
 			onComplete() {
 				isAnimating = false;
 				gsap.set(currentSlide, { zIndex: 0, xPercent: 0 });

@@ -295,10 +295,6 @@
         {
           "path": "utils/cn.ts",
           "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helper"
         }
       ]
     },
@@ -326,10 +322,6 @@
         {
           "path": "utils/cn.ts",
           "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helper"
         }
       ]
     },
@@ -357,10 +349,6 @@
         {
           "path": "utils/cn.ts",
           "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helper"
         }
       ]
     },

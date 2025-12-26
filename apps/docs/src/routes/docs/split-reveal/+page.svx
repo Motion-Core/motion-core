@@ -12,7 +12,6 @@ poster: /previews/split-reveal/poster.webp
 	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
 	"$lib/components/docs/markdown/Step.svelte"; import splitRevealSource from
 	"motion-core/components/split-reveal/SplitReveal.svelte?raw"; import
-	gsapHelperSource from "motion-core/helpers/gsap.ts?raw"; import
 	SplitRevealDemo from "./SplitRevealDemo.svelte"; import splitRevealDemoSource
 	from "./SplitRevealDemo.svelte?raw";
 </script>
@@ -41,7 +40,6 @@ import { SplitReveal } from "$lib/motion-core";
 	sources={[
 		{ name: "Example", code: splitRevealDemoSource, language: "svelte" },
 		{ name: "SplitReveal.svelte", code: splitRevealSource, language: "svelte" },
-		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" },
 	]}
 >
 	<SplitRevealDemo />

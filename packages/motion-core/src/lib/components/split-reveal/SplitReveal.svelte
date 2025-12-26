@@ -1,9 +1,9 @@
 <script lang="ts">
 	import gsap from "gsap";
+	import CustomEase from "gsap/CustomEase";
 	import SplitText from "gsap/SplitText";
 	import type { Snippet } from "svelte";
 	import { onMount } from "svelte";
-	import { motionCoreEase } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
 
 	type SplitMode = "lines" | "words" | "chars";
@@ -35,7 +35,9 @@
 
 	onMount(() => {
 		gsap.registerPlugin(SplitText);
+		gsap.registerPlugin(CustomEase);
 	});
+	CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
 
 	const props: ComponentProps = $props();
 	const children = $derived(props.children);
@@ -98,7 +100,7 @@
 			yPercent: 0,
 			duration: config.duration,
 			stagger: config.stagger,
-			ease: motionCoreEase,
+			ease: "motion-core-ease",
 			lazy: false,
 		});
 

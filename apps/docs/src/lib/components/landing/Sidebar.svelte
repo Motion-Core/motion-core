@@ -2,10 +2,11 @@
 	import ThemeToggle from "./ThemeToggle.svelte";
 	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
 	import { SplitHover } from "motion-core";
-	import { motionCoreEase } from "motion-core";
 	import type { SocialLink } from "./types";
 	import gsap from "gsap";
 	import SplitText from "gsap/SplitText";
+	import CustomEase from "gsap/CustomEase";
+	import { onMount } from "svelte";
 
 	class LinkState {
 		ref = $state<HTMLAnchorElement | null>(null);
@@ -17,6 +18,9 @@
 			this.href = link.href;
 		}
 	}
+
+	const motionCoreEase = "motion-core-ease";
+	let easeRegistered = false;
 
 	const props = $props<{
 		title?: string;
@@ -41,6 +45,17 @@
 			.map((link: SocialLink) => link.href)
 			.join("|")}`,
 	);
+
+	onMount(() => {
+		if (easeRegistered) return;
+		easeRegistered = true;
+		gsap.registerPlugin(CustomEase);
+		try {
+			CustomEase.create(motionCoreEase, "0.625, 0.05, 0, 1");
+		} catch {
+			// ignore duplicates
+		}
+	});
 
 	$effect(() => {
 		void timelineKey;

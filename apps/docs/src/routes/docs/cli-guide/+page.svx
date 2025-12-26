@@ -22,7 +22,7 @@ Initialize your project for Motion Core. This command will:
 - Detect your framework (SvelteKit or Vite + Svelte).
 - Detect your package manager.
 - Create a `motion-core.json` file.
-- Scaffold required directories and base utility files (`cn.ts`, `gsap.ts`).
+- Scaffold required directories and base utility files (`cn.ts`).
 - Install base dependencies (`clsx`, `tailwind-merge`).
 
 ```bash

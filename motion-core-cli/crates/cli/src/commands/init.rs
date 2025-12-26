@@ -189,10 +189,6 @@ fn scaffold_workspace(
     if ensure_directory(&utils_dir, dry_run)? {
         report.record_dir(relative_display(root, &utils_dir));
     }
-
-    if write_file_if_missing(&helpers_dir.join("gsap.ts"), GSAP_HELPER, dry_run)? {
-        report.record_file(relative_display(root, &helpers_dir.join("gsap.ts")));
-    }
     if write_file_if_missing(&utils_dir.join("cn.ts"), CN_HELPER, dry_run)? {
         report.record_file(relative_display(root, &utils_dir.join("cn.ts")));
     }
@@ -239,16 +235,6 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
-"#;
-
-const GSAP_HELPER: &str = r#"import gsap from "gsap";
-import { CustomEase } from "gsap/CustomEase";
-
-gsap.registerPlugin(CustomEase);
-
-CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
-
-export const motionCoreEase = "motion-core-ease";
 "#;
 
 const BASE_RUNTIME_DEPENDENCIES: &[&str] = &["clsx", "tailwind-merge"];

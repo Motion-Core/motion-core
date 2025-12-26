@@ -11,8 +11,7 @@ poster: /previews/split-hover/poster.webp
 	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
 	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
 	"$lib/components/docs/markdown/Step.svelte"; import splitHoverSource from
-	"motion-core/components/split-hover/SplitHover.svelte?raw"; import
-	gsapHelperSource from "motion-core/helpers/gsap.ts?raw"; import SplitHoverDemo
+	"motion-core/components/split-hover/SplitHover.svelte?raw"; import SplitHoverDemo
 	from "./SplitHoverDemo.svelte"; import splitHoverDemoSource from
 	"./SplitHoverDemo.svelte?raw";
 </script>
@@ -41,7 +40,6 @@ import { SplitHover } from "$lib/motion-core";
 	sources={[
 		{ name: "Example", code: splitHoverDemoSource, language: "svelte" },
 		{ name: "SplitHover.svelte", code: splitHoverSource, language: "svelte" },
-		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "ts" },
 	]}
 >
 	<SplitHoverDemo />

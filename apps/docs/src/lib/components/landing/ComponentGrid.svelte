@@ -1,14 +1,29 @@
 <script lang="ts">
 	import ComponentCard from "./ComponentCard.svelte";
-	import { motionCoreEase } from "motion-core";
 	import type { ComponentInfo } from "./types";
 	import gsap from "gsap";
+	import CustomEase from "gsap/CustomEase";
 	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
+	import { onMount } from "svelte";
+
+	const motionCoreEase = "motion-core-ease";
+	let easeRegistered = false;
 
 	const props = $props<{ components?: ComponentInfo[] }>();
 	const components = $derived(props.components ?? []);
 
 	let listRef: HTMLDivElement | null = null;
+
+	onMount(() => {
+		if (easeRegistered) return;
+		easeRegistered = true;
+		gsap.registerPlugin(CustomEase);
+		try {
+			CustomEase.create(motionCoreEase, "0.625, 0.05, 0, 1");
+		} catch {
+			// ignore duplicate registrations
+		}
+	});
 	const animationKey = $derived(
 		components.map((component: ComponentInfo) => component.slug).join("|"),
 	);
