@@ -90,7 +90,7 @@
 			/>
 		{:else}
 			<code
-				class="block text-sm leading-relaxed font-medium whitespace-pre text-foreground mono"
+				class="block text-sm leading-relaxed whitespace-pre text-foreground mono"
 			>
 				{activeCommand}
 			</code>
