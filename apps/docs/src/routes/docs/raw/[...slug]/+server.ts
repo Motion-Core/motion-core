@@ -1,49 +1,44 @@
 import { error, type RequestHandler } from "@sveltejs/kit";
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const currentDir = fileURLToPath(new URL(".", import.meta.url));
-const DOCS_ROOT = path.resolve(currentDir, "..", "..");
+const docFiles = import.meta.glob<string>("/src/routes/docs/**/+page.svx", {
+	as: "raw",
+	eager: true,
+});
 
-const buildDocPath = (slug: string) => {
-	const segments = slug
+const docsBySlug = new Map<string, string>();
+for (const [filePath, contents] of Object.entries(docFiles)) {
+	const normalizedSlug = filePath
+		.replace(/^\/src\/routes\/docs\//, "")
+		.replace(/\/\+page\.svx$/, "");
+	docsBySlug.set(normalizedSlug, contents);
+}
+
+const normalizeSlug = (slug: string | undefined) => {
+	if (!slug) return "";
+	return slug
 		.split("/")
 		.map((segment) => segment.trim())
-		.filter(Boolean);
-
-	if (segments.length === 0) {
-		throw error(404, "Doc not found");
-	}
-
-	const targetPath = path.resolve(DOCS_ROOT, ...segments, "+page.svx");
-	const relativePath = path.relative(DOCS_ROOT, targetPath);
-
-	if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
-		throw error(404, "Doc not found");
-	}
-
-	return targetPath;
+		.filter(Boolean)
+		.join("/");
 };
 
-export const GET: RequestHandler = async ({ params }) => {
-	const slug = params.slug;
+export const GET: RequestHandler = ({ params }) => {
+	const slug = normalizeSlug(params.slug);
 
 	if (!slug) {
 		throw error(404, "Doc not found");
 	}
 
-	const docPath = buildDocPath(slug);
+	const contents = docsBySlug.get(slug);
 
-	try {
-		const contents = await readFile(docPath, "utf8");
-		return new Response(contents, {
-			headers: {
-				"content-type": "text/markdown; charset=utf-8",
-				"cache-control": "public, max-age=60",
-			},
-		});
-	} catch {
+	if (!contents) {
 		throw error(404, "Doc not found");
 	}
+
+	return new Response(contents, {
+		headers: {
+			"content-type": "text/markdown; charset=utf-8",
+			"cache-control": "public, max-age=60",
+		},
+	});
 };
