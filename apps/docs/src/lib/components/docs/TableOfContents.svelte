@@ -493,7 +493,7 @@
 		</div>
 		<div class="relative flex px-2">
 			<div
-				class="absolute top-0 left-1 h-full w-10 pointer-events-none"
+				class="pointer-events-none absolute top-0 left-1 h-full w-10"
 				style={`
                     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${svgWidth} ${lineHeight}' width='${svgWidth}' height='${lineHeight}' preserveAspectRatio='none'%3E%3Cpath d='${svgPath}' stroke='black' stroke-width='1' fill='none'/%3E%3C/svg%3E");
                     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${svgWidth} ${lineHeight}' width='${svgWidth}' height='${lineHeight}' preserveAspectRatio='none'%3E%3Cpath d='${svgPath}' stroke='black' stroke-width='1' fill='none'/%3E%3C/svg%3E");
@@ -505,7 +505,7 @@
                     -webkit-mask-size: 100% 100%;
                 `}
 			>
-				<div class="absolute inset-0 w-full h-full bg-border"></div>
+				<div class="absolute inset-0 h-full w-full bg-border"></div>
 
 				{#if indicatorHeight > 0}
 					<div
@@ -518,7 +518,7 @@
 				{/if}
 			</div>
 
-			<ol class="relative flex flex-col text-sm pl-3" bind:this={linksWrapper}>
+			<ol class="relative flex flex-col pl-3 text-sm" bind:this={linksWrapper}>
 				{#each headings as heading (heading.id)}
 					<li
 						class="transition-colors duration-150 ease-out"

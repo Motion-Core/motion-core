@@ -24,10 +24,5 @@
 		{@render code?.()}
 	</Pre>
 {:else}
-	<ShikiCodeBlock
-		code={raw}
-		{htmlLight}
-		{htmlDark}
-		{lang}
-	/>
+	<ShikiCodeBlock code={raw} {htmlLight} {htmlDark} {lang} />
 {/if}

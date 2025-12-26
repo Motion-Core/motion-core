@@ -7,15 +7,17 @@ poster: /previews/infinite-gallery/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import infiniteGallerySource from "motion-core/components/infinite-gallery/InfiniteGallery.svelte?raw";
-	import gallerySceneSource from "motion-core/components/infinite-gallery/GalleryScene.svelte?raw";
-	import imagePlaneSource from "motion-core/components/infinite-gallery/ImagePlane.svelte?raw";
-	import InfiniteGalleryDemo from "./InfiniteGalleryDemo.svelte";
-	import infiniteGalleryDemoSource from "./InfiniteGalleryDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
+	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
+	"$lib/components/docs/markdown/Step.svelte"; import infiniteGallerySource from
+	"motion-core/components/infinite-gallery/InfiniteGallery.svelte?raw"; import
+	gallerySceneSource from
+	"motion-core/components/infinite-gallery/GalleryScene.svelte?raw"; import
+	imagePlaneSource from
+	"motion-core/components/infinite-gallery/ImagePlane.svelte?raw"; import
+	InfiniteGalleryDemo from "./InfiniteGalleryDemo.svelte"; import
+	infiniteGalleryDemoSource from "./InfiniteGalleryDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -31,7 +33,9 @@ poster: /previews/infinite-gallery/poster.webp
 ```ts
 import { InfiniteGallery } from "$lib/motion-core";
 ```
-	</Step>
+
+    </Step>
+
 </Steps>
 
 ## Usage

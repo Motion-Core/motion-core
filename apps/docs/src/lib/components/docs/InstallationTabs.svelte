@@ -80,7 +80,7 @@
 		<CopyCodeButton code={activeCommand} class="mr-2" />
 	</div>
 
-	<div class="p-4 min-h-12.5">
+	<div class="min-h-12.5 p-4">
 		{#if highlightedCommands[activeTab]}
 			<ShikiCodeBlock
 				code=""
@@ -90,7 +90,7 @@
 			/>
 		{:else}
 			<code
-				class="block text-sm leading-relaxed whitespace-pre mono font-medium text-foreground"
+				class="block text-sm leading-relaxed font-medium whitespace-pre text-foreground mono"
 			>
 				{activeCommand}
 			</code>

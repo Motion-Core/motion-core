@@ -41,6 +41,7 @@ motion-core init [options]
 ```
 
 **Options:**
+
 - `--dry-run`: Preview the initialization process without writing any files or changes.
 
 ### `add`
@@ -52,12 +53,14 @@ motion-core add <component-names> [options]
 ```
 
 **Examples:**
+
 ```bash
 motion-core add glass-pane
 motion-core add glass-pane image-trail
 ```
 
 **Options:**
+
 - `--dry-run`: Preview the installation plan (files to create/update, dependencies to install) without applying changes.
 - `-y, --yes`: Skip confirmation prompts. Useful for CI/CD environments.
 
@@ -70,6 +73,7 @@ motion-core list [options]
 ```
 
 **Options:**
+
 - `--json`: Output the registry data in JSON format instead of a human-readable table.
 
 ### `cache`
@@ -81,6 +85,7 @@ motion-core cache [options]
 ```
 
 **Options:**
+
 - `--clear`: Prepare to clear cached registry data and assets. **Must be used with `--force` to perform the deletion.**
 - `--force`: Confirm the deletion of cached files.
 
@@ -96,15 +101,18 @@ If you are contributing to the CLI or building it locally:
 
 2.  **Build the Rust binary**:
     From the `motion-core-cli` root directory, build the binary for your current platform:
+
     ```bash
     cargo build --release
     ```
-    *Note: You may need to specify a target if cross-compiling.*
+
+    _Note: You may need to specify a target if cross-compiling._
 
 3.  **Place the binary**:
     The Node.js wrapper expects the binary to be located in `dist/<target-triple>/`.
-    
+
     For example, on an Apple Silicon Mac:
+
     ```bash
     mkdir -p js/dist/aarch64-apple-darwin
     cp target/release/motion-core js/dist/aarch64-apple-darwin/

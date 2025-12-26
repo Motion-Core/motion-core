@@ -13,19 +13,19 @@
 	}>();
 </script>
 
-<div class={cn("relative pl-8 pb-10", className)}>
+<div class={cn("relative pb-10 pl-8", className)}>
 	{#if title}
 		<div class="mb-4 flex h-8 items-center">
 			<span
-				class="absolute -left-4 flex size-8 items-center justify-center rounded-full border border-border bg-card text-xs shadow-sm font-medium text-foreground [counter-increment:step] before:content-[counter(step)]"
+				class="absolute -left-4 flex size-8 items-center justify-center rounded-full border border-border bg-card text-xs font-medium text-foreground shadow-sm [counter-increment:step] before:content-[counter(step)]"
 			></span>
-			<h3 class="text-base font-medium leading-none">
+			<h3 class="text-base leading-none font-medium">
 				{title}
 			</h3>
 		</div>
 	{:else}
 		<span
-			class="absolute -left-4 top-1 flex size-8 items-center justify-center rounded-full border border-border bg-card text-xs font-medium text-foreground [counter-increment:step] before:content-[counter(step)]"
+			class="absolute top-1 -left-4 flex size-8 items-center justify-center rounded-full border border-border bg-card text-xs font-medium text-foreground [counter-increment:step] before:content-[counter(step)]"
 		></span>
 	{/if}
 	<div class="text-base leading-relaxed text-foreground/70">

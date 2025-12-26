@@ -18,6 +18,7 @@ npx @motion-core/cli init
 ### `init`
 
 Initialize your project for Motion Core. This command will:
+
 - Detect your framework (SvelteKit or Vite + Svelte).
 - Detect your package manager.
 - Create a `motion-core.json` file.
@@ -37,6 +38,7 @@ motion-core add [component-slug]
 ```
 
 **Options:**
+
 - `--dry-run`: See what would be installed without making any changes.
 - `-y, --yes`: Skip confirmation prompts.
 
@@ -62,32 +64,32 @@ The `motion-core.json` file allows you to customize where components and utiliti
 
 ```json
 {
-  "$schema": "https://motion-core.dev/registry/schema/config-schema.json",
-  "tailwind": {
-    "css": "src/routes/layout.css"
-  },
-  "aliases": {
-    "components": {
-      "filesystem": "src/lib/motion-core",
-      "import": "$lib/motion-core"
-    },
-    "helpers": {
-      "filesystem": "src/lib/motion-core/helpers",
-      "import": "$lib/motion-core/helpers"
-    },
-    "utils": {
-      "filesystem": "src/lib/motion-core/utils",
-      "import": "$lib/motion-core/utils"
-    }
-  },
-  "aliasPrefixes": {
-    "components": "$lib/motion-core"
-  },
-  "exports": {
-    "components": {
-      "barrel": "src/lib/motion-core/index.ts",
-      "strategy": "named"
-    }
-  }
+	"$schema": "https://motion-core.dev/registry/schema/config-schema.json",
+	"tailwind": {
+		"css": "src/routes/layout.css"
+	},
+	"aliases": {
+		"components": {
+			"filesystem": "src/lib/motion-core",
+			"import": "$lib/motion-core"
+		},
+		"helpers": {
+			"filesystem": "src/lib/motion-core/helpers",
+			"import": "$lib/motion-core/helpers"
+		},
+		"utils": {
+			"filesystem": "src/lib/motion-core/utils",
+			"import": "$lib/motion-core/utils"
+		}
+	},
+	"aliasPrefixes": {
+		"components": "$lib/motion-core"
+	},
+	"exports": {
+		"components": {
+			"barrel": "src/lib/motion-core/index.ts",
+			"strategy": "named"
+		}
+	}
 }
 ```

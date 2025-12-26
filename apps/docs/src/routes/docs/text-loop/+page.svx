@@ -7,13 +7,13 @@ poster: /previews/text-loop/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import textLoopSource from "motion-core/components/text-loop/TextLoop.svelte?raw";
-	import TextLoopDemo from "./TextLoopDemo.svelte";
-	import textLoopDemoSource from "./TextLoopDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
+	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
+	"$lib/components/docs/markdown/Step.svelte"; import textLoopSource from
+	"motion-core/components/text-loop/TextLoop.svelte?raw"; import TextLoopDemo
+	from "./TextLoopDemo.svelte"; import textLoopDemoSource from
+	"./TextLoopDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -29,7 +29,9 @@ poster: /previews/text-loop/poster.webp
 ```ts
 import { TextLoop } from "$lib/motion-core";
 ```
-	</Step>
+
+    </Step>
+
 </Steps>
 
 ## Usage

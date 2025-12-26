@@ -106,11 +106,11 @@
 	});
 </script>
 
-<div class={cn("relative overflow-hidden flex flex-col", className)}>
+<div class={cn("relative flex flex-col overflow-hidden", className)}>
 	<div
 		bind:this={viewport}
 		{id}
-		class="scrollbar-hide flex-1 w-full min-h-0 overflow-y-auto overflow-x-hidden"
+		class="scrollbar-hide min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto"
 		onscroll={handleScroll}
 	>
 		{@render children?.()}

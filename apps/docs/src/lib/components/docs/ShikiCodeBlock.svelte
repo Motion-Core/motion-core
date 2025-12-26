@@ -10,7 +10,14 @@
 		unstyled?: boolean;
 	};
 
-	let { code, htmlLight, htmlDark, lang, class: className, unstyled = false }: Props = $props();
+	let {
+		code,
+		htmlLight,
+		htmlDark,
+		lang,
+		class: className,
+		unstyled = false,
+	}: Props = $props();
 
 	let finalHtmlDark = $derived(htmlDark ?? htmlLight);
 </script>

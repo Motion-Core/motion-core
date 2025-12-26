@@ -195,10 +195,10 @@ function adjustComponentImports(filePath: string, contents: Buffer) {
 
 	const source = contents.toString("utf8");
 	const replacements = [
-		{ pattern: /(from\s+["'])\.\.\/\.\.\/utils\//g, target: '$1../utils/' },
+		{ pattern: /(from\s+["'])\.\.\/\.\.\/utils\//g, target: "$1../utils/" },
 		{
 			pattern: /(from\s+["'])\.\.\/\.\.\/helpers\//g,
-			target: '$1../helpers/',
+			target: "$1../helpers/",
 		},
 	];
 

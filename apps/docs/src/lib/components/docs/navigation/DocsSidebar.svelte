@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { page } from "$app/state";
-	import { gettingStartedManifest, componentManifest } from "$lib/docs/manifest";
+	import {
+		gettingStartedManifest,
+		componentManifest,
+	} from "$lib/docs/manifest";
 	import { cn } from "$lib/utils/cn";
 	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
 	import ThemeToggle from "$lib/components/landing/ThemeToggle.svelte";
