@@ -18,7 +18,7 @@
 <tr
 	{...restProps}
 	class={cn(
-		"transition-[background-color] duration-150 ease-out hover:bg-card-muted/60 data-[state=selected]:bg-card-muted/60",
+		"transition-[background-color] duration-150 ease-out hover:bg-card-muted data-[state=selected]:bg-card-muted",
 		className,
 	)}
 >

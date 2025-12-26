@@ -42,7 +42,7 @@
 	>
 	<span class="flex-1 text-left">Search...</span>
 	<kbd
-		class="pointer-events-none hidden h-5 items-center gap-1 rounded border border-border bg-card px-1.5 text-[10px] font-medium text-foreground/45 opacity-100 select-none mono sm:flex"
+		class="pointer-events-none hidden h-5 items-center gap-1 rounded border border-border bg-card shadow-sm px-1.5 text-[10px] font-medium text-foreground/45 opacity-100 select-none mono sm:flex"
 	>
 		<span class="text-xs">⌘</span>K
 	</kbd>

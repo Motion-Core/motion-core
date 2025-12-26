@@ -113,7 +113,7 @@
 					aria-label="Search documentation"
 				/>
 				<kbd
-					class="pointer-events-none hidden h-5 items-center gap-1 rounded border border-border bg-card-muted/60 px-1.5 text-[10px] font-medium text-foreground/45 select-none mono sm:flex"
+					class="pointer-events-none hidden h-5 items-center gap-1 rounded border border-border bg-card-muted shadow-sm px-1.5 text-[10px] font-medium text-foreground/45 select-none mono sm:flex"
 				>
 					ESC
 				</kbd>
