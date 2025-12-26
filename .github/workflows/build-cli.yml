@@ -68,12 +68,14 @@ jobs:
           echo "CFLAGS_aarch64_unknown_linux_gnu=-march=armv8-a" >> $GITHUB_ENV
 
       - name: Build CLI binary
+        working-directory: motion-core-cli
         run: cargo build --release --package motion-core-cli --target ${{ matrix.target }}
 
       - name: Stage binary in dist folder
+        working-directory: motion-core-cli
         run: |
-          mkdir -p motion-core-cli/js/dist/${{ matrix.target }}
-          cp target/${{ matrix.target }}/release/${{ matrix.binary }} motion-core-cli/js/dist/${{ matrix.target }}/
+          mkdir -p js/dist/${{ matrix.target }}
+          cp target/${{ matrix.target }}/release/${{ matrix.binary }} js/dist/${{ matrix.target }}/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
