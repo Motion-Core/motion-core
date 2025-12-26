@@ -23,7 +23,7 @@
 <button
 	type="button"
 	class={cn(
-		"group flex h-9 w-full items-center gap-2 rounded-md border border-border bg-card-muted/60 px-3 text-sm text-foreground/50 transition-[color] duration-150 ease-out hover:bg-card-muted hover:text-foreground",
+		"group flex h-9 w-full items-center gap-2 rounded-md border border-border bg-background px-3 text-sm text-foreground/45 transition-[color] duration-150 ease-out hover:text-foreground/70",
 		className,
 	)}
 	onclick={() => searchState.open()}

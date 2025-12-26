@@ -90,7 +90,7 @@
 	</ScrollArea>
 
 	<aside
-		class="fixed top-8 right-8 hidden h-[calc(100svh-5rem)] w-48 shrink-0 flex-col xl:flex"
+		class="fixed top-8 right-8 hidden h-[calc(100svh-5rem)] w-50 shrink-0 flex-col xl:flex"
 	>
 		<TableOfContents />
 	</aside>
