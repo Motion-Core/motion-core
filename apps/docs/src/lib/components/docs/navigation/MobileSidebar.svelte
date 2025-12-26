@@ -22,7 +22,7 @@
 </script>
 
 <div
-	class="sticky top-0 z-50 flex items-center justify-between border-b border-border bg-card px-4 py-2 lg:hidden"
+	class="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-border bg-card px-4 py-2 lg:hidden"
 >
 	<a href="/" class="flex items-center gap-2">
 		<span
@@ -42,18 +42,15 @@
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke-width="1.5"
-			stroke="currentColor"
-			class="h-6 w-6"
+			width="32"
+			height="32"
+			fill="currentColor"
+			viewBox="0 0 256 256"
+			class="size-6"
+			><path
+				d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"
+			></path></svg
 		>
-			<path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-			/>
-		</svg>
 	</button>
 </div>
 
@@ -78,18 +75,15 @@
 			<button onclick={close} aria-label="Close menu">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
+					width="32"
+					height="32"
+					fill="currentColor"
+					viewBox="0 0 256 256"
 					class="size-6"
+					><path
+						d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+					></path></svg
 				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M6 18 18 6M6 6l12 12"
-					/>
-				</svg>
 			</button>
 		</div>
 		<DocsSidebar />

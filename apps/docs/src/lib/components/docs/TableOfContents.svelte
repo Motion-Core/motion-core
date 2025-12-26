@@ -479,20 +479,16 @@
 			class="mb-2 flex items-center gap-2 text-xs font-medium tracking-wide text-foreground/45 uppercase"
 		>
 			<svg
-				width="15"
-				height="15"
-				viewBox="0 0 15 15"
-				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
 				aria-hidden="true"
+				width="16"
+				height="16"
+				fill="currentColor"
+				viewBox="0 0 256 256"
+				><path
+					d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"
+				></path></svg
 			>
-				<path
-					d="M2 4.5C2 4.22386 2.22386 4 2.5 4H12.5C12.7761 4 13 4.22386 13 4.5C13 4.77614 12.7761 5 12.5 5H2.5C2.22386 5 2 4.77614 2 4.5ZM2 7.5C2 7.22386 2.22386 7 2.5 7H7.5C7.77614 7 8 7.22386 8 7.5C8 7.77614 7.77614 8 7.5 8H2.5C2.22386 8 2 7.77614 2 7.5ZM2 10.5C2 10.2239 2.22386 10 2.5 10H10.5C10.7761 10 11 10.2239 11 10.5C11 10.7761 10.7761 11 10.5 11H2.5C2.22386 11 2 10.7761 2 10.5Z"
-					fill="currentColor"
-					fill-rule="evenodd"
-					clip-rule="evenodd"
-				/>
-			</svg>
 			On this page
 		</div>
 		<div class="relative flex px-2">
