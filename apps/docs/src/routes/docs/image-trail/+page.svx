@@ -27,7 +27,7 @@ poster: /previews/image-trail/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { ImageTrail } from "motion-core";
+import { ImageTrail } from "$lib/motion-core";
 ```
 	</Step>
 </Steps>

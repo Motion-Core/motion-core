@@ -27,7 +27,7 @@ poster: /previews/macos-dock/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { MacosDock } from "motion-core";
+import { MacosDock } from "$lib/motion-core";
 ```
 	</Step>
 </Steps>

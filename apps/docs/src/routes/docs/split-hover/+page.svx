@@ -28,7 +28,7 @@ poster: /previews/split-hover/poster.webp
 			Import the component into your Svelte file:
 
 ``` ts
-import { SplitHover } from "motion-core";
+import { SplitHover } from "$lib/motion-core";
 ```
 		</Step>
 

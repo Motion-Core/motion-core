@@ -28,7 +28,7 @@ poster: /previews/slideshow/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { Slideshow } from "motion-core";
+import { Slideshow } from "$lib/motion-core";
 ```
 	</Step>
 </Steps>

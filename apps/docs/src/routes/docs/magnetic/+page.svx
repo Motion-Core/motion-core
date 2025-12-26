@@ -27,7 +27,7 @@ poster: /previews/magnetic/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { Magnetic } from "motion-core";
+import { Magnetic } from "$lib/motion-core";
 ```
 	</Step>
 </Steps>

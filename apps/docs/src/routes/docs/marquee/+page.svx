@@ -27,7 +27,7 @@ poster: /previews/marquee/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { Marquee } from "motion-core";
+import { Marquee } from "$lib/motion-core";
 ```
 	</Step>
 </Steps>

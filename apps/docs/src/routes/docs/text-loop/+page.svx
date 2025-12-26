@@ -27,7 +27,7 @@ poster: /previews/text-loop/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { TextLoop } from "motion-core";
+import { TextLoop } from "$lib/motion-core";
 ```
 	</Step>
 </Steps>

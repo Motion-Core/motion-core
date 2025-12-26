@@ -29,7 +29,7 @@ poster: /previews/infinite-gallery/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { InfiniteGallery } from "motion-core";
+import { InfiniteGallery } from "$lib/motion-core";
 ```
 	</Step>
 </Steps>

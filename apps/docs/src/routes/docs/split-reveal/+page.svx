@@ -28,7 +28,7 @@ poster: /previews/split-reveal/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { SplitReveal } from "motion-core";
+import { SplitReveal } from "$lib/motion-core";
 ```
 	</Step>
 </Steps>
