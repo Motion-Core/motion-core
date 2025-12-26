@@ -18,3 +18,4 @@ build
 # misc
 .DS_Store
 *.log
+.vercel
