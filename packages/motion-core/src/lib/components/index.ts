@@ -14,3 +14,4 @@ export {
 	type DockItem,
 } from "./macos-dock/MacosDock.svelte";
 export { default as Magnetic } from "./magnetic/Magnetic.svelte";
+export * from "./flip-grid";

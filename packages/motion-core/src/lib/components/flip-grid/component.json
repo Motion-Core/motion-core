@@ -1,0 +1,25 @@
+{
+	"name": "Flip Grid",
+	"slug": "flip-grid",
+	"description": "A layout component that smoothly animates its children when the grid structure changes, powered by GSAP Flip.",
+	"category": "layout",
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"files": [
+		{
+			"path": "FlipGrid.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "FlipGridItem.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

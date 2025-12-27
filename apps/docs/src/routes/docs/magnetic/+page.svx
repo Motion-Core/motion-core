@@ -62,7 +62,7 @@ import { Magnetic } from "$lib/motion-core";
 		{
 			prop: "ease",
 			type: "string",
-			default: "'elastic.out(1, 0.3)'",
+			default: '"elastic.out(1, 0.3)"',
 			description: "GSAP easing function for the movement.",
 		},
 		{

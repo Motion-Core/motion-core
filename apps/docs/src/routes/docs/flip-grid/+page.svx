@@ -1,0 +1,136 @@
+---
+name: Flip Grid
+description: A layout component that smoothly animates its children when the grid structure changes, powered by GSAP Flip.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	
+	import flipGridSource from "motion-core/components/flip-grid/FlipGrid.svelte?raw";
+	import flipGridItemSource from "motion-core/components/flip-grid/FlipGridItem.svelte?raw";
+	
+	import FlipGridDemo from "./FlipGridDemo.svelte";
+	import flipGridDemoSource from "./FlipGridDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="flip-grid" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { FlipGrid, FlipGridItem } from "motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Demo", code: flipGridDemoSource, language: "svelte" },
+		{
+			name: "FlipGrid.svelte",
+			code: flipGridSource,
+			language: "svelte",
+		},
+		{
+			name: "FlipGridItem.svelte",
+			code: flipGridItemSource,
+			language: "svelte",
+		}
+	]}
+>
+	<FlipGridDemo />
+</ComponentPreview>
+
+## Props
+
+### FlipGrid
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "children",
+			type: "Snippet",
+			default: "—",
+			description: "The content of the grid (FlipGridItem components).",
+		},
+		{
+			prop: "columns",
+			type: "number",
+			default: "undefined",
+			description: "Number of grid columns. If set, creates a responsive grid layout automatically.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "The CSS class for the grid container. Changes to this trigger the animation.",
+		},
+		{
+			prop: "style",
+			type: "string",
+			default: '""',
+			description: "Additional inline styles.",
+		},
+		{
+			prop: "duration",
+			type: "number",
+			default: "0.5",
+			description: "Animation duration in seconds.",
+		},
+		{
+			prop: "ease",
+			type: "string",
+			default: '"power2.inOut"',
+			description: "GSAP easing string.",
+		},
+		{
+			prop: "stagger",
+			type: "number",
+			default: "0",
+			description: "Stagger time between item animations.",
+		},
+	]}
+/>
+
+### FlipGridItem
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "children",
+			type: "Snippet",
+			default: "—",
+			description: "The content of the item.",
+		},
+		{
+			prop: "id",
+			type: "string",
+			default: "—",
+			description: "Required unique identifier for the item (used by GSAP Flip).",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "CSS classes for the item.",
+		},
+	]}
+/>

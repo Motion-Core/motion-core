@@ -19,6 +19,32 @@
     "tailwindcss": "^4.1.18"
   },
   "components": {
+    "flip-grid": {
+      "slug": "flip-grid",
+      "name": "Flip Grid",
+      "description": "A layout component that smoothly animates its children when the grid structure changes, powered by GSAP Flip.",
+      "category": "layout",
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/flip-grid/FlipGrid.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/flip-grid/FlipGridItem.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "glass-pane": {
       "slug": "glass-pane",
       "name": "Glass Pane",
