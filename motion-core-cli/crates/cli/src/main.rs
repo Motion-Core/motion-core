@@ -1,6 +1,6 @@
 mod commands;
-mod deps;
 mod context;
+mod deps;
 mod reporter;
 mod style;
 

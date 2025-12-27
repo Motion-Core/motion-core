@@ -203,6 +203,7 @@ fn scaffold_workspace(
     let components_dir = root.join(&config.aliases.components.filesystem);
     let helpers_dir = root.join(&config.aliases.helpers.filesystem);
     let utils_dir = root.join(&config.aliases.utils.filesystem);
+    let assets_dir = root.join(&config.aliases.assets.filesystem);
 
     let mut report = ScaffoldReport::default();
 
@@ -214,6 +215,9 @@ fn scaffold_workspace(
     }
     if ensure_directory(&utils_dir, dry_run)? {
         report.record_dir(relative_display(root, &utils_dir));
+    }
+    if ensure_directory(&assets_dir, dry_run)? {
+        report.record_dir(relative_display(root, &assets_dir));
     }
 
     let cn_path = utils_dir.join("cn.ts");
@@ -228,7 +232,9 @@ fn scaffold_workspace(
                 ));
                 reporter.info(format_args!(
                     "{}",
-                    muted("Connect to the internet and rerun `motion-core init` once you're online.")
+                    muted(
+                        "Connect to the internet and rerun `motion-core init` once you're online."
+                    )
                 ));
                 return Err(err);
             }
@@ -573,6 +579,7 @@ mod tests {
         assert!(ctx.config_path().exists());
         assert!(temp.path().join("src/lib/motion-core/utils/cn.ts").exists());
         assert!(temp.path().join("src/lib/motion-core").exists());
+        assert!(temp.path().join("src/lib/motion-core/assets").exists());
 
         let outcome = run(&ctx, &reporter, &InitArgs::default()).unwrap();
         assert_eq!(outcome, CommandOutcome::NoOp);
@@ -607,6 +614,7 @@ mod tests {
         assert_eq!(outcome, CommandOutcome::NoOp);
         assert!(!ctx.config_path().exists());
         assert!(!temp.path().join("src/lib/motion-core/utils/cn.ts").exists());
+        assert!(!temp.path().join("src/lib/motion-core/assets").exists());
     }
 
     fn preload_cn_helper(ctx: &CommandContext) {

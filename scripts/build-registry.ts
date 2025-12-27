@@ -212,6 +212,10 @@ function adjustComponentImports(filePath: string, contents: Buffer) {
 			pattern: /(from\s+["'])\.\.\/\.\.\/helpers\//g,
 			target: "$1../helpers/",
 		},
+		{
+			pattern: /(from\s+["'])\.\.\/\.\.\/assets\//g,
+			target: "$1../assets/",
+		},
 	];
 
 	let updated = source;
@@ -272,6 +276,13 @@ function buildConfigSchema() {
 						default: {
 							filesystem: "src/lib/motion/utils",
 							import: "$lib/motion/utils",
+						},
+					},
+					assets: {
+						...aliasDefinition,
+						default: {
+							filesystem: "src/lib/motion/assets",
+							import: "$lib/motion/assets",
 						},
 					},
 				},

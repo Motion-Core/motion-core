@@ -79,6 +79,26 @@
             "filesystem": "src/lib/motion/utils",
             "import": "$lib/motion/utils"
           }
+        },
+        "assets": {
+          "type": "object",
+          "properties": {
+            "filesystem": {
+              "type": "string"
+            },
+            "import": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "filesystem",
+            "import"
+          ],
+          "additionalProperties": false,
+          "default": {
+            "filesystem": "src/lib/motion/assets",
+            "import": "$lib/motion/assets"
+          }
         }
       },
       "additionalProperties": false

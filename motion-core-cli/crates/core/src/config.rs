@@ -58,6 +58,8 @@ pub struct Aliases {
     pub helpers: AliasEntry,
     #[serde(default)]
     pub utils: AliasEntry,
+    #[serde(default)]
+    pub assets: AliasEntry,
 }
 
 impl Default for Aliases {
@@ -69,6 +71,7 @@ impl Default for Aliases {
             ),
             helpers: AliasEntry::new(default_helpers_filesystem(), default_helpers_import_path()),
             utils: AliasEntry::new(default_utils_filesystem(), default_utils_import_path()),
+            assets: AliasEntry::new(default_assets_filesystem(), default_assets_import_path()),
         }
     }
 }
@@ -238,6 +241,14 @@ fn default_utils_import_path() -> String {
     "$lib/motion-core/utils".to_string()
 }
 
+fn default_assets_filesystem() -> String {
+    "src/lib/motion-core/assets".to_string()
+}
+
+fn default_assets_import_path() -> String {
+    "$lib/motion-core/assets".to_string()
+}
+
 fn default_components_alias_prefix() -> String {
     "$lib/motion-core".to_string()
 }
@@ -262,6 +273,7 @@ mod tests {
                 components: AliasEntry::new("src/components", "$lib/components"),
                 helpers: AliasEntry::new("src/helpers", "$lib/helpers"),
                 utils: AliasEntry::new("src/utils", "$lib/utils"),
+                assets: AliasEntry::new("src/assets", "$lib/assets"),
             },
             alias_prefixes: AliasPrefixes {
                 components: "$lib/components".into(),

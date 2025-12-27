@@ -323,6 +323,7 @@ fn resolve_destination(
     let base = match file.target.as_deref() {
         Some("helper") | Some("helpers") => &config.aliases.helpers.filesystem,
         Some("utils") => &config.aliases.utils.filesystem,
+        Some("asset") | Some("assets") => &config.aliases.assets.filesystem,
         Some("root") => "",
         _ => &config.aliases.components.filesystem,
     };
@@ -787,6 +788,74 @@ mod tests {
             !temp
                 .path()
                 .join("src/lib/motion-core/glass-pane/GlassPane.svelte")
+                .exists()
+        );
+    }
+
+    #[test]
+    fn routes_asset_targets_to_alias_directory() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let config_path = temp.path().join(CONFIG_FILE_NAME);
+        let json = serde_json::to_string(&Config::default()).expect("serialize config");
+        fs::write(&config_path, json).expect("write config");
+
+        let mut components = HashMap::new();
+        components.insert(
+            "asset-demo".into(),
+            ComponentRecord {
+                name: "Asset Demo".into(),
+                description: None,
+                category: None,
+                files: vec![
+                    ComponentFileRecord {
+                        path: "components/asset-demo/AssetDemo.svelte".into(),
+                        kind: Some("entry".into()),
+                        ..Default::default()
+                    },
+                    ComponentFileRecord {
+                        path: "components/asset-demo/texture.png".into(),
+                        target: Some("assets".into()),
+                        ..Default::default()
+                    },
+                ],
+                ..Default::default()
+            },
+        );
+        let registry = Registry {
+            name: "Motion Core".into(),
+            version: "0.1.0".into(),
+            description: None,
+            base_dependencies: HashMap::new(),
+            base_dev_dependencies: HashMap::new(),
+            components,
+        };
+        let ctx = build_context(&temp, registry);
+        ctx.registry().preload_component_manifest(
+            [
+                (
+                    "components/asset-demo/AssetDemo.svelte".into(),
+                    general_purpose::STANDARD.encode("<script></script>"),
+                ),
+                (
+                    "components/asset-demo/texture.png".into(),
+                    general_purpose::STANDARD.encode("png-data"),
+                ),
+            ]
+            .into_iter()
+            .collect(),
+        );
+
+        let reporter = ConsoleReporter::new();
+        let args = AddArgs {
+            components: vec!["asset-demo".into()],
+            dry_run: false,
+            assume_yes: true,
+        };
+        let outcome = run(&ctx, &reporter, &args).unwrap();
+        assert_eq!(outcome, CommandOutcome::Completed);
+        assert!(
+            temp.path()
+                .join("src/lib/motion-core/assets/asset-demo/texture.png")
                 .exists()
         );
     }

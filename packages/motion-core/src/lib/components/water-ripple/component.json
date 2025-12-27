@@ -24,7 +24,8 @@
 			"path": "Scene.svelte"
 		},
 		{
-			"path": "brush.png"
+			"path": "../../assets/water-ripple-brush.png",
+			"target": "assets"
 		}
 	]
 }

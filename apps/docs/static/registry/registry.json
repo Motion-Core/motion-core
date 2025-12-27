@@ -448,7 +448,8 @@
           "path": "components/water-ripple/Scene.svelte"
         },
         {
-          "path": "components/water-ripple/brush.png"
+          "path": "assets/water-ripple-brush.png",
+          "target": "assets"
         }
       ]
     }

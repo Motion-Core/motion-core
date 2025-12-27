@@ -2,7 +2,7 @@
 	import { T, useTask, useThrelte } from "@threlte/core";
 	import { useTexture } from "@threlte/extras";
 	import * as THREE from "three";
-	import brushUrl from "./brush.png";
+	import brushUrl from "../../assets/water-ripple-brush.png";
 
 	interface Props {
 		image: string;
