@@ -88,8 +88,8 @@ export const docsManifest: ComponentInfo[] = [
   {
     "slug": "water-ripple",
     "name": "Water Ripple",
-    "video": "/previews/pixelated-image/preview.mp4",
-    "poster": "/previews/pixelated-image/poster.webp"
+    "video": "/previews/water-ripple/preview.mp4",
+    "poster": "/previews/water-ripple/poster.webp"
   }
 ];
 

@@ -427,8 +427,8 @@
       "description": "Fluid water ripple effect on interaction.",
       "category": "canvas",
       "preview": {
-        "video": "/previews/pixelated-image/preview.mp4",
-        "poster": "/previews/pixelated-image/poster.webp"
+        "video": "/previews/water-ripple/preview.mp4",
+        "poster": "/previews/water-ripple/poster.webp"
       },
       "dependencies": {
         "@threlte/core": "^8.3.1",

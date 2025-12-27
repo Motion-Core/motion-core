@@ -1,8 +1,8 @@
 ---
 name: Water Ripple
 description: WaterRipple adds a fluid, interactive water ripple effect to any image using WebGL and displacement maps. It responds to mouse movement, creating natural-looking disturbances.
-video: /previews/pixelated-image/preview.mp4
-poster: /previews/pixelated-image/poster.webp
+video: /previews/water-ripple/preview.mp4
+poster: /previews/water-ripple/poster.webp
 ---
 
 <script lang="ts">
