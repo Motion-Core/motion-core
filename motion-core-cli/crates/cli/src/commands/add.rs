@@ -338,7 +338,7 @@ fn resolve_destination(
 fn strip_category(path: &str) -> &str {
     if let Some((first, rest)) = path.split_once('/') {
         match first {
-            "components" | "helpers" | "utils" => rest,
+            "components" | "helpers" | "utils" | "assets" => rest,
             _ => path,
         }
     } else {
@@ -813,7 +813,7 @@ mod tests {
                         ..Default::default()
                     },
                     ComponentFileRecord {
-                        path: "components/asset-demo/texture.png".into(),
+                        path: "assets/asset-demo/texture.png".into(),
                         target: Some("assets".into()),
                         ..Default::default()
                     },
@@ -837,7 +837,7 @@ mod tests {
                     general_purpose::STANDARD.encode("<script></script>"),
                 ),
                 (
-                    "components/asset-demo/texture.png".into(),
+                    "assets/asset-demo/texture.png".into(),
                     general_purpose::STANDARD.encode("png-data"),
                 ),
             ]
