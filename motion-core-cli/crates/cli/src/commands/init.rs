@@ -138,7 +138,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
     };
 
     spinner.set_message("Scaffolding Motion Core workspace...");
-    let scaffold = scaffold_workspace(ctx.workspace_root(), &config, args.dry_run)?;
+    let scaffold = scaffold_workspace(ctx, &config, args.dry_run)?;
 
     spinner.set_message("Checking base dependencies...");
     let deps_report =
@@ -170,10 +170,11 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
 }
 
 fn scaffold_workspace(
-    root: &Path,
+    ctx: &CommandContext,
     config: &Config,
     dry_run: bool,
 ) -> anyhow::Result<ScaffoldReport> {
+    let root = ctx.workspace_root();
     let components_dir = root.join(&config.aliases.components.filesystem);
     let helpers_dir = root.join(&config.aliases.helpers.filesystem);
     let utils_dir = root.join(&config.aliases.utils.filesystem);
@@ -189,8 +190,20 @@ fn scaffold_workspace(
     if ensure_directory(&utils_dir, dry_run)? {
         report.record_dir(relative_display(root, &utils_dir));
     }
-    if write_file_if_missing(&utils_dir.join("cn.ts"), CN_HELPER, dry_run)? {
-        report.record_file(relative_display(root, &utils_dir.join("cn.ts")));
+
+    let cn_path = utils_dir.join("cn.ts");
+    let created_cn = if cn_path.exists() {
+        false
+    } else {
+        let contents = if dry_run {
+            None
+        } else {
+            Some(fetch_cn_helper(ctx)?)
+        };
+        write_file_if_missing(&cn_path, contents.as_deref().unwrap_or(""), dry_run)?
+    };
+    if created_cn {
+        report.record_file(relative_display(root, &cn_path));
     }
 
     Ok(report)
@@ -229,13 +242,13 @@ fn write_file_if_missing(path: &Path, contents: &str, dry_run: bool) -> anyhow::
     Ok(true)
 }
 
-const CN_HELPER: &str = r#"import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
+fn fetch_cn_helper(ctx: &CommandContext) -> anyhow::Result<String> {
+    let bytes = ctx
+        .registry()
+        .fetch_component_file("utils/cn.ts")
+        .map_err(|err| anyhow!("failed to fetch Motion Core helper `cn.ts`: {err}"))?;
+    String::from_utf8(bytes).map_err(|err| anyhow!("failed to decode `cn.ts`: {err}"))
 }
-"#;
 
 const BASE_RUNTIME_DEPENDENCIES: &[&str] = &["clsx", "tailwind-merge"];
 
@@ -452,8 +465,10 @@ mod tests {
     use super::*;
     use crate::context::CommandContext;
     use crate::reporter::ConsoleReporter;
+    use base64::{Engine as _, engine::general_purpose};
     use motion_core_cli_core::{CONFIG_FILE_NAME, CacheStore, RegistryClient};
     use serde_json::json;
+    use std::collections::HashMap;
     use std::fs;
     use tempfile;
 
@@ -479,6 +494,7 @@ mod tests {
             registry,
             cache,
         );
+        preload_cn_helper(&ctx);
         let reporter = ConsoleReporter::new();
         let outcome = run(&ctx, &reporter, &InitArgs::default()).unwrap();
         assert_eq!(outcome, CommandOutcome::Completed);
@@ -512,11 +528,28 @@ mod tests {
             registry,
             cache,
         );
+        preload_cn_helper(&ctx);
         let reporter = ConsoleReporter::new();
         let args = InitArgs { dry_run: true };
         let outcome = run(&ctx, &reporter, &args).unwrap();
         assert_eq!(outcome, CommandOutcome::NoOp);
         assert!(!ctx.config_path().exists());
         assert!(!temp.path().join("src/lib/motion-core/utils/cn.ts").exists());
+    }
+
+    fn preload_cn_helper(ctx: &CommandContext) {
+        let helper = r#"import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
+}
+"#;
+        let mut manifest = HashMap::new();
+        manifest.insert(
+            "utils/cn.ts".into(),
+            general_purpose::STANDARD.encode(helper),
+        );
+        ctx.registry().preload_component_manifest(manifest);
     }
 }
