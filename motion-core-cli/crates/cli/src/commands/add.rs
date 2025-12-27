@@ -15,6 +15,7 @@ use serde::Deserialize;
 
 use crate::{
     context::CommandContext,
+    deps::spec_satisfies,
     reporter::Reporter,
     style::{brand, create_spinner, heading, muted, success},
 };
@@ -598,7 +599,7 @@ fn diff_dependencies(
 ) -> Vec<String> {
     requirements
         .iter()
-        .filter(|(name, _)| !snapshot.has(name))
+        .filter(|(name, version)| !spec_satisfies(snapshot.spec(name), version))
         .map(|(name, version)| format!("{name}@{version}"))
         .collect()
 }
@@ -627,8 +628,11 @@ impl PackageSnapshot {
         Ok(snapshot)
     }
 
-    fn has(&self, name: &str) -> bool {
-        self.dependencies.contains_key(name) || self.dev_dependencies.contains_key(name)
+    fn spec(&self, name: &str) -> Option<&str> {
+        self.dependencies
+            .get(name)
+            .or_else(|| self.dev_dependencies.get(name))
+            .map(|value| value.as_str())
     }
 }
 
@@ -680,6 +684,8 @@ mod tests {
             name: "Motion Core".into(),
             version: "0.1.0".into(),
             description: None,
+            base_dependencies: HashMap::new(),
+            base_dev_dependencies: HashMap::new(),
             components,
         };
         let ctx = build_context(&temp, registry);
@@ -713,6 +719,8 @@ mod tests {
             name: "Motion Core".into(),
             version: "0.1.0".into(),
             description: None,
+            base_dependencies: HashMap::new(),
+            base_dev_dependencies: HashMap::new(),
             components: HashMap::new(),
         };
 
@@ -753,6 +761,8 @@ mod tests {
             name: "Motion Core".into(),
             version: "0.1.0".into(),
             description: None,
+            base_dependencies: HashMap::new(),
+            base_dev_dependencies: HashMap::new(),
             components,
         };
         let ctx = build_context(&temp, registry);

@@ -117,7 +117,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &ListArgs) -> Co
     reporter.info(format_args!("  {}", muted("motion-core add glass-pane")));
     reporter.info(format_args!(
         "  {}",
-        muted("motion-core add carousel --dry-run")
+        muted("motion-core add logo-carousel --dry-run")
     ));
 
     Ok(CommandOutcome::NoOp)
@@ -148,6 +148,8 @@ mod tests {
             name: "Motion Core".into(),
             version: "0.1.0".into(),
             description: Some("demo".into()),
+            base_dependencies: HashMap::new(),
+            base_dev_dependencies: HashMap::new(),
             components,
         };
 

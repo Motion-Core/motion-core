@@ -68,13 +68,19 @@ const requirements = {
 	tailwindcss: "^4.1.0",
 };
 
+type PackageJson = {
+	version: string;
+	dependencies?: Record<string, string>;
+	devDependencies?: Record<string, string>;
+};
+
 async function main() {
 	const pkgJson = JSON.parse(
 		await readFile(
 			path.join(rootDir, "packages", "motion-core", "package.json"),
 			"utf8",
 		),
-	) as { version: string };
+	) as PackageJson;
 
 	const componentDirs = (await readdir(componentRoot, { withFileTypes: true }))
 		.filter((entry) => entry.isDirectory())
@@ -138,11 +144,16 @@ async function main() {
 	await mkdir(registryOutputDir, { recursive: true });
 	await mkdir(schemaOutputDir, { recursive: true });
 
+	const baseDependencies = pkgJson.dependencies ?? {};
+	const baseDevDependencies = pkgJson.devDependencies ?? {};
+
 	const registry = {
 		name: REGISTRY_NAME,
 		description: REGISTRY_DESCRIPTION,
 		version: pkgJson.version,
 		requirements,
+		baseDependencies,
+		baseDevDependencies,
 		components: Object.fromEntries(
 			Object.entries(components).sort(([a], [b]) => a.localeCompare(b)),
 		),

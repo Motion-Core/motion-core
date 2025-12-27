@@ -59,6 +59,10 @@ pub struct Registry {
     pub version: String,
     #[serde(default)]
     pub description: Option<String>,
+    #[serde(default)]
+    pub base_dependencies: HashMap<String, String>,
+    #[serde(default, rename = "baseDevDependencies")]
+    pub base_dev_dependencies: HashMap<String, String>,
     pub components: HashMap<String, ComponentRecord>,
 }
 
@@ -74,6 +78,12 @@ pub struct RegistrySummary {
     pub version: String,
     pub description: Option<String>,
     pub component_count: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct RegistryBaseDependencies {
+    pub dependencies: HashMap<String, String>,
+    pub dev_dependencies: HashMap<String, String>,
 }
 
 #[derive(Debug)]
@@ -262,6 +272,14 @@ impl RegistryClient {
         })
     }
 
+    pub fn base_dependencies(&self) -> Result<RegistryBaseDependencies, RegistryError> {
+        let registry = self.load_registry()?;
+        Ok(RegistryBaseDependencies {
+            dependencies: registry.base_dependencies,
+            dev_dependencies: registry.base_dev_dependencies,
+        })
+    }
+
     pub fn base_url(&self) -> Option<&str> {
         match &self.backend {
             RegistryBackend::Remote { base_url, .. } => Some(base_url),
@@ -337,6 +355,8 @@ mod tests {
             name: "Motion Core".into(),
             version: "0.1.0".into(),
             description: Some("demo".into()),
+            base_dependencies: HashMap::from([("clsx".into(), "^2.1.1".into())]),
+            base_dev_dependencies: HashMap::from([("vitest".into(), "^1.0.0".into())]),
             components,
         }
     }
@@ -355,6 +375,14 @@ mod tests {
         let summary = client.summary().expect("summary");
         assert_eq!(summary.name, "Motion Core");
         assert_eq!(summary.component_count, 1);
+    }
+
+    #[test]
+    fn reports_base_dependencies() {
+        let client = RegistryClient::with_registry(sample_registry());
+        let deps = client.base_dependencies().expect("deps");
+        assert_eq!(deps.dependencies.get("clsx"), Some(&"^2.1.1".into()));
+        assert_eq!(deps.dev_dependencies.get("vitest"), Some(&"^1.0.0".into()));
     }
 
     #[test]

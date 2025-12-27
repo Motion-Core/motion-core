@@ -12,6 +12,7 @@ use serde::Deserialize;
 
 use crate::{
     context::CommandContext,
+    deps::spec_satisfies,
     reporter::Reporter,
     style::{brand, create_spinner, heading, muted, success},
 };
@@ -140,9 +141,32 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
     spinner.set_message("Scaffolding Motion Core workspace...");
     let scaffold = scaffold_workspace(ctx, reporter, &config, args.dry_run)?;
 
+    spinner.set_message("Loading base dependencies...");
+    let base_dependencies = match ctx.registry().base_dependencies() {
+        Ok(deps) => Some(deps),
+        Err(err) => {
+            spinner.suspend(|| {
+                reporter.warn(format_args!(
+                    "Unable to load registry metadata for base dependencies: {err}"
+                ));
+            });
+            None
+        }
+    };
+
     spinner.set_message("Checking base dependencies...");
-    let deps_report =
-        install_base_dependencies(package_manager, ctx.workspace_root(), args.dry_run)?;
+    let deps_report = if let Some(base) = base_dependencies {
+        install_base_dependencies(
+            package_manager,
+            ctx.workspace_root(),
+            &base.dependencies,
+            args.dry_run,
+        )?
+    } else {
+        DependencyReport::Skipped(
+            "Registry metadata unavailable; skipping base dependency install.".into(),
+        )
+    };
 
     spinner.finish_and_clear();
     print_init_summary(
@@ -289,8 +313,6 @@ fn decode_cn_helper(bytes: Vec<u8>) -> anyhow::Result<String> {
     String::from_utf8(bytes).map_err(|err| anyhow!("failed to decode `cn.ts`: {err}"))
 }
 
-const BASE_RUNTIME_DEPENDENCIES: &[&str] = &["clsx", "tailwind-merge"];
-
 #[derive(Debug, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 struct PackageSnapshot {
@@ -301,8 +323,11 @@ struct PackageSnapshot {
 }
 
 impl PackageSnapshot {
-    fn has(&self, name: &str) -> bool {
-        self.dependencies.contains_key(name) || self.dev_dependencies.contains_key(name)
+    fn spec(&self, name: &str) -> Option<&str> {
+        self.dependencies
+            .get(name)
+            .or_else(|| self.dev_dependencies.get(name))
+            .map(|value| value.as_str())
     }
 }
 
@@ -348,6 +373,7 @@ fn scan_for_tailwind_css(
 fn install_base_dependencies(
     package_manager: PackageManagerKind,
     root: &Path,
+    base_dependencies: &HashMap<String, String>,
     dry_run: bool,
 ) -> anyhow::Result<DependencyReport> {
     let package_path = root.join("package.json");
@@ -361,10 +387,17 @@ fn install_base_dependencies(
         }
     };
 
-    let missing: Vec<_> = BASE_RUNTIME_DEPENDENCIES
-        .iter()
-        .filter(|dep| !snapshot.has(dep))
-        .map(|dep| dep.to_string())
+    if base_dependencies.is_empty() {
+        return Ok(DependencyReport::AlreadyInstalled);
+    }
+
+    let mut required: Vec<_> = base_dependencies.iter().collect();
+    required.sort_by(|(a, _), (b, _)| a.cmp(b));
+
+    let missing: Vec<_> = required
+        .into_iter()
+        .filter(|(name, version)| !spec_satisfies(snapshot.spec(name), version))
+        .map(|(name, version)| format!("{name}@{version}"))
         .collect();
 
     if missing.is_empty() {

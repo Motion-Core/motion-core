@@ -18,6 +18,7 @@ pathdiff.workspace = true
 owo-colors.workspace = true
 indicatif.workspace = true
 dialoguer.workspace = true
+semver.workspace = true
 
 [dev-dependencies]
 tempfile = "3.10"

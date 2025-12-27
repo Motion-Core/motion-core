@@ -29,6 +29,7 @@ dirs = "5.0"
 pathdiff = "0.2.3"
 owo-colors = "4.2.3"
 indicatif = "0.17"
+semver = "1.0.27"
 
 [profile.release]
 opt-level = "z"

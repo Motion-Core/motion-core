@@ -687,6 +687,7 @@ dependencies = [
  "motion-core-cli-core",
  "owo-colors",
  "pathdiff",
+ "semver",
  "serde",
  "serde_json",
  "tempfile",
@@ -1052,6 +1053,12 @@ name = "ryu"
 version = "1.0.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62049b2877bf12821e8f9ad256ee38fdc31db7387ec2d3b3f403024de2034aea"
+
+[[package]]
+name = "semver"
+version = "1.0.27"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d767eb0aabc880b29956c35734170f26ed551a859dbd361d140cdbeca61ab1e2"
 
 [[package]]
 name = "serde"

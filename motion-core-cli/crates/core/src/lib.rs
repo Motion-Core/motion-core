@@ -14,6 +14,6 @@ pub use project::{
     detect_package_manager,
 };
 pub use registry::{
-    ComponentFileRecord, ComponentPreview, ComponentRecord, Registry, RegistryClient,
-    RegistryComponent, RegistryError, RegistrySummary,
+    ComponentFileRecord, ComponentPreview, ComponentRecord, Registry, RegistryBaseDependencies,
+    RegistryClient, RegistryComponent, RegistryError, RegistrySummary,
 };
