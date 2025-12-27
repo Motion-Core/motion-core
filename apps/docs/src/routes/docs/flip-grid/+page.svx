@@ -1,6 +1,8 @@
 ---
 name: Flip Grid
 description: A layout component that smoothly animates its children when the grid structure changes, powered by GSAP Flip.
+video: /previews/flip-grid/preview.mp4
+poster: /previews/flip-grid/poster.webp
 ---
 
 <script lang="ts">
@@ -9,10 +11,10 @@ description: A layout component that smoothly animates its children when the gri
 	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
 	import Step from "$lib/components/docs/markdown/Step.svelte";
-	
+
 	import flipGridSource from "motion-core/components/flip-grid/FlipGrid.svelte?raw";
 	import flipGridItemSource from "motion-core/components/flip-grid/FlipGridItem.svelte?raw";
-	
+
 	import FlipGridDemo from "./FlipGridDemo.svelte";
 	import flipGridDemoSource from "./FlipGridDemo.svelte?raw";
 </script>

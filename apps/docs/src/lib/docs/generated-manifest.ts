@@ -3,7 +3,9 @@ import type { ComponentInfo } from "../components/landing";
 export const docsManifest: ComponentInfo[] = [
   {
     "slug": "flip-grid",
-    "name": "Flip Grid"
+    "name": "Flip Grid",
+    "video": "/previews/flip-grid/preview.mp4",
+    "poster": "/previews/flip-grid/poster.webp"
   },
   {
     "slug": "glass-pane",
