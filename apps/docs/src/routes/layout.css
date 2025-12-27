@@ -48,7 +48,7 @@
 .dark {
 	--color-background: oklch(0.18 0.0044 var(--base-hue));
 	--color-foreground: oklch(0.95 0.0013 var(--base-hue));
-	--color-border: oklch(0.28 0.015 var(--base-hue));
+	--color-border: oklch(0.28 0.01 var(--base-hue));
 	--color-card: oklch(0.21 0.0065 var(--base-hue));
 	--color-card-muted: oklch(0.26 0.0085 var(--base-hue));
 }

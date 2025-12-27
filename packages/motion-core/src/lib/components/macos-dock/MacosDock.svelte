@@ -62,7 +62,7 @@
 					opacity: 1,
 					yPercent: -100,
 					xPercent: -50,
-					duration: 0.5,
+					duration: 0.35,
 					ease: "power4.out",
 					overwrite: true,
 				});
@@ -71,7 +71,7 @@
 					opacity: 0,
 					yPercent: -80,
 					xPercent: -50,
-					duration: 0.5,
+					duration: 0.35,
 					ease: "power4.out",
 					overwrite: true,
 				});
