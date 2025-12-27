@@ -168,7 +168,7 @@
 			>
 				<button
 					onclick={reloadPreview}
-					class="transition-scale absolute top-2 right-11 z-30 flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
+					class="transition-scale absolute top-2 right-11 z-30 flex size-7 cursor-pointer items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -185,7 +185,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="transition-scale absolute top-2 right-2 z-30 flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
+					class="transition-scale absolute top-2 right-2 z-30 flex size-7 cursor-pointer items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}

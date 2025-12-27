@@ -27,15 +27,15 @@
 	</div>
 
 	<div
-		class="absolute bottom-4 left-1/2 flex w-full -translate-x-1/2 flex-wrap justify-center gap-2"
+		class="absolute bottom-4 left-1/2 flex -translate-x-1/2 flex-wrap justify-center gap-1 bg-background border border-border w-fit p-1 rounded-md shadow-sm"
 	>
 		{#each [1, 2, 4] as col (col)}
 			<button
 				class={cn(
-					"h-8 gap-1.5 rounded-md border bg-card px-3 text-xs font-medium tracking-wide uppercase shadow-sm",
+					"py-1 gap-1.5 rounded-sm px-3 text-xs font-medium tracking-wide uppercase transition-colors duration-150 ease-out",
 					columns === col
-						? "border-accent text-foreground"
-						: "border-border text-foreground/70 hover:text-foreground",
+						? "bg-accent light:text-card dark:text-foreground"
+						: "text-foreground/70 hover:text-foreground",
 				)}
 				onclick={() => (columns = col)}
 			>

@@ -4,7 +4,7 @@
 
 <Magnetic>
 	<button
-		class="h-8 gap-1.5 rounded-md border border-border bg-card px-3 text-xs font-medium tracking-wide text-foreground uppercase shadow-sm"
+		class="h-8 gap-1.5 rounded-md border border-border bg-background px-3 text-xs font-medium tracking-wide text-foreground uppercase shadow-sm"
 	>
 		Magnetic Button
 	</button>

@@ -59,7 +59,7 @@
 <button
 	type="button"
 	class={cn(
-		"group transition-scale relative flex size-7 cursor-pointer items-center justify-center rounded-md border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]",
+		"group transition-scale relative flex size-7 cursor-pointer items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]",
 		className,
 	)}
 	onclick={(event) => {
