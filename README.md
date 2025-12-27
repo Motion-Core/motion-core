@@ -1,16 +1,5 @@
 ![Motion Core showcase banner](apps/docs/static/og-image.jpg)
 
-# Motion Core
-
-<div align="center">
-  <h3>The Motion Component Library for Svelte 5</h3>
-  <p>
-    An open-source initiative bridging the gap between high-performance motion and modern interface design.
-    <br />
-    Built with <strong>GSAP</strong>, <strong>Three.js</strong>, and <strong>Threlte</strong>.
-  </p>
-</div>
-
 ---
 
 ## Overview
