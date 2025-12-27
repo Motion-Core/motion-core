@@ -5,7 +5,7 @@
   "properties": {
     "$schema": {
       "type": "string",
-      "const": "https://motion-core.vercel.app/registry/schema/config-schema.json"
+      "const": "https://motion-core.dev/registry/schema/config-schema.json"
     },
     "tailwind": {
       "type": "object",

@@ -1,6 +1,6 @@
 # @motion-core/cli
 
-The official command-line interface for [Motion Core](https://motion-core.vercel.app/), a Svelte library for high-quality animations and motion components.
+The official command-line interface for [Motion Core](https://motion-core.dev/), a Svelte library for high-quality animations and motion components.
 
 This package serves as a Node.js wrapper around the native Rust binary, ensuring optimal performance while remaining easily installable via your favorite package manager.
 

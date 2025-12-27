@@ -61,7 +61,7 @@ const generatedDocsManifestPath = path.join(
 const REGISTRY_NAME = "Motion Core Registry";
 const REGISTRY_DESCRIPTION = "Curated Motion Core Svelte components";
 const CONFIG_SCHEMA_URL =
-	"https://motion-core.vercel.app/registry/schema/config-schema.json";
+	"https://motion-core.dev/registry/schema/config-schema.json";
 
 const requirements = {
 	svelte: "^5.0.0",
