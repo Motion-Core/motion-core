@@ -4,7 +4,7 @@
 	"description": "Motion Core CLI tooling",
 	"license": "MIT",
 	"bin": {
-		"motion-core": "./bin/motion-core.js"
+		"motion-core": "bin/motion-core.js"
 	},
 	"files": [
 		"bin",
