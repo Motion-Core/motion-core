@@ -32,7 +32,8 @@ if (!target) {
 	process.exit(1);
 }
 
-const binaryName = platform === "win32" ? "motion-core.exe" : "motion-core";
+const binaryName =
+	platform === "win32" ? "motion-core-cli.exe" : "motion-core-cli";
 const binaryPath = join(__dirname, "..", "dist", target, binaryName);
 
 if (!existsSync(binaryPath)) {
