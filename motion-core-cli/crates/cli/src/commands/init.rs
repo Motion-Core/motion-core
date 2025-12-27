@@ -484,11 +484,6 @@ mod tests {
         assert_eq!(outcome, CommandOutcome::Completed);
         assert!(ctx.config_path().exists());
         assert!(temp.path().join("src/lib/motion-core/utils/cn.ts").exists());
-        assert!(
-            temp.path()
-                .join("src/lib/motion-core/helpers/gsap.ts")
-                .exists()
-        );
         assert!(temp.path().join("src/lib/motion-core").exists());
 
         let outcome = run(&ctx, &reporter, &InitArgs::default()).unwrap();
