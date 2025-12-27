@@ -2,7 +2,7 @@
 	"name": "Marquee",
 	"slug": "marquee",
 	"description": "Marquee animates multi-line headline loops with ScrollTrigger support so rows accelerate, reverse, or sync with scroll position.",
-	"category": "motion",
+	"category": "showcase",
 	"preview": {
 		"video": "/previews/marquee/preview.mp4",
 		"poster": "/previews/marquee/poster.webp"

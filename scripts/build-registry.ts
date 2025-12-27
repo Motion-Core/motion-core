@@ -235,7 +235,7 @@ function buildConfigSchema() {
 			tailwind: {
 				type: "object",
 				properties: {
-					css: { type: "string", default: "src/app.css" },
+					css: { type: "string", default: "src/routes/layout.css" },
 				},
 				additionalProperties: false,
 			},
@@ -284,7 +284,7 @@ function buildConfigSchema() {
 						properties: {
 							barrel: {
 								type: "string",
-								default: "src/lib/motion/index.ts",
+								default: "src/lib/motion-core/index.ts",
 							},
 							strategy: {
 								type: "string",

@@ -2,7 +2,7 @@
 	"name": "Split Reveal",
 	"slug": "split-reveal",
 	"description": "SplitReveal uses GSAP SplitText to mask content and animate lines, words, or characters into view on mount.",
-	"category": "ui",
+	"category": "typography",
 	"preview": {
 		"video": "/previews/split-reveal/preview.mp4",
 		"poster": "/previews/split-reveal/poster.webp"

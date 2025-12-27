@@ -2,7 +2,7 @@
 	"name": "Split Hover",
 	"slug": "split-hover",
 	"description": "SplitHover splits text into characters and animates stacked layers on hover for a premium swap effect.",
-	"category": "ui",
+	"category": "typography",
 	"preview": {
 		"video": "/previews/split-hover/preview.mp4",
 		"poster": "/previews/split-hover/poster.webp"

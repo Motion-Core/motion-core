@@ -2,7 +2,7 @@
 	"name": "Logo Carousel",
 	"slug": "logo-carousel",
 	"description": "LogoCarousel renders multi-column brand stacks that shuffle infinitely with GSAP-driven fades and vertical motion.",
-	"category": "motion",
+	"category": "showcase",
 	"preview": {
 		"video": "/previews/logo-carousel/preview.mp4",
 		"poster": "/previews/logo-carousel/poster.webp"

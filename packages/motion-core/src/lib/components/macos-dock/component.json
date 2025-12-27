@@ -2,7 +2,7 @@
 	"name": "MacOS Dock",
 	"slug": "macos-dock",
 	"description": "MacosDock recreates the Apple dock magnification experience with cursor tracking and smooth easing for each icon.",
-	"category": "ui",
+	"category": "pointer",
 	"preview": {
 		"video": "/previews/macos-dock/preview.mp4",
 		"poster": "/previews/macos-dock/poster.webp"

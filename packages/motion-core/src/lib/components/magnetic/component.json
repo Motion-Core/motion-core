@@ -2,7 +2,7 @@
 	"name": "Magnetic",
 	"slug": "magnetic",
 	"description": "Magnetic wraps any element with a cursor-following spring so buttons feel sticky and playful on hover.",
-	"category": "ui",
+	"category": "pointer",
 	"preview": {
 		"video": "/previews/magnetic/preview.mp4",
 		"poster": "/previews/magnetic/poster.webp"

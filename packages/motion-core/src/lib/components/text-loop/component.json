@@ -2,7 +2,7 @@
 	"name": "Text Loop",
 	"slug": "text-loop",
 	"description": "TextLoop cycles through phrases with blurred vertical slides, ideal for rotating headlines or feature lists.",
-	"category": "ui",
+	"category": "typography",
 	"preview": {
 		"video": "/previews/text-loop/preview.mp4",
 		"poster": "/previews/text-loop/poster.webp"

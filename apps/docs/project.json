@@ -43,8 +43,8 @@
         "command": "bun run --cwd apps/docs build:registry"
       },
       "outputs": [
-        "apps/docs/static/registry",
-        "apps/docs/src/lib/docs/generated-manifest.ts"
+        "{projectRoot}/static/registry",
+        "{projectRoot}/src/lib/docs/generated-manifest.ts"
       ]
     }
   },

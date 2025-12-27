@@ -43,7 +43,7 @@
       "slug": "image-trail",
       "name": "Image Trail",
       "description": "ImageTrail spawns pooled images that follow the cursor, scaling and rotating each asset before fading it out for a responsive trailing effect.",
-      "category": "motion",
+      "category": "pointer",
       "preview": {
         "video": "/previews/image-trail/preview.mp4",
         "poster": "/previews/image-trail/poster.webp"
@@ -105,7 +105,7 @@
       "slug": "logo-carousel",
       "name": "Logo Carousel",
       "description": "LogoCarousel renders multi-column brand stacks that shuffle infinitely with GSAP-driven fades and vertical motion.",
-      "category": "motion",
+      "category": "showcase",
       "preview": {
         "video": "/previews/logo-carousel/preview.mp4",
         "poster": "/previews/logo-carousel/poster.webp"
@@ -135,7 +135,7 @@
       "slug": "macos-dock",
       "name": "MacOS Dock",
       "description": "MacosDock recreates the Apple dock magnification experience with cursor tracking and smooth easing for each icon.",
-      "category": "ui",
+      "category": "pointer",
       "preview": {
         "video": "/previews/macos-dock/preview.mp4",
         "poster": "/previews/macos-dock/poster.webp"
@@ -162,7 +162,7 @@
       "slug": "magnetic",
       "name": "Magnetic",
       "description": "Magnetic wraps any element with a cursor-following spring so buttons feel sticky and playful on hover.",
-      "category": "ui",
+      "category": "pointer",
       "preview": {
         "video": "/previews/magnetic/preview.mp4",
         "poster": "/previews/magnetic/poster.webp"
@@ -189,7 +189,7 @@
       "slug": "marquee",
       "name": "Marquee",
       "description": "Marquee animates multi-line headline loops with ScrollTrigger support so rows accelerate, reverse, or sync with scroll position.",
-      "category": "motion",
+      "category": "showcase",
       "preview": {
         "video": "/previews/marquee/preview.mp4",
         "poster": "/previews/marquee/poster.webp"
@@ -248,7 +248,7 @@
       "slug": "preloader",
       "name": "Preloader",
       "description": "Preloader plays a kinetic strip of images that decelerates before scaling the hero asset to full screen for seamless page reveals.",
-      "category": "motion",
+      "category": "transition",
       "preview": {
         "video": "/previews/preloader/preview.mp4",
         "poster": "/previews/preloader/poster.webp"
@@ -275,7 +275,7 @@
       "slug": "slideshow",
       "name": "Slideshow",
       "description": "Slideshow presents full-bleed imagery with GSAP-driven parallax transitions and a synced thumbnail navigator.",
-      "category": "motion",
+      "category": "showcase",
       "preview": {
         "video": "/previews/slideshow/preview.mp4",
         "poster": "/previews/slideshow/poster.webp"
@@ -302,7 +302,7 @@
       "slug": "split-hover",
       "name": "Split Hover",
       "description": "SplitHover splits text into characters and animates stacked layers on hover for a premium swap effect.",
-      "category": "ui",
+      "category": "typography",
       "preview": {
         "video": "/previews/split-hover/preview.mp4",
         "poster": "/previews/split-hover/poster.webp"
@@ -329,7 +329,7 @@
       "slug": "split-reveal",
       "name": "Split Reveal",
       "description": "SplitReveal uses GSAP SplitText to mask content and animate lines, words, or characters into view on mount.",
-      "category": "ui",
+      "category": "typography",
       "preview": {
         "video": "/previews/split-reveal/preview.mp4",
         "poster": "/previews/split-reveal/poster.webp"
@@ -356,7 +356,7 @@
       "slug": "text-loop",
       "name": "Text Loop",
       "description": "TextLoop cycles through phrases with blurred vertical slides, ideal for rotating headlines or feature lists.",
-      "category": "ui",
+      "category": "typography",
       "preview": {
         "video": "/previews/text-loop/preview.mp4",
         "poster": "/previews/text-loop/poster.webp"
