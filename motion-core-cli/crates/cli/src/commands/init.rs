@@ -138,7 +138,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
     };
 
     spinner.set_message("Scaffolding Motion Core workspace...");
-    let scaffold = scaffold_workspace(ctx, &config, args.dry_run)?;
+    let scaffold = scaffold_workspace(ctx, reporter, &config, args.dry_run)?;
 
     spinner.set_message("Checking base dependencies...");
     let deps_report =
@@ -171,6 +171,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
 
 fn scaffold_workspace(
     ctx: &CommandContext,
+    reporter: &dyn Reporter,
     config: &Config,
     dry_run: bool,
 ) -> anyhow::Result<ScaffoldReport> {
@@ -192,15 +193,27 @@ fn scaffold_workspace(
     }
 
     let cn_path = utils_dir.join("cn.ts");
+    let cn_contents = if cn_path.exists() || dry_run {
+        None
+    } else {
+        match fetch_cn_helper(ctx) {
+            Ok(contents) => Some(contents),
+            Err(err) => {
+                reporter.error(format_args!(
+                    "Unable to download Motion Core helper `utils/cn.ts`: {err}"
+                ));
+                reporter.info(format_args!(
+                    "{}",
+                    muted("Connect to the internet and rerun `motion-core init` once you're online.")
+                ));
+                return Err(err);
+            }
+        }
+    };
     let created_cn = if cn_path.exists() {
         false
     } else {
-        let contents = if dry_run {
-            None
-        } else {
-            Some(fetch_cn_helper(ctx)?)
-        };
-        write_file_if_missing(&cn_path, contents.as_deref().unwrap_or(""), dry_run)?
+        write_file_if_missing(&cn_path, cn_contents.as_deref().unwrap_or(""), dry_run)?
     };
     if created_cn {
         report.record_file(relative_display(root, &cn_path));
@@ -243,10 +256,36 @@ fn write_file_if_missing(path: &Path, contents: &str, dry_run: bool) -> anyhow::
 }
 
 fn fetch_cn_helper(ctx: &CommandContext) -> anyhow::Result<String> {
-    let bytes = ctx
-        .registry()
-        .fetch_component_file("utils/cn.ts")
-        .map_err(|err| anyhow!("failed to fetch Motion Core helper `cn.ts`: {err}"))?;
+    match ctx.registry().fetch_component_file("utils/cn.ts") {
+        Ok(bytes) => decode_cn_helper(bytes),
+        Err(primary_err) => {
+            if let Some(bytes) = fetch_cn_helper_from_cache(ctx)? {
+                return decode_cn_helper(bytes);
+            }
+            Err(anyhow!(
+                "failed to fetch Motion Core helper `utils/cn.ts`: {primary_err}"
+            ))
+        }
+    }
+}
+
+fn fetch_cn_helper_from_cache(ctx: &CommandContext) -> anyhow::Result<Option<Vec<u8>>> {
+    let Some(base_url) = ctx.registry().base_url() else {
+        return Ok(None);
+    };
+    let cache = ctx.cache_store().scoped(base_url);
+    if let Some(entry) = cache.components_manifest(true) {
+        if let Ok(manifest) = serde_json::from_slice::<HashMap<String, String>>(&entry.bytes) {
+            ctx.registry().preload_component_manifest(manifest);
+            if let Ok(bytes) = ctx.registry().fetch_component_file("utils/cn.ts") {
+                return Ok(Some(bytes));
+            }
+        }
+    }
+    Ok(None)
+}
+
+fn decode_cn_helper(bytes: Vec<u8>) -> anyhow::Result<String> {
     String::from_utf8(bytes).map_err(|err| anyhow!("failed to decode `cn.ts`: {err}"))
 }
 
