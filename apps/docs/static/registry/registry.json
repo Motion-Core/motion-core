@@ -420,6 +420,37 @@
           "target": "utils"
         }
       ]
+    },
+    "water-ripple": {
+      "slug": "water-ripple",
+      "name": "Water Ripple",
+      "description": "Fluid water ripple effect on interaction.",
+      "category": "canvas",
+      "preview": {
+        "video": "/previews/pixelated-image/preview.mp4",
+        "poster": "/previews/pixelated-image/poster.webp"
+      },
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/water-ripple/WaterRipple.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/water-ripple/Scene.svelte"
+        },
+        {
+          "path": "components/water-ripple/brush.png"
+        }
+      ]
     }
   }
 }

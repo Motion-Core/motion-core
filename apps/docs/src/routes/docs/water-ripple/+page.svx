@@ -1,0 +1,81 @@
+---
+name: Water Ripple
+description: WaterRipple adds a fluid, interactive water ripple effect to any image using WebGL and displacement maps. It responds to mouse movement, creating natural-looking disturbances.
+video: /previews/pixelated-image/preview.mp4
+poster: /previews/pixelated-image/poster.webp
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import waterRippleSource from "motion-core/components/water-ripple/WaterRipple.svelte?raw";
+	import SceneSource from "motion-core/components/water-ripple/Scene.svelte?raw";
+	import WaterRippleDemo from "./WaterRippleDemo.svelte";
+	import waterRippleDemoSource from "./WaterRippleDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="water-ripple" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { WaterRipple } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: waterRippleDemoSource, language: "svelte" },
+		{
+			name: "WaterRipple.svelte",
+			code: waterRippleSource,
+			language: "svelte",
+		},
+		{ name: "Scene.svelte", code: SceneSource, language: "svelte" },
+	]}
+>
+	<WaterRippleDemo />
+</ComponentPreview>
+
+## Props
+
+### WaterRipple
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "src",
+			type: "string",
+			default: "—",
+			description: "URL of the image to be displayed.",
+		},
+		{
+			prop: "brushSize",
+			type: "number",
+			default: "100",
+			description: "The size of the interactive ripple brush.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

@@ -14,4 +14,5 @@ export {
 	type DockItem,
 } from "./macos-dock/MacosDock.svelte";
 export { default as Magnetic } from "./magnetic/Magnetic.svelte";
+export { default as WaterRipple } from "./water-ripple/WaterRipple.svelte";
 export * from "./flip-grid";
