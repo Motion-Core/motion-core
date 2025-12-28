@@ -52,9 +52,9 @@
 		if (!previewRef || !placeholderRef) return;
 
 		/* eslint-disable svelte/no-dom-manipulating */
-		const state = Flip.getState(previewRef);
 
 		if (!isFullScreen) {
+			const state = Flip.getState(previewRef);
 			const rect = previewRef.getBoundingClientRect();
 			placeholderRef.style.height = `${rect.height}px`;
 			placeholderRef.style.width = `${rect.width}px`;
@@ -70,23 +70,28 @@
 			previewRef.style.setProperty("width", "100vw", "important");
 			previewRef.style.setProperty("height", "100dvh", "important");
 			previewRef.style.setProperty("margin", "0", "important");
+
+			Flip.from(state, {
+				duration: 0.5,
+				ease: "power3.inOut",
+				absolute: true,
+				zIndex: 50,
+			});
 		} else {
-			isFullScreen = false;
-			placeholderRef.appendChild(previewRef);
-
-			await tick();
-
-			placeholderRef.style.height = "";
-			placeholderRef.style.width = "";
-			previewRef.style.cssText = "";
+			Flip.fit(previewRef, placeholderRef, {
+				duration: 0.5,
+				ease: "power3.inOut",
+				absolute: true,
+				zIndex: 50,
+				onComplete: () => {
+					isFullScreen = false;
+					placeholderRef.appendChild(previewRef);
+					placeholderRef.style.height = "";
+					placeholderRef.style.width = "";
+					previewRef.style.cssText = "";
+				},
+			});
 		}
-
-		Flip.from(state, {
-			duration: 0.5,
-			ease: "power3.inOut",
-			absolute: true,
-			zIndex: 50,
-		});
 	};
 	const tabs = $derived(
 		(() => {

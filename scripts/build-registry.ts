@@ -260,29 +260,29 @@ function buildConfigSchema() {
 					components: {
 						...aliasDefinition,
 						default: {
-							filesystem: "src/lib/motion",
-							import: "$lib/motion",
+							filesystem: "src/lib/motion-core",
+							import: "$lib/motion-core",
 						},
 					},
 					helpers: {
 						...aliasDefinition,
 						default: {
-							filesystem: "src/lib/motion/helpers",
-							import: "$lib/motion/helpers",
+							filesystem: "src/lib/motion-core/helpers",
+							import: "$lib/motion-core/helpers",
 						},
 					},
 					utils: {
 						...aliasDefinition,
 						default: {
-							filesystem: "src/lib/motion/utils",
-							import: "$lib/motion/utils",
+							filesystem: "src/lib/motion-core/utils",
+							import: "$lib/motion-core/utils",
 						},
 					},
 					assets: {
 						...aliasDefinition,
 						default: {
-							filesystem: "src/lib/motion/assets",
-							import: "$lib/motion/assets",
+							filesystem: "src/lib/motion-core/assets",
+							import: "$lib/motion-core/assets",
 						},
 					},
 				},
@@ -293,7 +293,7 @@ function buildConfigSchema() {
 				properties: {
 					components: {
 						type: "string",
-						default: "$lib/motion",
+						default: "$lib/motion-core",
 					},
 				},
 				additionalProperties: false,
