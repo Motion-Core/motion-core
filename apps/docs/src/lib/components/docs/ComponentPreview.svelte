@@ -227,7 +227,7 @@
 		<div class="flex flex-1 flex-col overflow-hidden rounded-b-xl bg-card">
 			{#if tabs.length}
 				<div
-					class="flex items-center border-b border-border bg-card-muted/50 text-sm"
+					class="flex items-center border-b border-border bg-card-muted/60 text-sm"
 				>
 					<div
 						class="no-scrollbar mask-gradient-r flex flex-1 items-center overflow-x-auto"

@@ -106,7 +106,7 @@
 				easing: cubicOut,
 			}}
 		>
-			<div class="flex items-center border-b border-border px-3">
+			<div class="flex items-center border-b border-border/60 px-3">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					aria-hidden="true"
@@ -139,7 +139,10 @@
 			>
 				<div bind:clientHeight={contentHeight}>
 					{#if results.length > 0}
-						<ScrollArea viewportClass="max-h-96 p-2">
+						<ScrollArea
+							viewportStyle="mask-image: linear-gradient(to bottom, transparent, black 8px, black calc(100% - 8px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 8px, black calc(100% - 8px), transparent);"
+							viewportClass="max-h-96 p-2"
+						>
 							{#each results as result, i (result.slug + (result.anchor || "") + i)}
 								{@const isChild =
 									result.matchType === "heading" ||
@@ -159,7 +162,7 @@
 										<div
 											class={cn(
 												"absolute top-0 bottom-0 left-3 w-px",
-												i === selectedIndex ? "bg-accent/30" : "bg-border",
+												i === selectedIndex ? "bg-accent/30" : "bg-border/30",
 											)}
 										></div>
 									{/if}
@@ -208,10 +211,35 @@
 							No results found.
 						</div>
 					{:else}
-						<div class="px-4 py-4 text-sm text-foreground/45">
+						<div class="py-6 text-center text-sm text-foreground/45">
 							Type to search...
 						</div>
 					{/if}
+					<div
+						class="w-full p-2 border-t border-border/60 flex flex-row items-center gap-2 justify-start"
+					>
+						<kbd
+							class="pointer-events-none hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-corner-down-left size-3"
+								aria-hidden="true"
+								><path d="M20 4v7a4 4 0 0 1-4 4H4"></path><path
+									d="m9 10-5 5 5 5"
+								></path></svg
+							>
+						</kbd>
+						<span class="text-foreground/45 text-xs"> Go to page </span>
+					</div>
 				</div>
 			</div>
 		</div>
