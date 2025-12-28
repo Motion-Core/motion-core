@@ -83,7 +83,9 @@
 			<section class="min-w-0 flex-1 space-y-8">
 				{#if metadata}
 					<div class="space-y-4">
-						<h1 class="scroll-m-20 text-3xl font-medium">
+						<h1
+							class="scroll-m-20 text-3xl font-medium text-foreground font-display"
+						>
 							{metadata.name || metadata.title}
 						</h1>
 						{#if metadata.description}

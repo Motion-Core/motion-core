@@ -18,7 +18,7 @@
 <h2
 	{...restProps}
 	class={cn(
-		"mt-12 scroll-m-24 text-2xl font-medium text-foreground",
+		"mt-12 scroll-m-24 text-2xl font-medium text-foreground font-display",
 		className,
 	)}
 >
