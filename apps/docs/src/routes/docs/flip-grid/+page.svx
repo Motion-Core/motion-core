@@ -41,7 +41,7 @@ import { FlipGrid, FlipGridItem } from "motion-core";
 
 <ComponentPreview
 	sources={[
-		{ name: "Demo", code: flipGridDemoSource, language: "svelte" },
+		{ name: "Example", code: flipGridDemoSource, language: "svelte" },
 		{
 			name: "FlipGrid.svelte",
 			code: flipGridSource,

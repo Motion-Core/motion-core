@@ -1,0 +1,95 @@
+---
+name: ASCII Renderer
+description: A WebGL-based ASCII art renderer that converts images into character-based visuals in real-time.
+video: /previews/ascii-renderer/preview.mp4
+poster: /previews/ascii-renderer/poster.webp
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import asciiRendererSource from "motion-core/components/ascii-renderer/AsciiRenderer.svelte?raw";
+	import sceneSource from "motion-core/components/ascii-renderer/Scene.svelte?raw";
+	import AsciiRendererDemo from "./AsciiRendererDemo.svelte";
+	import asciiRendererDemoSource from "./AsciiRendererDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="ascii-renderer" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { AsciiRenderer } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: asciiRendererDemoSource, language: "svelte" },
+		{ name: "AsciiRenderer.svelte", code: asciiRendererSource, language: "svelte" },
+		{ name: "Scene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<AsciiRendererDemo />
+</ComponentPreview>
+
+## Props
+
+### AsciiRenderer
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "src",
+			type: "string",
+			default: "—",
+			description: "URL of the image to be rendered as ASCII art.",
+		},
+		{
+			prop: "density",
+			type: "number",
+			default: "25",
+			description: "Grid density of the ASCII characters. Higher values mean more characters.",
+		},
+		{
+			prop: "strength",
+			type: "number",
+			default: "25.0",
+			description: "Intensity of the ASCII character generation threshold.",
+		},
+		{
+			prop: "color",
+			type: "string",
+			default: "\"#00ff00\"",
+			description: "Color of the ASCII characters (hex string).",
+		},
+		{
+			prop: "backgroundColor",
+			type: "string",
+			default: "\"#000000\"",
+			description: "Background color of the canvas (hex string).",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
