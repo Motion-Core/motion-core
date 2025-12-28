@@ -6,6 +6,7 @@
 	import { goto } from "$app/navigation";
 	import { onNavigate } from "$app/navigation";
 	import { cn } from "$lib/utils/cn";
+	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
 
 	let query = $state("");
 	let results = $derived(searchDocs(query));
@@ -65,6 +66,19 @@
 	onNavigate(() => {
 		close();
 	});
+
+	function highlight(text: string, search: string) {
+		if (!search.trim()) return [{ text, highlight: false }];
+
+		const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+		const regex = new RegExp(`(${escapedSearch})`, "gi");
+		const parts = text.split(regex);
+
+		return parts.map((part) => ({
+			text: part,
+			highlight: part.toLowerCase() === search.toLowerCase(),
+		}));
+	}
 </script>
 
 {#if searchState.isOpen}
@@ -125,9 +139,10 @@
 			>
 				<div bind:clientHeight={contentHeight}>
 					{#if results.length > 0}
-						<div class="max-h-96 overflow-y-auto p-2">
+						<ScrollArea viewportClass="max-h-96 p-2">
 							{#each results as result, i (result.slug + (result.anchor || "") + i)}
-								{@const isChild = result.matchType === "heading"}
+								{@const isChild =
+									result.matchType === "heading" || result.matchType === "content"}
 								<button
 									class={cn(
 										"group relative flex w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-sm",
@@ -148,15 +163,45 @@
 										></div>
 									{/if}
 
-									<div class="flex items-center gap-2 font-medium">
-										{#if isChild}
-											<span class="opacity-70">#</span>
+									<div class="flex flex-col items-start gap-0.5 w-full">
+										{#if result.matchType !== "content"}
+											<div class="flex items-center gap-2 font-medium">
+												{#if result.matchType === "heading"}
+													<span class="opacity-70">#</span>
+												{/if}
+												<span>
+													{#each highlight(result.heading || result.title, query) as part, index (index)}
+														{#if part.highlight}
+															<span class="text-accent">{part.text}</span>
+														{:else}
+															{part.text}
+														{/if}
+													{/each}
+												</span>
+											</div>
 										{/if}
-										{isChild ? result.heading : result.title}
+										{#if result.snippet}
+											<div
+												class={cn(
+													"text-xs line-clamp-1 text-left",
+													i === selectedIndex
+														? "text-accent/80"
+														: "text-foreground/60",
+												)}
+											>
+												{#each highlight(result.snippet, query) as part, index (index)}
+													{#if part.highlight}
+														<span class="text-accent">{part.text}</span>
+													{:else}
+														{part.text}
+													{/if}
+												{/each}
+											</div>
+										{/if}
 									</div>
 								</button>
 							{/each}
-						</div>
+						</ScrollArea>
 					{:else if query}
 						<div class="py-6 text-center text-sm text-foreground/45">
 							No results found.

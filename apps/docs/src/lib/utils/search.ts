@@ -6,6 +6,8 @@ type DocSection = {
 	matchType: "title" | "heading" | "content";
 	score: number;
 	level?: number;
+	content?: string;
+	snippet?: string;
 };
 
 type DocModule = {
@@ -36,6 +38,39 @@ const slugify = (value: string) =>
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/^-+|-+$/g, "");
 
+function stripMdx(content: string): string {
+	return content
+		.replace(/import\s+.*?;/g, "")
+		.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/g, "")
+		.replace(/<style[\s\S]*?>[\s\S]*?<\/style>/g, "")
+		.replace(/<[^>]+>/g, " ")
+		.replace(/```[\s\S]*?```/g, "")
+		.replace(/`([^`]+)`/g, "$1")
+		.replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1")
+		.replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, "$1")
+		.replace(/#{1,6}\s+/g, "")
+		.replace(/\s+/g, " ")
+		.trim();
+}
+
+function getSnippet(content: string, query: string, maxLength = 100): string {
+	const lowerContent = content.toLowerCase();
+	const lowerQuery = query.toLowerCase();
+	const index = lowerContent.indexOf(lowerQuery);
+
+	if (index === -1) return content.slice(0, maxLength);
+
+	const start = Math.max(0, index - maxLength / 2);
+	const end = Math.min(content.length, index + query.length + maxLength / 2);
+
+	let snippet = content.slice(start, end);
+
+	if (start > 0) snippet = "..." + snippet;
+	if (end < content.length) snippet = snippet + "...";
+
+	return snippet;
+}
+
 function parseDocs() {
 	const index: DocSection[] = [];
 
@@ -62,30 +97,71 @@ function parseDocs() {
 			index.push({
 				title: title,
 				slug,
-				heading: "Description",
+				anchor: "",
 				matchType: "content",
+				content: description,
 				score: 0,
 			});
 		}
 
-		const headingRegex = /^(#{2,4})\s+(.+)$/gm;
-		let match;
+		const contentBody = rawContent.replace(/^---\n[\s\S]+?\n---\n/, "");
 
-		while ((match = headingRegex.exec(rawContent)) !== null) {
-			const level = match[1].length;
-			const text = match[2].trim();
-			const anchor = slugify(text);
+		const lines = contentBody.split("\n");
+		let currentHeading: string | undefined = undefined;
+		let currentAnchor = "";
+		let currentContentBuffer: string[] = [];
 
-			index.push({
-				title: title,
-				slug,
-				heading: text,
-				anchor: `#${anchor}`,
-				matchType: "heading",
-				score: 0,
-				level,
-			});
+		const flushBuffer = () => {
+			if (currentContentBuffer.length > 0) {
+				const text = stripMdx(currentContentBuffer.join(" "));
+				if (text.length > 10) {
+					index.push({
+						title: title,
+						slug,
+						heading: currentHeading ?? title,
+						anchor: currentAnchor,
+						matchType: "content",
+						content: text,
+						score: 0,
+					});
+				}
+				currentContentBuffer = [];
+			}
+		};
+
+		for (const line of lines) {
+			const headingMatch = line.match(/^(#{2,4})\s+(.+)$/);
+
+			if (headingMatch) {
+				flushBuffer();
+
+				const level = headingMatch[1].length;
+				const text = headingMatch[2].trim();
+				const anchor = `#${slugify(text)}`;
+
+				currentHeading = text;
+				currentAnchor = anchor;
+
+				index.push({
+					title: title,
+					slug,
+					heading: text,
+					anchor,
+					matchType: "heading",
+					score: 0,
+					level,
+				});
+			} else {
+				if (
+					line.trim() &&
+					!line.trim().startsWith("import") &&
+					!line.trim().startsWith("---")
+				) {
+					currentContentBuffer.push(line);
+				}
+			}
 		}
+		flushBuffer();
 	}
 
 	return index;
@@ -112,16 +188,22 @@ export function searchDocs(query: string): DocSection[] {
 
 	for (const item of searchIndex) {
 		let score = 0;
+		let snippet: string | undefined;
+
 		const titleMatch = item.title.toLowerCase().includes(normalizedQuery);
 		const headingMatch = item.heading?.toLowerCase().includes(normalizedQuery);
+		const contentMatch = item.content?.toLowerCase().includes(normalizedQuery);
 
 		if (item.matchType === "title" && titleMatch) {
 			score += 10;
 			if (item.title.toLowerCase().startsWith(normalizedQuery)) score += 5;
 		} else if (item.matchType === "heading" && headingMatch) {
 			score += 5;
-		} else if (item.matchType === "content" && titleMatch) {
+		} else if (item.matchType === "content" && contentMatch) {
 			score += 1;
+			if (item.content) {
+				snippet = getSnippet(item.content, query);
+			}
 		}
 
 		if (score > 0) {
@@ -142,8 +224,8 @@ export function searchDocs(query: string): DocSection[] {
 
 			if (item.matchType === "title") {
 				group.parent = { ...item, score };
-			} else if (item.matchType === "heading") {
-				group.children.push({ ...item, score });
+			} else {
+				group.children.push({ ...item, score, snippet });
 			}
 
 			if (score > group.maxScore) {
@@ -164,8 +246,12 @@ export function searchDocs(query: string): DocSection[] {
 
 	for (const group of sortedGroups) {
 		flatResults.push(group.parent);
+
 		group.children.sort((a, b) => b.score - a.score);
-		flatResults.push(...group.children);
+
+		const topChildren = group.children.slice(0, 5);
+
+		flatResults.push(...topChildren);
 	}
 
 	return flatResults;
