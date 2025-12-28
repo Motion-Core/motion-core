@@ -1,6 +1,6 @@
 ---
 name: Pixelated Image
-description: PixelatedImage reveals an image with a retro digital pixelation effect. It starts with large pixel blocks that step down in size (powers of 2) until the full resolution image is revealed.
+description: PixelatedImage reveals media by animating blocky pixel grids that progressively sharpen to full resolution.
 video: /previews/pixelated-image/preview.mp4
 poster: /previews/pixelated-image/poster.webp
 ---

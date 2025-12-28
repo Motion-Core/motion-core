@@ -1,6 +1,6 @@
 ---
 name: Magnetic
-description: Magnetic adds a playful, interactive feel to UI elements by making them stick to and follow the cursor. It wraps any child component and applies a spring-physics based movement effect on hover.
+description: Magnetic wraps any element with a cursor-following spring so buttons feel sticky and playful on hover.
 video: /previews/magnetic/preview.mp4
 poster: /previews/magnetic/poster.webp
 ---

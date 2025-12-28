@@ -1,6 +1,6 @@
 ---
 name: MacOS Dock
-description: MacosDock recreates the iconic Apple-style navigation menu with smooth magnification. It uses a sine wave function to calculate icon scale based on cursor proximity, delivering a fluid and responsive user experience.
+description: MacosDock recreates the Apple dock magnification experience with cursor tracking and smooth easing for each icon.
 video: /previews/macos-dock/preview.mp4
 poster: /previews/macos-dock/poster.webp
 ---

@@ -19,6 +19,38 @@
     "tailwindcss": "^4.1.18"
   },
   "components": {
+    "ascii-renderer": {
+      "slug": "ascii-renderer",
+      "name": "ASCII Renderer",
+      "description": "Procedural ASCII art effect with chromatic aberration and scanlines shader.",
+      "category": "canvas",
+      "preview": {
+        "video": "/previews/ascii-renderer/preview.mp4",
+        "poster": "/previews/ascii-renderer/poster.webp"
+      },
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/ascii-renderer/AsciiRenderer.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/ascii-renderer/Scene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "flip-grid": {
       "slug": "flip-grid",
       "name": "Flip Grid",

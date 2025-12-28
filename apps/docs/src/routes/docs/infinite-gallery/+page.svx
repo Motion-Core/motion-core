@@ -1,6 +1,6 @@
 ---
 name: Infinite Gallery
-description: InfiniteGallery is a 3D image gallery that scrolls infinitely through a pool of images. It features a cinematic cloth-like distortion effect, blur-in/out transitions, and interactive planes that respond to hover and scroll speed.
+description: InfiniteGallery is a 3D canvas gallery that scrolls endlessly through textured planes with cloth-like distortion, blur transitions, and hover parallax.
 video: /previews/infinite-gallery/preview.mp4
 poster: /previews/infinite-gallery/poster.webp
 ---

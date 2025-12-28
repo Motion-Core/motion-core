@@ -1,6 +1,6 @@
 ---
 name: Marquee
-description: Marquee is a robust infinite scrolling container that dynamically reacts to scroll velocity and direction. Built with GSAP, it speeds up on scroll and seamlessly loops content for a smooth, continuous flow.
+description: Marquee animates multi-line headline loops with ScrollTrigger support so rows accelerate, reverse, or sync with scroll position.
 video: /previews/marquee/preview.mp4
 poster: /previews/marquee/poster.webp
 ---

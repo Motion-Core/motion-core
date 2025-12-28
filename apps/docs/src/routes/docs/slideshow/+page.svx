@@ -1,6 +1,6 @@
 ---
 name: Slideshow
-description: Slideshow delivers a premium viewing experience with cinematic parallax transitions. It features a synchronized thumbnail navigator and smooth GSAP-powered animations that bring static images to life.
+description: Slideshow presents full-bleed imagery with GSAP-driven parallax transitions and a synced thumbnail navigator.
 video: /previews/slideshow/preview.mp4
 poster: /previews/slideshow/poster.webp
 ---

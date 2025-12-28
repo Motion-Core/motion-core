@@ -1,6 +1,6 @@
 ---
 name: Logo Carousel
-description: LogoCarousel is a dynamic multi-column logo showcase that features a seamless shuffle animation. Powered by GSAP, it smoothly cycles through logo sets with a professional fade and slide effect.
+description: LogoCarousel renders multi-column brand stacks that shuffle infinitely with GSAP-driven fades and vertical motion.
 video: /previews/logo-carousel/preview.mp4
 poster: /previews/logo-carousel/poster.webp
 ---

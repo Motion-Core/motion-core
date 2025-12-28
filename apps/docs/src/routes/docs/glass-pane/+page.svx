@@ -1,6 +1,6 @@
 ---
 name: Glass Pane
-description: GlassPane provides a glass-like refraction effect over an image using Three.js and Shaders. It simulates a series of moving glass rods that distort the underlying texture with chromatic aberration.
+description: GlassPane provides a glass-like refraction effect over an image using Three.js and shaders. Moving glass rods distort the texture with controlled chromatic aberration.
 video: /previews/glass-pane/preview.mp4
 poster: /previews/glass-pane/poster.webp
 ---

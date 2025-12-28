@@ -1,6 +1,6 @@
 ---
 name: Split Reveal
-description: SplitReveal masks its children with GSAP SplitText and animates them into view when the component mounts. Pick between line, word, or character motion—each mode comes with tuned durations and stagger for a slick "page refresh" reveal.
+description: SplitReveal uses GSAP SplitText to mask content and animate lines, words, or characters into view on mount.
 video: /previews/split-reveal/preview.mp4
 poster: /previews/split-reveal/poster.webp
 ---

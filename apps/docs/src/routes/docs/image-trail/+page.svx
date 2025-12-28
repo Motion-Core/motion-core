@@ -1,6 +1,6 @@
 ---
 name: Image Trail
-description: ImageTrail spawns pooled images that follow the cursor inside a container. Each image scales in, inherits random rotation, and scales out after a configurable lifetime, creating photo trails that respond to pointer speed.
+description: ImageTrail spawns pooled images that follow the cursor, scaling and rotating each asset before fading it out for a responsive trailing effect.
 video: /previews/image-trail/preview.mp4
 poster: /previews/image-trail/poster.webp
 ---

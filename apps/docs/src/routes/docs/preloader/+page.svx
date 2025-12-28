@@ -1,6 +1,6 @@
 ---
 name: Preloader
-description: Preloader orchestrates a rapid horizontal slide of an image strip across the screen. As the sequence decelerates, the surrounding images scale down while the central "hero" image expands from a thumbnail to fill the entire viewport, creating a seamless transition into the main interface.
+description: Preloader plays a kinetic strip of images that decelerates before scaling the hero asset to full screen for seamless page reveals.
 video: /previews/preloader/preview.mp4
 poster: /previews/preloader/poster.webp
 ---

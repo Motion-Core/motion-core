@@ -2,6 +2,13 @@ import type { ComponentInfo } from "../components/landing";
 
 export const docsManifest: ComponentInfo[] = [
   {
+    "slug": "ascii-renderer",
+    "name": "ASCII Renderer",
+    "category": "canvas",
+    "video": "/previews/ascii-renderer/preview.mp4",
+    "poster": "/previews/ascii-renderer/poster.webp"
+  },
+  {
     "slug": "flip-grid",
     "name": "Flip Grid",
     "category": "layout",

@@ -1,6 +1,6 @@
 ---
 name: ASCII Renderer
-description: A WebGL-based ASCII art renderer that converts images into character-based visuals in real-time.
+description: Procedural ASCII art effect with chromatic aberration and scanlines shader.
 video: /previews/ascii-renderer/preview.mp4
 poster: /previews/ascii-renderer/poster.webp
 ---
