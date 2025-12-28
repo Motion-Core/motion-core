@@ -12,6 +12,20 @@
 
 	const currentPath = $derived(page.url.pathname);
 	const githubUrl = "https://github.com/motion-core/motion-core";
+
+	const groupedComponents = componentManifest.reduce(
+		(acc, component) => {
+			const category = component.category || "Components";
+			if (!acc[category]) {
+				acc[category] = [];
+			}
+			acc[category].push(component);
+			return acc;
+		},
+		{} as Record<string, typeof componentManifest>,
+	);
+
+	const sortedCategories = Object.keys(groupedComponents).sort();
 </script>
 
 <aside class="flex h-[calc(100svh)] flex-col bg-card">
@@ -58,25 +72,27 @@
 				</a>
 			{/each}
 
-			<h4
-				class="mt-8 mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
-			>
-				Components
-			</h4>
-			{#each componentManifest as doc (doc.slug)}
-				{@const href = `/docs/${doc.slug}`}
-				{@const isActive = currentPath === href}
-				<a
-					{href}
-					class={cn(
-						"block rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out",
-						isActive
-							? "bg-accent/10 text-accent"
-							: "text-foreground/70 hover:bg-card-muted hover:text-foreground",
-					)}
+			{#each sortedCategories as category (category)}
+				<h4
+					class="mt-4 mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
 				>
-					{doc.name}
-				</a>
+					{category}
+				</h4>
+				{#each groupedComponents[category] as doc (doc.slug)}
+					{@const href = `/docs/${doc.slug}`}
+					{@const isActive = currentPath === href}
+					<a
+						{href}
+						class={cn(
+							"block rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out",
+							isActive
+								? "bg-accent/10 text-accent"
+								: "text-foreground/70 hover:bg-card-muted hover:text-foreground",
+						)}
+					>
+						{doc.name}
+					</a>
+				{/each}
 			{/each}
 		</nav>
 	</ScrollArea>
