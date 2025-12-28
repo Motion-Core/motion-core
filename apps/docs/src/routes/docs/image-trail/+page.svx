@@ -1,6 +1,6 @@
 ---
 name: Image Trail
-description: ImageTrail spawns pooled images that follow the cursor, scaling and rotating each asset before fading it out for a responsive trailing effect.
+description: An interactive effect that spawns a trail of images following the cursor with scaling and rotation.
 video: /previews/image-trail/preview.mp4
 poster: /previews/image-trail/poster.webp
 ---

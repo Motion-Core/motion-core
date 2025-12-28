@@ -1,7 +1,7 @@
 {
 	"name": "Image Trail",
 	"slug": "image-trail",
-	"description": "ImageTrail spawns pooled images that follow the cursor, scaling and rotating each asset before fading it out for a responsive trailing effect.",
+	"description": "An interactive effect that spawns a trail of images following the cursor with scaling and rotation.",
 	"category": "pointer",
 	"preview": {
 		"video": "/previews/image-trail/preview.mp4",

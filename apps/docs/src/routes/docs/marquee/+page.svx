@@ -1,6 +1,6 @@
 ---
 name: Marquee
-description: Marquee animates multi-line headline loops with ScrollTrigger support so rows accelerate, reverse, or sync with scroll position.
+description: A scrolling content loop that accelerates, reverses, or syncs with scroll position.
 video: /previews/marquee/preview.mp4
 poster: /previews/marquee/poster.webp
 ---

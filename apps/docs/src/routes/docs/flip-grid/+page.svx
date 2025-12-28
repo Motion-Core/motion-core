@@ -1,6 +1,6 @@
 ---
 name: Flip Grid
-description: A layout component that smoothly animates its children when the grid structure changes, powered by GSAP Flip.
+description: A layout component that smoothly animates its children when the grid structure changes.
 video: /previews/flip-grid/preview.mp4
 poster: /previews/flip-grid/poster.webp
 ---

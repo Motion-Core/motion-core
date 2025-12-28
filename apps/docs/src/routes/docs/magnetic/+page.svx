@@ -1,6 +1,6 @@
 ---
 name: Magnetic
-description: Magnetic wraps any element with a cursor-following spring so buttons feel sticky and playful on hover.
+description: A wrapper that applies spring physics to elements, making them stick to the cursor on hover.
 video: /previews/magnetic/preview.mp4
 poster: /previews/magnetic/poster.webp
 ---

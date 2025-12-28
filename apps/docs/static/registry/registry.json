@@ -22,7 +22,7 @@
     "ascii-renderer": {
       "slug": "ascii-renderer",
       "name": "ASCII Renderer",
-      "description": "Procedural ASCII art effect with chromatic aberration and scanlines shader.",
+      "description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
       "category": "canvas",
       "preview": {
         "video": "/previews/ascii-renderer/preview.mp4",
@@ -54,7 +54,7 @@
     "flip-grid": {
       "slug": "flip-grid",
       "name": "Flip Grid",
-      "description": "A layout component that smoothly animates its children when the grid structure changes, powered by GSAP Flip.",
+      "description": "A layout component that smoothly animates its children when the grid structure changes.",
       "category": "layout",
       "preview": {
         "video": "/previews/flip-grid/preview.mp4",
@@ -84,7 +84,7 @@
     "glass-pane": {
       "slug": "glass-pane",
       "name": "Glass Pane",
-      "description": "GlassPane provides a glass-like refraction effect over an image using Three.js and shaders. Moving glass rods distort the texture with controlled chromatic aberration.",
+      "description": "A refractive view simulating moving glass rods that distort the underlying texture with chromatic aberration.",
       "category": "canvas",
       "preview": {
         "video": "/previews/glass-pane/preview.mp4",
@@ -116,7 +116,7 @@
     "image-trail": {
       "slug": "image-trail",
       "name": "Image Trail",
-      "description": "ImageTrail spawns pooled images that follow the cursor, scaling and rotating each asset before fading it out for a responsive trailing effect.",
+      "description": "An interactive effect that spawns a trail of images following the cursor with scaling and rotation.",
       "category": "pointer",
       "preview": {
         "video": "/previews/image-trail/preview.mp4",
@@ -143,7 +143,7 @@
     "infinite-gallery": {
       "slug": "infinite-gallery",
       "name": "Infinite Gallery",
-      "description": "InfiniteGallery is a 3D canvas gallery that scrolls endlessly through textured planes with cloth-like distortion, blur transitions, and hover parallax.",
+      "description": "A 3D gallery that endlessly scrolls through textured planes with cloth-like distortion and scroll-driven transitions.",
       "category": "canvas",
       "preview": {
         "video": "/previews/infinite-gallery/preview.mp4",
@@ -178,7 +178,7 @@
     "interactive-grid": {
       "slug": "interactive-grid",
       "name": "Interactive Grid",
-      "description": "InteractiveGrid distorts an image based on mouse movement using a physics-based grid simulation.",
+      "description": "A physics-based grid simulation that distorts an image in response to cursor movement.",
       "category": "canvas",
       "preview": {
         "video": "/previews/interactive-grid/preview.mp4",
@@ -210,7 +210,7 @@
     "logo-carousel": {
       "slug": "logo-carousel",
       "name": "Logo Carousel",
-      "description": "LogoCarousel renders multi-column brand stacks that shuffle infinitely with GSAP-driven fades and vertical motion.",
+      "description": "A multi-column display that shuffles brand logos infinitely with vertical motion and fade transitions.",
       "category": "showcase",
       "preview": {
         "video": "/previews/logo-carousel/preview.mp4",
@@ -240,7 +240,7 @@
     "macos-dock": {
       "slug": "macos-dock",
       "name": "MacOS Dock",
-      "description": "MacosDock recreates the Apple dock magnification experience with cursor tracking and smooth easing for each icon.",
+      "description": "A navigation bar that simulates magnification physics and smooth easing on hover.",
       "category": "pointer",
       "preview": {
         "video": "/previews/macos-dock/preview.mp4",
@@ -267,7 +267,7 @@
     "magnetic": {
       "slug": "magnetic",
       "name": "Magnetic",
-      "description": "Magnetic wraps any element with a cursor-following spring so buttons feel sticky and playful on hover.",
+      "description": "A wrapper that applies spring physics to elements, making them stick to the cursor on hover.",
       "category": "pointer",
       "preview": {
         "video": "/previews/magnetic/preview.mp4",
@@ -294,7 +294,7 @@
     "marquee": {
       "slug": "marquee",
       "name": "Marquee",
-      "description": "Marquee animates multi-line headline loops with ScrollTrigger support so rows accelerate, reverse, or sync with scroll position.",
+      "description": "A scrolling content loop that accelerates, reverses, or syncs with scroll position.",
       "category": "showcase",
       "preview": {
         "video": "/previews/marquee/preview.mp4",
@@ -321,7 +321,7 @@
     "pixelated-image": {
       "slug": "pixelated-image",
       "name": "Pixelated Image",
-      "description": "PixelatedImage reveals media by animating blocky pixel grids that progressively sharpen to full resolution.",
+      "description": "A media revealer that animates blocky pixel grids which progressively sharpen to full resolution.",
       "category": "canvas",
       "preview": {
         "video": "/previews/pixelated-image/preview.mp4",
@@ -353,7 +353,7 @@
     "preloader": {
       "slug": "preloader",
       "name": "Preloader",
-      "description": "Preloader plays a kinetic strip of images that decelerates before scaling the hero asset to full screen for seamless page reveals.",
+      "description": "A kinetic loading sequence that decelerates an image strip before scaling the hero asset to full screen.",
       "category": "transition",
       "preview": {
         "video": "/previews/preloader/preview.mp4",
@@ -380,7 +380,7 @@
     "slideshow": {
       "slug": "slideshow",
       "name": "Slideshow",
-      "description": "Slideshow presents full-bleed imagery with GSAP-driven parallax transitions and a synced thumbnail navigator.",
+      "description": "A full-bleed gallery featuring parallax transitions and a synchronized thumbnail navigator.",
       "category": "showcase",
       "preview": {
         "video": "/previews/slideshow/preview.mp4",
@@ -407,7 +407,7 @@
     "split-hover": {
       "slug": "split-hover",
       "name": "Split Hover",
-      "description": "SplitHover splits text into characters and animates stacked layers on hover for a premium swap effect.",
+      "description": "A text effect that splits characters and animates stacked layers on hover for a seamless swap.",
       "category": "typography",
       "preview": {
         "video": "/previews/split-hover/preview.mp4",
@@ -434,7 +434,7 @@
     "split-reveal": {
       "slug": "split-reveal",
       "name": "Split Reveal",
-      "description": "SplitReveal uses GSAP SplitText to mask content and animate lines, words, or characters into view on mount.",
+      "description": "A text animation component that masks content and reveals lines, words, or characters upon mounting.",
       "category": "typography",
       "preview": {
         "video": "/previews/split-reveal/preview.mp4",
@@ -461,7 +461,7 @@
     "text-loop": {
       "slug": "text-loop",
       "name": "Text Loop",
-      "description": "TextLoop cycles through phrases with blurred vertical slides, ideal for rotating headlines or feature lists.",
+      "description": "A text animator that cycles through phrases with blurred vertical transitions, suitable for headlines.",
       "category": "typography",
       "preview": {
         "video": "/previews/text-loop/preview.mp4",
@@ -488,7 +488,7 @@
     "water-ripple": {
       "slug": "water-ripple",
       "name": "Water Ripple",
-      "description": "Fluid water ripple effect on interaction.",
+      "description": "A fluid distortion effect simulating water ripples triggered by interaction.",
       "category": "canvas",
       "preview": {
         "video": "/previews/water-ripple/preview.mp4",

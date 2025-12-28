@@ -1,7 +1,7 @@
 {
 	"name": "ASCII Renderer",
 	"slug": "ascii-renderer",
-	"description": "Procedural ASCII art effect with chromatic aberration and scanlines shader.",
+	"description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
 	"category": "canvas",
 	"preview": {
 		"video": "/previews/ascii-renderer/preview.mp4",

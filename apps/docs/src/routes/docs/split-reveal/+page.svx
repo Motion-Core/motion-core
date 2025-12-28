@@ -1,6 +1,6 @@
 ---
 name: Split Reveal
-description: SplitReveal uses GSAP SplitText to mask content and animate lines, words, or characters into view on mount.
+description: A text animation component that masks content and reveals lines, words, or characters upon mounting.
 video: /previews/split-reveal/preview.mp4
 poster: /previews/split-reveal/poster.webp
 ---

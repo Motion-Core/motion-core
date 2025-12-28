@@ -1,6 +1,6 @@
 ---
 name: MacOS Dock
-description: MacosDock recreates the Apple dock magnification experience with cursor tracking and smooth easing for each icon.
+description: A navigation bar that simulates magnification physics and smooth easing on hover.
 video: /previews/macos-dock/preview.mp4
 poster: /previews/macos-dock/poster.webp
 ---

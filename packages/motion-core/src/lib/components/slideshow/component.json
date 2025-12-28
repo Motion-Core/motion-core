@@ -1,7 +1,7 @@
 {
 	"name": "Slideshow",
 	"slug": "slideshow",
-	"description": "Slideshow presents full-bleed imagery with GSAP-driven parallax transitions and a synced thumbnail navigator.",
+	"description": "A full-bleed gallery featuring parallax transitions and a synchronized thumbnail navigator.",
 	"category": "showcase",
 	"preview": {
 		"video": "/previews/slideshow/preview.mp4",

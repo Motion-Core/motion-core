@@ -1,7 +1,7 @@
 {
 	"name": "Preloader",
 	"slug": "preloader",
-	"description": "Preloader plays a kinetic strip of images that decelerates before scaling the hero asset to full screen for seamless page reveals.",
+	"description": "A kinetic loading sequence that decelerates an image strip before scaling the hero asset to full screen.",
 	"category": "transition",
 	"preview": {
 		"video": "/previews/preloader/preview.mp4",

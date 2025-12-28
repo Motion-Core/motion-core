@@ -1,7 +1,7 @@
 {
 	"name": "Interactive Grid",
 	"slug": "interactive-grid",
-	"description": "InteractiveGrid distorts an image based on mouse movement using a physics-based grid simulation.",
+	"description": "A physics-based grid simulation that distorts an image in response to cursor movement.",
 	"category": "canvas",
 	"preview": {
 		"video": "/previews/interactive-grid/preview.mp4",

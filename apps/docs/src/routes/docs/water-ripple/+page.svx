@@ -1,6 +1,6 @@
 ---
 name: Water Ripple
-description: Fluid water ripple effect on interaction.
+description: A fluid distortion effect simulating water ripples triggered by interaction.
 video: /previews/water-ripple/preview.mp4
 poster: /previews/water-ripple/poster.webp
 ---

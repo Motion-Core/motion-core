@@ -1,7 +1,7 @@
 {
 	"name": "Flip Grid",
 	"slug": "flip-grid",
-	"description": "A layout component that smoothly animates its children when the grid structure changes, powered by GSAP Flip.",
+	"description": "A layout component that smoothly animates its children when the grid structure changes.",
 	"category": "layout",
 	"preview": {
 		"video": "/previews/flip-grid/preview.mp4",
