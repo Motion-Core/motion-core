@@ -329,12 +329,13 @@ async function writeGeneratedDocsManifest(
 	components: Record<string, RegistryComponent>,
 ) {
 	const manifestEntries = Object.values(components)
-		.map(({ slug, name, category, preview }) => ({
+		.map(({ slug, name, category, preview, dependencies }) => ({
 			slug,
 			name,
 			category,
 			video: preview?.video,
 			poster: preview?.poster,
+			dependencies,
 		}))
 		.sort((a, b) => a.name.localeCompare(b.name));
 

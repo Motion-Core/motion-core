@@ -53,7 +53,7 @@
 </script>
 
 <div
-	class="my-6 w-full overflow-hidden rounded-lg border border-border bg-card shadow-sm"
+	class="my-6 w-full overflow-hidden rounded-xl border border-border bg-card shadow-sm"
 >
 	<div
 		class="flex items-center justify-between border-b border-border bg-card-muted/60"

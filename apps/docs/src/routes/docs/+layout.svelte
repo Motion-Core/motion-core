@@ -9,6 +9,7 @@
 	import { page } from "$app/state";
 	import { tick } from "svelte";
 	import DocShareActions from "$lib/components/docs/DocShareActions.svelte";
+	import { docsManifest } from "$lib/docs/manifest";
 
 	const props = $props<{ data: LayoutData; children?: Snippet }>();
 	const previousLink = $derived(props.data.previousLink);
@@ -16,6 +17,10 @@
 	const metadata = $derived(props.data.metadata);
 	const renderChildren = $derived(props.children);
 	const docSlug = $derived(metadata?.slug);
+	const currentDoc = $derived(docsManifest.find((d) => d.slug === docSlug));
+	const dependencies = $derived(
+		currentDoc?.dependencies ? Object.keys(currentDoc.dependencies) : [],
+	);
 	const rawPath = $derived(docSlug ? `/docs/raw/${docSlug}` : null);
 	const docOrigin = $derived(props.data.docOrigin);
 	const rawUrl = $derived(
@@ -92,6 +97,20 @@
 							<p class="max-w-4xl text-base text-foreground/70">
 								{metadata.description}
 							</p>
+						{/if}
+						{#if dependencies.length > 0}
+							<div class="flex gap-2">
+								{#each dependencies as dep (dep)}
+									<a
+										href={`https://www.npmjs.com/package/${dep}`}
+										target="_blank"
+										rel="noreferrer"
+										class="inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-foreground/70 hover:text-foreground transition-[color] duration-150 ease-out"
+									>
+										{dep}
+									</a>
+								{/each}
+							</div>
 						{/if}
 					</div>
 					<hr class="text-border" />
