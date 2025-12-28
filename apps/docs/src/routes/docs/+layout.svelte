@@ -70,10 +70,7 @@
 	{/if}
 </svelte:head>
 
-<main
-	style="view-transition-name: homepage-content"
-	class="h-svh bg-card text-foreground lg:py-4"
->
+<main class="h-svh bg-card text-foreground lg:py-4">
 	<MobileSidebar />
 
 	<aside class="fixed top-0 left-0 hidden w-88 shrink-0 lg:block">

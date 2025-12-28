@@ -33,25 +33,6 @@
 		"text effects",
 	].join(", ");
 	const sharedOgImage = $derived(new URL("/og-image.jpg", currentUrl).href);
-
-	onNavigate((navigation) => {
-		if (!document.startViewTransition) return;
-
-		const fromPath = navigation.from?.url.pathname;
-		const toPath = navigation.to?.url.pathname;
-
-		const enteringDocs = isHomePath(fromPath) && isDocsPath(toPath);
-		const leavingDocs = isDocsPath(fromPath) && isHomePath(toPath);
-
-		if (!enteringDocs && !leavingDocs) return;
-
-		return new Promise<void>((resolve) => {
-			document.startViewTransition(async () => {
-				resolve();
-				await navigation.complete;
-			});
-		});
-	});
 </script>
 
 <svelte:head>
