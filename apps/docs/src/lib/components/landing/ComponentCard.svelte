@@ -6,11 +6,11 @@
 
 <a
 	href={`/docs/${component.slug}`}
-	class="group group relative block break-inside-avoid rounded-2xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:border-transparent hover:bg-accent"
+	class="group group relative block break-inside-avoid rounded-2xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted"
 	data-component-card
 >
 	<div
-		class="relative aspect-video overflow-hidden rounded-xl border border-border/60 transition-[border] duration-150 ease-out group-hover:border-transparent"
+		class="relative aspect-video overflow-hidden rounded-xl border border-border/60"
 	>
 		{#if component.video}
 			<video
@@ -25,9 +25,14 @@
 			</video>
 		{/if}
 	</div>
-	<div
-		class="pointer-events-none m-2 text-sm font-medium text-foreground transition-[color,border] duration-150 ease-out font-display group-hover:text-card"
-	>
-		{component.name}
+	<div class="flex items-center justify-between w-full p-2">
+		<p
+			class="pointer-events-none text-sm font-medium text-foreground font-display"
+		>
+			{component.name}
+		</p>
+		<p class="pointer-events-none text-xs font-medium text-foreground/45">
+			{component.category}
+		</p>
 	</div>
 </a>
