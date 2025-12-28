@@ -1,0 +1,95 @@
+---
+name: Interactive Grid
+description: InteractiveGrid distorts an image based on mouse movement using a physics-based grid simulation.
+video: /previews/interactive-grid/preview.mp4
+poster: /previews/interactive-grid/poster.webp
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import interactiveGridSource from "motion-core/components/interactive-grid/InteractiveGrid.svelte?raw";
+	import sceneSource from "motion-core/components/interactive-grid/Scene.svelte?raw";
+	import InteractiveGridDemo from "./InteractiveGridDemo.svelte";
+	import interactiveGridDemoSource from "./InteractiveGridDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="interactive-grid" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { InteractiveGrid } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: interactiveGridDemoSource, language: "svelte" },
+		{ name: "InteractiveGrid.svelte", code: interactiveGridSource, language: "svelte" },
+		{ name: "Scene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<InteractiveGridDemo />
+</ComponentPreview>
+
+## Props
+
+### InteractiveGrid
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "image",
+			type: "string",
+			default: "—",
+			description: "URL of the image to be used as the background.",
+		},
+		{
+			prop: "grid",
+			type: "number",
+			default: "15",
+			description: "Number of grid cells per row/column. Higher values mean finer pixelation.",
+		},
+		{
+			prop: "mouseSize",
+			type: "number",
+			default: "0.15",
+			description: "Radius of influence for the mouse cursor (normalized 0-1).",
+		},
+		{
+			prop: "strength",
+			type: "number",
+			default: "0.35",
+			description: "Intensity of the distortion effect.",
+		},
+		{
+			prop: "relaxation",
+			type: "number",
+			default: "0.9",
+			description: "Decay factor for the distortion. Lower values mean faster recovery (0-1).",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

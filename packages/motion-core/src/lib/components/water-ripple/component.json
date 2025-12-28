@@ -15,6 +15,7 @@
 	"devDependencies": {
 		"@types/three": "^0.169.0"
 	},
+	"internalDependencies": [],
 	"files": [
 		{
 			"path": "WaterRipple.svelte",

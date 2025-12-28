@@ -26,6 +26,12 @@ export const docsManifest: ComponentInfo[] = [
     "poster": "/previews/infinite-gallery/poster.webp"
   },
   {
+    "slug": "interactive-grid",
+    "name": "Interactive Grid",
+    "video": "/previews/interactive-grid/preview.mp4",
+    "poster": "/previews/interactive-grid/poster.webp"
+  },
+  {
     "slug": "logo-carousel",
     "name": "Logo Carousel",
     "video": "/previews/logo-carousel/preview.mp4",
