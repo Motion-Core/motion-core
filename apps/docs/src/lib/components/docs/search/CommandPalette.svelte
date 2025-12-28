@@ -83,14 +83,14 @@
 
 {#if searchState.isOpen}
 	<div
-		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+		class="fixed inset-0 z-60 bg-background/80 backdrop-blur-sm"
 		transition:fade={{ duration: 150 }}
 		onclick={close}
 		role="presentation"
 	></div>
 
 	<div
-		class="fixed inset-0 z-50 flex items-start justify-center p-4 sm:pt-[10vh]"
+		class="fixed inset-0 z-60 flex items-start justify-center p-4 sm:pt-[10vh]"
 		role="dialog"
 		aria-modal="true"
 		tabindex="-1"
