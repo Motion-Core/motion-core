@@ -86,13 +86,13 @@
 		{#each images as image, i (image.src)}
 			<button
 				onclick={() => navigate(i)}
-				class="relative size-10 cursor-pointer overflow-hidden rounded-sm transition-all duration-700 ease-[cubic-bezier(0.625,0.05,0,1)]"
+				class="relative size-10 cursor-pointer overflow-hidden rounded-md transition-all duration-700 ease-[cubic-bezier(0.625,0.05,0,1)]"
 				aria-label="Go to slide {i + 1}"
 			>
 				<img
 					src={image.src}
 					alt={image.alt ?? ""}
-					class="h-full w-full rounded-sm object-cover transition-transform duration-700 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:scale-80 hover:scale-100"
+					class="h-full w-full rounded-md object-cover transition-transform duration-700 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:scale-80 hover:scale-100"
 				/>
 			</button>
 		{/each}

@@ -98,7 +98,7 @@
 		onkeydown={(e) => e.key === "Escape" && close()}
 	>
 		<div
-			class="w-full max-w-164 overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+			class="w-full max-w-164 overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
 			role="document"
 			transition:scale={{
 				duration: 200,
@@ -127,7 +127,7 @@
 					aria-label="Search documentation"
 				/>
 				<kbd
-					class="pointer-events-none hidden h-5 items-center gap-1 rounded-md border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
+					class="pointer-events-none hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
 				>
 					ESC
 				</kbd>
@@ -142,10 +142,11 @@
 						<ScrollArea viewportClass="max-h-96 p-2">
 							{#each results as result, i (result.slug + (result.anchor || "") + i)}
 								{@const isChild =
-									result.matchType === "heading" || result.matchType === "content"}
+									result.matchType === "heading" ||
+									result.matchType === "content"}
 								<button
 									class={cn(
-										"group relative flex w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-sm",
+										"group relative flex w-full flex-col items-start gap-1 rounded-xl px-3 py-2 text-sm",
 										isChild && "pl-8",
 										i === selectedIndex
 											? "bg-accent/10 text-accent"

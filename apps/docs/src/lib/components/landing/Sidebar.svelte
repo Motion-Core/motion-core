@@ -135,7 +135,7 @@
 		</p>
 		<div class="flex items-center gap-2" bind:this={linksRef}>
 			<a
-				class="inline-flex items-center justify-center gap-2 rounded-md size-7 text-sm font-medium text-foreground transition-colors duration-150 ease-out hover:bg-card-muted hover:text-foreground"
+				class="inline-flex items-center justify-center gap-2 rounded-lg size-7 text-sm font-medium text-foreground transition-colors duration-150 ease-out hover:bg-card-muted hover:text-foreground"
 				href={DEFAULT_GITHUB_URL}
 				target="_blank"
 				rel="noreferrer"

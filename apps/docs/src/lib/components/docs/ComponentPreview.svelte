@@ -156,24 +156,24 @@
 </script>
 
 <section
-	class="relative max-w-[calc(var(--container-4xl)-2rem)] rounded-lg border border-border bg-background shadow-sm"
+	class="relative max-w-[calc(var(--container-4xl)-2rem)] rounded-xl border border-border bg-background shadow-sm"
 	{...restProps}
 >
 	<div class="flex flex-col">
 		<div
 			bind:this={placeholderRef}
-			class="relative flex min-h-96 flex-1 flex-col items-center justify-center rounded-t-lg border-b border-border"
+			class="relative flex min-h-96 flex-1 flex-col items-center justify-center rounded-t-xl border-b border-border"
 		>
 			<div
 				bind:this={previewRef}
 				class={cn(
 					"relative flex items-center justify-center overflow-hidden bg-card",
-					isFullScreen ? "" : "w-full flex-1 rounded-t-lg",
+					isFullScreen ? "" : "w-full flex-1 rounded-t-xl",
 				)}
 			>
 				<button
 					onclick={reloadPreview}
-					class="transition-scale absolute top-2 right-11 z-30 flex size-7 cursor-pointer items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
+					class="transition-scale absolute top-2 right-11 z-30 flex size-7 cursor-pointer items-center justify-center rounded-lg border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -190,7 +190,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="transition-scale absolute top-2 right-2 z-30 flex size-7 cursor-pointer items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
+					class="transition-scale absolute top-2 right-2 z-30 flex size-7 cursor-pointer items-center justify-center rounded-lg border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}

@@ -48,7 +48,7 @@
 	};
 
 	const buttonBaseClasses =
-		"relative z-10 inline-flex size-6 items-center justify-center rounded-md border border-transparent text-[10px] transition-colors duration-200 ease-out";
+		"relative z-10 inline-flex size-6 items-center justify-center rounded-lg border border-transparent text-[10px] transition-colors duration-200 ease-out";
 
 	const getThemeButtonClasses = (mode: ThemeMode) =>
 		mode === theme
@@ -139,7 +139,7 @@
 
 <div class="space-y-2">
 	<div
-		class="theme-toggle relative inline-flex items-center gap-1 rounded-lg border border-border bg-background p-0.5"
+		class="theme-toggle relative inline-flex items-center gap-1 rounded-xl border border-border bg-background p-0.5"
 		bind:this={containerRef}
 	>
 		<button
