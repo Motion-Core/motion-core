@@ -43,7 +43,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/ascii-renderer/Scene.svelte"
+          "path": "components/ascii-renderer/AsciiRenderer.svelte"
         },
         {
           "path": "utils/cn.ts",
@@ -105,7 +105,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/glass-pane/Scene.svelte"
+          "path": "components/glass-pane/GlassPaneScene.svelte"
         },
         {
           "path": "utils/cn.ts",
@@ -164,7 +164,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/infinite-gallery/GalleryScene.svelte"
+          "path": "components/infinite-gallery/InfiniteGalleryScene.svelte"
         },
         {
           "path": "components/infinite-gallery/ImagePlane.svelte"
@@ -199,7 +199,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/interactive-grid/Scene.svelte"
+          "path": "components/interactive-grid/InteractiveGrid.svelte"
         },
         {
           "path": "utils/cn.ts",
@@ -342,7 +342,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/pixelated-image/Scene.svelte"
+          "path": "components/pixelated-image/PixelatedImage.svelte"
         },
         {
           "path": "utils/cn.ts",
@@ -509,7 +509,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/water-ripple/Scene.svelte"
+          "path": "components/water-ripple/WaterRipple.svelte"
         },
         {
           "path": "assets/water-ripple-brush.png",

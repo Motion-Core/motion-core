@@ -13,8 +13,8 @@ poster: /previews/infinite-gallery/poster.webp
 	"$lib/components/docs/markdown/Step.svelte"; import infiniteGallerySource from
 	"motion-core/components/infinite-gallery/InfiniteGallery.svelte?raw"; import
 	gallerySceneSource from
-	"motion-core/components/infinite-gallery/InfiniteGalleryScene.svelte?raw"; import
-	imagePlaneSource from
+	"motion-core/components/infinite-gallery/InfiniteGalleryScene.svelte?raw";
+	import imagePlaneSource from
 	"motion-core/components/infinite-gallery/ImagePlane.svelte?raw"; import
 	InfiniteGalleryDemo from "./InfiniteGalleryDemo.svelte"; import
 	infiniteGalleryDemoSource from "./InfiniteGalleryDemo.svelte?raw";

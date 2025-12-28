@@ -7,16 +7,15 @@ poster: /previews/flip-grid/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-
-	import flipGridSource from "motion-core/components/flip-grid/FlipGrid.svelte?raw";
-	import flipGridItemSource from "motion-core/components/flip-grid/FlipGridItem.svelte?raw";
-
-	import FlipGridDemo from "./FlipGridDemo.svelte";
-	import flipGridDemoSource from "./FlipGridDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
+	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
+	"$lib/components/docs/markdown/Step.svelte"; import flipGridSource from
+	"motion-core/components/flip-grid/FlipGrid.svelte?raw"; import
+	flipGridItemSource from
+	"motion-core/components/flip-grid/FlipGridItem.svelte?raw"; import
+	FlipGridDemo from "./FlipGridDemo.svelte"; import flipGridDemoSource from
+	"./FlipGridDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -51,7 +50,7 @@ import { FlipGrid, FlipGridItem } from "motion-core";
 			name: "FlipGridItem.svelte",
 			code: flipGridItemSource,
 			language: "svelte",
-		}
+		},
 	]}
 >
 	<FlipGridDemo />
@@ -75,13 +74,15 @@ import { FlipGrid, FlipGridItem } from "motion-core";
 			prop: "columns",
 			type: "number",
 			default: "undefined",
-			description: "Number of grid columns. If set, creates a responsive grid layout automatically.",
+			description:
+				"Number of grid columns. If set, creates a responsive grid layout automatically.",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
-			description: "The CSS class for the grid container. Changes to this trigger the animation.",
+			description:
+				"The CSS class for the grid container. Changes to this trigger the animation.",
 		},
 		{
 			prop: "style",
@@ -126,7 +127,8 @@ import { FlipGrid, FlipGridItem } from "motion-core";
 			prop: "id",
 			type: "string",
 			default: "—",
-			description: "Required unique identifier for the item (used by GSAP Flip).",
+			description:
+				"Required unique identifier for the item (used by GSAP Flip).",
 		},
 		{
 			prop: "class",

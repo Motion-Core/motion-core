@@ -82,7 +82,7 @@
 
 	<ScrollArea
 		id="docs-content-container"
-		class="mx-auto mt-12 w-full max-w-4xl lg:border border-border bg-background lg:mt-0 lg:ml-88 lg:max-h-[calc(100svh-2rem)] lg:rounded-2xl xl:mr-88"
+		class="mx-auto mt-12 w-full max-w-4xl border-border bg-background lg:mt-0 lg:ml-88 lg:max-h-[calc(100svh-2rem)] lg:rounded-2xl lg:border xl:mr-88"
 	>
 		<div class="flex flex-col gap-8 px-4 py-8 lg:px-8">
 			<section class="min-w-0 flex-1 space-y-8">
@@ -105,7 +105,7 @@
 										href={`https://www.npmjs.com/package/${dep}`}
 										target="_blank"
 										rel="noreferrer"
-										class="inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-foreground/70 hover:text-foreground transition-[color] duration-150 ease-out"
+										class="inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-foreground/70 transition-[color] duration-150 ease-out hover:text-foreground"
 									>
 										{dep}
 									</a>

@@ -99,7 +99,7 @@
 
 	<div class="flex items-center gap-2 p-4">
 		<a
-			class="inline-flex items-center justify-center gap-2 rounded-lg size-7 text-sm font-medium text-foreground transition-colors duration-150 ease-out hover:bg-card-muted hover:text-foreground"
+			class="inline-flex size-7 items-center justify-center gap-2 rounded-lg text-sm font-medium text-foreground transition-colors duration-150 ease-out hover:bg-card-muted hover:text-foreground"
 			href={githubUrl}
 			target="_blank"
 			rel="noreferrer"

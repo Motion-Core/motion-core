@@ -23,15 +23,15 @@
 		</SplitReveal>
 	{/key}
 	<div
-		class="absolute bottom-4 left-1/2 flex -translate-x-1/2 justify-center gap-1 bg-background border border-border w-fit p-1 rounded-lg shadow-sm"
+		class="absolute bottom-4 left-1/2 flex w-fit -translate-x-1/2 justify-center gap-1 rounded-lg border border-border bg-background p-1 shadow-sm"
 	>
 		{#each modes as mode (mode)}
 			<button
 				type="button"
 				class={cn(
-					"py-1 gap-1.5 rounded-md px-3 text-xs whitespace-nowrap font-medium tracking-wide uppercase transition-colors duration-150 ease-out",
+					"gap-1.5 rounded-md px-3 py-1 text-xs font-medium tracking-wide whitespace-nowrap uppercase transition-colors duration-150 ease-out",
 					mode === activeMode
-						? "bg-accent light:text-card dark:text-foreground"
+						? "bg-accent dark:text-foreground light:text-card"
 						: "text-foreground/70 hover:text-foreground",
 				)}
 				onclick={() => handleModeChange(mode)}

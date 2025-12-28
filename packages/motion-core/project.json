@@ -1,22 +1,22 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "name": "motion-core",
-  "projectType": "library",
-  "root": "packages/motion-core",
-  "sourceRoot": "packages/motion-core/src",
-  "targets": {
-    "lint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "bunx eslint packages/motion-core --max-warnings=0"
-      }
-    },
-    "check": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "bunx svelte-check --tsconfig packages/motion-core/tsconfig.json"
-      }
-    }
-  },
-  "tags": ["scope:package", "type:lib"]
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"name": "motion-core",
+	"projectType": "library",
+	"root": "packages/motion-core",
+	"sourceRoot": "packages/motion-core/src",
+	"targets": {
+		"lint": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx eslint packages/motion-core --max-warnings=0"
+			}
+		},
+		"check": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx svelte-check --tsconfig packages/motion-core/tsconfig.json"
+			}
+		}
+	},
+	"tags": ["scope:package", "type:lib"]
 }

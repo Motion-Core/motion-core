@@ -6,14 +6,14 @@
 
 **Motion Core** is not just a library; it's a curated collection of expressive, production-ready motion components designed for the experimental web. Born from a desire to make high-end motion design accessible, it wraps complex WebGL and timeline-based animations into simple, developer-friendly Svelte 5 components.
 
-We don't package everything into a massive npm dependency. Instead, we follow a **copy-paste architecture** (inspired by *shadcn/ui*). We encourage you to poke around the code, break things, and contribute back.
+We don't package everything into a massive npm dependency. Instead, we follow a **copy-paste architecture** (inspired by _shadcn/ui_). We encourage you to poke around the code, break things, and contribute back.
 
 ### Why Motion Core?
 
--   **Svelte 5 Native**: Leverages Runes and Snippets for a truly reactive and modern DX.
--   **Performance First**: Heavy lifting is done by GSAP and Three.js, ensuring buttery smooth 60fps experiences.
--   **Aesthetic Focus**: From magnetic buttons to 3D infinite galleries with cloth distortion, every component is crafted with "feel" in mind.
--   **The "Un-Library"**: Use our CLI to scaffold components directly into your codebase. No black boxes.
+- **Svelte 5 Native**: Leverages Runes and Snippets for a truly reactive and modern DX.
+- **Performance First**: Heavy lifting is done by GSAP and Three.js, ensuring buttery smooth 60fps experiences.
+- **Aesthetic Focus**: From magnetic buttons to 3D infinite galleries with cloth distortion, every component is crafted with "feel" in mind.
+- **The "Un-Library"**: Use our CLI to scaffold components directly into your codebase. No black boxes.
 
 ---
 
@@ -46,19 +46,20 @@ This will download the component source code and place it in your configured com
 
 This repository is a **monorepo** managed by **Bun** and **Nx**. It houses the entire ecosystem:
 
--   **`packages/motion-core`**: The source of truth for all components.
--   **`apps/docs`**: The documentation site and development playground.
--   **`motion-core-cli`**: The Rust-based CLI tool that powers the distribution.
+- **`packages/motion-core`**: The source of truth for all components.
+- **`apps/docs`**: The documentation site and development playground.
+- **`motion-core-cli`**: The Rust-based CLI tool that powers the distribution.
 
 ### Prerequisites for Contributors
 
--   **[Bun](https://bun.sh/)** (v1.3.3+) - *Strictly required for workspace management.*
--   **[Rust](https://www.rust-lang.org/)** (Latest) - *Required for CLI development.*
--   **Node.js** - *Required for certain internal tooling.*
+- **[Bun](https://bun.sh/)** (v1.3.3+) - _Strictly required for workspace management._
+- **[Rust](https://www.rust-lang.org/)** (Latest) - _Required for CLI development._
+- **Node.js** - _Required for certain internal tooling._
 
 ### Setting Up the Repo
 
 1.  **Clone & Install**
+
     ```bash
     git clone https://github.com/motion-core/motion-core.git
     cd motion-core
@@ -67,6 +68,7 @@ This repository is a **monorepo** managed by **Bun** and **Nx**. It houses the e
 
 2.  **Bootstrap Workspace**
     This script generates the internal registry manifest and performs initial checks on the CLI.
+
     ```bash
     bun run workspace:bootstrap
     ```

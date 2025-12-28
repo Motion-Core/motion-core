@@ -12,7 +12,8 @@ poster: /previews/pixelated-image/poster.webp
 	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
 	"$lib/components/docs/markdown/Step.svelte"; import pixelatedImageSource from
 	"motion-core/components/pixelated-image/PixelatedImage.svelte?raw"; import
-	sceneSource from "motion-core/components/pixelated-image/PixelatedImageScene.svelte?raw";
+	sceneSource from
+	"motion-core/components/pixelated-image/PixelatedImageScene.svelte?raw";
 	import PixelatedImageDemo from "./PixelatedImageDemo.svelte"; import
 	pixelatedImageDemoSource from "./PixelatedImageDemo.svelte?raw";
 </script>
@@ -45,7 +46,11 @@ import { PixelatedImage } from "$lib/motion-core";
 			code: pixelatedImageSource,
 			language: "svelte",
 		},
-		{ name: "PixelatedImageScene.svelte", code: sceneSource, language: "svelte" },
+		{
+			name: "PixelatedImageScene.svelte",
+			code: sceneSource,
+			language: "svelte",
+		},
 	]}
 >
 	<PixelatedImageDemo />

@@ -167,7 +167,7 @@
 										></div>
 									{/if}
 
-									<div class="flex flex-col items-start gap-0.5 w-full">
+									<div class="flex w-full flex-col items-start gap-0.5">
 										{#if result.matchType !== "content"}
 											<div class="flex items-center gap-2 font-medium">
 												{#if result.matchType === "heading"}
@@ -187,7 +187,7 @@
 										{#if result.snippet}
 											<div
 												class={cn(
-													"text-xs line-clamp-1 text-left",
+													"line-clamp-1 text-left text-xs",
 													i === selectedIndex
 														? "text-accent/80"
 														: "text-foreground/60",
@@ -216,7 +216,7 @@
 						</div>
 					{/if}
 					<div
-						class="w-full p-2 border-t border-border/60 flex flex-row items-center gap-2 justify-start"
+						class="flex w-full flex-row items-center justify-start gap-2 border-t border-border/60 p-2"
 					>
 						<kbd
 							class="pointer-events-none hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
@@ -238,7 +238,7 @@
 								></path></svg
 							>
 						</kbd>
-						<span class="text-foreground/45 text-xs"> Go to page </span>
+						<span class="text-xs text-foreground/45"> Go to page </span>
 					</div>
 				</div>
 			</div>

@@ -46,7 +46,7 @@ function stripMdx(content: string): string {
 		.replace(/<[^>]+>/g, " ")
 		.replace(/```[\s\S]*?```/g, "")
 		.replace(/`([^`]+)`/g, "$1")
-		.replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1")
+		.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
 		.replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, "$1")
 		.replace(/#{1,6}\s+/g, "")
 		.replace(/\s+/g, " ")

@@ -75,7 +75,7 @@
 
 <div
 	bind:this={container}
-	class={cn("grid relative", className)}
+	class={cn("relative grid", className)}
 	style={computedStyle}
 	{...props}
 >

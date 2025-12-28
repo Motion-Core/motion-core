@@ -1,55 +1,55 @@
 {
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "motion-core-cli",
-  "projectType": "application",
-  "root": "motion-core-cli/crates/cli",
-  "sourceRoot": "motion-core-cli/crates/cli/src",
-  "targets": {
-    "build": {
-      "executor": "@nxrs/cargo:build",
-      "outputs": ["{workspaceRoot}/motion-core-cli/target"],
-      "options": {
-        "package": "motion-core-cli",
-        "targetDir": "motion-core-cli/target"
-      }
-    },
-    "build-release": {
-      "executor": "@nxrs/cargo:build",
-      "outputs": ["{workspaceRoot}/motion-core-cli/target"],
-      "options": {
-        "package": "motion-core-cli",
-        "release": true,
-        "targetDir": "motion-core-cli/target"
-      }
-    },
-    "test": {
-      "executor": "@nxrs/cargo:test",
-      "options": {
-        "package": "motion-core-cli",
-        "targetDir": "motion-core-cli/target"
-      }
-    },
-    "lint": {
-      "executor": "@nxrs/cargo:clippy",
-      "options": {
-        "package": "motion-core-cli",
-        "targetDir": "motion-core-cli/target"
-      }
-    },
-    "check": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "cargo check -p motion-core-cli"
-      }
-    },
-    "dist": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "bash scripts/build-and-link.sh"
-      },
-      "dependsOn": ["build-release"],
-      "outputs": ["{workspaceRoot}/motion-core-cli/js/dist"]
-    }
-  },
-  "tags": ["scope:cli", "type:rust"]
+	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
+	"name": "motion-core-cli",
+	"projectType": "application",
+	"root": "motion-core-cli/crates/cli",
+	"sourceRoot": "motion-core-cli/crates/cli/src",
+	"targets": {
+		"build": {
+			"executor": "@nxrs/cargo:build",
+			"outputs": ["{workspaceRoot}/motion-core-cli/target"],
+			"options": {
+				"package": "motion-core-cli",
+				"targetDir": "motion-core-cli/target"
+			}
+		},
+		"build-release": {
+			"executor": "@nxrs/cargo:build",
+			"outputs": ["{workspaceRoot}/motion-core-cli/target"],
+			"options": {
+				"package": "motion-core-cli",
+				"release": true,
+				"targetDir": "motion-core-cli/target"
+			}
+		},
+		"test": {
+			"executor": "@nxrs/cargo:test",
+			"options": {
+				"package": "motion-core-cli",
+				"targetDir": "motion-core-cli/target"
+			}
+		},
+		"lint": {
+			"executor": "@nxrs/cargo:clippy",
+			"options": {
+				"package": "motion-core-cli",
+				"targetDir": "motion-core-cli/target"
+			}
+		},
+		"check": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "cargo check -p motion-core-cli"
+			}
+		},
+		"dist": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bash scripts/build-and-link.sh"
+			},
+			"dependsOn": ["build-release"],
+			"outputs": ["{workspaceRoot}/motion-core-cli/js/dist"]
+		}
+	},
+	"tags": ["scope:cli", "type:rust"]
 }

@@ -16,7 +16,7 @@
 </script>
 
 <div
-	class="relative my-8 w-full rounded-xl overflow-x-auto border border-border bg-card shadow-sm"
+	class="relative my-8 w-full overflow-x-auto rounded-xl border border-border bg-card shadow-sm"
 >
 	<table
 		{...restProps}
