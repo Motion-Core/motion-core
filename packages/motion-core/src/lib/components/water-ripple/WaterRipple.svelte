@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Canvas } from "@threlte/core";
-	import Scene from "./Scene.svelte";
+	import Scene from "./WaterRippleScene.svelte";
 	import { cn } from "../../utils/cn";
 	import { NoToneMapping } from "three";
 

@@ -12,7 +12,7 @@ poster: /previews/water-ripple/poster.webp
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
 	import Step from "$lib/components/docs/markdown/Step.svelte";
 	import waterRippleSource from "motion-core/components/water-ripple/WaterRipple.svelte?raw";
-	import SceneSource from "motion-core/components/water-ripple/Scene.svelte?raw";
+	import SceneSource from "motion-core/components/water-ripple/WaterRippleScene.svelte?raw";
 	import WaterRippleDemo from "./WaterRippleDemo.svelte";
 	import waterRippleDemoSource from "./WaterRippleDemo.svelte?raw";
 </script>
@@ -45,7 +45,7 @@ import { WaterRipple } from "$lib/motion-core";
 			code: waterRippleSource,
 			language: "svelte",
 		},
-		{ name: "Scene.svelte", code: SceneSource, language: "svelte" },
+		{ name: "WaterRippleScene.svelte", code: SceneSource, language: "svelte" },
 	]}
 >
 	<WaterRippleDemo />

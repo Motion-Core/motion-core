@@ -12,7 +12,7 @@ poster: /previews/ascii-renderer/poster.webp
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
 	import Step from "$lib/components/docs/markdown/Step.svelte";
 	import asciiRendererSource from "motion-core/components/ascii-renderer/AsciiRenderer.svelte?raw";
-	import sceneSource from "motion-core/components/ascii-renderer/Scene.svelte?raw";
+	import sceneSource from "motion-core/components/ascii-renderer/AsciiRendererScene.svelte?raw";
 	import AsciiRendererDemo from "./AsciiRendererDemo.svelte";
 	import asciiRendererDemoSource from "./AsciiRendererDemo.svelte?raw";
 </script>
@@ -41,7 +41,7 @@ import { AsciiRenderer } from "$lib/motion-core";
 	sources={[
 		{ name: "Example", code: asciiRendererDemoSource, language: "svelte" },
 		{ name: "AsciiRenderer.svelte", code: asciiRendererSource, language: "svelte" },
-		{ name: "Scene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "AsciiRendererScene.svelte", code: sceneSource, language: "svelte" },
 	]}
 >
 	<AsciiRendererDemo />

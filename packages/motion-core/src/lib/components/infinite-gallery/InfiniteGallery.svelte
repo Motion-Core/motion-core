@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Canvas, T } from "@threlte/core";
 	import { NoToneMapping } from "three";
-	import GalleryScene from "./GalleryScene.svelte";
+	import GalleryScene from "./InfiniteGalleryScene.svelte";
 	import { cn } from "../../utils/cn";
 
 	type ImageItem = string | { src: string; alt?: string };

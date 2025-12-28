@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Canvas } from "@threlte/core";
-	import Scene from "./Scene.svelte";
+	import Scene from "./GlassPaneScene.svelte";
 	import { cn } from "../../utils/cn";
 
 	type Props = {

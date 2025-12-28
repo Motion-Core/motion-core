@@ -22,7 +22,7 @@
 			"kind": "entry"
 		},
 		{
-			"path": "Scene.svelte"
+			"path": "GlassPaneScene.svelte"
 		},
 		{
 			"path": "../../utils/cn.ts",

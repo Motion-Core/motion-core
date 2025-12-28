@@ -22,7 +22,7 @@
 			"kind": "entry"
 		},
 		{
-			"path": "GalleryScene.svelte"
+			"path": "InfiniteGalleryScene.svelte"
 		},
 		{
 			"path": "ImagePlane.svelte"

@@ -12,7 +12,7 @@ poster: /previews/interactive-grid/poster.webp
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
 	import Step from "$lib/components/docs/markdown/Step.svelte";
 	import interactiveGridSource from "motion-core/components/interactive-grid/InteractiveGrid.svelte?raw";
-	import sceneSource from "motion-core/components/interactive-grid/Scene.svelte?raw";
+	import sceneSource from "motion-core/components/interactive-grid/InteractiveGridScene.svelte?raw";
 	import InteractiveGridDemo from "./InteractiveGridDemo.svelte";
 	import interactiveGridDemoSource from "./InteractiveGridDemo.svelte?raw";
 </script>
@@ -41,7 +41,7 @@ import { InteractiveGrid } from "$lib/motion-core";
 	sources={[
 		{ name: "Example", code: interactiveGridDemoSource, language: "svelte" },
 		{ name: "InteractiveGrid.svelte", code: interactiveGridSource, language: "svelte" },
-		{ name: "Scene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "InteractiveGridScene.svelte", code: sceneSource, language: "svelte" },
 	]}
 >
 	<InteractiveGridDemo />

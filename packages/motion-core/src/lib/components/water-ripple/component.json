@@ -22,7 +22,7 @@
 			"kind": "entry"
 		},
 		{
-			"path": "Scene.svelte"
+			"path": "WaterRipple.svelte"
 		},
 		{
 			"path": "../../assets/water-ripple-brush.png",
