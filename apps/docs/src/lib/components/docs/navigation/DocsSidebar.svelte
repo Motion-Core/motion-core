@@ -8,13 +8,14 @@
 	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
 	import ThemeToggle from "$lib/components/landing/ThemeToggle.svelte";
 	import SearchTrigger from "../search/SearchTrigger.svelte";
+	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
 
 	const currentPath = $derived(page.url.pathname);
 	const githubUrl = "https://github.com/motion-core/motion-core";
 </script>
 
 <aside class="flex h-[calc(100svh)] flex-col bg-card">
-	<div class="flex flex-1 flex-col gap-8 overflow-y-auto p-4">
+	<div class="flex flex-col gap-8 p-4">
 		<a href="/" class="flex items-center gap-2">
 			<span
 				class="inline-flex shrink-0 items-center text-accent [&>svg]:h-3 [&>svg]:w-8 [&>svg]:fill-current"
@@ -28,7 +29,13 @@
 		</a>
 
 		<SearchTrigger />
+	</div>
 
+	<ScrollArea
+		class="flex-1"
+		viewportClass="p-4"
+		viewportStyle="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
+	>
 		<nav class="flex flex-col gap-1">
 			<h4
 				class="mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
@@ -52,7 +59,7 @@
 			{/each}
 
 			<h4
-				class="mt-6 mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
+				class="mt-8 mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
 			>
 				Components
 			</h4>
@@ -72,7 +79,7 @@
 				</a>
 			{/each}
 		</nav>
-	</div>
+	</ScrollArea>
 
 	<div class="flex items-center gap-2 p-4">
 		<a

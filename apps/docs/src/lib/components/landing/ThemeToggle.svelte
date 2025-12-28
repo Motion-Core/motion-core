@@ -48,7 +48,7 @@
 	};
 
 	const buttonBaseClasses =
-		"relative z-10 inline-flex size-6 items-center justify-center rounded-lg border border-transparent text-[10px] transition-colors duration-200 ease-out";
+		"relative z-10 inline-flex size-6 items-center justify-center rounded-lg border border-transparent text-[10px] transition-colors duration-250 ease-out";
 
 	const getThemeButtonClasses = (mode: ThemeMode) =>
 		mode === theme
@@ -221,7 +221,7 @@
 		top: var(--toggle-highlight-y);
 		width: var(--toggle-highlight-width);
 		height: var(--toggle-highlight-height);
-		border-radius: 0.25rem;
+		border-radius: 0.5rem;
 		background: var(--color-card);
 		border: 1px solid color-mix(in oklab, var(--color-border), transparent 15%);
 		box-shadow: var(--shadow-sm);

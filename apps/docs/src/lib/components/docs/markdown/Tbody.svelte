@@ -15,6 +15,6 @@
 	}: ComponentProps = $props();
 </script>
 
-<tbody {...restProps} class={cn("divide-y divide-border/50", className)}>
+<tbody {...restProps} class={cn("divide-y divide-border/60", className)}>
 	{@render children?.()}
 </tbody>

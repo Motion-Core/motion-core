@@ -224,7 +224,7 @@
 				{/key}
 			</div>
 		</div>
-		<div class="flex flex-1 flex-col overflow-hidden rounded-b-lg bg-card">
+		<div class="flex flex-1 flex-col overflow-hidden rounded-b-xl bg-card">
 			{#if tabs.length}
 				<div
 					class="flex items-center border-b border-border bg-card-muted/50 text-sm"
