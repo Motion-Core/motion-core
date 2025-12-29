@@ -111,6 +111,11 @@
 			<section class="min-w-0 flex-1 space-y-8">
 				{#if metadata}
 					<div class="space-y-4">
+						{#if currentDoc?.category}
+							<p class="mb-2 text-sm font-medium text-foreground/45 capitalize">
+								{currentDoc.category}
+							</p>
+						{/if}
 						<h1
 							class="scroll-m-20 text-3xl font-medium text-foreground font-display"
 						>
