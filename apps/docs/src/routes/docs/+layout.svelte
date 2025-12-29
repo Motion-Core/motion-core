@@ -8,6 +8,8 @@
 	import type { Snippet } from "svelte";
 	import { page } from "$app/state";
 	import { tick } from "svelte";
+	import { beforeNavigate, afterNavigate } from "$app/navigation";
+	import { SvelteMap } from "svelte/reactivity";
 	import DocShareActions from "$lib/components/docs/DocShareActions.svelte";
 	import { docsManifest } from "$lib/docs/manifest";
 
@@ -34,6 +36,30 @@
 			? `https://github.com/motion-core/motion-core/blob/master${repoRelativePath}`
 			: null,
 	);
+
+	const scrollContainerId = "docs-content-container";
+	const scrollPositions = new SvelteMap<string, number>();
+
+	beforeNavigate(() => {
+		const elem = document.getElementById(scrollContainerId);
+		if (elem) {
+			scrollPositions.set(page.url.pathname, elem.scrollTop);
+		}
+	});
+
+	afterNavigate((nav) => {
+		const elem = document.getElementById(scrollContainerId);
+		if (elem && !page.url.hash) {
+			if (nav.type === "popstate") {
+				const saved = scrollPositions.get(page.url.pathname);
+				if (saved !== undefined) {
+					elem.scrollTop = saved;
+				}
+			} else {
+				elem.scrollTop = 0;
+			}
+		}
+	});
 
 	$effect(() => {
 		const hash = page.url.hash;
@@ -102,7 +128,7 @@
 										href={`https://www.npmjs.com/package/${dep}`}
 										target="_blank"
 										rel="noreferrer"
-										class="inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-foreground/70 transition-[color] duration-150 ease-out hover:text-foreground"
+										class="inline-flex items-center rounded-full border border-border bg-card shadow-sm px-2.5 py-0.5 text-xs font-medium text-foreground/70 transition-[color] duration-150 ease-out hover:text-foreground"
 									>
 										{dep}
 									</a>
