@@ -89,7 +89,7 @@ import { SplitReveal } from "$lib/motion-core";
 			default: "false",
 			description: "If true, animation starts when element enters viewport.",
 		},
-			{
+		{
 			prop: "scrollElement",
 			type: "string | HTMLElement",
 			default: "undefined",
