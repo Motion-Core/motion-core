@@ -27,7 +27,6 @@
 
 	function close() {
 		searchState.close();
-		query = "";
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
@@ -101,9 +100,13 @@
 			class="w-full max-w-164 overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
 			role="document"
 			transition:scale={{
-				duration: 200,
+				duration: 300,
 				start: 0.95,
 				easing: cubicOut,
+			}}
+			onoutroend={() => {
+				query = "";
+				contentHeight = 0;
 			}}
 		>
 			<div class="flex items-center border-b border-border/60 px-3">
@@ -134,7 +137,7 @@
 			</div>
 
 			<div
-				class="overflow-hidden transition-[height] duration-200 ease-out"
+				class="overflow-hidden transition-[height] duration-300 ease-out"
 				style="height: {contentHeight}px"
 			>
 				<div bind:clientHeight={contentHeight}>
@@ -210,37 +213,32 @@
 						<div class="py-6 text-center text-sm text-foreground/45">
 							No results found.
 						</div>
-					{:else}
-						<div class="py-6 text-center text-sm text-foreground/45">
-							Type to search...
-						</div>
 					{/if}
-					<div
-						class="flex w-full flex-row items-center justify-start gap-2 border-t border-border/60 p-2"
-					>
-						<kbd
-							class="pointer-events-none hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								class="lucide lucide-corner-down-left size-3"
-								aria-hidden="true"
-								><path d="M20 4v7a4 4 0 0 1-4 4H4"></path><path
-									d="m9 10-5 5 5 5"
-								></path></svg
-							>
-						</kbd>
-						<span class="text-xs text-foreground/45"> Go to page </span>
-					</div>
 				</div>
+			</div>
+			<div
+				class="flex w-full flex-row items-center justify-start gap-2 bg-card-muted/60 border-t border-border/60 p-2"
+			>
+				<kbd
+					class="pointer-events-none hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-corner-down-left size-3"
+						aria-hidden="true"
+						><path d="M20 4v7a4 4 0 0 1-4 4H4"></path><path d="m9 10-5 5 5 5"
+						></path></svg
+					>
+				</kbd>
+				<span class="text-xs text-foreground/45"> Go to page </span>
 			</div>
 		</div>
 	</div>
