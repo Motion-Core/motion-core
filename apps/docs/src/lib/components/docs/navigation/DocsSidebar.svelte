@@ -6,7 +6,7 @@
 	} from "$lib/docs/manifest";
 	import { cn } from "$lib/utils/cn";
 	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
-	import ThemeToggle from "$lib/components/landing/ThemeToggle.svelte";
+	import ThemeToggle from "$lib/components/ui/ThemeToggle.svelte";
 	import SearchTrigger from "../search/SearchTrigger.svelte";
 	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
 

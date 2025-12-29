@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ThemeToggle from "./ThemeToggle.svelte";
+	import ThemeToggle from "../ui/ThemeToggle.svelte";
 	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
 	import type { SocialLink } from "./types";
 
