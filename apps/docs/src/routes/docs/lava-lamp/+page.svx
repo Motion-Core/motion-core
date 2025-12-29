@@ -1,6 +1,6 @@
 ---
 name: Lava Lamp
-description: A psychedelic lava lamp effect using raymarching shaders and SDFs.
+description: A smooth and organic lava lamp effect using raymarching shaders and SDFs.
 video: /previews/lava-lamp/preview.mp4
 poster: /previews/lava-lamp/poster.webp
 ---

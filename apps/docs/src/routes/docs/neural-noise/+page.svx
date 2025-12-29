@@ -1,0 +1,70 @@
+---
+name: Neural Noise
+description: A generative organic pattern using Compositional Pattern Producing Networks (CPPN).
+video: ""
+poster: ""
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import neuralNoiseSource from "motion-core/components/neural-noise/NeuralNoise.svelte?raw";
+	import sceneSource from "motion-core/components/neural-noise/NeuralNoiseScene.svelte?raw";
+	import NeuralNoiseDemo from "./NeuralNoiseDemo.svelte";
+	import neuralNoiseDemoSource from "./NeuralNoiseDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="neural-noise" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { NeuralNoise } from "motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: neuralNoiseDemoSource, language: "svelte" },
+		{ name: "NeuralNoise.svelte", code: neuralNoiseSource, language: "svelte" },
+		{ name: "NeuralNoiseScene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<NeuralNoiseDemo />
+</ComponentPreview>
+
+## Props
+
+### NeuralNoise
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "speed",
+			type: "number",
+			default: "1.0",
+			description: "Animation speed multiplier.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
