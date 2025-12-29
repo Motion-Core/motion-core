@@ -135,7 +135,8 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
         runtime_requirements.extend(record.dependencies.clone());
         dev_requirements.extend(record.dev_dependencies.clone());
 
-        let mut entry_path = None;
+        let mut entry_paths: Vec<PathBuf> = Vec::new();
+        let mut fallback_entry: Option<PathBuf> = None;
 
         for file in &record.files {
             let contents = ctx
@@ -167,20 +168,31 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
                 }
             }
 
-            if entry_path.is_none() && is_entry_file(file) {
-                entry_path = Some(destination.clone());
+            if is_entry_file(file) {
+                entry_paths.push(destination.clone());
+            }
+            if fallback_entry.is_none() && is_svelte_file(file) {
+                fallback_entry = Some(destination.clone());
             }
         }
 
-        if let Some(entry) = entry_path {
-            installed_components.push(InstalledComponent {
-                export_name: infer_export_name(slug),
-                entry_path: entry,
-            });
-        } else {
+        if entry_paths.is_empty() {
+            if let Some(entry) = fallback_entry.take() {
+                entry_paths.push(entry);
+            }
+        }
+
+        if entry_paths.is_empty() {
             reporter.warn(format_args!(
                 "component `{slug}` does not declare an entry file; skipping export update"
             ));
+        } else {
+            for (idx, entry) in entry_paths.into_iter().enumerate() {
+                installed_components.push(InstalledComponent {
+                    export_name: entry_export_name(slug, &entry, idx),
+                    entry_path: entry,
+                });
+            }
         }
     }
     file_spinner.finish_and_clear();
@@ -438,16 +450,30 @@ fn print_install_plan(
 
 fn is_entry_file(file: &ComponentFileRecord) -> bool {
     matches!(file.kind.as_deref(), Some("entry"))
-        || file
-            .path
-            .rsplit('/')
-            .next()
-            .map(|name| name.ends_with(".svelte"))
-            .unwrap_or(false)
 }
 
-fn infer_export_name(slug: &str) -> String {
-    slug.split(|c: char| !c.is_ascii_alphanumeric())
+fn is_svelte_file(file: &ComponentFileRecord) -> bool {
+    file.path
+        .rsplit('/')
+        .next()
+        .map(|name| name.ends_with(".svelte"))
+        .unwrap_or(false)
+}
+
+fn entry_export_name(slug: &str, entry_path: &Path, index: usize) -> String {
+    if index == 0 {
+        return format_export_name(slug);
+    }
+
+    entry_path
+        .file_stem()
+        .map(|stem| format_export_name(&stem.to_string_lossy()))
+        .unwrap_or_else(|| format_export_name(&format!("{slug}_{index}")))
+}
+
+fn format_export_name(identifier: &str) -> String {
+    identifier
+        .split(|c: char| !c.is_ascii_alphanumeric())
         .filter(|segment| !segment.is_empty())
         .map(|segment| {
             let mut chars = segment.chars();
@@ -790,6 +816,79 @@ mod tests {
                 .join("src/lib/motion-core/glass-pane/GlassPane.svelte")
                 .exists()
         );
+    }
+
+    #[test]
+    fn add_exports_multiple_entries() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let config_path = temp.path().join(CONFIG_FILE_NAME);
+        let json = serde_json::to_string(&Config::default()).expect("serialize config");
+        fs::write(&config_path, json).expect("write config");
+
+        let mut components = HashMap::new();
+        components.insert(
+            "flip-grid".into(),
+            ComponentRecord {
+                name: "Flip Grid".into(),
+                description: None,
+                category: None,
+                files: vec![
+                    ComponentFileRecord {
+                        path: "components/flip-grid/FlipGrid.svelte".into(),
+                        kind: Some("entry".into()),
+                        ..Default::default()
+                    },
+                    ComponentFileRecord {
+                        path: "components/flip-grid/FlipGridItem.svelte".into(),
+                        kind: Some("entry".into()),
+                        ..Default::default()
+                    },
+                ],
+                ..Default::default()
+            },
+        );
+        let registry = Registry {
+            name: "Motion Core".into(),
+            version: "0.1.0".into(),
+            description: None,
+            base_dependencies: HashMap::new(),
+            base_dev_dependencies: HashMap::new(),
+            components,
+        };
+        let ctx = build_context(&temp, registry);
+        ctx.registry().preload_component_manifest(
+            [
+                (
+                    "components/flip-grid/FlipGrid.svelte".into(),
+                    general_purpose::STANDARD.encode("<script>export default {};</script>"),
+                ),
+                (
+                    "components/flip-grid/FlipGridItem.svelte".into(),
+                    general_purpose::STANDARD.encode("<script>export default {};</script>"),
+                ),
+            ]
+            .into_iter()
+            .collect(),
+        );
+
+        let reporter = ConsoleReporter::new();
+        let args = AddArgs {
+            components: vec!["flip-grid".into()],
+            dry_run: false,
+            assume_yes: true,
+        };
+        let outcome = run(&ctx, &reporter, &args).unwrap();
+        assert_eq!(outcome, CommandOutcome::Completed);
+
+        let barrel = fs::read_to_string(
+            temp.path()
+                .join("src/lib/motion-core/index.ts"),
+        )
+        .expect("barrel file");
+        assert!(barrel.contains("export { default as FlipGrid } from \"./flip-grid/FlipGrid.svelte\";"));
+        assert!(barrel.contains(
+            "export { default as FlipGridItem } from \"./flip-grid/FlipGridItem.svelte\";"
+        ));
     }
 
     #[test]
