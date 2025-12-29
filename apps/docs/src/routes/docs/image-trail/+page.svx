@@ -74,7 +74,7 @@ import { ImageTrail } from "$lib/motion-core";
 	]}
 />
 
-### Config options
+### TrailConfig
 
 <ApiTable
 	headers={["Key", "Type", "Default"]}

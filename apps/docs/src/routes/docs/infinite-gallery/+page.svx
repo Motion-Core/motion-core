@@ -106,7 +106,7 @@ import { InfiniteGallery } from "$lib/motion-core";
 	]}
 />
 
-### Fade Settings
+### FadeSettings
 
 <ApiTable
 	headers={["Key", "Type", "Default"]}
@@ -139,7 +139,7 @@ import { InfiniteGallery } from "$lib/motion-core";
 	]}
 />
 
-### Blur Settings
+### BlurSettings
 
 <ApiTable
 	headers={["Key", "Type", "Default"]}

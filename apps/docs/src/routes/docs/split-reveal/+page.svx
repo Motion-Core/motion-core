@@ -80,7 +80,7 @@ import { SplitReveal } from "$lib/motion-core";
 	]}
 />
 
-### Config options
+### SplitRevealConfig
 
 <ApiTable
 	headers={["Key", "Type", "Default"]}
