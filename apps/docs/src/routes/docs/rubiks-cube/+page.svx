@@ -1,0 +1,129 @@
+---
+name: Rubiks Cube
+description: A dynamic Rubik's Cube that continuously rotates while a Fresnel rim glow traces each edge.
+video: /previews/rubiks-cube/preview.mp4
+poster: /previews/rubiks-cube/poster.webp
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
+	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
+	"$lib/components/docs/markdown/Step.svelte"; import rubiksCubeSource from
+	"motion-core/components/rubiks-cube/RubiksCube.svelte?raw"; import sceneSource
+	from "motion-core/components/rubiks-cube/RubiksCubeScene.svelte?raw"; import
+	RubiksCubeDemo from "./RubiksCubeDemo.svelte"; import demoSource from
+	"./RubiksCubeDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="rubiks-cube" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { RubiksCube } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: demoSource, language: "svelte" },
+		{ name: "RubiksCube.svelte", code: rubiksCubeSource, language: "svelte" },
+		{ name: "RubiksCubeScene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<RubiksCubeDemo />
+</ComponentPreview>
+
+## Props
+
+### RubiksCube
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "size",
+			type: "number",
+			default: "1",
+			description: "The size of the individual cubelets.",
+		},
+		{
+			prop: "duration",
+			type: "number",
+			default: "1.5",
+			description: "Duration of the rotation animation in seconds.",
+		},
+		{
+			prop: "gap",
+			type: "number",
+			default: "0.015",
+			description: "Gap between the cubelets.",
+		},
+		{
+			prop: "radius",
+			type: "number",
+			default: "0.125",
+			description: "Corner radius of the cubelets.",
+		},
+		{
+			prop: "fresnelConfig",
+			type: "FresnelConfig",
+			default: "Default Fresnel",
+			description: "Overrides for the Fresnel shader uniforms.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
+
+### FresnelConfig
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "color",
+			type: "THREE.ColorRepresentation",
+			default: '"#111113"',
+			description: "Base color of the cubelets before the rim glow is applied.",
+		},
+		{
+			key: "rimColor",
+			type: "THREE.ColorRepresentation",
+			default: '"#FF6900"',
+			description: "Hex or color that controls the glowing rim hue.",
+		},
+		{
+			key: "rimPower",
+			type: "number",
+			default: "6",
+			description:
+				"Power used when shaping the Fresnel falloff (higher = sharper edge).",
+		},
+		{
+			key: "rimIntensity",
+			type: "number",
+			default: "1.5",
+			description: "Multiplier controlling the overall rim brightness.",
+		},
+	]}
+/>

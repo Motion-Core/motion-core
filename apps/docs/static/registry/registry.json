@@ -466,6 +466,38 @@
         }
       ]
     },
+    "rubiks-cube": {
+      "slug": "rubiks-cube",
+      "name": "Rubiks Cube",
+      "description": "A dynamic Rubik's Cube that continuously rotates while a Fresnel rim glow traces each edge.",
+      "category": "canvas",
+      "preview": {
+        "video": "/previews/rubiks-cube/preview.mp4",
+        "poster": "/previews/rubiks-cube/poster.webp"
+      },
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/rubiks-cube/RubiksCube.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/rubiks-cube/RubiksCubeScene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "slideshow": {
       "slug": "slideshow",
       "name": "Slideshow",

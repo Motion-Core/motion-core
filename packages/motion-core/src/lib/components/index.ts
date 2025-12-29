@@ -18,3 +18,4 @@ export { default as LavaLamp } from "./lava-lamp/LavaLamp.svelte";
 export { default as NeuralNoise } from "./neural-noise/NeuralNoise.svelte";
 export { default as RadialGallery } from "./radial-gallery/RadialGallery.svelte";
 export * from "./flip-grid";
+export { default as RubiksCube } from "./rubiks-cube/RubiksCube.svelte";

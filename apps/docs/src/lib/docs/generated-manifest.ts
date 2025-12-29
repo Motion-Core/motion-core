@@ -164,6 +164,18 @@ export const docsManifest: ComponentInfo[] = [
     }
   },
   {
+    "slug": "rubiks-cube",
+    "name": "Rubiks Cube",
+    "category": "canvas",
+    "video": "/previews/rubiks-cube/preview.mp4",
+    "poster": "/previews/rubiks-cube/poster.webp",
+    "dependencies": {
+      "@threlte/core": "^8.3.1",
+      "@threlte/extras": "^9.7.1",
+      "three": "^0.182.0"
+    }
+  },
+  {
     "slug": "slideshow",
     "name": "Slideshow",
     "category": "showcase",
