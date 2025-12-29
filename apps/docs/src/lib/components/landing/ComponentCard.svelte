@@ -72,7 +72,7 @@
 	data-component-card
 >
 	<div
-		class="relative aspect-video overflow-hidden rounded-xl border border-border/60 bg-muted"
+		class="bg-muted relative aspect-video overflow-hidden rounded-xl border border-border/60"
 	>
 		{#if component.poster}
 			<img
@@ -101,7 +101,7 @@
 			</video>
 		{/if}
 	</div>
-	<div class="flex items-center justify-between w-full p-2">
+	<div class="flex w-full items-center justify-between p-2">
 		<p
 			class="pointer-events-none text-sm font-medium text-foreground font-display"
 		>

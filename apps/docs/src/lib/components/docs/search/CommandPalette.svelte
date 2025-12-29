@@ -217,7 +217,7 @@
 				</div>
 			</div>
 			<div
-				class="flex w-full flex-row items-center justify-start gap-2 bg-card-muted/60 border-t border-border/60 p-2"
+				class="flex w-full flex-row items-center justify-start gap-2 border-t border-border/60 bg-card-muted/60 p-2"
 			>
 				<kbd
 					class="pointer-events-none hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"

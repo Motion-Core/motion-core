@@ -1,6 +1,5 @@
 <script lang="ts">
 	import "./layout.css";
-	import { onNavigate } from "$app/navigation";
 	import { page } from "$app/state";
 	import CommandPalette from "$lib/components/docs/search/CommandPalette.svelte";
 

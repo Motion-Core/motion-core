@@ -68,7 +68,7 @@
 ></div>
 
 <div
-	class="sidebar fixed inset-y-0 right-0 z-50 w-3/4 max-w-sm border-l border-border bg-background shadow-xl lg:hidden text-foreground/70"
+	class="sidebar fixed inset-y-0 right-0 z-50 w-3/4 max-w-sm border-l border-border bg-background text-foreground/70 shadow-xl lg:hidden"
 	class:active={isOpen}
 >
 	<div class="absolute top-0 right-0 flex justify-end p-4">
