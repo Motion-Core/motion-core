@@ -2,6 +2,7 @@
 	import { gsap } from "gsap/dist/gsap";
 	import { CustomEase } from "gsap/dist/CustomEase";
 	import { SplitText } from "gsap/dist/SplitText";
+	import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 	import type { Snippet } from "svelte";
 	import { onMount } from "svelte";
 	import { cn } from "../../utils/cn";
@@ -18,6 +19,9 @@
 		class?: string;
 		mode?: SplitMode;
 		config?: SplitRevealConfig;
+		delay?: number;
+		triggerOnScroll?: boolean;
+		scroller?: string | HTMLElement;
 		as?: keyof HTMLElementTagNameMap;
 		[prop: string]: unknown;
 	}
@@ -36,6 +40,7 @@
 	onMount(() => {
 		gsap.registerPlugin(SplitText);
 		gsap.registerPlugin(CustomEase);
+		gsap.registerPlugin(ScrollTrigger);
 		CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
 	});
 
@@ -44,6 +49,9 @@
 	const className = $derived(props.class ?? "");
 	const mode = $derived<SplitMode>(props.mode ?? "lines");
 	const as = $derived<keyof HTMLElementTagNameMap>(props.as ?? "div");
+	const delay = $derived(props.delay ?? 0);
+	const triggerOnScroll = $derived(props.triggerOnScroll ?? false);
+	const scroller = $derived(props.scroller);
 
 	const resolvedConfig = $derived.by(() => {
 		const overrides = props.config?.[mode];
@@ -61,6 +69,9 @@
 			mode: _mode,
 			config: _config,
 			as: _as,
+			delay: _delay,
+			triggerOnScroll: _triggerOnScroll,
+			scroller: _scroller,
 			...rest
 		} = props;
 		return rest;
@@ -102,6 +113,14 @@
 			stagger: config.stagger,
 			ease: "motion-core-ease",
 			lazy: false,
+			delay: delay,
+			scrollTrigger: triggerOnScroll
+				? {
+						trigger: node,
+						scroller: scroller,
+						start: "top 85%",
+					}
+				: undefined,
 		});
 
 		return () => {

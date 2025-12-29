@@ -16,7 +16,12 @@
 
 <div class="flex h-full w-full items-center justify-center p-4">
 	{#key `${activeMode}-${replayKey}`}
-		<SplitReveal mode={activeMode} class="block max-w-3xl text-center text-xl">
+		<SplitReveal
+			triggerOnScroll
+			scroller="#docs-content-container"
+			mode={activeMode}
+			class="block max-w-3xl text-center text-xl"
+		>
 			We’re using GSAP’s SplitText to break this content into lines, words, and
 			individual characters. Experiment with staggered tweens, custom ease
 			functions, and dynamic transforms to bring your headlines to life.

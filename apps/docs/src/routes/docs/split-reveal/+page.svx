@@ -77,6 +77,24 @@ import { SplitReveal } from "$lib/motion-core";
 			default: "DEFAULT_CONFIG",
 			description: "Optional per-mode overrides for duration/stagger.",
 		},
+		{
+			prop: "delay",
+			type: "number",
+			default: "0",
+			description: "Delay before the animation starts (in seconds).",
+		},
+		{
+			prop: "triggerOnScroll",
+			type: "boolean",
+			default: "false",
+			description: "If true, animation starts when element enters viewport.",
+		},
+		{
+			prop: "scroller",
+			type: "string | HTMLElement",
+			default: "undefined",
+			description: "Custom scroll container for ScrollTrigger.",
+		},
 	]}
 />
 
