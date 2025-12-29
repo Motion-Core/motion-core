@@ -89,11 +89,12 @@ import { SplitReveal } from "$lib/motion-core";
 			default: "false",
 			description: "If true, animation starts when element enters viewport.",
 		},
-		{
-			prop: "scroller",
+			{
+			prop: "scrollElement",
 			type: "string | HTMLElement",
 			default: "undefined",
-			description: "Custom scroll container for ScrollTrigger.",
+			description:
+				"Optional selector or element for the scroll container. Useful when scrolling within a specific div instead of the window.",
 		},
 	]}
 />

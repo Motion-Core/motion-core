@@ -18,7 +18,7 @@
 	{#key `${activeMode}-${replayKey}`}
 		<SplitReveal
 			triggerOnScroll
-			scroller="#docs-content-container"
+			scrolleElement="#docs-content-container"
 			mode={activeMode}
 			class="block max-w-3xl text-center text-xl"
 		>

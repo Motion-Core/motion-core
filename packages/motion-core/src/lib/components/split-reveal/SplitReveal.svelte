@@ -21,7 +21,7 @@
 		config?: SplitRevealConfig;
 		delay?: number;
 		triggerOnScroll?: boolean;
-		scroller?: string | HTMLElement;
+		scrolleElement?: string | HTMLElement;
 		as?: keyof HTMLElementTagNameMap;
 		[prop: string]: unknown;
 	}
@@ -51,7 +51,7 @@
 	const as = $derived<keyof HTMLElementTagNameMap>(props.as ?? "div");
 	const delay = $derived(props.delay ?? 0);
 	const triggerOnScroll = $derived(props.triggerOnScroll ?? false);
-	const scroller = $derived(props.scroller);
+	const scrolleElement = $derived(props.scrolleElement);
 
 	const resolvedConfig = $derived.by(() => {
 		const overrides = props.config?.[mode];
@@ -71,7 +71,7 @@
 			as: _as,
 			delay: _delay,
 			triggerOnScroll: _triggerOnScroll,
-			scroller: _scroller,
+			scrolleElement: _scrolleElement,
 			...rest
 		} = props;
 		return rest;
@@ -117,7 +117,7 @@
 			scrollTrigger: triggerOnScroll
 				? {
 						trigger: node,
-						scroller: scroller,
+						scroller: scrolleElement,
 						start: "top 85%",
 					}
 				: undefined,
