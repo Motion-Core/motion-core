@@ -6,13 +6,42 @@
 	import { cn } from "../../utils/cn";
 
 	interface Props {
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Gap between marquee items in pixels.
+		 * @default 32
+		 */
 		gap?: number;
+		/**
+		 * Content to be scrolled in the marquee.
+		 */
 		children?: Snippet;
+		/**
+		 * Number of times to repeat the content to ensure seamless scrolling.
+		 * @default 3
+		 */
 		repeat?: number;
+		/**
+		 * Duration of one full loop in seconds.
+		 * @default 5
+		 */
 		duration?: number;
+		/**
+		 * Factor to increase speed based on scroll velocity.
+		 * @default 0.5
+		 */
 		velocity?: number;
+		/**
+		 * Whether to scroll in the opposite direction.
+		 * @default false
+		 */
 		reversed?: boolean;
+		/**
+		 * The element to watch for scroll events to adjust velocity.
+		 */
 		scrollElement?: string | HTMLElement;
 	}
 

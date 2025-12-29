@@ -4,8 +4,18 @@
 	import { cn } from "../../utils/cn";
 
 	interface Props {
+		/**
+		 * Array of text strings to loop through.
+		 */
 		texts: string[];
+		/**
+		 * Interval in milliseconds between text changes.
+		 * @default 2000
+		 */
 		interval?: number;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
 	}
 

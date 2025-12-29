@@ -10,9 +10,23 @@
 	}
 
 	interface Props {
+		/**
+		 * Number of columns to distribute logos into.
+		 * @default 2
+		 */
 		columnCount?: number;
+		/**
+		 * Array of logo objects containing name, id, and component.
+		 */
 		logos: Logo[];
+		/**
+		 * Interval in milliseconds between logo cycles.
+		 * @default 2000
+		 */
 		cycleInterval?: number;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
 	}
 

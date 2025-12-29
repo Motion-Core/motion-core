@@ -5,9 +5,23 @@
 	import { NoToneMapping } from "three";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		src: string;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Initial grid size for the pixelation effect.
+		 * @default 6.0
+		 */
 		initialGridSize?: number;
+		/**
+		 * Duration of each step in the depixelation animation.
+		 * @default 0.15
+		 */
 		stepDuration?: number;
 		[key: string]: unknown;
 	}

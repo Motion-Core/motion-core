@@ -9,8 +9,17 @@
 	}
 
 	interface ComponentProps {
+		/**
+		 * Array of images to preload/display during the sequence.
+		 */
 		images: Image[];
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Callback function triggered when the preloading animation completes.
+		 */
 		onComplete?: () => void;
 		[prop: string]: unknown;
 	}

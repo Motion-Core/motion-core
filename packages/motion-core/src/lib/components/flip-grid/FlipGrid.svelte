@@ -7,12 +7,36 @@
 	import type { Snippet } from "svelte";
 
 	interface Props {
+		/**
+		 * Snippet to render the grid items.
+		 */
 		children?: Snippet;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Animation duration in seconds.
+		 * @default 0.5
+		 */
 		duration?: number;
+		/**
+		 * Animation easing function.
+		 * @default "power2.inOut"
+		 */
 		ease?: string;
+		/**
+		 * Stagger delay between items in seconds.
+		 * @default 0
+		 */
 		stagger?: number;
+		/**
+		 * Number of columns for the grid.
+		 */
 		columns?: number | string;
+		/**
+		 * Additional inline styles.
+		 */
 		style?: string;
 		[key: string]: unknown;
 	}

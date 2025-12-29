@@ -3,9 +3,21 @@
 	import * as THREE from "three";
 
 	interface Props {
+		/**
+		 * The texture to apply to the plane.
+		 */
 		texture: THREE.Texture;
+		/**
+		 * Position of the plane in 3D space [x, y, z].
+		 */
 		position: [number, number, number];
+		/**
+		 * Scale of the plane [x, y, z].
+		 */
 		scale: [number, number, number];
+		/**
+		 * Shader material to use for the plane.
+		 */
 		material: THREE.ShaderMaterial;
 	}
 

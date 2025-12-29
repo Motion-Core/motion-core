@@ -3,6 +3,10 @@
 	import { Vector2, ShaderMaterial } from "three";
 
 	interface Props {
+		/**
+		 * Speed of the noise animation.
+		 * @default 1.0
+		 */
 		speed?: number;
 	}
 

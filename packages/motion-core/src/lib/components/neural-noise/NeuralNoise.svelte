@@ -5,7 +5,14 @@
 	import { NoToneMapping } from "three";
 
 	interface Props {
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Speed of the noise animation.
+		 * @default 1.0
+		 */
 		speed?: number;
 		[key: string]: unknown;
 	}

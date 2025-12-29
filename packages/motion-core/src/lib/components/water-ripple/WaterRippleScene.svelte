@@ -5,7 +5,14 @@
 	import brushUrl from "../../assets/water-ripple-brush.png";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		image: string;
+		/**
+		 * Size of the ripple brush.
+		 * @default 100
+		 */
 		brushSize?: number;
 	}
 

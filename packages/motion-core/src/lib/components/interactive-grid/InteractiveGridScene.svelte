@@ -13,12 +13,33 @@
 	import { useTexture } from "@threlte/extras";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		image: string;
+		/**
+		 * Grid resolution (number of cells per row/column).
+		 */
 		grid: number;
+		/**
+		 * Radius of mouse influence.
+		 */
 		mouseSize: number;
+		/**
+		 * Strength of the distortion effect.
+		 */
 		strength: number;
+		/**
+		 * Relaxation factor for returning to original state (0-1).
+		 */
 		relaxation: number;
+		/**
+		 * Current normalized mouse X position.
+		 */
 		mouseX: number;
+		/**
+		 * Current normalized mouse Y position.
+		 */
 		mouseY: number;
 	}
 

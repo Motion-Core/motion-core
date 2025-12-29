@@ -10,10 +10,29 @@
 	import { useTexture } from "@threlte/extras";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		image: string;
+		/**
+		 * Grid density for the ASCII effect.
+		 * @default 25.0
+		 */
 		density?: number;
+		/**
+		 * Intensity of the ASCII character generation threshold.
+		 * @default 25.0
+		 */
 		strength?: number;
+		/**
+		 * Foreground color of the ASCII characters.
+		 * @default "#00ff00"
+		 */
 		color?: string;
+		/**
+		 * Background color.
+		 * @default "#000000"
+		 */
 		backgroundColor?: string;
 	}
 

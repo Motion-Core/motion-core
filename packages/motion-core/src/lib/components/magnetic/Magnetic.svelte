@@ -4,9 +4,23 @@
 	import type { Snippet } from "svelte";
 
 	interface Props {
+		/**
+		 * Snippet to render content.
+		 */
 		children?: Snippet;
+		/**
+		 * Animation duration in seconds.
+		 * @default 1
+		 */
 		duration?: number;
+		/**
+		 * Animation easing function.
+		 * @default "elastic.out(1, 0.3)"
+		 */
 		ease?: string;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
 	}
 

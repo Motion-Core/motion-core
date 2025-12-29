@@ -3,11 +3,29 @@
 	import { Vector4, ShaderMaterial, Color } from "three";
 
 	interface Props {
+		/**
+		 * Color of the rim light.
+		 */
 		color: string;
+		/**
+		 * Background color of the scene.
+		 */
 		backgroundColor: string;
+		/**
+		 * Speed of the lava animation.
+		 */
 		speed: number;
+		/**
+		 * Fresnel power for the edge lighting effect.
+		 */
 		fresnelPower: number;
+		/**
+		 * Base radius of the blobs.
+		 */
 		radius: number;
+		/**
+		 * Smoothness of the blob blending (metaball effect).
+		 */
 		smoothness: number;
 	}
 

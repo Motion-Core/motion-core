@@ -5,11 +5,33 @@
 	import { NoToneMapping } from "three";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		src: string;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Grid density for the ASCII effect.
+		 * @default 25
+		 */
 		density?: number;
+		/**
+		 * Intensity of the ASCII character generation threshold.
+		 * @default 25
+		 */
 		strength?: number;
+		/**
+		 * Foreground color of the ASCII characters.
+		 * @default "#00ff00"
+		 */
 		color?: string;
+		/**
+		 * Background color.
+		 * @default "#000000"
+		 */
 		backgroundColor?: string;
 		[key: string]: unknown;
 	}

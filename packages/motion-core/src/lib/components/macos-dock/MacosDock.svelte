@@ -10,10 +10,28 @@
 	}
 
 	interface Props {
+		/**
+		 * Array of dock items to display.
+		 */
 		items: DockItem[];
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Base width of items in 'em'.
+		 * @default 4
+		 */
 		baseWidth?: number;
+		/**
+		 * Magnification factor on hover.
+		 * @default 1.5
+		 */
 		magnification?: number;
+		/**
+		 * Distance of influence for the magnification effect.
+		 * @default 3
+		 */
 		distance?: number;
 	}
 

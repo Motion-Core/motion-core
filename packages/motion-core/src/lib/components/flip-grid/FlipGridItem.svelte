@@ -4,9 +4,21 @@
 	import type { Snippet } from "svelte";
 
 	interface Props {
+		/**
+		 * Snippet to render the item content.
+		 */
 		children?: Snippet;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Unique identifier for FLIP animation.
+		 */
 		id: string;
+		/**
+		 * Additional inline styles.
+		 */
 		style?: string;
 		[key: string]: unknown;
 	}

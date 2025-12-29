@@ -5,12 +5,39 @@
 	import { NoToneMapping } from "three";
 
 	interface Props {
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Color of the rim light.
+		 * @default "#ffffff"
+		 */
 		color?: string;
+		/**
+		 * Background color of the scene.
+		 * @default "#ffffff"
+		 */
 		backgroundColor?: string;
+		/**
+		 * Speed of the lava animation.
+		 * @default 1.0
+		 */
 		speed?: number;
+		/**
+		 * Fresnel power for the edge lighting effect.
+		 * @default 3.0
+		 */
 		fresnelPower?: number;
+		/**
+		 * Base radius of the blobs.
+		 * @default 1
+		 */
 		radius?: number;
+		/**
+		 * Smoothness of the blob blending (metaball effect).
+		 * @default 0.1
+		 */
 		smoothness?: number;
 		[key: string]: unknown;
 	}

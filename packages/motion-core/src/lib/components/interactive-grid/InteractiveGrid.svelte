@@ -4,11 +4,33 @@
 	import { cn } from "../../utils/cn";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		image: string;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Grid resolution (number of cells per row/column).
+		 * @default 15
+		 */
 		grid?: number;
+		/**
+		 * Radius of mouse influence.
+		 * @default 0.15
+		 */
 		mouseSize?: number;
+		/**
+		 * Strength of the distortion effect.
+		 * @default 0.35
+		 */
 		strength?: number;
+		/**
+		 * Relaxation factor for returning to original state (0-1).
+		 * @default 0.9
+		 */
 		relaxation?: number;
 		[key: string]: unknown;
 	}

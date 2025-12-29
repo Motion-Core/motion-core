@@ -5,14 +5,47 @@
 	import { cn } from "../../utils/cn";
 
 	interface Props<T> {
+		/**
+		 * Array of items to display in the gallery.
+		 */
 		items: T[];
+		/**
+		 * Snippet to render each item. Receives the item and its index.
+		 */
 		children: Snippet<[T, number]>;
+		/**
+		 * Radius of the circular gallery in pixels.
+		 * @default 600
+		 */
 		radius?: number;
+		/**
+		 * Duration of one full rotation in seconds.
+		 * @default 20
+		 */
 		duration?: number;
+		/**
+		 * Whether to rotate in the opposite direction.
+		 * @default false
+		 */
 		reversed?: boolean;
+		/**
+		 * Vertical offset of the circle center from the bottom in pixels.
+		 * @default 0
+		 */
 		offset?: number;
+		/**
+		 * Gap between items in pixels.
+		 * @default 0
+		 */
 		gap?: number;
+		/**
+		 * Estimated size of each element (width) for calculation.
+		 * @default 100
+		 */
 		elementSize?: number;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
 	}
 

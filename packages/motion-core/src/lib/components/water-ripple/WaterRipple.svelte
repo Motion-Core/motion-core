@@ -5,8 +5,18 @@
 	import { NoToneMapping } from "three";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		src: string;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Size of the ripple brush.
+		 * @default 100
+		 */
 		brushSize?: number;
 		[key: string]: unknown;
 	}

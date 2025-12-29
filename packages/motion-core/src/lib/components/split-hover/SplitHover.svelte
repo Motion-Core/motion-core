@@ -7,8 +7,19 @@
 	import { cn } from "../../utils/cn";
 
 	interface ComponentProps {
+		/**
+		 * The content to duplicate and animate on hover.
+		 */
 		children?: Snippet;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * An optional external element that triggers the hover effect.
+		 * If null, the component's wrapper triggers the effect.
+		 * @default null
+		 */
 		hoverTarget?: HTMLElement | null;
 		[prop: string]: unknown;
 	}

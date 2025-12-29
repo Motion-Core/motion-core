@@ -10,9 +10,22 @@
 	}
 
 	interface Props {
+		/**
+		 * Array of logos for this specific column.
+		 */
 		logos: Logo[];
+		/**
+		 * Index of the column (used for offset calculation).
+		 */
 		index: number;
+		/**
+		 * Interval in milliseconds between logo cycles.
+		 * @default 2000
+		 */
 		cycleInterval?: number;
+		/**
+		 * Additional CSS classes for the column.
+		 */
 		class?: string;
 	}
 

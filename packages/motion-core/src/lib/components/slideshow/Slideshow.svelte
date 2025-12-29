@@ -9,7 +9,13 @@
 	}
 
 	interface ComponentProps {
+		/**
+		 * Array of images to display in the slideshow.
+		 */
 		images: Image[];
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
 		[prop: string]: unknown;
 	}

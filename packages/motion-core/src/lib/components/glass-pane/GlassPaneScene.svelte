@@ -9,11 +9,34 @@
 	import { useTexture } from "@threlte/extras";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		image: string;
+		/**
+		 * Strength of the refraction/distortion effect.
+		 * @default 1.0
+		 */
 		distortion?: number;
+		/**
+		 * Amount of chromatic aberration (color splitting).
+		 * @default 0.005
+		 */
 		chromaticAberration?: number;
+		/**
+		 * Speed of the wave animation.
+		 * @default 1.0
+		 */
 		speed?: number;
+		/**
+		 * Amplitude of the wave distortion.
+		 * @default 0.05
+		 */
 		waviness?: number;
+		/**
+		 * Frequency of the wave distortion.
+		 * @default 6.0
+		 */
 		frequency?: number;
 	}
 

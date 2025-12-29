@@ -7,18 +7,38 @@
 	type ImageItem = string | { src: string; alt?: string };
 
 	interface Props {
+		/**
+		 * Array of images to display. Can be strings (URL) or objects with src and alt.
+		 */
 		images: ImageItem[];
+		/**
+		 * Scroll speed multiplier.
+		 * @default 1
+		 */
 		speed?: number;
+		/**
+		 * Number of images visible in the tunnel at once.
+		 * @default 8
+		 */
 		visibleCount?: number;
+		/**
+		 * Configuration for fade in/out effects based on depth.
+		 */
 		fadeSettings?: {
 			fadeIn: { start: number; end: number };
 			fadeOut: { start: number; end: number };
 		};
+		/**
+		 * Configuration for blur in/out effects based on depth.
+		 */
 		blurSettings?: {
 			blurIn: { start: number; end: number };
 			blurOut: { start: number; end: number };
 			maxBlur: number;
 		};
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
 		[key: string]: unknown;
 	}

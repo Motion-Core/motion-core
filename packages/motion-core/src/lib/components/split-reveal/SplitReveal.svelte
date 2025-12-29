@@ -15,13 +15,41 @@
 	type SplitRevealConfig = Partial<Record<SplitMode, ModeSettings>>;
 
 	interface ComponentProps {
+		/**
+		 * The content to be split and revealed.
+		 */
 		children?: Snippet;
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * The splitting mode: 'lines', 'words', or 'chars'.
+		 * @default "lines"
+		 */
 		mode?: SplitMode;
+		/**
+		 * Configuration for animation duration and stagger for each mode.
+		 */
 		config?: SplitRevealConfig;
+		/**
+		 * Delay before the animation starts (in seconds).
+		 * @default 0
+		 */
 		delay?: number;
+		/**
+		 * Whether to trigger the animation on scroll.
+		 * @default false
+		 */
 		triggerOnScroll?: boolean;
+		/**
+		 * The element to use as the scroll trigger (optional).
+		 */
 		scrolleElement?: string | HTMLElement;
+		/**
+		 * The HTML tag to use for the wrapper.
+		 * @default "div"
+		 */
 		as?: keyof HTMLElementTagNameMap;
 		[prop: string]: unknown;
 	}

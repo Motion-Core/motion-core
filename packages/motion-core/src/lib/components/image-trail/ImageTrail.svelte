@@ -3,17 +3,65 @@
 	import { cn } from "../../utils/cn";
 
 	interface TrailConfig {
+		/**
+		 * Time in ms before an image is removed.
+		 * @default 600
+		 */
 		imageLifespan?: number;
+		/**
+		 * Interval in ms for checking and removing expired images.
+		 * @default 16
+		 */
 		removalTickMs?: number;
+		/**
+		 * Minimum distance in pixels the mouse must move to spawn a new image.
+		 * @default 40
+		 */
 		mouseThreshold?: number;
+		/**
+		 * Minimum movement required to be considered active.
+		 * @default 5
+		 */
 		minMovementForImage?: number;
+		/**
+		 * Duration of the fade-in animation in ms.
+		 * @default 600
+		 */
 		inDuration?: number;
+		/**
+		 * Duration of the fade-out animation in ms.
+		 * @default 800
+		 */
 		outDuration?: number;
+		/**
+		 * Factor to increase rotation based on speed.
+		 * @default 3
+		 */
 		maxRotationFactor?: number;
+		/**
+		 * Base rotation angle in degrees.
+		 * @default 30
+		 */
 		baseRotation?: number;
+		/**
+		 * Smoothing factor for speed calculation (0-1).
+		 * @default 0.25
+		 */
 		speedSmoothingFactor?: number;
+		/**
+		 * Minimum size of the image in pixels.
+		 * @default 260
+		 */
 		minImageSize?: number;
+		/**
+		 * Maximum size of the image in pixels.
+		 * @default 340
+		 */
 		maxImageSize?: number;
+		/**
+		 * Stagger delay for removing images in ms.
+		 * @default 40
+		 */
 		staggerOut?: number;
 	}
 
@@ -35,8 +83,17 @@
 	const POOL_CAP = 24;
 
 	interface ComponentProps {
+		/**
+		 * Array of image sources to use for the trail.
+		 */
 		images: string[];
+		/**
+		 * Additional CSS classes for the container.
+		 */
 		class?: string;
+		/**
+		 * Configuration options for the trail effect.
+		 */
 		config?: TrailConfig;
 		[prop: string]: unknown;
 	}
