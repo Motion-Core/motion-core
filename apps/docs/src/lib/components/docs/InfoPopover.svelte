@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { scale } from "svelte/transition";
-	import { onMount } from "svelte";
+	import { onMount, tick } from "svelte";
 
 	let { description }: { description: string } = $props();
 
@@ -8,17 +8,47 @@
 	let popoverRef: HTMLDivElement | undefined = $state();
 	let triggerRef: HTMLButtonElement | undefined = $state();
 	let coords = $state({ top: 0, left: 0 });
+	let transform = $state("translate(-50%, -100%)");
 
 	function toggle() {
 		isOpen = !isOpen;
 	}
 
-	function updatePosition() {
-		if (triggerRef) {
-			const rect = triggerRef.getBoundingClientRect();
-			coords.left = rect.left + rect.width / 2;
-			coords.top = rect.top;
+	async function updatePosition() {
+		if (!triggerRef) return;
+
+		if (!popoverRef) await tick();
+		if (!popoverRef) return;
+
+		const triggerRect = triggerRef.getBoundingClientRect();
+		const popoverRect = popoverRef.getBoundingClientRect();
+		const padding = 10;
+
+		let left = triggerRect.left + triggerRect.width / 2;
+		const halfWidth = popoverRect.width / 2;
+
+		if (left - halfWidth < padding) {
+			left = padding + halfWidth;
+		} else if (left + halfWidth > window.innerWidth - padding) {
+			left = window.innerWidth - padding - halfWidth;
 		}
+		coords.left = left;
+
+		const gap = 8;
+		const spaceAbove = triggerRect.top - gap - padding;
+		const spaceBelow =
+			window.innerHeight - (triggerRect.bottom + gap + padding);
+
+		let top = triggerRect.top - gap;
+		let trans = "translate(-50%, -100%)";
+
+		if (spaceAbove < popoverRect.height && spaceBelow > spaceAbove) {
+			top = triggerRect.bottom + gap;
+			trans = "translate(-50%, 0)";
+		}
+
+		coords.top = top;
+		transform = trans;
 	}
 
 	function handleClickOutside(event: MouseEvent) {
@@ -78,8 +108,7 @@
 			bind:this={popoverRef}
 			transition:scale={{ duration: 150, start: 0.95 }}
 			class="fixed z-50 w-64 rounded-lg border border-border bg-card p-3 text-sm leading-normal text-foreground shadow-lg"
-			style="top: {coords.top -
-				8}px; left: {coords.left}px; transform: translate(-50%, -100%);"
+			style="top: {coords.top}px; left: {coords.left}px; transform: {transform};"
 		>
 			{description}
 		</div>
