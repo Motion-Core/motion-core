@@ -7,14 +7,14 @@ poster: /previews/lava-lamp/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import lavaLampSource from "motion-core/components/lava-lamp/LavaLamp.svelte?raw";
-	import sceneSource from "motion-core/components/lava-lamp/LavaLampScene.svelte?raw";
-	import LavaLampDemo from "./LavaLampDemo.svelte";
-	import lavaLampDemoSource from "./LavaLampDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
+	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
+	"$lib/components/docs/markdown/Step.svelte"; import lavaLampSource from
+	"motion-core/components/lava-lamp/LavaLamp.svelte?raw"; import sceneSource
+	from "motion-core/components/lava-lamp/LavaLampScene.svelte?raw"; import
+	LavaLampDemo from "./LavaLampDemo.svelte"; import lavaLampDemoSource from
+	"./LavaLampDemo.svelte?raw";
 </script>
 
 ## Installation

@@ -7,14 +7,15 @@ poster: ""
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import neuralNoiseSource from "motion-core/components/neural-noise/NeuralNoise.svelte?raw";
-	import sceneSource from "motion-core/components/neural-noise/NeuralNoiseScene.svelte?raw";
-	import NeuralNoiseDemo from "./NeuralNoiseDemo.svelte";
-	import neuralNoiseDemoSource from "./NeuralNoiseDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
+	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
+	"$lib/components/docs/markdown/Step.svelte"; import neuralNoiseSource from
+	"motion-core/components/neural-noise/NeuralNoise.svelte?raw"; import
+	sceneSource from
+	"motion-core/components/neural-noise/NeuralNoiseScene.svelte?raw"; import
+	NeuralNoiseDemo from "./NeuralNoiseDemo.svelte"; import neuralNoiseDemoSource
+	from "./NeuralNoiseDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -31,7 +32,8 @@ poster: ""
 import { NeuralNoise } from "motion-core";
 ```
 
-	</Step>
+    </Step>
+
 </Steps>
 
 ## Usage

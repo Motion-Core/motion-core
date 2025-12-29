@@ -218,7 +218,6 @@
       },
       "dependencies": {
         "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
         "three": "^0.182.0"
       },
       "devDependencies": {
@@ -356,8 +355,8 @@
       "description": "A generative organic pattern using Compositional Pattern Producing Networks (CPPN).",
       "category": "canvas",
       "preview": {
-        "video": "",
-        "poster": ""
+        "video": "/previews/neural-noise/preview.mp4",
+        "poster": "/previews/neural-noise/poster.webp"
       },
       "dependencies": {
         "@threlte/core": "^8.3.1",

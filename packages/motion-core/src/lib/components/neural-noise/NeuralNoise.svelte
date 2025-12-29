@@ -10,11 +10,7 @@
 		[key: string]: unknown;
 	}
 
-	let {
-		class: className = "",
-		speed = 1.0,
-		...rest
-	}: Props = $props();
+	let { class: className = "", speed = 1.0, ...rest }: Props = $props();
 
 	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
