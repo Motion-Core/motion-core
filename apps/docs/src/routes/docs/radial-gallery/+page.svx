@@ -1,0 +1,115 @@
+---
+name: Radial Gallery
+description: A rotating circular gallery that creates an arch/rainbow layout, perfect for hero sections.
+video: /previews/radial-gallery/preview.mp4
+poster: /previews/radial-gallery/poster.webp
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
+	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
+	"$lib/components/docs/markdown/Step.svelte"; import radialGallerySource from
+	"motion-core/components/radial-gallery/RadialGallery.svelte?raw"; import
+	RadialGalleryDemo from "./RadialGalleryDemo.svelte"; import
+	radialGalleryDemoSource from "./RadialGalleryDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="radial-gallery" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { RadialGallery } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: radialGalleryDemoSource, language: "svelte" },
+		{
+			name: "RadialGallery.svelte",
+			code: radialGallerySource,
+			language: "svelte",
+		},
+	]}
+>
+	<RadialGalleryDemo />
+</ComponentPreview>
+
+## Props
+
+### RadialGallery
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "items",
+			type: "T[]",
+			default: "—",
+			description: "Array of data items to render.",
+		},
+		{
+			prop: "children",
+			type: "Snippet<[T, number]>",
+			default: "—",
+			description: "Snippet to render for each item.",
+		},
+		{
+			prop: "radius",
+			type: "number",
+			default: "600",
+			description: "Radius of the circle in pixels.",
+		},
+		{
+			prop: "duration",
+			type: "number",
+			default: "20",
+			description: "Duration of one full rotation in seconds.",
+		},
+		{
+			prop: "reversed",
+			type: "boolean",
+			default: "false",
+			description: "Reverse the rotation direction.",
+		},
+		{
+			prop: "offset",
+			type: "number",
+			default: "0",
+			description: "Vertical offset from the bottom in pixels.",
+		},
+		{
+			prop: "gap",
+			type: "number",
+			default: "0",
+			description: "Gap between items in pixels.",
+		},
+		{
+			prop: "elementSize",
+			type: "number",
+			default: "100",
+			description: "Size of each element for layout calculations.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: "—",
+			description: "Additional CSS classes.",
+		},
+	]}
+/>
