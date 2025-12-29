@@ -28,7 +28,7 @@
 	const sortedCategories = Object.keys(groupedComponents).sort();
 </script>
 
-<aside class="flex h-[calc(100svh)] flex-col bg-card">
+<aside class="flex h-dvh flex-col bg-card">
 	<div class="flex flex-col gap-8 p-4">
 		<a href="/" class="flex items-center gap-2">
 			<span

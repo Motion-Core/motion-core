@@ -15,7 +15,7 @@
 </script>
 
 <aside
-	class="flex flex-col justify-between gap-8 lg:sticky lg:top-4 lg:col-span-1 lg:h-[calc(100svh-2rem)] lg:self-start"
+	class="flex flex-col justify-between gap-8 lg:sticky lg:top-4 lg:col-span-1 lg:h-[calc(100dvh-2rem)] lg:self-start"
 >
 	<header class="flex items-center gap-2">
 		<span

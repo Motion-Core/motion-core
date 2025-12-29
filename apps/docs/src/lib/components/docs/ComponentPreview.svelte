@@ -168,7 +168,7 @@
 				bind:this={previewRef}
 				class={cn(
 					"relative flex items-center justify-center overflow-hidden bg-card",
-					isFullScreen ? "" : "w-full flex-1 rounded-t-xl",
+					isFullScreen ? "z-50" : "w-full flex-1 rounded-t-xl",
 				)}
 			>
 				<button

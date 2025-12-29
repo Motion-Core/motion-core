@@ -64,7 +64,7 @@
 </script>
 
 <section
-	class="relative rounded-2xl border border-border bg-background lg:col-span-3 max-h-[calc(100svh-14rem)] lg:max-h-[calc(100svh-2rem)]"
+	class="relative rounded-2xl border border-border bg-background lg:col-span-3 max-h-[calc(100dvh-14rem)] lg:max-h-[calc(100svh-2rem)]"
 >
 	<ScrollArea
 		class="h-full w-full"

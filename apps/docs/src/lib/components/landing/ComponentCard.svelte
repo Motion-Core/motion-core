@@ -6,7 +6,7 @@
 
 <a
 	href={`/docs/${component.slug}`}
-	class="group group relative block break-inside-avoid rounded-2xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted"
+	class="group relative block break-inside-avoid rounded-2xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted"
 	data-component-card
 >
 	<div
