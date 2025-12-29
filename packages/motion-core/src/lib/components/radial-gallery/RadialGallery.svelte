@@ -4,7 +4,7 @@
 	import gsap from "gsap";
 	import { cn } from "../../utils/cn";
 
-	type Props<T> = {
+	interface Props<T> {
 		items: T[];
 		children: Snippet<[T, number]>;
 		radius?: number;
@@ -14,7 +14,7 @@
 		gap?: number;
 		elementSize?: number;
 		class?: string;
-	};
+	}
 
 	let {
 		items,

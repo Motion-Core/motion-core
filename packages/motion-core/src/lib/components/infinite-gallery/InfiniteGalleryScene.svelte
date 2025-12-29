@@ -7,7 +7,7 @@
 
 	type ImageItem = string | { src: string; alt?: string };
 
-	type Props = {
+	interface Props {
 		images: ImageItem[];
 		speed?: number;
 		visibleCount?: number;
@@ -20,7 +20,7 @@
 			blurOut: { start: number; end: number };
 			maxBlur: number;
 		};
-	};
+	}
 
 	let {
 		images,

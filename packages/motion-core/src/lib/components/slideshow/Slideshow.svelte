@@ -3,16 +3,16 @@
 	import { CustomEase } from "gsap/dist/CustomEase";
 	import { onMount } from "svelte";
 	import { cn } from "../../utils/cn";
-	type Image = {
+	interface Image {
 		src: string;
 		alt?: string;
-	};
+	}
 
-	type ComponentProps = {
+	interface ComponentProps {
 		images: Image[];
 		class?: string;
 		[prop: string]: unknown;
-	};
+	}
 	const {
 		images,
 		class: className = "",

@@ -6,12 +6,12 @@
 	import type { Snippet } from "svelte";
 	import { cn } from "../../utils/cn";
 
-	type ComponentProps = {
+	interface ComponentProps {
 		children?: Snippet;
 		class?: string;
 		hoverTarget?: HTMLElement | null;
 		[prop: string]: unknown;
-	};
+	}
 
 	const {
 		children,

@@ -3,7 +3,7 @@
 	import Scene from "./GlassPaneScene.svelte";
 	import { cn } from "../../utils/cn";
 
-	type Props = {
+	interface Props {
 		image: string;
 		class?: string;
 		distortion?: number;
@@ -12,7 +12,7 @@
 		waviness?: number;
 		frequency?: number;
 		[key: string]: unknown;
-	};
+	}
 
 	let {
 		image,

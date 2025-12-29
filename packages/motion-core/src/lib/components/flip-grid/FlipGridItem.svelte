@@ -1,13 +1,23 @@
 <script lang="ts">
 	import { cn } from "../../utils/cn";
 
+	import type { Snippet } from "svelte";
+
+	interface Props {
+		children?: Snippet;
+		class?: string;
+		id: string;
+		style?: string;
+		[key: string]: unknown;
+	}
+
 	let {
 		children,
 		class: className = undefined,
 		id,
 		style = undefined,
 		...props
-	} = $props();
+	}: Props = $props();
 </script>
 
 <div

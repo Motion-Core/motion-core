@@ -4,6 +4,19 @@
 	import { Flip } from "gsap/dist/Flip";
 	import { cn } from "../../utils/cn";
 
+	import type { Snippet } from "svelte";
+
+	interface Props {
+		children?: Snippet;
+		class?: string;
+		duration?: number;
+		ease?: string;
+		stagger?: number;
+		columns?: number | string;
+		style?: string;
+		[key: string]: unknown;
+	}
+
 	let {
 		children,
 		class: className = undefined,
@@ -13,7 +26,7 @@
 		columns = undefined,
 		style = undefined,
 		...props
-	} = $props();
+	}: Props = $props();
 
 	let container: HTMLElement;
 	let state: Flip.FlipState | null = null;

@@ -7,20 +7,20 @@
 	import { cn } from "../../utils/cn";
 
 	type SplitMode = "lines" | "words" | "chars";
-	type ModeSettings = {
+	interface ModeSettings {
 		duration?: number;
 		stagger?: number;
-	};
+	}
 	type SplitRevealConfig = Partial<Record<SplitMode, ModeSettings>>;
 
-	type ComponentProps = {
+	interface ComponentProps {
 		children?: Snippet;
 		class?: string;
 		mode?: SplitMode;
 		config?: SplitRevealConfig;
 		as?: keyof HTMLElementTagNameMap;
 		[prop: string]: unknown;
-	};
+	}
 
 	type RequiredConfig = Record<
 		SplitMode,

@@ -9,13 +9,13 @@
 	} from "three";
 	import { useTexture } from "@threlte/extras";
 
-	type Props = {
+	interface Props {
 		image: string;
 		density?: number;
 		strength?: number;
 		color?: string;
 		backgroundColor?: string;
-	};
+	}
 
 	let {
 		image,

@@ -2,7 +2,7 @@
 	import { cn } from "../../utils/cn";
 	import { gsap } from "gsap/dist/gsap";
 
-	export interface DockItem {
+	interface DockItem {
 		src: string;
 		alt: string;
 		label?: string;

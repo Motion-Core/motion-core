@@ -5,7 +5,7 @@
 	import type { Snippet } from "svelte";
 	import { cn } from "../../utils/cn";
 
-	type Props = {
+	interface Props {
 		class?: string;
 		gap?: number;
 		children?: Snippet;
@@ -14,7 +14,7 @@
 		velocity?: number;
 		reversed?: boolean;
 		scrollElement?: string | HTMLElement;
-	};
+	}
 
 	let {
 		class: className = "",

@@ -12,7 +12,7 @@
 	} from "three";
 	import { useTexture } from "@threlte/extras";
 
-	type Props = {
+	interface Props {
 		image: string;
 		grid: number;
 		mouseSize: number;
@@ -20,7 +20,7 @@
 		relaxation: number;
 		mouseX: number;
 		mouseY: number;
-	};
+	}
 
 	let { image, grid, mouseSize, strength, relaxation, mouseX, mouseY }: Props =
 		$props();

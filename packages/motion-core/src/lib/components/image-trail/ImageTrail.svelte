@@ -2,7 +2,7 @@
 	import { gsap } from "gsap/dist/gsap";
 	import { cn } from "../../utils/cn";
 
-	type TrailConfig = {
+	interface TrailConfig {
 		imageLifespan?: number;
 		removalTickMs?: number;
 		mouseThreshold?: number;
@@ -15,7 +15,7 @@
 		minImageSize?: number;
 		maxImageSize?: number;
 		staggerOut?: number;
-	};
+	}
 
 	const DEFAULT_CONFIG: Required<TrailConfig> = {
 		imageLifespan: 600,
@@ -34,12 +34,12 @@
 
 	const POOL_CAP = 24;
 
-	type ComponentProps = {
+	interface ComponentProps {
 		images: string[];
 		class?: string;
 		config?: TrailConfig;
 		[prop: string]: unknown;
-	};
+	}
 
 	const props: ComponentProps = $props();
 	const className = $derived(props.class ?? "");

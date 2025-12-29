@@ -3,12 +3,12 @@
 	import { gsap } from "gsap/dist/gsap";
 	import type { Snippet } from "svelte";
 
-	type Props = {
+	interface Props {
 		children?: Snippet;
 		duration?: number;
 		ease?: string;
 		class?: string;
-	};
+	}
 
 	let {
 		children,

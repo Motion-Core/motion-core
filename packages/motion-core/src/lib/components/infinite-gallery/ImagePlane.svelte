@@ -2,12 +2,12 @@
 	import { T } from "@threlte/core";
 	import * as THREE from "three";
 
-	type Props = {
+	interface Props {
 		texture: THREE.Texture;
 		position: [number, number, number];
 		scale: [number, number, number];
 		material: THREE.ShaderMaterial;
-	};
+	}
 
 	let { texture, position, scale, material }: Props = $props();
 

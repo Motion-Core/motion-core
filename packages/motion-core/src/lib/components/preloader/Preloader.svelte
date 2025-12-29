@@ -3,17 +3,17 @@
 	import { onMount } from "svelte";
 	import { cn } from "../../utils/cn";
 
-	type Image = {
+	interface Image {
 		src: string;
 		alt?: string;
-	};
+	}
 
-	type ComponentProps = {
+	interface ComponentProps {
 		images: Image[];
 		class?: string;
 		onComplete?: () => void;
 		[prop: string]: unknown;
-	};
+	}
 
 	let {
 		images,
