@@ -29,7 +29,7 @@ poster: ""
 		Import the component into your Svelte file:
 
 ```ts
-import { NeuralNoise } from "motion-core";
+import { NeuralNoise } from "$lib/motion-core";
 ```
 
     </Step>
