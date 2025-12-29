@@ -43,7 +43,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/ascii-renderer/AsciiRenderer.svelte"
+          "path": "components/ascii-renderer/AsciiRendererScene.svelte"
         },
         {
           "path": "utils/cn.ts",
@@ -200,6 +200,38 @@
         },
         {
           "path": "components/interactive-grid/InteractiveGrid.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "lava-lamp": {
+      "slug": "lava-lamp",
+      "name": "Lava Lamp",
+      "description": "A psychedelic lava lamp effect using raymarching shaders and SDFs.",
+      "category": "canvas",
+      "preview": {
+        "video": "/previews/lava-lamp/preview.mp4",
+        "poster": "/previews/lava-lamp/poster.webp"
+      },
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/lava-lamp/LavaLamp.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/lava-lamp/LavaLampScene.svelte"
         },
         {
           "path": "utils/cn.ts",

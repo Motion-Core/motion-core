@@ -17,4 +17,5 @@ export {
 export { default as Magnetic } from "./magnetic/Magnetic.svelte";
 export { default as WaterRipple } from "./water-ripple/WaterRipple.svelte";
 export { default as InteractiveGrid } from "./interactive-grid/InteractiveGrid.svelte";
+export { default as LavaLamp } from "./lava-lamp/LavaLamp.svelte";
 export * from "./flip-grid";

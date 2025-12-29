@@ -22,7 +22,7 @@
 			"kind": "entry"
 		},
 		{
-			"path": "AsciiRenderer.svelte"
+			"path": "AsciiRendererScene.svelte"
 		},
 		{
 			"path": "../../utils/cn.ts",
