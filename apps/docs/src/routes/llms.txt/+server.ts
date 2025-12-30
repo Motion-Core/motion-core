@@ -1,8 +1,5 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import {
-	componentManifest,
-	gettingStartedManifest,
-} from "$lib/docs/manifest";
+import { componentManifest, gettingStartedManifest } from "$lib/docs/manifest";
 import { getDocMetadata } from "$lib/docs/metadata";
 
 const summary =
@@ -69,7 +66,11 @@ export const GET: RequestHandler = ({ url }) => {
 		"",
 	];
 
-	const body = lines.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
+	const body =
+		lines
+			.join("\n")
+			.replace(/\n{3,}/g, "\n\n")
+			.trim() + "\n";
 
 	return new Response(body, {
 		headers: {
