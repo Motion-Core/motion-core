@@ -26,7 +26,7 @@
 		atmosphereConfig?: SceneProps["atmosphereConfig"];
 		/**
 		 * Number of points rendered on the surface.
-		 * @default 12000
+		 * @default 15000
 		 */
 		pointCount?: SceneProps["pointCount"];
 		/**
