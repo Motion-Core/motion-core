@@ -1,11 +1,11 @@
 {
-	"name": "Water Ripple",
-	"slug": "water-ripple",
-	"description": "A fluid distortion effect simulating water ripples triggered by interaction.",
+	"name": "Globe",
+	"slug": "globe",
+	"description": "A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.",
 	"category": "canvas",
 	"preview": {
-		"video": "/previews/water-ripple/preview.mp4",
-		"poster": "/previews/water-ripple/poster.webp"
+		"video": "/previews/globe/preview.mp4",
+		"poster": "/previews/globe/poster.webp"
 	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
@@ -18,18 +18,18 @@
 	"internalDependencies": [],
 	"files": [
 		{
-			"path": "WaterRipple.svelte",
+			"path": "Globe.svelte",
 			"kind": "entry"
 		},
 		{
-			"path": "WaterRipple.svelte"
+			"path": "GlobeScene.svelte"
 		},
 		{
 			"path": "../../utils/cn.ts",
 			"target": "utils"
 		},
 		{
-			"path": "../../assets/water-ripple-brush.png",
+			"path": "../../assets/ne_110m_land.geojson",
 			"target": "assets"
 		}
 	]

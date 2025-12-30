@@ -1,0 +1,178 @@
+---
+name: Globe
+description: A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.
+video: /previews/globe/preview.mp4
+poster: /previews/globe/poster.webp
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import globeSource from "motion-core/components/globe/Globe.svelte?raw";
+	import globeSceneSource from "motion-core/components/globe/GlobeScene.svelte?raw";
+	import GlobeDemo from "./GlobeDemo.svelte";
+	import globeDemoSource from "./GlobeDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="globe" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { Globe } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: globeDemoSource, language: "svelte" },
+		{ name: "Globe.svelte", code: globeSource, language: "svelte" },
+		{ name: "GlobeScene.svelte", code: globeSceneSource, language: "svelte" },
+	]}
+>
+	<GlobeDemo />
+</ComponentPreview>
+
+## Props
+
+### Globe
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "radius",
+			type: "number",
+			default: "2",
+			description: "Radius of the rendered sphere.",
+		},
+		{
+			prop: "fresnelConfig",
+			type: "FresnelConfig",
+			default: "Default Fresnel",
+			description: "Overrides for the Fresnel shader uniforms.",
+		},
+		{
+			prop: "atmosphereConfig",
+			type: "AtmosphereConfig",
+			default: "Default Atmosphere",
+			description: "Configuration for the atmospheric halo glow.",
+		},
+		{
+			prop: "pointCount",
+			type: "number",
+			default: "15000",
+			description: "Total number of points generated for land sampling.",
+		},
+		{
+			prop: "landPointColor",
+			type: "THREE.ColorRepresentation",
+			default: '"#f77114"',
+			description: "Color of the dots representing land.",
+		},
+		{
+			prop: "pointSize",
+			type: "number",
+			default: "0.05",
+			description: "Size of each land dot.",
+		},
+		{
+			prop: "autoRotate",
+			type: "boolean",
+			default: "true",
+			description: "Whether the globe should auto-rotate.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
+
+### FresnelConfig
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "color",
+			type: "THREE.ColorRepresentation",
+			default: '"#111113"',
+			description: "Base color before the rim glow is applied.",
+		},
+		{
+			key: "rimColor",
+			type: "THREE.ColorRepresentation",
+			default: '"#FF6900"',
+			description: "Color tint used for the Fresnel rim.",
+		},
+		{
+			key: "rimPower",
+			type: "number",
+			default: "6",
+			description: "Controls how tightly the rim hugs the sphere.",
+		},
+		{
+			key: "rimIntensity",
+			type: "number",
+			default: "1.5",
+			description: "Multiplier applied to the rim color.",
+		},
+	]}
+/>
+
+### AtmosphereConfig
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "color",
+			type: "THREE.ColorRepresentation",
+			default: '"#FF6900"',
+			description: "Color of the atmosphere glow.",
+		},
+		{
+			key: "scale",
+			type: "number",
+			default: "1.1",
+			description: "Size of the atmosphere mesh relative to the globe radius.",
+		},
+		{
+			key: "power",
+			type: "number",
+			default: "12.0",
+			description: "Falloff exponent of the glow. Higher values mean a sharper edge.",
+		},
+		{
+			key: "coefficient",
+			type: "number",
+			default: "0.9",
+			description: "Base coefficient for intensity calculation. Controls inward extent.",
+		},
+		{
+			key: "intensity",
+			type: "number",
+			default: "2.0",
+			description: "Global intensity multiplier for the glow.",
+		},
+	]}
+/>

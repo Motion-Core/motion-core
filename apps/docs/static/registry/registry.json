@@ -113,6 +113,42 @@
         }
       ]
     },
+    "globe": {
+      "slug": "globe",
+      "name": "Globe",
+      "description": "A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.",
+      "category": "canvas",
+      "preview": {
+        "video": "/previews/globe/preview.mp4",
+        "poster": "/previews/globe/poster.webp"
+      },
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/globe/Globe.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/globe/GlobeScene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        },
+        {
+          "path": "assets/ne_110m_land.geojson",
+          "target": "assets"
+        }
+      ]
+    },
     "image-trail": {
       "slug": "image-trail",
       "name": "Image Trail",
@@ -631,6 +667,10 @@
         },
         {
           "path": "components/water-ripple/WaterRipple.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
         },
         {
           "path": "assets/water-ripple-brush.png",
