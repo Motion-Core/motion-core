@@ -5,20 +5,56 @@
 	import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 	import { SvelteSet } from "svelte/reactivity";
 
-	interface FresnelConfig {
-		color?: THREE.ColorRepresentation;
-		rimColor?: THREE.ColorRepresentation;
-		rimPower?: number;
-		rimIntensity?: number;
-	}
+interface FresnelConfig {
+	/**
+	 * Base body color for each cubelet.
+	 * @default "#111113"
+	 */
+	color?: THREE.ColorRepresentation;
+	/**
+	 * Accent color applied by the Fresnel rim.
+	 * @default "#FF6900"
+	 */
+	rimColor?: THREE.ColorRepresentation;
+	/**
+	 * Controls how tight the Fresnel rim hug is.
+	 * Higher values yield a thinner outline.
+	 * @default 6
+	 */
+	rimPower?: number;
+	/**
+	 * Intensity multiplier for the Fresnel rim color.
+	 * @default 1.5
+	 */
+	rimIntensity?: number;
+}
 
-	interface Props {
-		size: number;
-		duration: number;
-		gap: number;
-		radius: number;
-		fresnelConfig?: FresnelConfig;
-	}
+interface Props {
+	/**
+	 * Size of an individual cubelet edge.
+	 * @default 1
+	 */
+	size: number;
+	/**
+	 * Seconds it takes to complete a face rotation.
+	 * @default 1.5
+	 */
+	duration: number;
+	/**
+	 * Gap between cubelets to accentuate separation.
+	 * @default 0.015
+	 */
+	gap: number;
+	/**
+	 * Corner radius for softened cube edges.
+	 * @default 0.125
+	 */
+	radius: number;
+	/**
+	 * Optional overrides for the Fresnel shader uniforms.
+	 */
+	fresnelConfig?: FresnelConfig;
+}
 
 	let { size, duration, gap, radius, fresnelConfig = {} }: Props = $props();
 
