@@ -3,12 +3,15 @@
 	import Scene from "./AsciiRendererScene.svelte";
 	import { cn } from "../../utils/cn";
 	import { NoToneMapping } from "three";
+	import type { ComponentProps } from "svelte";
+
+	type SceneProps = ComponentProps<typeof Scene>;
 
 	interface Props {
 		/**
 		 * The image source URL.
 		 */
-		src: string;
+		src: SceneProps["image"];
 		/**
 		 * Additional CSS classes for the container.
 		 */
@@ -17,22 +20,22 @@
 		 * Grid density for the ASCII effect.
 		 * @default 25
 		 */
-		density?: number;
+		density?: SceneProps["density"];
 		/**
 		 * Intensity of the ASCII character generation threshold.
 		 * @default 25
 		 */
-		strength?: number;
+		strength?: SceneProps["strength"];
 		/**
 		 * Foreground color of the ASCII characters.
 		 * @default "#00ff00"
 		 */
-		color?: string;
+		color?: SceneProps["color"];
 		/**
 		 * Background color.
 		 * @default "#000000"
 		 */
-		backgroundColor?: string;
+		backgroundColor?: SceneProps["backgroundColor"];
 		[key: string]: unknown;
 	}
 

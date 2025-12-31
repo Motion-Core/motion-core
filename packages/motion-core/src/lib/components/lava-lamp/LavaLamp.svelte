@@ -3,6 +3,9 @@
 	import Scene from "./LavaLampScene.svelte";
 	import { cn } from "../../utils/cn";
 	import { NoToneMapping } from "three";
+	import type { ComponentProps } from "svelte";
+
+	type SceneProps = ComponentProps<typeof Scene>;
 
 	interface Props {
 		/**
@@ -13,32 +16,32 @@
 		 * Color of the rim light.
 		 * @default "#ffffff"
 		 */
-		color?: string;
+		color?: SceneProps["color"];
 		/**
 		 * Background color of the scene.
 		 * @default "#ffffff"
 		 */
-		backgroundColor?: string;
+		backgroundColor?: SceneProps["backgroundColor"];
 		/**
 		 * Speed of the lava animation.
 		 * @default 1.0
 		 */
-		speed?: number;
+		speed?: SceneProps["speed"];
 		/**
 		 * Fresnel power for the edge lighting effect.
 		 * @default 3.0
 		 */
-		fresnelPower?: number;
+		fresnelPower?: SceneProps["fresnelPower"];
 		/**
 		 * Base radius of the blobs.
 		 * @default 1
 		 */
-		radius?: number;
+		radius?: SceneProps["radius"];
 		/**
 		 * Smoothness of the blob blending (metaball effect).
 		 * @default 0.1
 		 */
-		smoothness?: number;
+		smoothness?: SceneProps["smoothness"];
 		[key: string]: unknown;
 	}
 

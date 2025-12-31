@@ -3,12 +3,15 @@
 	import Scene from "./PixelatedImageScene.svelte";
 	import { cn } from "../../utils/cn";
 	import { NoToneMapping } from "three";
+	import type { ComponentProps } from "svelte";
+
+	type SceneProps = ComponentProps<typeof Scene>;
 
 	interface Props {
 		/**
 		 * The image source URL.
 		 */
-		src: string;
+		src: SceneProps["image"];
 		/**
 		 * Additional CSS classes for the container.
 		 */
@@ -17,12 +20,12 @@
 		 * Initial grid size for the pixelation effect.
 		 * @default 6.0
 		 */
-		initialGridSize?: number;
+		initialGridSize?: SceneProps["initialGridSize"];
 		/**
 		 * Duration of each step in the depixelation animation.
 		 * @default 0.15
 		 */
-		stepDuration?: number;
+		stepDuration?: SceneProps["stepDuration"];
 		[key: string]: unknown;
 	}
 

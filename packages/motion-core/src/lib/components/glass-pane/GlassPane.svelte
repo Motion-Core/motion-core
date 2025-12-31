@@ -2,12 +2,15 @@
 	import { Canvas } from "@threlte/core";
 	import Scene from "./GlassPaneScene.svelte";
 	import { cn } from "../../utils/cn";
+	import type { ComponentProps } from "svelte";
+
+	type SceneProps = ComponentProps<typeof Scene>;
 
 	interface Props {
 		/**
 		 * The image source URL.
 		 */
-		image: string;
+		image: SceneProps["image"];
 		/**
 		 * Additional CSS classes for the container.
 		 */
@@ -16,27 +19,27 @@
 		 * Strength of the refraction/distortion effect.
 		 * @default 1.0
 		 */
-		distortion?: number;
+		distortion?: SceneProps["distortion"];
 		/**
 		 * Amount of chromatic aberration (color splitting).
 		 * @default 0.005
 		 */
-		chromaticAberration?: number;
+		chromaticAberration?: SceneProps["chromaticAberration"];
 		/**
 		 * Speed of the wave animation.
 		 * @default 1.0
 		 */
-		speed?: number;
+		speed?: SceneProps["speed"];
 		/**
 		 * Amplitude of the wave distortion.
 		 * @default 0.05
 		 */
-		waviness?: number;
+		waviness?: SceneProps["waviness"];
 		/**
 		 * Frequency of the wave distortion.
 		 * @default 6.0
 		 */
-		frequency?: number;
+		frequency?: SceneProps["frequency"];
 		[key: string]: unknown;
 	}
 

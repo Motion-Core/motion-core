@@ -3,39 +3,33 @@
 	import { NoToneMapping } from "three";
 	import GalleryScene from "./InfiniteGalleryScene.svelte";
 	import { cn } from "../../utils/cn";
+	import type { ComponentProps } from "svelte";
 
-	type ImageItem = string | { src: string; alt?: string };
+	type SceneProps = ComponentProps<typeof GalleryScene>;
 
 	interface Props {
 		/**
 		 * Array of images to display. Can be strings (URL) or objects with src and alt.
 		 */
-		images: ImageItem[];
+		images: SceneProps["images"];
 		/**
 		 * Scroll speed multiplier.
 		 * @default 1
 		 */
-		speed?: number;
+		speed?: SceneProps["speed"];
 		/**
 		 * Number of images visible in the tunnel at once.
 		 * @default 8
 		 */
-		visibleCount?: number;
+		visibleCount?: SceneProps["visibleCount"];
 		/**
 		 * Configuration for fade in/out effects based on depth.
 		 */
-		fadeSettings?: {
-			fadeIn: { start: number; end: number };
-			fadeOut: { start: number; end: number };
-		};
+		fadeSettings?: SceneProps["fadeSettings"];
 		/**
 		 * Configuration for blur in/out effects based on depth.
 		 */
-		blurSettings?: {
-			blurIn: { start: number; end: number };
-			blurOut: { start: number; end: number };
-			maxBlur: number;
-		};
+		blurSettings?: SceneProps["blurSettings"];
 		/**
 		 * Additional CSS classes for the container.
 		 */
@@ -59,17 +53,21 @@
 		class: className = "",
 		...rest
 	}: Props = $props();
+
+	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
-<div class={cn("h-full w-full", className)} {...rest}>
-	<Canvas toneMapping={NoToneMapping}>
-		<T.PerspectiveCamera makeDefault position={[0, 0, 0]} fov={55} />
-		<GalleryScene
-			{images}
-			{speed}
-			{visibleCount}
-			{fadeSettings}
-			{blurSettings}
-		/>
-	</Canvas>
+<div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
+	<div class="absolute inset-0 z-0">
+		<Canvas {dpr} toneMapping={NoToneMapping}>
+			<T.PerspectiveCamera makeDefault position={[0, 0, 0]} fov={55} />
+			<GalleryScene
+				{images}
+				{speed}
+				{visibleCount}
+				{fadeSettings}
+				{blurSettings}
+			/>
+		</Canvas>
+	</div>
 </div>

@@ -3,12 +3,15 @@
 	import Scene from "./WaterRippleScene.svelte";
 	import { cn } from "../../utils/cn";
 	import { NoToneMapping } from "three";
+	import type { ComponentProps } from "svelte";
+
+	type SceneProps = ComponentProps<typeof Scene>;
 
 	interface Props {
 		/**
 		 * The image source URL.
 		 */
-		src: string;
+		src: SceneProps["image"];
 		/**
 		 * Additional CSS classes for the container.
 		 */
@@ -17,7 +20,7 @@
 		 * Size of the ripple brush.
 		 * @default 100
 		 */
-		brushSize?: number;
+		brushSize?: SceneProps["brushSize"];
 		[key: string]: unknown;
 	}
 

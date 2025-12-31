@@ -3,6 +3,9 @@
 	import Scene from "./NeuralNoiseScene.svelte";
 	import { cn } from "../../utils/cn";
 	import { NoToneMapping } from "three";
+	import type { ComponentProps } from "svelte";
+
+	type SceneProps = ComponentProps<typeof Scene>;
 
 	interface Props {
 		/**
@@ -13,7 +16,7 @@
 		 * Speed of the noise animation.
 		 * @default 1.0
 		 */
-		speed?: number;
+		speed?: SceneProps["speed"];
 		[key: string]: unknown;
 	}
 
