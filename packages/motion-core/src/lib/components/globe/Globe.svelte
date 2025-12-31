@@ -63,16 +63,18 @@
 	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
-<div class={cn("relative h-full w-full", className)} {...rest}>
-	<Canvas {dpr}>
-		<Scene
-			{radius}
-			{fresnelConfig}
-			{atmosphereConfig}
-			{pointCount}
-			{landPointColor}
-			{pointSize}
-			{autoRotate}
-		/>
-	</Canvas>
+<div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
+	<div class="absolute inset-0 z-0">
+		<Canvas {dpr}>
+			<Scene
+				{radius}
+				{fresnelConfig}
+				{atmosphereConfig}
+				{pointCount}
+				{landPointColor}
+				{pointSize}
+				{autoRotate}
+			/>
+		</Canvas>
+	</div>
 </div>
