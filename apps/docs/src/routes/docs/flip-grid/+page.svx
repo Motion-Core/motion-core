@@ -29,7 +29,7 @@ poster: /previews/flip-grid/poster.webp
 		Import the component into your Svelte file:
 
 ```ts
-import { FlipGrid, FlipGridItem } from "motion-core";
+import { FlipGrid, FlipGridItem } from "$lib/motion-core";
 ```
 
     </Step>
