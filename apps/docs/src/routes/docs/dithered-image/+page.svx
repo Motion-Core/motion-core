@@ -88,6 +88,12 @@ import { DitheredImage } from "$lib/motion-core";
 			description: "The background color of the dithered image.",
 		},
 		{
+			prop: "threshold",
+			type: "number",
+			default: "0.0",
+			description: "Baseline threshold for the dithering effect. Higher values make the image darker (more background), while lower values make it brighter.",
+		},
+		{
 			prop: "class",
 			type: "string",
 			default: '""',

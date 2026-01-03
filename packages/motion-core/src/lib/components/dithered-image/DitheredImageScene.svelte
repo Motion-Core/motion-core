@@ -9,6 +9,7 @@
 		pixelSize?: number;
 		color?: string;
 		backgroundColor?: string;
+		threshold?: number;
 	}
 
 	let {
@@ -17,6 +18,7 @@
 		pixelSize = 1,
 		color = "#ff6900",
 		backgroundColor = "#111113",
+		threshold = 0.0,
 	}: Props = $props();
 
 	const { size, dpr } = useThrelte();
@@ -154,6 +156,7 @@
 		uniform vec2 uCoverScale;
 		uniform vec2 uCoverOffset;
 		uniform float uPixelSize;
+		uniform float uThreshold;
 		uniform vec3 uColor;
 		uniform vec3 uBackgroundColor;
 
@@ -177,11 +180,11 @@
 			vec2 mapUv = mod(pixelCoord, uMapSize) / uMapSize;
 			mapUv += (0.5 / uMapSize);
 
-			float threshold = texture2D(uThresholdMap, mapUv).r;
+			float thresholdValue = texture2D(uThresholdMap, mapUv).r;
 
 			float lum = getLuminance(texColor.rgb);
 
-			float dither = step(threshold, lum);
+			float dither = step(thresholdValue + uThreshold, lum);
 
 			vec3 ditheredColor = mix(uBackgroundColor, uColor, dither);
 
@@ -205,6 +208,7 @@
 				uCoverScale: { value: coverScaleUniform },
 				uCoverOffset: { value: coverOffsetUniform },
 				uPixelSize: { value: pixelSize },
+				uThreshold: { value: threshold },
 				uColor: { value: colorUniform },
 				uBackgroundColor: { value: backgroundColorUniform },
 			}}

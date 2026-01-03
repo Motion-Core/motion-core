@@ -36,6 +36,11 @@
 		 * @default "#111113"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
+		/**
+		 * Threshold for the dithering effect.
+		 * @default 0.0
+		 */
+		threshold?: SceneProps["threshold"];
 
 		[key: string]: unknown;
 	}
@@ -47,6 +52,7 @@
 		pixelSize = 1,
 		color = "#ff6900",
 		backgroundColor = "#111113",
+		threshold = 0.0,
 		...rest
 	}: Props = $props();
 
@@ -56,7 +62,14 @@
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
 		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene image={src} {ditherMap} {pixelSize} {color} {backgroundColor} />
+			<Scene
+				image={src}
+				{ditherMap}
+				{pixelSize}
+				{color}
+				{backgroundColor}
+				{threshold}
+			/>
 		</Canvas>
 	</div>
 </div>
