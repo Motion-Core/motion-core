@@ -1,0 +1,97 @@
+---
+name: Dithered Image
+description: An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+
+	import ditheredImageSource from "motion-core/components/dithered-image/DitheredImage.svelte?raw";
+	import SceneSource from "motion-core/components/dithered-image/DitheredImageScene.svelte?raw";
+	import DitheredImageDemo from "./DitheredImageDemo.svelte";
+	import ditheredImageDemoSource from "./DitheredImageDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="dithered-image" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { DitheredImage } from "$lib/motion-core";
+```
+
+    </Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: ditheredImageDemoSource, language: "svelte" },
+		{
+			name: "DitheredImage.svelte",
+			code: ditheredImageSource,
+			language: "svelte",
+		},
+		{ name: "DitheredImageScene.svelte", code: SceneSource, language: "svelte" },
+	]}
+>
+	<DitheredImageDemo />
+</ComponentPreview>
+
+## Props
+
+### DitheredImage
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "src",
+			type: "string",
+			default: "—",
+			description: "URL of the image to be displayed.",
+		},
+		{
+			prop: "ditherMap",
+			type: "'bayer4x4' | 'bayer8x8' | 'halftone' | 'voidAndCluster'",
+			default: "'bayer4x4'",
+			description: "The type of threshold map used for dithering.",
+		},
+		{
+			prop: "pixelSize",
+			type: "number",
+			default: "1",
+			description: "Size of the pixels in the dithering effect. Higher values result in a chunkier, retro look.",
+		},
+		{
+			prop: "color",
+			type: "string",
+			default: '"#ff6900"',
+			description: "The primary color of the dithered dots.",
+		},
+		{
+			prop: "backgroundColor",
+			type: "string",
+			default: '"#111113"',
+			description: "The background color of the dithered image.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

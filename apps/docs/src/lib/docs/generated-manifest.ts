@@ -14,6 +14,16 @@ export const docsManifest: ComponentInfo[] = [
     }
   },
   {
+    "slug": "dithered-image",
+    "name": "Dithered Image",
+    "category": "canvas",
+    "dependencies": {
+      "@threlte/core": "^8.3.1",
+      "@threlte/extras": "^9.7.1",
+      "three": "^0.182.0"
+    }
+  },
+  {
     "slug": "flip-grid",
     "name": "Flip Grid",
     "category": "layout",

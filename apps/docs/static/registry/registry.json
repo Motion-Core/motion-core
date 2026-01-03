@@ -51,6 +51,34 @@
         }
       ]
     },
+    "dithered-image": {
+      "slug": "dithered-image",
+      "name": "Dithered Image",
+      "description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
+      "category": "canvas",
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/dithered-image/DitheredImage.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/dithered-image/DitheredImageScene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "flip-grid": {
       "slug": "flip-grid",
       "name": "Flip Grid",
