@@ -65,8 +65,8 @@ import { DitheredImage } from "$lib/motion-core";
 		},
 		{
 			prop: "ditherMap",
-			type: "'bayer4x4' | 'bayer8x8' | 'halftone' | 'voidAndCluster'",
-			default: "'bayer4x4'",
+			type: '"bayer4x4" | "bayer8x8" | "halftone" | "voidAndCluster"',
+			default: '"bayer4x4"',
 			description: "The type of threshold map used for dithering.",
 		},
 		{

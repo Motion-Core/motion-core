@@ -37,14 +37,31 @@
 			<Tr>
 				{#each keys as key, index (key)}
 					<Td>
-						<span class="inline-flex items-center">
-							<code
-								class={cn(
-									"rounded-lg border border-border bg-card-muted px-1.5 py-0.5 font-normal text-foreground shadow-sm mono",
-								)}
-							>
-								{row[key]}
-							</code>
+						<span
+							class={cn(
+								"inline-flex items-center gap-1",
+								key === "type" && "max-w-xs flex-wrap",
+							)}
+						>
+							{#if key === "type" && typeof row[key] === "string" && row[key].includes("|")}
+								{#each row[key].split("|") as type, i (type + i)}
+									<code
+										class={cn(
+											"rounded-lg border border-border bg-card-muted px-1.5 py-0.5 font-normal whitespace-nowrap text-foreground shadow-sm mono",
+										)}
+									>
+										{type.trim()}
+									</code>
+								{/each}
+							{:else}
+								<code
+									class={cn(
+										"rounded-lg border border-border bg-card-muted px-1.5 py-0.5 font-normal text-foreground shadow-sm mono",
+									)}
+								>
+									{row[key]}
+								</code>
+							{/if}
 							{#if index === 0 && row.description}
 								<InfoPopover description={row.description} />
 							{/if}
