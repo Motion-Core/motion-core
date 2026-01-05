@@ -22,7 +22,7 @@
 			"kind": "entry"
 		},
 		{
-			"path": "InteractiveGrid.svelte"
+			"path": "InteractiveGridScene.svelte"
 		},
 		{
 			"path": "../../utils/cn.ts",

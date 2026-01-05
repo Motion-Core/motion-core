@@ -22,7 +22,7 @@
 			"kind": "entry"
 		},
 		{
-			"path": "PixelatedImage.svelte"
+			"path": "PixelatedImageScene.svelte"
 		},
 		{
 			"path": "../../utils/cn.ts",

@@ -22,7 +22,7 @@
 			"kind": "entry"
 		},
 		{
-			"path": "WaterRipple.svelte"
+			"path": "WaterRippleScene.svelte"
 		},
 		{
 			"path": "../../utils/cn.ts",
