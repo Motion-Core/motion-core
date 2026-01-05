@@ -17,6 +17,7 @@ export const docsManifest: ComponentInfo[] = [
     "slug": "dithered-image",
     "name": "Dithered Image",
     "category": "canvas",
+    "poster": "/previews/dithered-image/poster.webp",
     "dependencies": {
       "@threlte/core": "^8.3.1",
       "@threlte/extras": "^9.7.1",

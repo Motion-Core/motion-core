@@ -56,6 +56,9 @@
       "name": "Dithered Image",
       "description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
       "category": "canvas",
+      "preview": {
+        "poster": "/previews/dithered-image/poster.webp"
+      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -263,7 +266,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/interactive-grid/InteractiveGrid.svelte"
+          "path": "components/interactive-grid/InteractiveGridScene.svelte"
         },
         {
           "path": "utils/cn.ts",
@@ -468,7 +471,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/pixelated-image/PixelatedImage.svelte"
+          "path": "components/pixelated-image/PixelatedImageScene.svelte"
         },
         {
           "path": "utils/cn.ts",
@@ -694,7 +697,7 @@
           "kind": "entry"
         },
         {
-          "path": "components/water-ripple/WaterRipple.svelte"
+          "path": "components/water-ripple/WaterRippleScene.svelte"
         },
         {
           "path": "utils/cn.ts",
