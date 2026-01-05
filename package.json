@@ -22,7 +22,8 @@
 		"cli:dist": "nx run motion-core-cli:dist",
 		"lint": "eslint .",
 		"format": "prettier --write .",
-		"format:check": "prettier --check ."
+		"format:check": "prettier --check .",
+		"prepare": "husky"
 	},
 	"workspaces": [
 		"packages/*",
@@ -44,5 +45,17 @@
 		"svelte-eslint-parser": "^1.4.1",
 		"typescript-eslint": "^8.19.1",
 		"svelte-check": "^4.3.5"
+	},
+	"lint-staged": {
+		"*.{js,ts,svelte}": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"packages/motion-core/src/lib/components/**/component.json": [
+			"bun scripts/validate-registry.ts"
+		],
+		"packages/motion-core/src/lib/components/**/*.{svelte,ts,js}": [
+			"bun scripts/validate-registry.ts"
+		]
 	}
 }

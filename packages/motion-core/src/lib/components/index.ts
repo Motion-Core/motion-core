@@ -18,6 +18,7 @@ export { default as InteractiveGrid } from "./interactive-grid/InteractiveGrid.s
 export { default as LavaLamp } from "./lava-lamp/LavaLamp.svelte";
 export { default as NeuralNoise } from "./neural-noise/NeuralNoise.svelte";
 export { default as RadialGallery } from "./radial-gallery/RadialGallery.svelte";
-export * from "./flip-grid";
+export { default as FlipGrid } from "./flip-grid/FlipGrid.svelte";
+export { default as FlipGridItem } from "./flip-grid/FlipGridItem.svelte";
 export { default as RubiksCube } from "./rubiks-cube/RubiksCube.svelte";
 export { default as DitheredImage } from "./dithered-image/DitheredImage.svelte";
