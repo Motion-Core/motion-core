@@ -17,7 +17,11 @@
 	let resetTimer = $state<ReturnType<typeof setTimeout> | null>(null);
 
 	const encodedPrompt = $derived(
-		rawUrl ? encodeURIComponent(`Read ${rawUrl}`) : "",
+		rawUrl
+			? encodeURIComponent(
+					`I'm currently viewing the Motion Core documentation at ${rawUrl}. Please assist me in learning how to work with it. I may need clarification on concepts, sample code demonstrations, or troubleshooting guidance related to this documentation.`,
+				)
+			: "",
 	);
 	const chatGptUrl = $derived(
 		encodedPrompt
