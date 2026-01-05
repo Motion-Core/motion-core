@@ -3,26 +3,27 @@
 	import CopyCodeButton from "./markdown/CopyCodeButton.svelte";
 	import ShikiCodeBlock from "./ShikiCodeBlock.svelte";
 	import { getHighlighter } from "$lib/utils/highlighter";
+	import {
+		packageManagers,
+		packageManagerStore,
+		type PackageManager,
+	} from "$lib/stores/package-manager.svelte";
 
 	type Props = {
-		component: string;
+		component?: string;
+		args?: string;
 	};
 
-	let { component }: Props = $props();
-
-	const packageManagers = ["npm", "pnpm", "bun", "yarn"] as const;
-	type PackageManager = (typeof packageManagers)[number];
-
-	let activeTab = $state<PackageManager>("npm");
+	let { component, args }: Props = $props();
 
 	const commands: Record<PackageManager, string> = $derived({
-		npm: `npx @motion-core/cli add ${component}`,
-		pnpm: `pnpm dlx @motion-core/cli add ${component}`,
-		bun: `bunx @motion-core/cli add ${component}`,
-		yarn: `yarn dlx @motion-core/cli add ${component}`,
+		npm: `npx @motion-core/cli ${args ?? `add ${component}`}`,
+		pnpm: `pnpm dlx @motion-core/cli ${args ?? `add ${component}`}`,
+		bun: `bunx @motion-core/cli ${args ?? `add ${component}`}`,
+		yarn: `yarn dlx @motion-core/cli ${args ?? `add ${component}`}`,
 	});
 
-	const activeCommand = $derived(commands[activeTab]);
+	const activeCommand = $derived(commands[packageManagerStore.active]);
 
 	let highlightedCommands = $state<
 		Record<PackageManager, { light: string; dark: string } | null>
@@ -61,16 +62,16 @@
 		<div class="flex items-center">
 			{#each packageManagers as pm (pm)}
 				<button
-					onclick={() => (activeTab = pm)}
+					onclick={() => (packageManagerStore.active = pm)}
 					class={cn(
 						"relative px-4 py-2.5 text-sm font-medium transition-colors outline-none select-none",
-						activeTab === pm
+						packageManagerStore.active === pm
 							? "text-foreground"
 							: "text-foreground/45 hover:text-foreground/70",
 					)}
 				>
 					{pm}
-					{#if activeTab === pm}
+					{#if packageManagerStore.active === pm}
 						<div class="absolute bottom-0 left-0 h-0.5 w-full bg-accent"></div>
 					{/if}
 				</button>
@@ -81,11 +82,11 @@
 	</div>
 
 	<div class="min-h-12.5 p-4">
-		{#if highlightedCommands[activeTab]}
+		{#if highlightedCommands[packageManagerStore.active]}
 			<ShikiCodeBlock
 				code=""
-				htmlLight={highlightedCommands[activeTab]!.light}
-				htmlDark={highlightedCommands[activeTab]!.dark}
+				htmlLight={highlightedCommands[packageManagerStore.active]!.light}
+				htmlDark={highlightedCommands[packageManagerStore.active]!.dark}
 				unstyled={true}
 			/>
 		{:else}
