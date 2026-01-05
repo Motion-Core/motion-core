@@ -7,12 +7,27 @@
 	import { onNavigate } from "$app/navigation";
 	import { cn } from "$lib/utils/cn";
 	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
+	import { onMount } from "svelte";
 
 	let query = $state("");
 	let results = $derived(searchDocs(query));
 	let selectedIndex = $state(0);
 	let inputRef = $state<HTMLInputElement>();
 	let contentHeight = $state(0);
+
+	function handleGlobalKeydown(e: KeyboardEvent) {
+		if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+			e.preventDefault();
+			searchState.toggle();
+		}
+	}
+
+	onMount(() => {
+		window.addEventListener("keydown", handleGlobalKeydown);
+		return () => {
+			window.removeEventListener("keydown", handleGlobalKeydown);
+		};
+	});
 
 	$effect(() => {
 		if (searchState.isOpen && inputRef) {

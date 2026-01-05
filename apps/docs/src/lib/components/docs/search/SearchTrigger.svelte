@@ -1,23 +1,8 @@
 <script lang="ts">
 	import { searchState } from "$lib/stores/search.svelte";
-	import { onMount } from "svelte";
 	import { cn } from "$lib/utils/cn";
 
 	let { class: className }: { class?: string } = $props();
-
-	function handleKeydown(e: KeyboardEvent) {
-		if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-			e.preventDefault();
-			searchState.toggle();
-		}
-	}
-
-	onMount(() => {
-		window.addEventListener("keydown", handleKeydown);
-		return () => {
-			window.removeEventListener("keydown", handleKeydown);
-		};
-	});
 </script>
 
 <button
