@@ -1,7 +1,9 @@
 # dependencies
 node_modules
 .pnpm-store
+# Allow package-locks inside fixtures for deterministic tests
 package-lock.json
+!fixtures/**/package-lock.json
 yarn.lock
 
 # build artifacts
