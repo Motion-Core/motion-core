@@ -1,3 +1,4 @@
+use std::ffi::OsString;
 use std::path::Path;
 use std::process::Command;
 
@@ -55,7 +56,7 @@ impl InstallPlan {
 
         let mut cmd = match self.manager {
             PackageManagerKind::Npm => {
-                let mut command = Command::new("npm");
+                let mut command = Command::new(pkg_command("npm", true));
                 command.arg("install");
                 if self.dev {
                     command.arg("--save-dev");
@@ -63,7 +64,7 @@ impl InstallPlan {
                 command
             }
             PackageManagerKind::Pnpm => {
-                let mut command = Command::new("pnpm");
+                let mut command = Command::new(pkg_command("pnpm", true));
                 command.arg("add");
                 if self.dev {
                     command.arg("-D");
@@ -71,7 +72,7 @@ impl InstallPlan {
                 command
             }
             PackageManagerKind::Yarn => {
-                let mut command = Command::new("yarn");
+                let mut command = Command::new(pkg_command("yarn", true));
                 command.arg("add");
                 if self.dev {
                     command.arg("-D");
@@ -79,7 +80,7 @@ impl InstallPlan {
                 command
             }
             PackageManagerKind::Bun => {
-                let mut command = Command::new("bun");
+                let mut command = Command::new(pkg_command("bun", false));
                 command.arg("add");
                 if self.dev {
                     command.arg("-d");
@@ -106,5 +107,23 @@ impl InstallPlan {
                 "command exited with status {status}"
             )))
         }
+    }
+}
+
+fn pkg_command(base: &str, needs_cmd: bool) -> OsString {
+    #[cfg(windows)]
+    {
+        if needs_cmd {
+            let mut name = OsString::from(base);
+            name.push(".cmd");
+            name
+        } else {
+            OsString::from(base)
+        }
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = needs_cmd;
+        OsString::from(base)
     }
 }

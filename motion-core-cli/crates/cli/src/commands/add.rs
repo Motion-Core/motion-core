@@ -880,12 +880,11 @@ mod tests {
         let outcome = run(&ctx, &reporter, &args).unwrap();
         assert_eq!(outcome, CommandOutcome::Completed);
 
-        let barrel = fs::read_to_string(
-            temp.path()
-                .join("src/lib/motion-core/index.ts"),
-        )
-        .expect("barrel file");
-        assert!(barrel.contains("export { default as FlipGrid } from \"./flip-grid/FlipGrid.svelte\";"));
+        let barrel = fs::read_to_string(temp.path().join("src/lib/motion-core/index.ts"))
+            .expect("barrel file");
+        assert!(
+            barrel.contains("export { default as FlipGrid } from \"./flip-grid/FlipGrid.svelte\";")
+        );
         assert!(barrel.contains(
             "export { default as FlipGridItem } from \"./flip-grid/FlipGridItem.svelte\";"
         ));
