@@ -3,10 +3,6 @@
 	"slug": "split-reveal",
 	"description": "A text animation component that masks content and reveals lines, words, or characters upon mounting.",
 	"category": "typography",
-	"preview": {
-		"video": "/previews/split-reveal/preview.mp4",
-		"poster": "/previews/split-reveal/poster.webp"
-	},
 	"dependencies": {
 		"gsap": "^3.14.2"
 	},

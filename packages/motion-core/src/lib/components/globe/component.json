@@ -4,8 +4,8 @@
 	"description": "A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.",
 	"category": "canvas",
 	"preview": {
-		"video": "/previews/globe/preview.mp4",
-		"poster": "/previews/globe/poster.webp"
+		"video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/globe/preview.mp4",
+		"poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/globe/poster.webp"
 	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",

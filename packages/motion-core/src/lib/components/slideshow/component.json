@@ -3,10 +3,6 @@
 	"slug": "slideshow",
 	"description": "A full-bleed gallery featuring parallax transitions and a synchronized thumbnail navigator.",
 	"category": "showcase",
-	"preview": {
-		"video": "/previews/slideshow/preview.mp4",
-		"poster": "/previews/slideshow/poster.webp"
-	},
 	"dependencies": {
 		"gsap": "^3.14.2"
 	},

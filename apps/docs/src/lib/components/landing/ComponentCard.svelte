@@ -1,8 +1,17 @@
 <script lang="ts">
 	import type { ComponentInfo } from "./types";
 	import { onMount } from "svelte";
+	import { cn } from "$lib/utils/cn";
 
-	let { component }: { component: ComponentInfo } = $props();
+	let {
+		component,
+		class: className,
+		featured = false,
+	}: {
+		component: ComponentInfo;
+		class?: string;
+		featured?: boolean;
+	} = $props();
 
 	let cardElement: HTMLAnchorElement;
 	let videoElement = $state<HTMLVideoElement>();
@@ -68,18 +77,24 @@
 <a
 	bind:this={cardElement}
 	href={`/docs/${component.slug}`}
-	class="group relative block break-inside-avoid rounded-2xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted"
+	class={cn(
+		"group relative block min-h-64 break-inside-avoid rounded-xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted md:min-h-0",
+		featured ? "flex h-full flex-col" : "",
+		className,
+	)}
 	data-component-card
 >
 	<div
-		class="bg-muted relative aspect-video overflow-hidden rounded-xl border border-border/60"
+		class={cn(
+			"bg-muted relative overflow-hidden rounded-lg border border-border/60",
+			featured ? "h-full min-h-0 flex-1" : "aspect-video",
+		)}
 	>
 		{#if component.poster}
 			<img
 				src={component.poster}
 				alt={component.name}
-				loading="lazy"
-				class="absolute inset-0 h-full w-full scale-110 object-cover transition-opacity duration-300 {isLoaded
+				class="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 {isLoaded
 					? 'opacity-0'
 					: 'opacity-100'}"
 			/>
@@ -94,14 +109,14 @@
 				playsinline
 				preload="metadata"
 				oncanplay={() => (isLoaded = true)}
-				class="absolute inset-0 h-full w-full scale-110 object-cover transition-opacity duration-300 {isLoaded
+				class="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 {isLoaded
 					? 'opacity-100'
 					: 'opacity-0'}"
 			>
 			</video>
 		{/if}
 	</div>
-	<div class="flex w-full items-center justify-between p-2">
+	<div class="mt-2 flex w-full items-center justify-between p-2">
 		<p
 			class="pointer-events-none text-sm font-medium text-foreground font-display"
 		>

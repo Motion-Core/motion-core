@@ -3,10 +3,6 @@
 	"slug": "flip-grid",
 	"description": "A layout component that smoothly animates its children when the grid structure changes.",
 	"category": "layout",
-	"preview": {
-		"video": "/previews/flip-grid/preview.mp4",
-		"poster": "/previews/flip-grid/poster.webp"
-	},
 	"dependencies": {
 		"gsap": "^3.14.2"
 	},

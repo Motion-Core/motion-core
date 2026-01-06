@@ -4,8 +4,8 @@
 	"description": "A wrapper that applies spring physics to elements, making them stick to the cursor on hover.",
 	"category": "pointer",
 	"preview": {
-		"video": "/previews/magnetic/preview.mp4",
-		"poster": "/previews/magnetic/poster.webp"
+		"video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/magnetic/preview.mp4",
+		"poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/magnetic/poster.webp"
 	},
 	"dependencies": {
 		"gsap": "^3.14.2"

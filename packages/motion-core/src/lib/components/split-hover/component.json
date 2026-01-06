@@ -3,10 +3,6 @@
 	"slug": "split-hover",
 	"description": "A text effect that splits characters and animates stacked layers on hover for a seamless swap.",
 	"category": "typography",
-	"preview": {
-		"video": "/previews/split-hover/preview.mp4",
-		"poster": "/previews/split-hover/poster.webp"
-	},
 	"dependencies": {
 		"gsap": "^3.14.2"
 	},

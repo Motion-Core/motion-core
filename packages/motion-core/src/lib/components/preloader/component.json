@@ -3,10 +3,6 @@
 	"slug": "preloader",
 	"description": "A kinetic loading sequence that decelerates an image strip before scaling the hero asset to full screen.",
 	"category": "transition",
-	"preview": {
-		"video": "/previews/preloader/preview.mp4",
-		"poster": "/previews/preloader/poster.webp"
-	},
 	"dependencies": {
 		"gsap": "^3.14.2"
 	},

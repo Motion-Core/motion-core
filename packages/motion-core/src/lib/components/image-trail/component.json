@@ -4,8 +4,8 @@
 	"description": "An interactive effect that spawns a trail of images following the cursor with scaling and rotation.",
 	"category": "pointer",
 	"preview": {
-		"video": "/previews/image-trail/preview.mp4",
-		"poster": "/previews/image-trail/poster.webp"
+		"video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/image-trail/preview.mp4",
+		"poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/image-trail/poster.webp"
 	},
 	"dependencies": {
 		"gsap": "^3.14.2"

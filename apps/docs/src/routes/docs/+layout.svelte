@@ -96,7 +96,7 @@
 	{/if}
 </svelte:head>
 
-<main class="h-dvh bg-card text-foreground lg:py-4">
+<main class="h-dvh bg-card text-foreground lg:py-2">
 	<MobileSidebar />
 
 	<aside class="fixed top-0 left-0 hidden w-88 shrink-0 lg:block">
@@ -105,7 +105,7 @@
 
 	<ScrollArea
 		id="docs-content-container"
-		class="mx-auto mt-12 w-full max-w-4xl border-border bg-background lg:mt-0 lg:ml-88 lg:max-h-[calc(100dvh-2rem)] lg:rounded-2xl lg:border xl:mr-88"
+		class="mx-auto mt-12 w-full max-w-4xl border-border bg-background lg:mt-0 lg:ml-88 lg:max-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border xl:mr-88"
 	>
 		<div class="flex flex-col gap-8 px-4 py-8 lg:px-8">
 			<section class="min-w-0 flex-1 space-y-8">

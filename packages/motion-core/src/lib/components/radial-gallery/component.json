@@ -3,10 +3,6 @@
 	"slug": "radial-gallery",
 	"description": "A rotating circular gallery that creates an arch/rainbow layout, perfect for hero sections.",
 	"category": "showcase",
-	"preview": {
-		"video": "/previews/radial-gallery/preview.mp4",
-		"poster": "/previews/radial-gallery/poster.webp"
-	},
 	"dependencies": {
 		"gsap": "^3.14.2"
 	},

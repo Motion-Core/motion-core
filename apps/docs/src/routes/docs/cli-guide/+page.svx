@@ -4,7 +4,7 @@ description: How to use the Motion Core CLI to manage your workspace.
 ---
 
 <script lang="ts">
-    import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
 </script>
 
 The Motion Core CLI is the primary way to integrate components into your project. It automates the setup, dependency installation, and component scaffolding.

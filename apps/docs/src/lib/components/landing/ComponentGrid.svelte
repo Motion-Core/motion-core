@@ -3,7 +3,6 @@
 	import type { ComponentInfo } from "./types";
 	import { gsap } from "gsap/dist/gsap";
 	import { CustomEase } from "gsap/dist/CustomEase";
-	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
 	import { onMount } from "svelte";
 
 	const motionCoreEase = "motion-core-ease";
@@ -11,18 +10,37 @@
 	const props = $props<{ components?: ComponentInfo[] }>();
 	const components = $derived(props.components ?? []);
 
+	const featuredConfig = [
+		{ slug: "dithered-image", className: "md:col-span-1 md:row-span-1" },
+		{ slug: "text-loop", className: "md:col-span-2 md:row-span-1" },
+		{ slug: "water-ripple", className: "md:col-span-1 md:row-span-2" },
+		{ slug: "image-trail", className: "md:col-span-2 md:row-span-1" },
+		{ slug: "ascii-renderer", className: "md:col-span-1 md:row-span-1" },
+		{ slug: "magnetic", className: "md:col-span-2 md:row-span-1" },
+		{ slug: "globe", className: "md:col-span-2 md:row-span-2" },
+		{ slug: "rubiks-cube", className: "md:col-span-2 md:row-span-1" },
+	];
+
+	const featuredComponents = $derived(
+		featuredConfig
+			.map((conf) => {
+				const component = components.find(
+					(c: ComponentInfo) => c.slug === conf.slug,
+				);
+				return component ? { component, className: conf.className } : null;
+			})
+			.filter((item) => item !== null),
+	);
+
 	let listRef: HTMLDivElement | null = null;
 
 	onMount(() => {
 		gsap.registerPlugin(CustomEase);
 		CustomEase.create(motionCoreEase, "0.625, 0.05, 0, 1");
 	});
-	const animationKey = $derived(
-		components.map((component: ComponentInfo) => component.slug).join("|"),
-	);
 
 	$effect(() => {
-		void animationKey;
+		void featuredComponents;
 
 		if (typeof window === "undefined" || !listRef) {
 			return;
@@ -63,21 +81,17 @@
 	});
 </script>
 
-<section
-	class="relative max-h-[calc(100dvh-14rem)] rounded-2xl border border-border bg-background lg:col-span-3 lg:max-h-[calc(100svh-2rem)]"
->
-	<ScrollArea
-		class="h-full w-full"
-		viewportClass="h-full w-full p-2 md:p-4"
-		viewportStyle="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
+<section class="w-full rounded-2xl border border-border bg-background p-2">
+	<div
+		class="grid grid-cols-1 gap-2 md:auto-rows-[280px] md:grid-cols-4"
+		bind:this={listRef}
 	>
-		<div
-			class="columns-1 gap-4 space-y-4 [column-fill:balance] sm:columns-2 lg:columns-3"
-			bind:this={listRef}
-		>
-			{#each components as component (component.slug)}
-				<ComponentCard {component} />
-			{/each}
-		</div>
-	</ScrollArea>
+		{#each featuredComponents as item (item.component.slug)}
+			<ComponentCard
+				component={item.component}
+				class={item.className}
+				featured={true}
+			/>
+		{/each}
+	</div>
 </section>

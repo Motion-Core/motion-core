@@ -3,10 +3,6 @@
 	"slug": "lava-lamp",
 	"description": "A smooth and organic lava lamp effect using raymarching shaders and SDFs.",
 	"category": "canvas",
-	"preview": {
-		"video": "/previews/lava-lamp/preview.mp4",
-		"poster": "/previews/lava-lamp/poster.webp"
-	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
 		"three": "^0.182.0"

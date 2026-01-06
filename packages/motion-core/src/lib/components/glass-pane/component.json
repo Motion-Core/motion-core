@@ -3,10 +3,6 @@
 	"slug": "glass-pane",
 	"description": "A refractive view simulating moving glass rods that distort the underlying texture with chromatic aberration.",
 	"category": "canvas",
-	"preview": {
-		"video": "/previews/glass-pane/preview.mp4",
-		"poster": "/previews/glass-pane/poster.webp"
-	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
 		"@threlte/extras": "^9.7.1",

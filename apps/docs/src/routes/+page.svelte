@@ -1,24 +1,18 @@
 <script lang="ts">
-	import { ComponentGrid, Sidebar } from "$lib";
+	import { ComponentGrid } from "$lib";
+	import Hero from "$lib/components/landing/Hero.svelte";
+	import Footer from "$lib/components/landing/Footer.svelte";
 	import type { PageData } from "./$types";
 
 	const { data } = $props<{ data: PageData }>();
 
-	const socialLinks = [
-		{ label: "GitHub", href: "https://github.com/motion-core" },
-		{ label: "Community", href: "https://discord.gg/motion-core" },
-		{ label: "Docs", href: "/docs/introduction" },
-	];
-
-	const landingDescription =
-		"Animated Svelte component library powered by GSAP and Three.js. Drop-in solutions for motion design, 3D canvases, and interactive animations — ready to use, easy to customize.";
-
 	const components = $derived(data.components ?? []);
 </script>
 
-<main class="h-dvh w-full p-4">
-	<div class="mx-auto grid h-full gap-4 lg:grid-cols-4">
-		<Sidebar description={landingDescription} {socialLinks} />
+<main class="min-h-dvh w-full">
+	<div class="mx-auto space-y-2 p-2">
+		<Hero />
 		<ComponentGrid {components} />
+		<Footer />
 	</div>
 </main>

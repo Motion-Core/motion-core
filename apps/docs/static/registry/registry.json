@@ -25,8 +25,8 @@
       "description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
       "category": "canvas",
       "preview": {
-        "video": "/previews/ascii-renderer/preview.mp4",
-        "poster": "/previews/ascii-renderer/poster.webp"
+        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/ascii-renderer/preview.mp4",
+        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/ascii-renderer/poster.webp"
       },
       "dependencies": {
         "@threlte/core": "^8.3.1",
@@ -57,7 +57,7 @@
       "description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
       "category": "canvas",
       "preview": {
-        "poster": "/previews/dithered-image/poster.webp"
+        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/dithered-image/poster.webp"
       },
       "dependencies": {
         "@threlte/core": "^8.3.1",
@@ -87,10 +87,6 @@
       "name": "Flip Grid",
       "description": "A layout component that smoothly animates its children when the grid structure changes.",
       "category": "layout",
-      "preview": {
-        "video": "/previews/flip-grid/preview.mp4",
-        "poster": "/previews/flip-grid/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -117,10 +113,6 @@
       "name": "Glass Pane",
       "description": "A refractive view simulating moving glass rods that distort the underlying texture with chromatic aberration.",
       "category": "canvas",
-      "preview": {
-        "video": "/previews/glass-pane/preview.mp4",
-        "poster": "/previews/glass-pane/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -150,8 +142,8 @@
       "description": "A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.",
       "category": "canvas",
       "preview": {
-        "video": "/previews/globe/preview.mp4",
-        "poster": "/previews/globe/poster.webp"
+        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/globe/preview.mp4",
+        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/globe/poster.webp"
       },
       "dependencies": {
         "@threlte/core": "^8.3.1",
@@ -186,8 +178,8 @@
       "description": "An interactive effect that spawns a trail of images following the cursor with scaling and rotation.",
       "category": "pointer",
       "preview": {
-        "video": "/previews/image-trail/preview.mp4",
-        "poster": "/previews/image-trail/poster.webp"
+        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/image-trail/preview.mp4",
+        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/image-trail/poster.webp"
       },
       "dependencies": {
         "gsap": "^3.14.2"
@@ -212,10 +204,6 @@
       "name": "Infinite Gallery",
       "description": "A 3D gallery that endlessly scrolls through textured planes with cloth-like distortion and scroll-driven transitions.",
       "category": "canvas",
-      "preview": {
-        "video": "/previews/infinite-gallery/preview.mp4",
-        "poster": "/previews/infinite-gallery/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -247,10 +235,6 @@
       "name": "Interactive Grid",
       "description": "A physics-based grid simulation that distorts an image in response to cursor movement.",
       "category": "canvas",
-      "preview": {
-        "video": "/previews/interactive-grid/preview.mp4",
-        "poster": "/previews/interactive-grid/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -279,10 +263,6 @@
       "name": "Lava Lamp",
       "description": "A smooth and organic lava lamp effect using raymarching shaders and SDFs.",
       "category": "canvas",
-      "preview": {
-        "video": "/previews/lava-lamp/preview.mp4",
-        "poster": "/previews/lava-lamp/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "three": "^0.182.0"
@@ -310,10 +290,6 @@
       "name": "Logo Carousel",
       "description": "A multi-column display that shuffles brand logos infinitely with vertical motion and fade transitions.",
       "category": "showcase",
-      "preview": {
-        "video": "/previews/logo-carousel/preview.mp4",
-        "poster": "/previews/logo-carousel/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -340,10 +316,6 @@
       "name": "MacOS Dock",
       "description": "A navigation bar that simulates magnification physics and smooth easing on hover.",
       "category": "pointer",
-      "preview": {
-        "video": "/previews/macos-dock/preview.mp4",
-        "poster": "/previews/macos-dock/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -368,8 +340,8 @@
       "description": "A wrapper that applies spring physics to elements, making them stick to the cursor on hover.",
       "category": "pointer",
       "preview": {
-        "video": "/previews/magnetic/preview.mp4",
-        "poster": "/previews/magnetic/poster.webp"
+        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/magnetic/preview.mp4",
+        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/magnetic/poster.webp"
       },
       "dependencies": {
         "gsap": "^3.14.2"
@@ -394,10 +366,6 @@
       "name": "Marquee",
       "description": "A scrolling content loop that accelerates, reverses, or syncs with scroll position.",
       "category": "showcase",
-      "preview": {
-        "video": "/previews/marquee/preview.mp4",
-        "poster": "/previews/marquee/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -421,10 +389,6 @@
       "name": "Neural Noise",
       "description": "A generative organic pattern using Compositional Pattern Producing Networks (CPPN).",
       "category": "canvas",
-      "preview": {
-        "video": "/previews/neural-noise/preview.mp4",
-        "poster": "/previews/neural-noise/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "three": "^0.182.0"
@@ -452,10 +416,6 @@
       "name": "Pixelated Image",
       "description": "A media revealer that animates blocky pixel grids which progressively sharpen to full resolution.",
       "category": "canvas",
-      "preview": {
-        "video": "/previews/pixelated-image/preview.mp4",
-        "poster": "/previews/pixelated-image/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -484,10 +444,6 @@
       "name": "Preloader",
       "description": "A kinetic loading sequence that decelerates an image strip before scaling the hero asset to full screen.",
       "category": "transition",
-      "preview": {
-        "video": "/previews/preloader/preview.mp4",
-        "poster": "/previews/preloader/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -511,10 +467,6 @@
       "name": "Radial Gallery",
       "description": "A rotating circular gallery that creates an arch/rainbow layout, perfect for hero sections.",
       "category": "showcase",
-      "preview": {
-        "video": "/previews/radial-gallery/preview.mp4",
-        "poster": "/previews/radial-gallery/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -539,8 +491,8 @@
       "description": "A dynamic Rubik's Cube that continuously rotates while a Fresnel rim glow traces each edge.",
       "category": "canvas",
       "preview": {
-        "video": "/previews/rubiks-cube/preview.mp4",
-        "poster": "/previews/rubiks-cube/poster.webp"
+        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/rubiks-cube/preview.mp4",
+        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/rubiks-cube/poster.webp"
       },
       "dependencies": {
         "@threlte/core": "^8.3.1",
@@ -570,10 +522,6 @@
       "name": "Slideshow",
       "description": "A full-bleed gallery featuring parallax transitions and a synchronized thumbnail navigator.",
       "category": "showcase",
-      "preview": {
-        "video": "/previews/slideshow/preview.mp4",
-        "poster": "/previews/slideshow/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -597,10 +545,6 @@
       "name": "Split Hover",
       "description": "A text effect that splits characters and animates stacked layers on hover for a seamless swap.",
       "category": "typography",
-      "preview": {
-        "video": "/previews/split-hover/preview.mp4",
-        "poster": "/previews/split-hover/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -624,10 +568,6 @@
       "name": "Split Reveal",
       "description": "A text animation component that masks content and reveals lines, words, or characters upon mounting.",
       "category": "typography",
-      "preview": {
-        "video": "/previews/split-reveal/preview.mp4",
-        "poster": "/previews/split-reveal/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -652,8 +592,8 @@
       "description": "A text animator that cycles through phrases with blurred vertical transitions, suitable for headlines.",
       "category": "typography",
       "preview": {
-        "video": "/previews/text-loop/preview.mp4",
-        "poster": "/previews/text-loop/poster.webp"
+        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/text-loop/preview.mp4",
+        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/text-loop/poster.webp"
       },
       "dependencies": {
         "gsap": "^3.14.2"
@@ -679,8 +619,8 @@
       "description": "A fluid distortion effect simulating water ripples triggered by interaction.",
       "category": "canvas",
       "preview": {
-        "video": "/previews/water-ripple/preview.mp4",
-        "poster": "/previews/water-ripple/poster.webp"
+        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/water-ripple/preview.mp4",
+        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/water-ripple/poster.webp"
       },
       "dependencies": {
         "@threlte/core": "^8.3.1",

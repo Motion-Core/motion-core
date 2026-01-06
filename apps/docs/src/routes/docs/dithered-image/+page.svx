@@ -5,15 +5,15 @@ description: An image display component that applies various ordered dithering a
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-
-	import ditheredImageSource from "motion-core/components/dithered-image/DitheredImage.svelte?raw";
-	import SceneSource from "motion-core/components/dithered-image/DitheredImageScene.svelte?raw";
-	import DitheredImageDemo from "./DitheredImageDemo.svelte";
-	import ditheredImageDemoSource from "./DitheredImageDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
+	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
+	"$lib/components/docs/markdown/Step.svelte"; import ditheredImageSource from
+	"motion-core/components/dithered-image/DitheredImage.svelte?raw"; import
+	SceneSource from
+	"motion-core/components/dithered-image/DitheredImageScene.svelte?raw"; import
+	DitheredImageDemo from "./DitheredImageDemo.svelte"; import
+	ditheredImageDemoSource from "./DitheredImageDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -31,6 +31,7 @@ import { DitheredImage } from "$lib/motion-core";
 ```
 
     </Step>
+
 </Steps>
 
 ## Usage
@@ -43,7 +44,11 @@ import { DitheredImage } from "$lib/motion-core";
 			code: ditheredImageSource,
 			language: "svelte",
 		},
-		{ name: "DitheredImageScene.svelte", code: SceneSource, language: "svelte" },
+		{
+			name: "DitheredImageScene.svelte",
+			code: SceneSource,
+			language: "svelte",
+		},
 	]}
 >
 	<DitheredImageDemo />
@@ -73,7 +78,8 @@ import { DitheredImage } from "$lib/motion-core";
 			prop: "pixelSize",
 			type: "number",
 			default: "1",
-			description: "Size of the pixels in the dithering effect. Higher values result in a chunkier, retro look.",
+			description:
+				"Size of the pixels in the dithering effect. Higher values result in a chunkier, retro look.",
 		},
 		{
 			prop: "color",
@@ -91,7 +97,8 @@ import { DitheredImage } from "$lib/motion-core";
 			prop: "threshold",
 			type: "number",
 			default: "0.0",
-			description: "Baseline threshold for the dithering effect. Higher values make the image darker (more background), while lower values make it brighter.",
+			description:
+				"Baseline threshold for the dithering effect. Higher values make the image darker (more background), while lower values make it brighter.",
 		},
 		{
 			prop: "class",

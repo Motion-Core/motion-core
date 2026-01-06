@@ -3,10 +3,6 @@
 	"slug": "pixelated-image",
 	"description": "A media revealer that animates blocky pixel grids which progressively sharpen to full resolution.",
 	"category": "canvas",
-	"preview": {
-		"video": "/previews/pixelated-image/preview.mp4",
-		"poster": "/previews/pixelated-image/poster.webp"
-	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
 		"@threlte/extras": "^9.7.1",

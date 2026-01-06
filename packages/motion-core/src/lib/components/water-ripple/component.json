@@ -4,8 +4,8 @@
 	"description": "A fluid distortion effect simulating water ripples triggered by interaction.",
 	"category": "canvas",
 	"preview": {
-		"video": "/previews/water-ripple/preview.mp4",
-		"poster": "/previews/water-ripple/poster.webp"
+		"video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/water-ripple/preview.mp4",
+		"poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/water-ripple/poster.webp"
 	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",

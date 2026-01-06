@@ -3,10 +3,6 @@
 	"slug": "interactive-grid",
 	"description": "A physics-based grid simulation that distorts an image in response to cursor movement.",
 	"category": "canvas",
-	"preview": {
-		"video": "/previews/interactive-grid/preview.mp4",
-		"poster": "/previews/interactive-grid/poster.webp"
-	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
 		"@threlte/extras": "^9.7.1",
