@@ -112,7 +112,7 @@
 		onkeydown={(e) => e.key === "Escape" && close()}
 	>
 		<div
-			class="w-full max-w-164 overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+			class="card-highlight relative w-full max-w-164 rounded-2xl border border-border bg-card shadow-2xl"
 			role="document"
 			transition:scale={{
 				duration: 300,
@@ -140,12 +140,12 @@
 				<input
 					bind:this={inputRef}
 					bind:value={query}
-					class="flex h-12 w-full bg-transparent text-base text-foreground placeholder:text-foreground/45 focus:outline-none"
+					class="flex h-12 w-full bg-transparent text-base text-foreground placeholder:text-foreground/45 focus:outline-none focus-visible:border-none! focus-visible:ring-0! focus-visible:ring-offset-0! focus-visible:outline-none!"
 					placeholder="Search documentation..."
 					aria-label="Search documentation"
 				/>
 				<kbd
-					class="pointer-events-none hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
+					class="card-highlight pointer-events-none relative hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
 				>
 					ESC
 				</kbd>
@@ -232,10 +232,10 @@
 				</div>
 			</div>
 			<div
-				class="flex w-full flex-row items-center justify-start gap-2 border-t border-border/60 bg-card-muted/60 p-2"
+				class="flex w-full flex-row items-center justify-start gap-2 rounded-b-2xl border-t border-border/60 bg-card-muted/60 p-2"
 			>
 				<kbd
-					class="pointer-events-none hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
+					class="card-highlight pointer-events-none relative hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

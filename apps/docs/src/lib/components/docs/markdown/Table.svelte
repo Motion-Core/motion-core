@@ -16,12 +16,14 @@
 </script>
 
 <div
-	class="relative my-8 w-full overflow-x-auto rounded-xl border border-border bg-card shadow-sm"
+	class="card-highlight relative my-8 rounded-xl border border-border bg-card shadow-sm"
 >
-	<table
-		{...restProps}
-		class={cn("w-full text-base [&_code]:text-sm", className)}
-	>
-		{@render children?.()}
-	</table>
+	<div class="w-full overflow-x-auto rounded-xl">
+		<table
+			{...restProps}
+			class={cn("w-full text-base [&_code]:text-sm", className)}
+		>
+			{@render children?.()}
+		</table>
+	</div>
 </div>

@@ -17,7 +17,10 @@
 
 <thead
 	{...restProps}
-	class={cn("border-b border-border bg-card-muted/60", className)}
+	class={cn(
+		"overflow-hidden rounded-t-xl border-b border-border bg-card-muted/60",
+		className,
+	)}
 >
 	{@render children?.()}
 </thead>

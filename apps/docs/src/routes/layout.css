@@ -16,6 +16,7 @@
 	--color-background: oklch(0.9542 0.002 var(--base-hue));
 	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
 	--color-accent: oklch(0.6996 0.201959 44.4414);
+	--color-accent-secondary: oklch(0.5596 0.151959 44.4414);
 	--color-border: oklch(0.9225 0.002 var(--base-hue));
 	--color-card: oklch(1 0 0);
 	--color-card-muted: oklch(0.9642 0.002 var(--base-hue));
@@ -51,6 +52,7 @@
 	--color-border: oklch(0.28 0.01 var(--base-hue));
 	--color-card: oklch(0.21 0.0065 var(--base-hue));
 	--color-card-muted: oklch(0.26 0.0085 var(--base-hue));
+	--card-highlight: oklch(0.728 0.015 var(--base-hue) / 0.15);
 }
 
 @theme {
@@ -59,9 +61,11 @@
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-accent: var(--accent);
+	--color-accent-secondary: var(--accent-secondary);
 	--color-border: var(--border);
 	--color-card: var(--card);
 	--color-card-muted: var(--card-muted);
+	--card-highlight: var(--card-highlight);
 	--shadow-xs: var(--shadow-xs);
 	--shadow-sm: var(--shadow-sm);
 	--shadow: var(--shadow);
@@ -69,6 +73,25 @@
 	--shadow-lg: var(--shadow-lg);
 	--shadow-xl: var(--shadow-xl);
 	--shadow-2xl: var(--shadow-2xl);
+}
+
+@utility card-highlight {
+	isolation: isolate;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: -1px;
+		border-radius: inherit;
+		pointer-events: none;
+		z-index: -1;
+	}
+
+	@variant dark {
+		&::before {
+			box-shadow: inset 0 1px 0 0 var(--card-highlight);
+		}
+	}
 }
 
 @layer base {
@@ -88,6 +111,11 @@
 
 ::selection {
 	@apply bg-accent text-white;
+}
+
+*:focus-visible {
+	outline: 2px solid #ff6900;
+	outline-offset: 0px;
 }
 
 ::view-transition-old(root),

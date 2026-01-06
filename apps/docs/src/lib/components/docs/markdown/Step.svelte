@@ -17,9 +17,13 @@
 	{#if title}
 		<div class="mb-4 flex h-8 items-center">
 			<span
-				class="absolute -left-4 flex size-8 items-center justify-center rounded-full border border-border bg-card text-xs font-medium text-foreground shadow-sm [counter-increment:step] before:content-[counter(step)]"
-			></span>
-			<h3 class="text-base leading-none font-medium">
+				class="absolute -left-4 flex size-8 items-center justify-center rounded-full bg-card text-xs font-medium text-foreground [counter-increment:step] before:content-[counter(step)]"
+			>
+				<span
+					class="card-highlight absolute z-0 size-8 rounded-full border border-border shadow-sm"
+				></span>
+			</span>
+			<h3 class="relative z-10 text-base leading-none font-medium">
 				{title}
 			</h3>
 		</div>

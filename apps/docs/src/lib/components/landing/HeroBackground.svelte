@@ -19,13 +19,15 @@
 
 <div
 	class={cn(
-		"pointer-events-none absolute inset-2 z-0 overflow-hidden rounded-xl border border-border",
+		"card-highlight pointer-events-none absolute inset-2 z-0 rounded-xl border border-border shadow-sm",
 		className,
 	)}
 >
-	<Canvas {dpr}>
-		<Scene {shadow} {highlight} />
-	</Canvas>
+	<div class="h-full w-full overflow-hidden rounded-xl">
+		<Canvas {dpr}>
+			<Scene {shadow} {highlight} />
+		</Canvas>
+	</div>
 	<div
 		class="absolute inset-x-0 bottom-0 z-10 h-96 overflow-hidden rounded-b-xl bg-linear-to-b from-transparent to-card"
 	></div>

@@ -238,7 +238,7 @@
 								class={cn(
 									"border-b-2 px-4 py-2.5 whitespace-nowrap transition-all duration-150 ease-out",
 									index === activeTab
-										? "border-accent text-accent"
+										? "border-accent text-foreground"
 										: "border-transparent text-foreground/70 hover:text-foreground",
 								)}
 								onclick={() => (activeTab = index)}

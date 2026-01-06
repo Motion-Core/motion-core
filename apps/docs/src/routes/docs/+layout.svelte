@@ -96,62 +96,68 @@
 	{/if}
 </svelte:head>
 
-<main class="h-dvh bg-card text-foreground lg:py-2">
+<main class="relative h-dvh bg-card text-foreground lg:py-2">
 	<MobileSidebar />
 
 	<aside class="fixed top-0 left-0 hidden w-88 shrink-0 lg:block">
 		<DocsSidebar />
 	</aside>
 
-	<ScrollArea
-		id="docs-content-container"
-		class="mx-auto mt-12 w-full max-w-4xl border-border bg-background lg:mt-0 lg:ml-88 lg:max-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border xl:mr-88"
+	<div
+		class="card-highlight relative mx-auto w-full max-w-4xl border-border bg-background pt-12 lg:ml-88 lg:max-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border lg:pt-0 xl:mr-88"
 	>
-		<div class="flex flex-col gap-8 px-4 py-8 lg:px-8">
-			<section class="min-w-0 flex-1 space-y-8">
-				{#if metadata}
-					<div class="space-y-4">
-						{#if currentDoc?.category}
-							<p class="mb-2 text-sm font-medium text-foreground/45 capitalize">
-								{currentDoc.category}
-							</p>
-						{/if}
-						<h1
-							class="scroll-m-20 text-3xl font-medium text-foreground font-display"
-						>
-							{metadata.name || metadata.title}
-						</h1>
-						{#if metadata.description}
-							<p class="max-w-4xl text-base text-foreground/70">
-								{metadata.description}
-							</p>
-						{/if}
-						{#if dependencies.length > 0}
-							<div class="flex gap-2">
-								{#each dependencies as dep (dep)}
-									<a
-										href={`https://www.npmjs.com/package/${dep}`}
-										target="_blank"
-										rel="noreferrer"
-										class="inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-foreground/70 shadow-sm transition-[color] duration-150 ease-out hover:text-foreground"
-									>
-										{dep}
-									</a>
-								{/each}
-							</div>
-						{/if}
+		<ScrollArea
+			id="docs-content-container"
+			class="mx-auto w-full lg:max-h-[calc(100dvh-1rem)]"
+		>
+			<div class="flex flex-col gap-8 px-4 py-8 lg:px-8">
+				<section class="min-w-0 flex-1 space-y-8">
+					{#if metadata}
+						<div class="space-y-4">
+							{#if currentDoc?.category}
+								<p
+									class="mb-2 text-sm font-medium text-foreground/45 capitalize"
+								>
+									{currentDoc.category}
+								</p>
+							{/if}
+							<h1
+								class="scroll-m-20 text-3xl font-medium text-foreground font-display"
+							>
+								{metadata.name || metadata.title}
+							</h1>
+							{#if metadata.description}
+								<p class="max-w-4xl text-base text-foreground/70">
+									{metadata.description}
+								</p>
+							{/if}
+							{#if dependencies.length > 0}
+								<div class="flex gap-2">
+									{#each dependencies as dep (dep)}
+										<a
+											href={`https://www.npmjs.com/package/${dep}`}
+											target="_blank"
+											rel="noreferrer"
+											class="card-highlight relative inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-foreground/70 shadow-sm transition-[color] duration-150 ease-out hover:text-foreground"
+										>
+											{dep}
+										</a>
+									{/each}
+								</div>
+							{/if}
+						</div>
+						<hr class="text-border" />
+					{/if}
+
+					<div>
+						{@render renderChildren?.()}
+
+						<DocNavigation previous={previousLink} next={nextLink} />
 					</div>
-					<hr class="text-border" />
-				{/if}
-
-				<div>
-					{@render renderChildren?.()}
-
-					<DocNavigation previous={previousLink} next={nextLink} />
-				</div>
-			</section>
-		</div>
-	</ScrollArea>
+				</section>
+			</div>
+		</ScrollArea>
+	</div>
 
 	<aside
 		class="fixed top-8 right-8 hidden h-[calc(100dvh-4rem)] w-53 shrink-0 flex-col xl:flex"

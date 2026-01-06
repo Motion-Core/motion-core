@@ -78,7 +78,7 @@
 	bind:this={cardElement}
 	href={`/docs/${component.slug}`}
 	class={cn(
-		"group relative block min-h-64 break-inside-avoid rounded-xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted md:min-h-0",
+		"group card-highlight relative block min-h-64 break-inside-avoid rounded-xl border border-border bg-card p-1 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted md:min-h-0",
 		featured ? "flex h-full flex-col" : "",
 		className,
 	)}

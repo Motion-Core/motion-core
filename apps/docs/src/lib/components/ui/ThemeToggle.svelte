@@ -139,7 +139,7 @@
 
 <div class="space-y-2">
 	<div
-		class="theme-toggle relative inline-flex items-center gap-1 rounded-xl border border-border bg-background p-0.5"
+		class="card-highlight relative inline-flex items-center gap-1 rounded-xl border border-border bg-background p-0.5"
 		bind:this={containerRef}
 	>
 		<button
@@ -206,14 +206,6 @@
 </div>
 
 <style>
-	:global(.theme-toggle) {
-		--toggle-highlight-x: 0px;
-		--toggle-highlight-y: 0px;
-		--toggle-highlight-width: 0px;
-		--toggle-highlight-height: 0px;
-		overflow: hidden;
-	}
-
 	:global(.theme-toggle)::before {
 		content: "";
 		position: absolute;

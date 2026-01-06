@@ -47,7 +47,7 @@
 								{#each row[key].split("|") as type, i (type + i)}
 									<code
 										class={cn(
-											"rounded-lg border border-border bg-card-muted px-1.5 py-0.5 font-normal whitespace-nowrap text-foreground shadow-sm mono",
+											"card-highlight relative rounded-lg border border-border bg-card-muted px-1.5 py-0.5 font-normal whitespace-nowrap text-foreground shadow-sm mono",
 										)}
 									>
 										{type.trim()}
@@ -56,7 +56,7 @@
 							{:else}
 								<code
 									class={cn(
-										"rounded-lg border border-border bg-card-muted px-1.5 py-0.5 font-normal text-foreground shadow-sm mono",
+										"card-highlight relative rounded-lg border border-border bg-card-muted px-1.5 py-0.5 font-normal text-foreground shadow-sm mono",
 									)}
 								>
 									{row[key]}
