@@ -4,11 +4,34 @@
 	import * as THREE from "three";
 
 	interface Props {
+		/**
+		 * The image source URL.
+		 */
 		image: string;
+		/**
+		 * Type of dithering map to use.
+		 * @default "bayer4x4"
+		 */
 		ditherMap?: "bayer4x4" | "bayer8x8" | "halftone" | "voidAndCluster";
+		/**
+		 * Pixel size of the dithering effect.
+		 * @default 1
+		 */
 		pixelSize?: number;
+		/**
+		 * Foreground color (dots).
+		 * @default "#ff6900"
+		 */
 		color?: string;
+		/**
+		 * Background color.
+		 * @default "#111113"
+		 */
 		backgroundColor?: string;
+		/**
+		 * Threshold for the dithering effect.
+		 * @default 0.0
+		 */
 		threshold?: number;
 	}
 
