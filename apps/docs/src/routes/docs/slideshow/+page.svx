@@ -7,13 +7,13 @@ poster: /previews/slideshow/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
-	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
-	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
-	"$lib/components/docs/markdown/Step.svelte"; import slideshowSource from
-	"motion-core/components/slideshow/Slideshow.svelte?raw"; import SlideshowDemo
-	from "./SlideshowDemo.svelte"; import slideshowDemoSource from
-	"./SlideshowDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import slideshowSource from "motion-core/components/slideshow/Slideshow.svelte?raw";
+	import SlideshowDemo from "./SlideshowDemo.svelte";
+	import slideshowDemoSource from "./SlideshowDemo.svelte?raw";
 </script>
 
 ## Installation

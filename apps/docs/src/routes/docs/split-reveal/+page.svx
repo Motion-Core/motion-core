@@ -7,13 +7,13 @@ poster: /previews/split-reveal/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
-	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
-	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
-	"$lib/components/docs/markdown/Step.svelte"; import splitRevealSource from
-	"motion-core/components/split-reveal/SplitReveal.svelte?raw"; import
-	SplitRevealDemo from "./SplitRevealDemo.svelte"; import splitRevealDemoSource
-	from "./SplitRevealDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import splitRevealSource from "motion-core/components/split-reveal/SplitReveal.svelte?raw";
+	import SplitRevealDemo from "./SplitRevealDemo.svelte";
+	import splitRevealDemoSource from "./SplitRevealDemo.svelte?raw";
 </script>
 
 ## Installation

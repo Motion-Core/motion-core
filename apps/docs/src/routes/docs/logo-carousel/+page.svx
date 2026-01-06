@@ -7,15 +7,14 @@ poster: /previews/logo-carousel/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
-	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
-	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
-	"$lib/components/docs/markdown/Step.svelte"; import logoCarouselSource from
-	"motion-core/components/logo-carousel/LogoCarousel.svelte?raw"; import
-	logoColumnSource from
-	"motion-core/components/logo-carousel/LogoColumn.svelte?raw"; import
-	LogoCarouselDemo from "./LogoCarouselDemo.svelte"; import
-	logoCarouselDemoSource from "./LogoCarouselDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import logoCarouselSource from "motion-core/components/logo-carousel/LogoCarousel.svelte?raw";
+	import logoColumnSource from "motion-core/components/logo-carousel/LogoColumn.svelte?raw";
+	import LogoCarouselDemo from "./LogoCarouselDemo.svelte";
+	import logoCarouselDemoSource from "./LogoCarouselDemo.svelte?raw";
 </script>
 
 ## Installation

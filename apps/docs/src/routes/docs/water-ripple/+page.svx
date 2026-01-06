@@ -7,15 +7,14 @@ poster: /previews/water-ripple/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
-	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
-	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
-	"$lib/components/docs/markdown/Step.svelte"; import waterRippleSource from
-	"motion-core/components/water-ripple/WaterRipple.svelte?raw"; import
-	SceneSource from
-	"motion-core/components/water-ripple/WaterRippleScene.svelte?raw"; import
-	WaterRippleDemo from "./WaterRippleDemo.svelte"; import waterRippleDemoSource
-	from "./WaterRippleDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import waterRippleSource from "motion-core/components/water-ripple/WaterRipple.svelte?raw";
+	import SceneSource from "motion-core/components/water-ripple/WaterRippleScene.svelte?raw";
+	import WaterRippleDemo from "./WaterRippleDemo.svelte";
+	import waterRippleDemoSource from "./WaterRippleDemo.svelte?raw";
 </script>
 
 ## Installation

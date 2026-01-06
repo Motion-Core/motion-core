@@ -7,13 +7,13 @@ poster: /previews/image-trail/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
-	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
-	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
-	"$lib/components/docs/markdown/Step.svelte"; import imageTrailSource from
-	"motion-core/components/image-trail/ImageTrail.svelte?raw"; import
-	ImageTrailDemo from "./ImageTrailDemo.svelte"; import imageTrailDemoSource
-	from "./ImageTrailDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	 import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import imageTrailSource from "motion-core/components/image-trail/ImageTrail.svelte?raw";
+	import ImageTrailDemo from "./ImageTrailDemo.svelte";
+	import imageTrailDemoSource from "./ImageTrailDemo.svelte?raw";
 </script>
 
 ## Installation

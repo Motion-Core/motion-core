@@ -7,13 +7,14 @@ poster: /previews/globe/poster.webp
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
-	InstallationTabs from "$lib/components/docs/InstallationTabs.svelte"; import
-	Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step from
-	"$lib/components/docs/markdown/Step.svelte"; import globeSource from
-	"motion-core/components/globe/Globe.svelte?raw"; import globeSceneSource from
-	"motion-core/components/globe/GlobeScene.svelte?raw"; import GlobeDemo from
-	"./GlobeDemo.svelte"; import globeDemoSource from "./GlobeDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import globeSource from "motion-core/components/globe/Globe.svelte?raw";
+	import globeSceneSource from "motion-core/components/globe/GlobeScene.svelte?raw";
+	import GlobeDemo from "./GlobeDemo.svelte";
+	import globeDemoSource from "./GlobeDemo.svelte?raw";
 </script>
 
 ## Installation
