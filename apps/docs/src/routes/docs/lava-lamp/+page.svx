@@ -10,11 +10,11 @@ poster: /previews/lava-lamp/poster.webp
 	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from"$lib/components/docs/markdown/Step.svelte";
-	import lavaLampSource from"motion-core/components/lava-lamp/LavaLamp.svelte?raw";
-	import sceneSourcefrom "motion-core/components/lava-lamp/LavaLampScene.svelte?raw";
-	importLavaLampDemo from "./LavaLampDemo.svelte";
-	import lavaLampDemoSource from"./LavaLampDemo.svelte?raw";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import lavaLampSource from "motion-core/components/lava-lamp/LavaLamp.svelte?raw";
+	import sceneSource from "motion-core/components/lava-lamp/LavaLampScene.svelte?raw";
+	import LavaLampDemo from "./LavaLampDemo.svelte";
+	import lavaLampDemoSource from "./LavaLampDemo.svelte?raw";
 </script>
 
 ## Installation
