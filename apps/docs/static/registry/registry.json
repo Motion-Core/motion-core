@@ -163,6 +163,9 @@
           "path": "components/globe/GlobeScene.svelte"
         },
         {
+          "path": "components/globe/types.ts"
+        },
+        {
           "path": "utils/cn.ts",
           "target": "utils"
         },

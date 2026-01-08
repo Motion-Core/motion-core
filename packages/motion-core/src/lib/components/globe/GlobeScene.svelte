@@ -1,8 +1,14 @@
 <script lang="ts">
-	import { T } from "@threlte/core";
-	import { OrbitControls } from "@threlte/extras";
+	import { T, useThrelte } from "@threlte/core";
+	import { OrbitControls, HTML, interactivity } from "@threlte/extras";
 	import * as THREE from "three";
+	import type { OrbitControls as OrbitControlsType } from "three/examples/jsm/controls/OrbitControls.js";
+	import gsap from "gsap";
 	import landGeoJsonRaw from "../../assets/ne_110m_land.geojson?raw";
+	import type { GlobeMarker } from "./types";
+	import GlobeMarkerItem from "./GlobeMarkerItem.svelte";
+
+	interactivity();
 
 	interface FresnelConfig {
 		/**
@@ -91,6 +97,19 @@
 		 * @default true
 		 */
 		autoRotate?: boolean;
+		/**
+		 * Whether to lock the camera's polar angle.
+		 * @default true
+		 */
+		lockedPolarAngle?: boolean;
+		/**
+		 * Markers to display on the globe.
+		 */
+		markers?: GlobeMarker[];
+		/**
+		 * Coordinates [lat, lon] to focus on.
+		 */
+		focusOn?: [number, number] | null;
 	}
 
 	type GeoJSONPolygon = {
@@ -142,10 +161,16 @@
 		pointSize = 0.05,
 		landPointColor = "#f77114",
 		autoRotate = true,
+		lockedPolarAngle = true,
+		markers = [],
+		focusOn = null,
 	}: Props = $props();
 
 	const initialCameraPosition = { x: 0, y: 0, z: 8 };
 	let globeGroup = $state<THREE.Group>();
+	let controls = $state<OrbitControlsType>();
+
+	const { camera } = useThrelte();
 
 	const SEGMENTS = 64;
 
@@ -319,6 +344,26 @@
 		filteredPositions = new Float32Array(tempPositions);
 	});
 
+	$effect(() => {
+		if (focusOn && $camera && controls) {
+			const [lat, lon] = focusOn;
+			const cameraDistance = initialCameraPosition.z;
+
+			const { x, y, z } = lonLatToCartesian(lon, lat, cameraDistance);
+
+			gsap.to($camera.position, {
+				x,
+				y,
+				z,
+				duration: 1.5,
+				ease: "power2.inOut",
+				onUpdate: () => {
+					controls?.update();
+				},
+			});
+		}
+	});
+
 	function updateMeshMatrices(
 		mesh: THREE.InstancedMesh,
 		positions: Float32Array,
@@ -424,6 +469,18 @@
 		return { lon, lat };
 	}
 
+	function lonLatToCartesian(lon: number, lat: number, r: number) {
+		const lonRad = lon * DEG2RAD;
+		const latRad = lat * DEG2RAD;
+
+		const y = r * Math.sin(latRad);
+		const rXZ = r * Math.cos(latRad);
+		const x = rXZ * Math.sin(lonRad);
+		const z = rXZ * Math.cos(lonRad);
+
+		return { x, y, z };
+	}
+
 	function isPointOnLand(lon: number, lat: number): boolean {
 		for (const polygon of landPolygons) {
 			if (!isWithinBounds(lon, lat, polygon.bbox)) continue;
@@ -494,14 +551,15 @@
 	]}
 >
 	<OrbitControls
+		bind:ref={controls}
 		enableDamping
 		{autoRotate}
-		minPolarAngle={1.5}
-		maxPolarAngle={1.4}
+		minPolarAngle={lockedPolarAngle ? 1.5 : 0}
+		maxPolarAngle={lockedPolarAngle ? 1.4 : Math.PI}
 		enableZoom={false}
-		oncreate={(controls) => {
-			controls.target.set(0, 0, 0);
-			controls.update();
+		oncreate={(c) => {
+			c.target.set(0, 0, 0);
+			c.update();
 		}}
 	/>
 </T.PerspectiveCamera>
@@ -531,4 +589,13 @@
 			</T.InstancedMesh>
 		{/key}
 	{/if}
+
+	{#each markers as marker, i (marker.label || i)}
+		{@const pos = lonLatToCartesian(
+			marker.location[1],
+			marker.location[0],
+			radius * 1.002,
+		)}
+		<GlobeMarkerItem {marker} {radius} position={[pos.x, pos.y, pos.z]} />
+	{/each}
 </T.Group>

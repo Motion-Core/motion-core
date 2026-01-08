@@ -25,6 +25,12 @@
 			"path": "GlobeScene.svelte"
 		},
 		{
+			"path": "GlobeMarkerItem.svelte"
+		},
+		{
+			"path": "types.ts"
+		},
+		{
 			"path": "../../utils/cn.ts",
 			"target": "utils"
 		},

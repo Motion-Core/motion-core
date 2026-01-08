@@ -3,6 +3,7 @@
 	import Scene from "./GlobeScene.svelte";
 	import { cn } from "../../utils/cn";
 	import type { ComponentProps } from "svelte";
+	import type { GlobeMarker } from "./types";
 
 	type SceneProps = ComponentProps<typeof Scene>;
 
@@ -44,6 +45,21 @@
 		 * @default true
 		 */
 		autoRotate?: SceneProps["autoRotate"];
+		/**
+		 * Whether to lock the camera's polar angle (vertical rotation).
+		 * If true, limits the vertical view to a narrow band.
+		 * @default true
+		 */
+		lockedPolarAngle?: boolean;
+		/**
+		 * Array of markers to display on the globe.
+		 */
+		markers?: GlobeMarker[];
+		/**
+		 * Coordinates [lat, lon] to focus the camera on.
+		 * When set, auto-rotation will be disabled temporarily.
+		 */
+		focusOn?: [number, number] | null;
 
 		[key: string]: unknown;
 	}
@@ -57,6 +73,9 @@
 		landPointColor,
 		pointSize,
 		autoRotate = true,
+		lockedPolarAngle = true,
+		markers = [],
+		focusOn = null,
 		...rest
 	}: Props = $props();
 
@@ -74,6 +93,9 @@
 				{landPointColor}
 				{pointSize}
 				{autoRotate}
+				{lockedPolarAngle}
+				{markers}
+				{focusOn}
 			/>
 		</Canvas>
 	</div>

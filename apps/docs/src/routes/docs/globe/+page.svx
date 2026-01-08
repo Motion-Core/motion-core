@@ -13,6 +13,8 @@ poster: /previews/globe/poster.webp
 	import Step from "$lib/components/docs/markdown/Step.svelte";
 	import globeSource from "motion-core/components/globe/Globe.svelte?raw";
 	import globeSceneSource from "motion-core/components/globe/GlobeScene.svelte?raw";
+	import globeMarkerItemSource from "motion-core/components/globe/GlobeMarkerItem.svelte?raw";
+	import typesSource from "motion-core/components/globe/types.ts?raw";
 	import GlobeDemo from "./GlobeDemo.svelte";
 	import globeDemoSource from "./GlobeDemo.svelte?raw";
 </script>
@@ -42,6 +44,8 @@ import { Globe } from "$lib/motion-core";
 		{ name: "Example", code: globeDemoSource, language: "svelte" },
 		{ name: "Globe.svelte", code: globeSource, language: "svelte" },
 		{ name: "GlobeScene.svelte", code: globeSceneSource, language: "svelte" },
+		{ name: "GlobeMarkerItem.svelte", code: globeMarkerItemSource, language: "svelte" },
+		{ name: "types.ts", code: typesSource, language: "typescript" },
 	]}
 >
 	<GlobeDemo />
@@ -96,6 +100,24 @@ import { Globe } from "$lib/motion-core";
 			type: "boolean",
 			default: "true",
 			description: "Whether the globe should auto-rotate.",
+		},
+		{
+			prop: "lockedPolarAngle",
+			type: "boolean",
+			default: "true",
+			description: "Whether to lock the vertical view angle.",
+		},
+		{
+			prop: "markers",
+			type: "GlobeMarker[]",
+			default: "[]",
+			description: "Array of markers to display on the globe.",
+		},
+		{
+			prop: "focusOn",
+			type: "[number, number] | null",
+			default: "null",
+			description: "Coordinates [lat, lon] to focus the camera on.",
 		},
 		{
 			prop: "class",
