@@ -24,10 +24,6 @@
       "name": "ASCII Renderer",
       "description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
       "category": "canvas",
-      "preview": {
-        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/ascii-renderer/preview.mp4",
-        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/ascii-renderer/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -56,9 +52,6 @@
       "name": "Dithered Image",
       "description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
       "category": "canvas",
-      "preview": {
-        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/dithered-image/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -141,10 +134,6 @@
       "name": "Globe",
       "description": "A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.",
       "category": "canvas",
-      "preview": {
-        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/globe/preview.mp4",
-        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/globe/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -163,7 +152,13 @@
           "path": "components/globe/GlobeScene.svelte"
         },
         {
-          "path": "components/globe/types.ts"
+          "path": "components/globe/GlobeMarkerItem.svelte"
+        },
+        {
+          "path": "components/globe/types.ts",
+          "typeExports": [
+            "GlobeMarker"
+          ]
         },
         {
           "path": "utils/cn.ts",
@@ -180,10 +175,6 @@
       "name": "Image Trail",
       "description": "An interactive effect that spawns a trail of images following the cursor with scaling and rotation.",
       "category": "pointer",
-      "preview": {
-        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/image-trail/preview.mp4",
-        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/image-trail/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -342,10 +333,6 @@
       "name": "Magnetic",
       "description": "A wrapper that applies spring physics to elements, making them stick to the cursor on hover.",
       "category": "pointer",
-      "preview": {
-        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/magnetic/preview.mp4",
-        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/magnetic/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -493,10 +480,6 @@
       "name": "Rubiks Cube",
       "description": "A dynamic Rubik's Cube that continuously rotates while a Fresnel rim glow traces each edge.",
       "category": "canvas",
-      "preview": {
-        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/rubiks-cube/preview.mp4",
-        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/rubiks-cube/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
@@ -594,10 +577,6 @@
       "name": "Text Loop",
       "description": "A text animator that cycles through phrases with blurred vertical transitions, suitable for headlines.",
       "category": "typography",
-      "preview": {
-        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/text-loop/preview.mp4",
-        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/text-loop/poster.webp"
-      },
       "dependencies": {
         "gsap": "^3.14.2"
       },
@@ -621,10 +600,6 @@
       "name": "Water Ripple",
       "description": "A fluid distortion effect simulating water ripples triggered by interaction.",
       "category": "canvas",
-      "preview": {
-        "video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/water-ripple/preview.mp4",
-        "poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/water-ripple/poster.webp"
-      },
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",

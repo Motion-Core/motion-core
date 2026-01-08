@@ -157,7 +157,12 @@ async function main() {
 		baseDependencies,
 		baseDevDependencies,
 		components: Object.fromEntries(
-			Object.entries(components).sort(([a], [b]) => a.localeCompare(b)),
+			Object.entries(components)
+				.sort(([a], [b]) => a.localeCompare(b))
+				.map(([slug, component]) => {
+					const { preview, ...rest } = component;
+					return [slug, rest];
+				}),
 		),
 	};
 
