@@ -8,6 +8,7 @@ type ComponentFileEntry = {
 	path: string;
 	kind?: string;
 	target?: string;
+	typeExports?: string[];
 };
 
 type ComponentMetadata = {
@@ -124,6 +125,7 @@ async function main() {
 					path: registryPath,
 					kind: entry.kind,
 					target: entry.target,
+					typeExports: entry.typeExports,
 				};
 			}),
 		);
