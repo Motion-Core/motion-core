@@ -28,7 +28,10 @@
 			"path": "GlobeMarkerItem.svelte"
 		},
 		{
-			"path": "types.ts"
+			"path": "types.ts",
+			"typeExports": [
+				"GlobeMarker"
+			]
 		},
 		{
 			"path": "../../utils/cn.ts",

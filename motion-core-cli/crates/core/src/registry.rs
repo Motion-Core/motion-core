@@ -41,6 +41,8 @@ pub struct ComponentFileRecord {
     pub target: Option<String>,
     #[serde(default)]
     pub kind: Option<String>,
+    #[serde(default, rename = "typeExports")]
+    pub type_exports: Vec<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]

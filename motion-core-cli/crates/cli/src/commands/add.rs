@@ -125,6 +125,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
     let mut runtime_requirements = BTreeMap::new();
     let mut dev_requirements = BTreeMap::new();
     let mut installed_components = Vec::new();
+    let mut registered_type_exports = Vec::new();
     let mut files_changed = 0;
     let file_spinner = create_spinner("Syncing Motion Core files...");
 
@@ -174,6 +175,13 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
             if fallback_entry.is_none() && is_svelte_file(file) {
                 fallback_entry = Some(destination.clone());
             }
+
+            if !file.type_exports.is_empty() {
+                registered_type_exports.push(InstalledTypeExport {
+                    export_names: file.type_exports.clone(),
+                    entry_path: destination.clone(),
+                });
+            }
         }
 
         if entry_paths.is_empty() {
@@ -197,8 +205,13 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
     }
     file_spinner.finish_and_clear();
 
-    let exports_updated =
-        update_component_exports(workspace_root, &config, &installed_components, args.dry_run)?;
+    let exports_updated = update_component_exports(
+        workspace_root,
+        &config,
+        &installed_components,
+        &registered_type_exports,
+        args.dry_run,
+    )?;
     if exports_updated {
         if args.dry_run {
             reporter.info(format_args!(
@@ -489,9 +502,10 @@ fn update_component_exports(
     workspace_root: &Path,
     config: &Config,
     components: &[InstalledComponent],
+    type_exports: &[InstalledTypeExport],
     dry_run: bool,
 ) -> anyhow::Result<bool> {
-    if components.is_empty() {
+    if components.is_empty() && type_exports.is_empty() {
         return Ok(false);
     }
 
@@ -517,14 +531,17 @@ fn update_component_exports(
         if let Some(import) = compute_import_path(
             workspace_root,
             barrel_dir,
-            &config.aliases.components.filesystem,
+            Some(&config.aliases.components.filesystem),
             &component.entry_path,
         ) {
             let line = format!(
                 "export {{ default as {} }} from \"{}\";",
                 component.export_name, import
             );
-            match export_map.entry(component.export_name.clone()) {
+            match export_map
+                .components
+                .entry(component.export_name.clone())
+            {
                 Entry::Vacant(entry) => {
                     entry.insert(line);
                     modified = true;
@@ -539,14 +556,34 @@ fn update_component_exports(
         }
     }
 
+    for type_entry in type_exports {
+        if let Some(import) = compute_import_path(
+            workspace_root,
+            barrel_dir,
+            Some(&config.aliases.components.filesystem),
+            &type_entry.entry_path,
+        ) {
+            for name in type_entry.export_names.iter().filter(|name| !name.is_empty()) {
+                let line = format!("export type {{ {} }} from \"{}\";", name, import);
+                match export_map.types.entry(name.clone()) {
+                    Entry::Vacant(entry) => {
+                        entry.insert(line);
+                        modified = true;
+                    }
+                    Entry::Occupied(mut entry) => {
+                        if entry.get() != &line {
+                            entry.insert(line);
+                            modified = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     if modified && !export_map.is_empty() {
         if !dry_run {
-            let mut next = String::new();
-            for line in export_map.values() {
-                next.push_str(line);
-                next.push('\n');
-            }
-            fs::write(&barrel_path, next)?;
+            fs::write(&barrel_path, export_map.render())?;
         }
         Ok(true)
     } else {
@@ -554,8 +591,33 @@ fn update_component_exports(
     }
 }
 
-fn parse_export_map(contents: &str) -> BTreeMap<String, String> {
-    let mut map = BTreeMap::new();
+#[derive(Default)]
+struct BarrelExports {
+    components: BTreeMap<String, String>,
+    types: BTreeMap<String, String>,
+}
+
+impl BarrelExports {
+    fn is_empty(&self) -> bool {
+        self.components.is_empty() && self.types.is_empty()
+    }
+
+    fn render(&self) -> String {
+        let mut next = String::new();
+        for line in self.components.values() {
+            next.push_str(line);
+            next.push('\n');
+        }
+        for line in self.types.values() {
+            next.push_str(line);
+            next.push('\n');
+        }
+        next
+    }
+}
+
+fn parse_export_map(contents: &str) -> BarrelExports {
+    let mut map = BarrelExports::default();
     for line in contents.lines() {
         let trimmed = line.trim();
         if let Some(rest) = trimmed.strip_prefix("export { default as ") {
@@ -564,7 +626,7 @@ fn parse_export_map(contents: &str) -> BTreeMap<String, String> {
                     .trim()
                     .trim_start_matches('"')
                     .trim_end_matches("\";");
-                map.insert(
+                map.components.insert(
                     name.trim().to_string(),
                     format!(
                         "export {{ default as {} }} from \"{}\";",
@@ -572,6 +634,19 @@ fn parse_export_map(contents: &str) -> BTreeMap<String, String> {
                         cleaned
                     ),
                 );
+            }
+        } else if let Some(rest) = trimmed.strip_prefix("export type {") {
+            if let Some((names, remainder)) = rest.split_once("} from ") {
+                let cleaned = remainder
+                    .trim()
+                    .trim_start_matches('"')
+                    .trim_end_matches("\";");
+                for name in names.split(',').map(|value| value.trim()).filter(|v| !v.is_empty()) {
+                    map.types.insert(
+                        name.to_string(),
+                        format!("export type {{ {} }} from \"{}\";", name, cleaned),
+                    );
+                }
             }
         }
     }
@@ -581,12 +656,14 @@ fn parse_export_map(contents: &str) -> BTreeMap<String, String> {
 fn compute_import_path(
     workspace_root: &Path,
     barrel_dir: &Path,
-    components_base: &str,
+    preferred_base: Option<&str>,
     entry_path: &Path,
 ) -> Option<String> {
-    let components_root = workspace_root.join(components_base);
-    if let Ok(rel) = entry_path.strip_prefix(&components_root) {
-        return Some(format!("./{}", path_to_slash(rel)));
+    if let Some(base) = preferred_base {
+        let components_root = workspace_root.join(base);
+        if let Ok(rel) = entry_path.strip_prefix(&components_root) {
+            return Some(format!("./{}", path_to_slash(rel)));
+        }
     }
 
     diff_paths(entry_path, barrel_dir).map(|relative| {
@@ -634,6 +711,12 @@ fn diff_dependencies(
 #[derive(Debug)]
 struct InstalledComponent {
     export_name: String,
+    entry_path: PathBuf,
+}
+
+#[derive(Debug)]
+struct InstalledTypeExport {
+    export_names: Vec<String>,
     entry_path: PathBuf,
 }
 
@@ -816,6 +899,78 @@ mod tests {
                 .join("src/lib/motion-core/glass-pane/GlassPane.svelte")
                 .exists()
         );
+    }
+
+    #[test]
+    fn add_exports_type_files() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let config_path = temp.path().join(CONFIG_FILE_NAME);
+        let json = serde_json::to_string(&Config::default()).expect("serialize config");
+        fs::write(&config_path, json).expect("write config");
+
+        let mut components = HashMap::new();
+        components.insert(
+            "globe".into(),
+            ComponentRecord {
+                name: "Globe".into(),
+                description: None,
+                category: None,
+                files: vec![
+                    ComponentFileRecord {
+                        path: "components/globe/Globe.svelte".into(),
+                        kind: Some("entry".into()),
+                        ..Default::default()
+                    },
+                    ComponentFileRecord {
+                        path: "components/globe/types.ts".into(),
+                        type_exports: vec!["GlobeMarker".into()],
+                        ..Default::default()
+                    },
+                ],
+                ..Default::default()
+            },
+        );
+        let registry = Registry {
+            name: "Motion Core".into(),
+            version: "0.1.0".into(),
+            description: None,
+            base_dependencies: HashMap::new(),
+            base_dev_dependencies: HashMap::new(),
+            components,
+        };
+        let ctx = build_context(&temp, registry);
+        ctx.registry().preload_component_manifest(
+            [
+                (
+                    "components/globe/Globe.svelte".into(),
+                    general_purpose::STANDARD.encode("<script></script>"),
+                ),
+                (
+                    "components/globe/types.ts".into(),
+                    general_purpose::STANDARD
+                        .encode("export interface GlobeMarker { lat: number; lon: number; }"),
+                ),
+            ]
+            .into_iter()
+            .collect(),
+        );
+
+        let reporter = ConsoleReporter::new();
+        let args = AddArgs {
+            components: vec!["globe".into()],
+            dry_run: false,
+            assume_yes: true,
+        };
+        let outcome = run(&ctx, &reporter, &args).unwrap();
+        assert_eq!(outcome, CommandOutcome::Completed);
+
+        let barrel = fs::read_to_string(
+            temp.path()
+                .join("src/lib/motion-core/index.ts"),
+        )
+        .expect("read barrel");
+        assert!(barrel.contains("export { default as Globe }"));
+        assert!(barrel.contains("export type { GlobeMarker }"));
     }
 
     #[test]

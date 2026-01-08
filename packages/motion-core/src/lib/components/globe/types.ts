@@ -10,7 +10,7 @@ export interface GlobeMarker {
 	size?: number;
 	/**
 	 * Color of the marker.
-	 * @default "#ff0000"
+	 * @default "#ffffff"
 	 */
 	color?: string;
 	/**
