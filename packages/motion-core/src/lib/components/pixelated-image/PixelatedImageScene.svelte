@@ -27,55 +27,14 @@
 	let currentGridSize = $state(6.0);
 	let isDone = $state(false);
 	let material = $state<ShaderMaterial>();
-	let canvasWidth = $state(1);
-	let canvasHeight = $state(1);
-	let imageWidth = $state(1);
-	let imageHeight = $state(1);
 
 	const resolutionUniform = new Vector2(1, 1);
-	const coverScaleUniform = new Vector2(1, 1);
-	const coverOffsetUniform = new Vector2(0, 0);
-
-	const updateCoverUniforms = () => {
-		if (
-			canvasWidth <= 0 ||
-			canvasHeight <= 0 ||
-			imageWidth <= 0 ||
-			imageHeight <= 0
-		) {
-			return;
-		}
-
-		const screenAspect = canvasWidth / canvasHeight;
-		const imageAspect = imageWidth / imageHeight;
-
-		let scaleX = 1;
-		let scaleY = 1;
-		let offsetX = 0;
-		let offsetY = 0;
-
-		if (screenAspect > imageAspect) {
-			scaleY = imageAspect / screenAspect;
-			offsetY = (1 - scaleY) * 0.5;
-		} else {
-			scaleX = screenAspect / imageAspect;
-			offsetX = (1 - scaleX) * 0.5;
-		}
-
-		scaleX = Math.max(scaleX, 0.00001);
-		scaleY = Math.max(scaleY, 0.00001);
-
-		coverScaleUniform.set(scaleX, scaleY);
-		coverOffsetUniform.set(offsetX, offsetY);
-	};
+	const textureSizeUniform = new Vector2(1, 1);
 
 	$effect(() => {
 		const nextWidth = $size.width;
 		const nextHeight = $size.height;
-		canvasWidth = nextWidth;
-		canvasHeight = nextHeight;
 		resolutionUniform.set(nextWidth, nextHeight);
-		updateCoverUniforms();
 	});
 
 	$effect(() => {
@@ -98,9 +57,7 @@
 	$effect(() => {
 		const tex = $texture;
 		if (tex && tex.image) {
-			imageWidth = tex.image.width;
-			imageHeight = tex.image.height;
-			updateCoverUniforms();
+			textureSizeUniform.set(tex.image.width, tex.image.height);
 		}
 	});
 
@@ -113,7 +70,7 @@
 
 			currentGridSize = nextGrid;
 
-			if (currentGridSize > canvasHeight) {
+			if (currentGridSize > $size.height) {
 				isDone = true;
 				if ($texture) {
 					$texture.magFilter = LinearFilter;
@@ -139,12 +96,19 @@
 	const fragmentShader = `
     uniform sampler2D uTexture;
     uniform vec2 uResolution;
-    uniform vec2 uCoverScale;
-    uniform vec2 uCoverOffset;
+    uniform vec2 uTextureSize;
     uniform float uGridSize;
     uniform bool uIsDone;
 
     varying vec2 vUv;
+
+    vec2 getCoverUV(vec2 uv, vec2 textureSize) {
+       vec2 s = uResolution / textureSize;
+       float scale = max(s.x, s.y);
+       vec2 scaledSize = textureSize * scale;
+       vec2 offset = (uResolution - scaledSize) * 0.5;
+       return (uv * uResolution - offset) / scaledSize;
+    }
 
     void main() {
        vec2 s = uResolution;
@@ -154,8 +118,7 @@
        vec2 pixelatedScreenUv = floor(vUv * grid) / grid + (0.5 / grid);
 
        vec2 finalUv = uIsDone ? vUv : pixelatedScreenUv;
-       vec2 coverScale = max(uCoverScale, vec2(0.00001));
-       vec2 coverUv = coverScale * finalUv + uCoverOffset;
+       vec2 coverUv = getCoverUV(finalUv, uTextureSize);
 
        vec4 color = texture2D(uTexture, coverUv);
        gl_FragColor = color;
@@ -174,8 +137,7 @@
 			uniforms={{
 				uTexture: { value: $texture },
 				uResolution: { value: resolutionUniform },
-				uCoverScale: { value: coverScaleUniform },
-				uCoverOffset: { value: coverOffsetUniform },
+				uTextureSize: { value: textureSizeUniform },
 				uGridSize: { value: initialGridSize },
 				uIsDone: { value: false },
 			}}

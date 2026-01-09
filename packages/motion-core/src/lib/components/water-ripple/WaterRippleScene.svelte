@@ -42,15 +42,21 @@
 		uniform sampler2D uTexture;
 		uniform sampler2D uDisplacement;
 		uniform vec2 uResolution;
-		uniform vec2 uCoverScale;
-		uniform vec2 uCoverOffset;
+		uniform vec2 uTextureSize;
 
 		varying vec2 vUv;
 		float PI = 3.141592653589793238;
 
+		vec2 getCoverUV(vec2 uv, vec2 textureSize) {
+			vec2 s = uResolution / textureSize;
+			float scale = max(s.x, s.y);
+			vec2 scaledSize = textureSize * scale;
+			vec2 offset = (uResolution - scaledSize) * 0.5;
+			return (uv * uResolution - offset) / scaledSize;
+		}
+
 		void main() {
-			vec2 coverScale = max(uCoverScale, vec2(0.00001));
-			vec2 coverUv = coverScale * vUv + uCoverOffset;
+			vec2 coverUv = getCoverUV(vUv, uTextureSize);
 
 			vec2 vUvScreen = vUv;
 
@@ -68,8 +74,7 @@
 	`;
 
 	const resolutionUniform = new THREE.Vector2(1, 1);
-	const coverScaleUniform = new THREE.Vector2(1, 1);
-	const coverOffsetUniform = new THREE.Vector2(0, 0);
+	const textureSizeUniform = new THREE.Vector2(1, 1);
 	let mainMaterial = $state<THREE.ShaderMaterial>();
 
 	const textures = $derived(
@@ -131,44 +136,19 @@
 
 		fboBase = target;
 
-		updateCoverUniforms();
-
 		return () => {
 			target.dispose();
 		};
 	});
 
-	let imageWidth = 1;
-	let imageHeight = 1;
-
 	$effect(() => {
 		if ($textures && $textures[1] && $textures[1].image) {
-			imageWidth = $textures[1].image.width;
-			imageHeight = $textures[1].image.height;
-			updateCoverUniforms();
+			textureSizeUniform.set(
+				$textures[1].image.width,
+				$textures[1].image.height,
+			);
 		}
 	});
-
-	const updateCoverUniforms = () => {
-		const screenAspect = $size.width / $size.height;
-		const imageAspect = imageWidth / imageHeight;
-
-		let scaleX = 1;
-		let scaleY = 1;
-		let offsetX = 0;
-		let offsetY = 0;
-
-		if (screenAspect > imageAspect) {
-			scaleY = imageAspect / screenAspect;
-			offsetY = (1 - scaleY) * 0.5;
-		} else {
-			scaleX = screenAspect / imageAspect;
-			offsetX = (1 - scaleX) * 0.5;
-		}
-
-		coverScaleUniform.set(scaleX, scaleY);
-		coverOffsetUniform.set(offsetX, offsetY);
-	};
 
 	const setNewWave = (x: number, y: number, index: number) => {
 		const mesh = meshRefs[index];
@@ -251,8 +231,7 @@
 				uTexture: { value: $textures[1] },
 				uDisplacement: { value: null },
 				uResolution: { value: resolutionUniform },
-				uCoverScale: { value: coverScaleUniform },
-				uCoverOffset: { value: coverOffsetUniform },
+				uTextureSize: { value: textureSizeUniform },
 			}}
 		/>
 	</T.Mesh>

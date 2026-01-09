@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { T, useTask, useThrelte } from "@threlte/core";
 	import {
-		Vector4,
+		Vector2,
 		DataTexture,
 		RGBAFormat,
 		FloatType,
@@ -56,47 +56,8 @@
 	let prevX = 0;
 	let prevY = 0;
 
-	let canvasWidth = $state(1);
-	let canvasHeight = $state(1);
-	let imageWidth = $state(1);
-	let imageHeight = $state(1);
-
-	const uCoverUniforms = new Vector4(1, 1, 0, 0);
-
-	const updateCoverUniforms = () => {
-		if (
-			canvasWidth <= 0 ||
-			canvasHeight <= 0 ||
-			imageWidth <= 0 ||
-			imageHeight <= 0
-		) {
-			return;
-		}
-
-		const screenAspect = canvasWidth / canvasHeight;
-		const imageAspect = imageWidth / imageHeight;
-
-		let scaleX = 1;
-		let scaleY = 1;
-		let offsetX = 0;
-		let offsetY = 0;
-
-		if (screenAspect > imageAspect) {
-			scaleY = imageAspect / screenAspect;
-			offsetY = (1 - scaleY) * 0.5;
-		} else {
-			scaleX = screenAspect / imageAspect;
-			offsetX = (1 - scaleX) * 0.5;
-		}
-
-		uCoverUniforms.set(scaleX, scaleY, offsetX, offsetY);
-	};
-
-	$effect(() => {
-		canvasWidth = $size.width;
-		canvasHeight = $size.height;
-		updateCoverUniforms();
-	});
+	const resolutionUniform = new Vector2(1, 1);
+	const textureSizeUniform = new Vector2(1, 1);
 
 	function regenerateGrid(gridSize: number) {
 		const size = gridSize * gridSize;
@@ -147,15 +108,22 @@
 
 	const fragmentShader = `
     uniform float time;
+    uniform vec2 uResolution;
+    uniform vec2 uTextureSize;
     uniform sampler2D uDataTexture;
     uniform sampler2D uTexture;
-    uniform vec4 uCoverUniforms;
     varying vec2 vUv;
 
+    vec2 getCoverUV(vec2 uv, vec2 textureSize) {
+        vec2 s = uResolution / textureSize;
+        float scale = max(s.x, s.y);
+        vec2 scaledSize = textureSize * scale;
+        vec2 offset = (uResolution - scaledSize) * 0.5;
+        return (uv * uResolution - offset) / scaledSize;
+    }
+
     void main() {
-        vec2 scale = uCoverUniforms.xy;
-        vec2 offset = uCoverUniforms.zw;
-        vec2 coverUv = vUv * scale + offset;
+        vec2 coverUv = getCoverUV(vUv, uTextureSize);
 
         vec4 data = texture2D(uDataTexture, vUv);
         vec2 displacedUV = coverUv - 0.02 * data.rg;
@@ -181,17 +149,15 @@
 	$effect(() => {
 		const tex = $texture;
 		if (tex && tex.image) {
-			imageWidth = tex.image.width;
-			imageHeight = tex.image.height;
-			updateCoverUniforms();
+			textureSizeUniform.set(tex.image.width, tex.image.height);
 		}
 	});
 
 	useTask((delta) => {
 		time += delta;
+		resolutionUniform.set($size.width, $size.height);
 		if (material && dataTexture) {
 			material.uniforms.time.value = time;
-			material.uniforms.uCoverUniforms.value.copy(uCoverUniforms);
 
 			const data = dataTexture.image.data;
 			const sizeSq = grid;
@@ -238,7 +204,8 @@
 			transparent
 			uniforms={{
 				time: { value: 0 },
-				uCoverUniforms: { value: uCoverUniforms },
+				uResolution: { value: resolutionUniform },
+				uTextureSize: { value: textureSizeUniform },
 				uTexture: { value: $texture },
 				uDataTexture: { value: dataTexture },
 			}}
