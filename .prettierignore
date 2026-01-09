@@ -9,3 +9,4 @@ packages/**/dist
 coverage
 motion-core-cli/target/**
 fixtures/**
+*.svx

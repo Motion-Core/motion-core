@@ -29,9 +29,7 @@
 		},
 		{
 			"path": "types.ts",
-			"typeExports": [
-				"GlobeMarker"
-			]
+			"typeExports": ["GlobeMarker"]
 		},
 		{
 			"path": "../../utils/cn.ts",
