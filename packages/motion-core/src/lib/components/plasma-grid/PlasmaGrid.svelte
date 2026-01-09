@@ -36,7 +36,9 @@
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
-	<Canvas {dpr} toneMapping={NoToneMapping}>
-		<Scene {color} {highlightColor} />
-	</Canvas>
+	<div class="absolute inset-0 z-0">
+		<Canvas {dpr} toneMapping={NoToneMapping}>
+			<Scene {color} {highlightColor} />
+		</Canvas>
+	</div>
 </div>
