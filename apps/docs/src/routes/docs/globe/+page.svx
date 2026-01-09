@@ -201,3 +201,48 @@ import { Globe } from "$lib/motion-core";
 		},
 	]}
 />
+
+### GlobeMarker
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "location",
+			type: "[number, number]",
+			default: "-",
+			description: "Latitude and Longitude coordinates.",
+		},
+		{
+			key: "size",
+			type: "number",
+			default: "0.1",
+			description: "Base size scale of the marker.",
+		},
+		{
+			key: "color",
+			type: "string",
+			default: '"#ffffff"',
+			description: "Color of the marker pin and pulse.",
+		},
+		{
+			key: "label",
+			type: "string",
+			default: "undefined",
+			description: "Text label displayed on hover.",
+		},
+		{
+			key: "pinHeight",
+			type: "number",
+			default: "0.75",
+			description: "Height of the pin stem relative to marker size.",
+		},
+		{
+			key: "headRadius",
+			type: "number",
+			default: "0.1",
+			description: "Radius of the pin head relative to marker size.",
+		},
+	]}
+/>

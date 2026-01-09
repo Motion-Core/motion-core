@@ -7,21 +7,18 @@
 			name: "Warsaw",
 			location: [52.2297, 21.0122],
 			label: "Warsaw",
-			size: 0.1,
 			color: "#00c2a8",
 		},
 		{
 			name: "New York",
 			location: [40.7128, -74.006],
 			label: "New York",
-			size: 0.1,
 			color: "#ff2376",
 		},
 		{
 			name: "Tokyo",
 			location: [35.6762, 139.6503],
 			label: "Tokyo",
-			size: 0.1,
 			color: "#e6f0ff",
 		},
 	];
