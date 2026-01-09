@@ -1,7 +1,7 @@
 {
 	"name": "Globe",
 	"slug": "globe",
-	"description": "A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.",
+	"description": "A Fresnel-lit globe with rim glow, haloed atmosphere, land mesh detail, and marker layers for data storytelling.",
 	"category": "canvas",
 	"preview": {
 		"video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/globe/preview.mp4",
