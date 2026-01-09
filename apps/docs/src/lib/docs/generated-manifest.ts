@@ -241,6 +241,14 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "text-scramble",
+		name: "Text Scramble",
+		category: "typography",
+		dependencies: {
+			gsap: "^3.14.2",
+		},
+	},
+	{
 		slug: "water-ripple",
 		name: "Water Ripple",
 		category: "canvas",

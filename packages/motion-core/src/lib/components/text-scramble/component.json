@@ -1,0 +1,23 @@
+{
+	"name": "Text Scramble",
+	"slug": "text-scramble",
+	"description": "A hover-triggered SplitText effect that scrambles characters before revealing the original string.",
+	"category": "typography",
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "TextScramble.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

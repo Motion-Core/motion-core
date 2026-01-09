@@ -1,0 +1,96 @@
+---
+name: Text Scramble
+description: A hover-triggered SplitText effect that scrambles characters before revealing the original string.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import textScrambleSource from "motion-core/components/text-scramble/TextScramble.svelte?raw";
+	import TextScrambleDemo from "./TextScrambleDemo.svelte";
+	import textScrambleDemoSource from "./TextScrambleDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="text-scramble" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { TextScramble } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: textScrambleDemoSource, language: "svelte" },
+		{ name: "TextScramble.svelte", code: textScrambleSource, language: "svelte" },
+	]}
+>
+	<TextScrambleDemo />
+</ComponentPreview>
+
+## Props
+
+### TextScramble
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "children",
+			type: "Snippet",
+			default: "—",
+			description: "Content that should be split and animated.",
+		},
+		{
+			prop: "hoverTarget",
+			type: "HTMLElement | null",
+			default: "null",
+			description: "Optional element whose hover state should trigger the scramble.",
+		},
+		{
+			prop: "scrambleDuration",
+			type: "number",
+			default: "0.6",
+			description: "Total time (seconds) for each character to cycle through random glyphs.",
+		},
+		{
+			prop: "stagger",
+			type: "number",
+			default: "0.03",
+			description: "Delay (seconds) applied between each character's animation start.",
+		},
+		{
+			prop: "cycles",
+			type: "number",
+			default: "12",
+			description: "How many intermediate characters each glyph displays before finishing.",
+		},
+		{
+			prop: "characters",
+			type: "string",
+			default: '"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*"',
+			description: "Pool of characters randomly sampled while scrambling.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional classes merged onto the wrapper span.",
+		},
+	]}
+/>
