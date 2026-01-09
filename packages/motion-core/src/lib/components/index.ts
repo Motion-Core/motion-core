@@ -23,3 +23,4 @@ export { default as FlipGrid } from "./flip-grid/FlipGrid.svelte";
 export { default as FlipGridItem } from "./flip-grid/FlipGridItem.svelte";
 export { default as RubiksCube } from "./rubiks-cube/RubiksCube.svelte";
 export { default as DitheredImage } from "./dithered-image/DitheredImage.svelte";
+export { default as PlasmaGrid } from "./plasma-grid/PlasmaGrid.svelte";

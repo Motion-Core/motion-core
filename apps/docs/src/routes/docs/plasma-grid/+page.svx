@@ -1,0 +1,77 @@
+---
+name: Plasma Grid
+description: A fluid, pixelated noise pattern useful for backgrounds.
+video: https://motion-core.s3.eu-north-1.amazonaws.com/previews/plasma-grid/preview.mp4
+poster: https://motion-core.s3.eu-north-1.amazonaws.com/previews/plasma-grid/poster.webp
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import plasmaGridSource from "motion-core/components/plasma-grid/PlasmaGrid.svelte?raw";
+	import sceneSource from "motion-core/components/plasma-grid/PlasmaGridScene.svelte?raw";
+	import PlasmaGridDemo from "./PlasmaGridDemo.svelte";
+	import plasmaGridDemoSource from "./PlasmaGridDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="plasma-grid" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { PlasmaGrid } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: plasmaGridDemoSource, language: "svelte" },
+		{ name: "PlasmaGrid.svelte", code: plasmaGridSource, language: "svelte" },
+		{ name: "PlasmaGridScene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<PlasmaGridDemo />
+</ComponentPreview>
+
+## Props
+
+### PlasmaGrid
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "color",
+			type: "string",
+			default: '"#18181B"',
+			description: "The base background color of the effect.",
+		},
+		{
+			prop: "highlightColor",
+			type: "string",
+			default: '"#572400"',
+			description: "The color used for the plasma noise gradients.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

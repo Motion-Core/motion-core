@@ -156,6 +156,15 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "plasma-grid",
+		name: "Plasma Grid",
+		category: "canvas",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "preloader",
 		name: "Preloader",
 		category: "transition",
