@@ -122,8 +122,8 @@
       float b = texture2D(uTexture, coverUvFlow - vec2(dispersion, 0.0)).b;
 
       float g_factor = 1.0 - abs(n.z);
-      g_factor = smoothstep(0.0, 1.0, g_factor);
-      float glass = g_factor * 0.2;
+      g_factor = smoothstep(0.6, 1.0, g_factor);
+      float glass = g_factor * 0.1;
 
       vec3 finalColor = vec3(r, g, b) + glass;
       gl_FragColor = vec4(finalColor, 1.0);
