@@ -1,8 +1,6 @@
 ---
 name: Magnetic
 description: A wrapper that applies spring physics to elements, making them stick to the cursor on hover.
-video: /previews/magnetic/preview.mp4
-poster: /previews/magnetic/poster.webp
 ---
 
 <script lang="ts">

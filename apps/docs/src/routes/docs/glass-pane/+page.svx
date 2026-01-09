@@ -1,8 +1,6 @@
 ---
 name: Glass Pane
 description: A refractive view simulating moving glass rods that distort the underlying texture with chromatic aberration.
-video: /previews/glass-pane/preview.mp4
-poster: /previews/glass-pane/poster.webp
 ---
 
 <script lang="ts">

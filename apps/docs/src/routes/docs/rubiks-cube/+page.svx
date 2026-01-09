@@ -1,8 +1,6 @@
 ---
 name: Rubiks Cube
 description: A dynamic Rubik's Cube that continuously rotates while a Fresnel rim glow traces each edge.
-video: /previews/rubiks-cube/preview.mp4
-poster: /previews/rubiks-cube/poster.webp
 ---
 
 <script lang="ts">

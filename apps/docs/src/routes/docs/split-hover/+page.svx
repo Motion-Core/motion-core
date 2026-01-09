@@ -1,8 +1,6 @@
 ---
 name: Split Hover
 description: A text effect that splits characters and animates stacked layers on hover for a seamless swap.
-video: /previews/split-hover/preview.mp4
-poster: /previews/split-hover/poster.webp
 ---
 
 <script lang="ts">

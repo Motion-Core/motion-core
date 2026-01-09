@@ -1,8 +1,6 @@
 ---
 name: Infinite Gallery
 description: A 3D gallery that endlessly scrolls through textured planes with cloth-like distortion and scroll-driven transitions.
-video: /previews/infinite-gallery/preview.mp4
-poster: /previews/infinite-gallery/poster.webp
 ---
 
 <script lang="ts">

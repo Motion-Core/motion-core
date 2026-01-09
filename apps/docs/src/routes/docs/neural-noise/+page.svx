@@ -1,8 +1,6 @@
 ---
 name: Neural Noise
 description: A generative organic pattern using Compositional Pattern Producing Networks (CPPN).
-video: ""
-poster: ""
 ---
 
 <script lang="ts">

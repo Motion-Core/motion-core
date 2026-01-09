@@ -1,8 +1,6 @@
 ---
 name: ASCII Renderer
 description: A retro-styled renderer that converts images into character-based visuals with configurable scanlines.
-video: /previews/ascii-renderer/preview.mp4
-poster: /previews/ascii-renderer/poster.webp
 ---
 
 <script lang="ts">

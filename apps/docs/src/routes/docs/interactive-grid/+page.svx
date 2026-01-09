@@ -1,8 +1,6 @@
 ---
 name: Interactive Grid
 description: A physics-based grid simulation that distorts an image in response to cursor movement.
-video: /previews/interactive-grid/preview.mp4
-poster: /previews/interactive-grid/poster.webp
 ---
 
 <script lang="ts">

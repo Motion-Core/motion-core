@@ -1,8 +1,6 @@
 ---
 name: Image Trail
 description: An interactive effect that spawns a trail of images following the cursor with scaling and rotation.
-video: /previews/image-trail/preview.mp4
-poster: /previews/image-trail/poster.webp
 ---
 
 <script lang="ts">

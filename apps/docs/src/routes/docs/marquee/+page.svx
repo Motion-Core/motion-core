@@ -1,8 +1,6 @@
 ---
 name: Marquee
 description: A scrolling content loop that accelerates, reverses, or syncs with scroll position.
-video: /previews/marquee/preview.mp4
-poster: /previews/marquee/poster.webp
 ---
 
 <script lang="ts">

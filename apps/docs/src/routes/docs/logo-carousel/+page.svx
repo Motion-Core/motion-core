@@ -1,8 +1,6 @@
 ---
 name: Logo Carousel
 description: A multi-column display that shuffles brand logos infinitely with vertical motion and fade transitions.
-video: /previews/logo-carousel/preview.mp4
-poster: /previews/logo-carousel/poster.webp
 ---
 
 <script lang="ts">

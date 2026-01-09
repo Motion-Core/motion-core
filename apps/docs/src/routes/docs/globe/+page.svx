@@ -1,8 +1,6 @@
 ---
 name: Globe
 description: A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.
-video: /previews/globe/preview.mp4
-poster: /previews/globe/poster.webp
 ---
 
 <script lang="ts">

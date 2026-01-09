@@ -1,8 +1,6 @@
 ---
 name: Preloader
 description: A kinetic loading sequence that decelerates an image strip before scaling the hero asset to full screen.
-video: /previews/preloader/preview.mp4
-poster: /previews/preloader/poster.webp
 ---
 
 <script lang="ts">

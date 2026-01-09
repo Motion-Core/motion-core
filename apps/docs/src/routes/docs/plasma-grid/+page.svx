@@ -1,8 +1,6 @@
 ---
 name: Plasma Grid
 description: A fluid, pixelated noise pattern useful for backgrounds.
-video: https://motion-core.s3.eu-north-1.amazonaws.com/previews/plasma-grid/preview.mp4
-poster: https://motion-core.s3.eu-north-1.amazonaws.com/previews/plasma-grid/poster.webp
 ---
 
 <script lang="ts">

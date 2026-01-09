@@ -1,8 +1,6 @@
 ---
 name: Pixelated Image
 description: A media revealer that animates blocky pixel grids which progressively sharpen to full resolution.
-video: /previews/pixelated-image/preview.mp4
-poster: /previews/pixelated-image/poster.webp
 ---
 
 <script lang="ts">
