@@ -5,17 +5,17 @@
 	interface Props {
 		/**
 		 * The base background color of the effect.
-		 * @default "#18181B"
+		 * @default "#111113"
 		 */
 		color?: string;
 		/**
 		 * The color used for the plasma noise gradients.
-		 * @default "#572400"
+		 * @default "#FF6900"
 		 */
 		highlightColor?: string;
 	}
 
-	let { color = "#18181B", highlightColor = "#572400" }: Props = $props();
+	let { color = "#111113", highlightColor = "#FF6900" }: Props = $props();
 
 	const { size } = useThrelte();
 

@@ -10,12 +10,12 @@
 	interface Props {
 		/**
 		 * The base background color of the effect.
-		 * @default "#18181B"
+		 * @default "#111113"
 		 */
 		color?: SceneProps["color"];
 		/**
 		 * The color used for the plasma noise gradients.
-		 * @default "#572400"
+		 * @default "#FF6900"
 		 */
 		highlightColor?: SceneProps["highlightColor"];
 		/**
