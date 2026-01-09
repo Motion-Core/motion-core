@@ -160,7 +160,7 @@
     "globe": {
       "slug": "globe",
       "name": "Globe",
-      "description": "A rotating Fresnel-shaded sphere with orbit controls, perfect for atmospheric hero blocks and loading states.",
+      "description": "A Fresnel-lit globe with rim glow, haloed atmosphere, land mesh detail, and marker layers for data storytelling.",
       "category": "canvas",
       "dependencies": {
         "@threlte/core": "^8.3.1",
@@ -679,6 +679,29 @@
         {
           "path": "assets/water-ripple-brush.png",
           "target": "assets"
+        }
+      ]
+    },
+    "weight-wave": {
+      "slug": "weight-wave",
+      "name": "Weight Wave",
+      "description": "A hover-reactive text effect that smoothly increases glyph weight with a falloff across neighboring characters.",
+      "category": "typography",
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/weight-wave/WeightWave.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
         }
       ]
     }

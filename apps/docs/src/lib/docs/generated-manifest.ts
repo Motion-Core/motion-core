@@ -254,6 +254,14 @@ export const docsManifest: ComponentInfo[] = [
 			three: "^0.182.0",
 		},
 	},
+	{
+		slug: "weight-wave",
+		name: "Weight Wave",
+		category: "typography",
+		dependencies: {
+			gsap: "^3.14.2",
+		},
+	},
 ];
 
 export const getAdjacentDocs = (slug: string) => {

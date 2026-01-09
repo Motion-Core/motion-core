@@ -1,0 +1,23 @@
+{
+	"name": "Weight Wave",
+	"slug": "weight-wave",
+	"description": "A hover-reactive text effect that smoothly increases glyph weight with a falloff across neighboring characters.",
+	"category": "typography",
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "WeightWave.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

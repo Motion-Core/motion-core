@@ -1,0 +1,103 @@
+---
+name: Weight Wave
+description: A hover-reactive text effect that smoothly increases glyph weight with a falloff across neighboring characters.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import weightWaveSource from "motion-core/components/weight-wave/WeightWave.svelte?raw";
+	import WeightWaveDemo from "./WeightWaveDemo.svelte";
+	import weightWaveDemoSource from "./WeightWaveDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="weight-wave" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { WeightWave } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: weightWaveDemoSource, language: "svelte" },
+		{ name: "WeightWave.svelte", code: weightWaveSource, language: "svelte" },
+	]}
+>
+	<WeightWaveDemo />
+</ComponentPreview>
+
+## Props
+
+### WeightWave
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "text",
+			type: "string",
+			default: "—",
+			description: "Text content that will be split and animated.",
+		},
+		{
+			prop: "baseWeight",
+			type: "number",
+			default: "350",
+			description: "Font weight applied while idle (variable fonts recommended).",
+		},
+		{
+			prop: "hoverWeight",
+			type: "number",
+			default: "750",
+			description: "Target weight when a character is hovered.",
+		},
+		{
+			prop: "influenceRadius",
+			type: "number",
+			default: "3",
+			description: "How many neighboring characters react to the hover hotspot.",
+		},
+		{
+			prop: "falloffPower",
+			type: "number",
+			default: "1.5",
+			description: "Higher values create a steeper weight drop-off for neighbors.",
+		},
+		{
+			prop: "duration",
+			type: "number",
+			default: "1.0",
+			description: "Transition time (seconds) when updating weights.",
+		},
+		{
+			prop: "ease",
+			type: "string",
+			default: '"power3.out"',
+			description: "GSAP ease identifier used by the transitions.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the wrapper element.",
+		},
+	]}
+/>
