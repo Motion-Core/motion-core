@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { T, useThrelte } from "@threlte/core";
-	import { OrbitControls, HTML, interactivity } from "@threlte/extras";
+	import { OrbitControls, interactivity } from "@threlte/extras";
 	import * as THREE from "three";
 	import type { OrbitControls as OrbitControlsType } from "three/examples/jsm/controls/OrbitControls.js";
 	import gsap from "gsap";

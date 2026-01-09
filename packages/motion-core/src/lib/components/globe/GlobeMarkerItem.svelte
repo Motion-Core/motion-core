@@ -92,8 +92,8 @@
 
 	const uniforms = {
 		uTime: { value: 0 },
-		uColor: { value: new THREE.Color(marker.color || "#ffffff") },
-		uRadius: { value: radius },
+		uColor: { value: new THREE.Color("#ffffff") },
+		uRadius: { value: 1 },
 	};
 
 	useTask((delta) => {
@@ -105,9 +105,14 @@
 		uniforms.uRadius.value = radius;
 	});
 
-	const scale = (marker.size || 0.05) * 4;
+	let scale = $derived((marker.size || 0.05) * 4);
+	let normalizedPosition = $derived(
+		Array.isArray(position)
+			? position
+			: ([position.x, position.y, position.z] as [number, number, number]),
+	);
 
-	let mesh: THREE.Mesh;
+	let mesh = $state<THREE.Mesh>();
 
 	$effect(() => {
 		if (mesh) {
@@ -120,7 +125,7 @@
 	bind:ref={mesh}
 	onpointerenter={handlePointerEnter}
 	onpointerleave={handlePointerLeave}
-	{position}
+	position={normalizedPosition}
 	scale={[scale, scale, scale]}
 >
 	<T.PlaneGeometry args={[1, 1, 32, 32]} />
