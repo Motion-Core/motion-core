@@ -63,6 +63,7 @@ motion-core add glass-pane image-trail
 
 - `--dry-run`: Preview the installation plan (files to create/update, dependencies to install) without applying changes.
 - `-y, --yes`: Skip confirmation prompts. Useful for CI/CD environments.
+- When a component file already exists locally, the CLI now shows a colored diff and asks whether to overwrite or keep your local changes. Passing `-y` (or setting `MOTION_CORE_CLI_ASSUME_YES=1`) will automatically overwrite without prompting, while dry-run mode reports all conflicts without touching disk.
 
 ### `list`
 

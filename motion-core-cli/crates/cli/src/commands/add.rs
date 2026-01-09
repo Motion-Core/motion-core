@@ -12,12 +12,13 @@ use motion_core_cli_core::{
 };
 use pathdiff::diff_paths;
 use serde::Deserialize;
+use similar::{ChangeTag, TextDiff};
 
 use crate::{
     context::CommandContext,
     deps::spec_satisfies,
     reporter::Reporter,
-    style::{brand, create_spinner, heading, muted, success},
+    style::{brand, create_spinner, danger, heading, muted, success, warning},
 };
 
 use super::{CommandOutcome, CommandResult};
@@ -75,6 +76,9 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
 
     print_install_plan(reporter, &install_order, &component_map, &args.components);
 
+    let assume_yes_env = std::env::var("MOTION_CORE_CLI_ASSUME_YES").is_ok();
+    let prompt_mode = confirmation_mode(args.assume_yes, assume_yes_env);
+
     if args.dry_run {
         reporter.info(format_args!(
             "{}",
@@ -87,29 +91,38 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
         ));
     }
 
-    if !args.dry_run {
-        if should_prompt_for_confirmation(args.assume_yes) {
-            let proceed = Confirm::new()
-                .with_prompt("Apply this plan?")
-                .default(true)
-                .interact()
-                .with_context(|| "failed to read confirmation input")?;
-            if !proceed {
-                reporter.warn(format_args!("installation cancelled"));
-                return Ok(CommandOutcome::NoOp);
-            }
-        } else {
-            reporter.info(format_args!(
-                "{}",
-                muted(if args.assume_yes {
-                    "--yes supplied; applying plan automatically."
-                } else {
-                    "Non-interactive shell detected; applying plan automatically."
-                })
-            ));
-        }
-    } else {
+    if args.dry_run {
         reporter.blank();
+    } else {
+        match prompt_mode {
+            ConfirmationMode::Prompt => {
+                let proceed = Confirm::new()
+                    .with_prompt("Apply this plan?")
+                    .default(true)
+                    .interact()
+                    .with_context(|| "failed to read confirmation input")?;
+                if !proceed {
+                    reporter.warn(format_args!("installation cancelled"));
+                    return Ok(CommandOutcome::NoOp);
+                }
+            }
+            ConfirmationMode::AssumeYes => {
+                reporter.info(format_args!(
+                    "{}",
+                    muted(if args.assume_yes {
+                        "--yes supplied; applying plan automatically."
+                    } else {
+                        "MOTION_CORE_CLI_ASSUME_YES set; applying plan automatically."
+                    })
+                ));
+            }
+            ConfirmationMode::NonInteractive => {
+                reporter.info(format_args!(
+                    "{}",
+                    muted("Non-interactive shell detected; applying plan automatically.")
+                ));
+            }
+        }
     }
 
     let workspace_root = ctx.workspace_root();
@@ -126,12 +139,10 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
     let mut dev_requirements = BTreeMap::new();
     let mut installed_components = Vec::new();
     let mut registered_type_exports = Vec::new();
-    let mut files_changed = 0;
-    let file_spinner = create_spinner("Syncing Motion Core files...");
+    let mut planned_files = Vec::new();
 
     for slug in install_order.iter() {
         let record = component_map.get(slug).expect("component exists");
-        file_spinner.set_message(format!("Syncing {}...", record.name));
 
         runtime_requirements.extend(record.dependencies.clone());
         dev_requirements.extend(record.dev_dependencies.clone());
@@ -145,29 +156,28 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
                 .fetch_component_file(&file.path)
                 .map_err(|err| Error::new(err))?;
             let destination = resolve_destination(workspace_root, &config, file);
-
-            match write_component_file(&destination, &contents, args.dry_run)? {
-                FileStatus::Created => {
-                    reporter.info(format_args!(
-                        "{}",
-                        status_label("created", "would create", args.dry_run, &destination)
-                    ));
-                    files_changed += 1;
-                }
-                FileStatus::Updated => {
-                    reporter.info(format_args!(
-                        "{}",
-                        status_label("updated", "would update", args.dry_run, &destination)
-                    ));
-                    files_changed += 1;
-                }
-                FileStatus::Unchanged => {
-                    reporter.info(format_args!(
-                        "{}",
-                        status_label("unchanged", "unchanged", args.dry_run, &destination)
-                    ));
-                }
-            }
+            let existing_contents = if destination.exists() {
+                Some(
+                    fs::read(&destination)
+                        .with_context(|| format!("failed to read {}", destination.display()))?,
+                )
+            } else {
+                None
+            };
+            let status = match &existing_contents {
+                None => PlannedFileStatus::Create,
+                Some(current) if current == &contents => PlannedFileStatus::Unchanged,
+                Some(_) => PlannedFileStatus::Update,
+            };
+            planned_files.push(PlannedFile {
+                component_name: record.name.clone(),
+                registry_path: file.path.clone(),
+                destination: destination.clone(),
+                contents,
+                existing_contents,
+                status,
+                apply: true,
+            });
 
             if is_entry_file(file) {
                 entry_paths.push(destination.clone());
@@ -200,6 +210,57 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
                     export_name: entry_export_name(slug, &entry, idx),
                     entry_path: entry,
                 });
+            }
+        }
+    }
+
+    resolve_file_conflicts(
+        reporter,
+        &mut planned_files,
+        args.dry_run,
+        prompt_mode,
+        args.assume_yes,
+    )?;
+
+    let mut files_changed = 0;
+    let file_spinner = create_spinner("Syncing Motion Core files...");
+    for plan in &planned_files {
+        file_spinner.set_message(format!("Syncing {}...", plan.component_name));
+
+        if !plan.apply {
+            reporter.info(format_args!(
+                "{}",
+                status_label(FileStatus::Skipped, args.dry_run, &plan.destination)
+            ));
+            continue;
+        }
+
+        match write_component_file(&plan.destination, &plan.contents, args.dry_run)? {
+            FileStatus::Created => {
+                reporter.info(format_args!(
+                    "{}",
+                    status_label(FileStatus::Created, args.dry_run, &plan.destination)
+                ));
+                files_changed += 1;
+            }
+            FileStatus::Updated => {
+                reporter.info(format_args!(
+                    "{}",
+                    status_label(FileStatus::Updated, args.dry_run, &plan.destination)
+                ));
+                files_changed += 1;
+            }
+            FileStatus::Unchanged => {
+                reporter.info(format_args!(
+                    "{}",
+                    status_label(FileStatus::Unchanged, args.dry_run, &plan.destination)
+                ));
+            }
+            FileStatus::Skipped => {
+                reporter.info(format_args!(
+                    "{}",
+                    status_label(FileStatus::Skipped, args.dry_run, &plan.destination)
+                ));
             }
         }
     }
@@ -408,14 +469,201 @@ fn write_component_file(path: &Path, contents: &[u8], dry_run: bool) -> anyhow::
     })
 }
 
-fn should_prompt_for_confirmation(assume_yes: bool) -> bool {
-    if assume_yes || std::env::var("MOTION_CORE_CLI_ASSUME_YES").is_ok() {
-        return false;
+fn confirmation_mode(assume_yes_flag: bool, assume_yes_env: bool) -> ConfirmationMode {
+    if assume_yes_flag || assume_yes_env {
+        ConfirmationMode::AssumeYes
+    } else if std::env::var("CI").is_ok() {
+        ConfirmationMode::NonInteractive
+    } else if std::io::stdin().is_terminal() {
+        ConfirmationMode::Prompt
+    } else {
+        ConfirmationMode::NonInteractive
     }
-    if std::env::var("CI").is_ok() {
-        return false;
+}
+
+fn resolve_file_conflicts(
+    reporter: &dyn Reporter,
+    planned_files: &mut [PlannedFile],
+    dry_run: bool,
+    prompt_mode: ConfirmationMode,
+    assume_yes_flag: bool,
+) -> anyhow::Result<()> {
+    resolve_file_conflicts_internal(
+        reporter,
+        planned_files,
+        dry_run,
+        prompt_mode,
+        assume_yes_flag,
+        None,
+    )
+}
+
+fn resolve_file_conflicts_internal(
+    reporter: &dyn Reporter,
+    planned_files: &mut [PlannedFile],
+    dry_run: bool,
+    prompt_mode: ConfirmationMode,
+    assume_yes_flag: bool,
+    decision_hook: Option<&dyn Fn(&PlannedFile) -> bool>,
+) -> anyhow::Result<()> {
+    let mut conflicts: Vec<_> = planned_files
+        .iter_mut()
+        .filter(|plan| matches!(plan.status, PlannedFileStatus::Update))
+        .collect();
+
+    if conflicts.is_empty() {
+        return Ok(());
     }
-    std::io::stdin().is_terminal()
+
+    reporter.blank();
+    reporter.info(format_args!("{}", heading("Existing file changes detected")));
+    let mut auto_message_printed = false;
+
+    for plan in conflicts.iter_mut() {
+        reporter.info(format_args!(
+            "{}",
+            heading(display_path(&plan.destination))
+        ));
+        reporter.info(format_args!(
+            "{}",
+            muted(format!(
+                "Component: {} ({})",
+                plan.component_name, plan.registry_path
+            ))
+        ));
+        display_file_diff(reporter, plan);
+
+        if dry_run {
+            reporter.info(format_args!(
+                "{}",
+                muted("Dry run: would prompt before overwriting this file.")
+            ));
+            continue;
+        }
+
+        match prompt_mode {
+            ConfirmationMode::Prompt => {
+                let overwrite = if let Some(callback) = decision_hook {
+                    callback(plan)
+                } else {
+                    let prompt = format!(
+                        "Overwrite existing {}?",
+                        display_path(&plan.destination)
+                    );
+                    Confirm::new()
+                        .with_prompt(prompt)
+                        .default(false)
+                        .interact()
+                        .with_context(|| "failed to read confirmation input")?
+                };
+                if !overwrite {
+                    plan.apply = false;
+                    reporter.warn(format_args!(
+                        "kept local changes in {}",
+                        display_path(&plan.destination)
+                    ));
+                }
+            }
+            ConfirmationMode::AssumeYes => {
+                if !auto_message_printed {
+                    reporter.info(format_args!(
+                        "{}",
+                        muted(if assume_yes_flag {
+                            "--yes supplied; overwriting automatically."
+                        } else {
+                            "MOTION_CORE_CLI_ASSUME_YES set; overwriting automatically."
+                        })
+                    ));
+                    auto_message_printed = true;
+                }
+            }
+            ConfirmationMode::NonInteractive => {
+                if !auto_message_printed {
+                    reporter.info(format_args!(
+                        "{}",
+                        muted("Non-interactive shell detected; overwriting automatically.")
+                    ));
+                    auto_message_printed = true;
+                }
+            }
+        }
+    }
+
+    reporter.blank();
+    Ok(())
+}
+
+#[cfg(test)]
+fn resolve_file_conflicts_for_tests(
+    reporter: &dyn Reporter,
+    planned_files: &mut [PlannedFile],
+    dry_run: bool,
+    prompt_mode: ConfirmationMode,
+    assume_yes_flag: bool,
+    decision_hook: &dyn Fn(&PlannedFile) -> bool,
+) -> anyhow::Result<()> {
+    resolve_file_conflicts_internal(
+        reporter,
+        planned_files,
+        dry_run,
+        prompt_mode,
+        assume_yes_flag,
+        Some(decision_hook),
+    )
+}
+
+fn display_file_diff(reporter: &dyn Reporter, plan: &PlannedFile) {
+    let Some(existing) = &plan.existing_contents else {
+        reporter.warn(format_args!(
+            "Unable to read existing {} for diff",
+            display_path(&plan.destination)
+        ));
+        return;
+    };
+    let Ok(previous) = std::str::from_utf8(existing) else {
+        reporter.info(format_args!(
+            "{}",
+            muted("Binary file content detected; diff unavailable.")
+        ));
+        return;
+    };
+    let Ok(next) = std::str::from_utf8(&plan.contents) else {
+        reporter.info(format_args!(
+            "{}",
+            muted("Binary file content detected; diff unavailable.")
+        ));
+        return;
+    };
+
+    let diff = TextDiff::from_lines(previous, next);
+    for (group_idx, group) in diff.grouped_ops(2).iter().enumerate() {
+        if group_idx > 0 {
+            reporter.blank();
+        }
+        for op in group {
+            for change in diff.iter_changes(op) {
+                let line = change.to_string();
+                let clean = line.trim_end_matches('\n');
+                match change.tag() {
+                    ChangeTag::Delete => reporter.info(format_args!(
+                        "    {} {}",
+                        danger("-"),
+                        danger(clean)
+                    )),
+                    ChangeTag::Insert => reporter.info(format_args!(
+                        "    {} {}",
+                        success("+"),
+                        success(clean)
+                    )),
+                    ChangeTag::Equal => reporter.info(format_args!(
+                        "    {} {}",
+                        muted(" "),
+                        muted(clean)
+                    )),
+                }
+            }
+        }
+    }
 }
 
 fn print_install_plan(
@@ -687,12 +935,19 @@ fn display_path(path: &Path) -> String {
     path.to_string_lossy().to_string()
 }
 
-fn status_label(actual: &str, dry: &str, dry_run: bool, path: &Path) -> String {
-    let prefix = if dry_run { dry } else { actual };
-    let styled = match prefix {
-        "created" | "would create" => brand(prefix),
-        "updated" | "would update" => success(prefix),
-        _ => muted(prefix),
+fn status_label(status: FileStatus, dry_run: bool, path: &Path) -> String {
+    let (actual, dry) = match status {
+        FileStatus::Created => ("created", "would create"),
+        FileStatus::Updated => ("updated", "would update"),
+        FileStatus::Unchanged => ("unchanged", "unchanged"),
+        FileStatus::Skipped => ("skipped", "would skip"),
+    };
+    let label = if dry_run { dry } else { actual };
+    let styled = match status {
+        FileStatus::Created => brand(label),
+        FileStatus::Updated => success(label),
+        FileStatus::Skipped => warning(label),
+        FileStatus::Unchanged => muted(label),
     };
     format!("{} {}", styled, display_path(path))
 }
@@ -706,6 +961,31 @@ fn diff_dependencies(
         .filter(|(name, version)| !spec_satisfies(snapshot.spec(name), version))
         .map(|(name, version)| format!("{name}@{version}"))
         .collect()
+}
+
+#[derive(Debug)]
+struct PlannedFile {
+    component_name: String,
+    registry_path: String,
+    destination: PathBuf,
+    contents: Vec<u8>,
+    existing_contents: Option<Vec<u8>>,
+    status: PlannedFileStatus,
+    apply: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum PlannedFileStatus {
+    Create,
+    Update,
+    Unchanged,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ConfirmationMode {
+    Prompt,
+    AssumeYes,
+    NonInteractive,
 }
 
 #[derive(Debug)]
@@ -751,6 +1031,7 @@ enum FileStatus {
     Created,
     Updated,
     Unchanged,
+    Skipped,
 }
 
 #[cfg(test)]
@@ -766,6 +1047,7 @@ mod tests {
     use serde_json;
     use std::collections::HashMap;
     use std::fs;
+    use std::path::PathBuf;
     use tempfile::TempDir;
 
     #[test]
@@ -1111,6 +1393,32 @@ mod tests {
                 .join("src/lib/motion-core/assets/asset-demo/texture.png")
                 .exists()
         );
+    }
+
+    #[test]
+    fn conflict_resolution_can_skip_file() {
+        let reporter = ConsoleReporter::new();
+        let destination = PathBuf::from("src/lib/motion-core/utils/cn.ts");
+        let mut planned = vec![PlannedFile {
+            component_name: "Demo".into(),
+            registry_path: "utils/cn.ts".into(),
+            destination,
+            contents: b"export const updated = true;".to_vec(),
+            existing_contents: Some(b"export const updated = false;".to_vec()),
+            status: PlannedFileStatus::Update,
+            apply: true,
+        }];
+
+        resolve_file_conflicts_for_tests(
+            &reporter,
+            &mut planned,
+            false,
+            ConfirmationMode::Prompt,
+            false,
+            &|_| false,
+        )
+        .expect("conflict resolution");
+        assert!(!planned[0].apply);
     }
 
     fn build_context(temp: &TempDir, registry: Registry) -> CommandContext {

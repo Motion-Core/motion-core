@@ -43,6 +43,7 @@ motion-core add [component-slug]
 
 - `--dry-run`: See what would be installed without making any changes.
 - `-y, --yes`: Skip confirmation prompts.
+- Existing files are diffed before overwrite. The CLI shows the incoming vs. local changes and lets you keep local edits. Use `-y` or set `MOTION_CORE_CLI_ASSUME_YES=1` to auto-accept every overwrite (useful for CI), while `--dry-run` reports conflicts without touching disk.
 
 ### `list`
 

@@ -19,6 +19,7 @@ owo-colors.workspace = true
 indicatif.workspace = true
 dialoguer.workspace = true
 semver.workspace = true
+similar = "2.6"
 
 [dev-dependencies]
 tempfile = "3.24"
