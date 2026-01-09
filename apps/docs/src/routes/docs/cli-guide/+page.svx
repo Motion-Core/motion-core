@@ -11,7 +11,21 @@ The Motion Core CLI is the primary way to integrate components into your project
 
 ## Installation
 
-You can run the CLI directly using `npx`, `bunx`, or `pnpm dlx` without installation:
+### Global Installation
+
+You can install the CLI globally to use it in any project:
+
+<InstallationTabs mode="global" />
+
+Once installed globally, you can invoke the CLI directly using the `motion-core` command:
+
+```bash
+motion-core --help
+```
+
+### Usage without installation
+
+You can also run the CLI directly using `npx`, `bunx`, or `pnpm dlx` without installation:
 
 <InstallationTabs args="init" />
 

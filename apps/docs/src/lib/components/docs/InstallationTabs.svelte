@@ -12,16 +12,26 @@
 	type Props = {
 		component?: string;
 		args?: string;
+		mode?: "execute" | "global";
 	};
 
-	let { component, args }: Props = $props();
+	let { component, args, mode = "execute" }: Props = $props();
 
-	const commands: Record<PackageManager, string> = $derived({
-		npm: `npx @motion-core/cli ${args ?? `add ${component}`}`,
-		pnpm: `pnpm dlx @motion-core/cli ${args ?? `add ${component}`}`,
-		bun: `bunx @motion-core/cli ${args ?? `add ${component}`}`,
-		yarn: `yarn dlx @motion-core/cli ${args ?? `add ${component}`}`,
-	});
+	const commands: Record<PackageManager, string> = $derived(
+		mode === "global"
+			? {
+					npm: "npm install -g @motion-core/cli",
+					pnpm: "pnpm add -g @motion-core/cli",
+					bun: "bun add -g @motion-core/cli",
+					yarn: "yarn global add @motion-core/cli",
+				}
+			: {
+					npm: `npx @motion-core/cli ${args ?? `add ${component}`}`,
+					pnpm: `pnpm dlx @motion-core/cli ${args ?? `add ${component}`}`,
+					bun: `bunx @motion-core/cli ${args ?? `add ${component}`}`,
+					yarn: `yarn dlx @motion-core/cli ${args ?? `add ${component}`}`,
+				},
+	);
 
 	const activeCommand = $derived(commands[packageManagerStore.active]);
 
