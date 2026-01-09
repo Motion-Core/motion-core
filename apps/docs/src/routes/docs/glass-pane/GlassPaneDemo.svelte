@@ -10,5 +10,6 @@
 	chromaticAberration={0.005}
 	waviness={0.0}
 	speed={0.5}
+	rods={3}
 	class="h-full min-h-96 w-full"
 />

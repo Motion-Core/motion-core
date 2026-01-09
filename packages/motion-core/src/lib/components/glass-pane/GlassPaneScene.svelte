@@ -38,6 +38,11 @@
 		 * @default 6.0
 		 */
 		frequency?: number;
+		/**
+		 * Density of the glass rods.
+		 * @default 5.0
+		 */
+		rods?: number;
 	}
 
 	let {
@@ -47,6 +52,7 @@
 		speed = 1.0,
 		waviness = 0.05,
 		frequency = 6.0,
+		rods = 5.0,
 	}: Props = $props();
 
 	let time = 0;
@@ -71,6 +77,7 @@
     uniform float uChromaticAberration;
     uniform float uWaviness;
     uniform float uFrequency;
+    uniform float uRods;
     varying vec2 vUv;
 
     vec2 getCoverUV(vec2 uv, vec2 textureSize) {
@@ -90,7 +97,7 @@
       vec2 p_rot = rot * p;
 
       float wave = uWaviness * sin(p_rot.y * uFrequency);
-      float rod_x = fract((p_rot.x + wave) * 5.0) * 2.0 - 1.0;
+      float rod_x = fract((p_rot.x + wave) * uRods) * 2.0 - 1.0;
 
       float rod_z_sq = 1.0 - rod_x * rod_x;
       float rod_z = sqrt(max(rod_z_sq, 0.0));
@@ -164,6 +171,7 @@
 			material.uniforms.uChromaticAberration.value = chromaticAberration;
 			material.uniforms.uWaviness.value = waviness;
 			material.uniforms.uFrequency.value = frequency;
+			material.uniforms.uRods.value = rods;
 		}
 	});
 </script>
@@ -184,6 +192,7 @@
 				uChromaticAberration: { value: chromaticAberration },
 				uWaviness: { value: waviness },
 				uFrequency: { value: frequency },
+				uRods: { value: rods },
 			}}
 		/>
 	</T.Mesh>

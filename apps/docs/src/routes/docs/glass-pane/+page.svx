@@ -84,6 +84,12 @@ import { GlassPane } from "$lib/motion-core";
 			description: "Frequency of the sine wave distortion.",
 		},
 		{
+			prop: "rods",
+			type: "number",
+			default: "5.0",
+			description: "Density of the glass rods.",
+		},
+		{
 			prop: "speed",
 			type: "number",
 			default: "1.0",

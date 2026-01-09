@@ -40,6 +40,11 @@
 		 * @default 6.0
 		 */
 		frequency?: SceneProps["frequency"];
+		/**
+		 * Number/density of the glass rods.
+		 * @default 5.0
+		 */
+		rods?: SceneProps["rods"];
 		[key: string]: unknown;
 	}
 
@@ -51,6 +56,7 @@
 		speed = 1.0,
 		waviness = 0.05,
 		frequency = 6.0,
+		rods = 5.0,
 		...rest
 	}: Props = $props();
 
@@ -67,6 +73,7 @@
 				{speed}
 				{waviness}
 				{frequency}
+				{rods}
 			/>
 		</Canvas>
 	</div>
