@@ -111,7 +111,7 @@ import { InfiniteGallery } from "$lib/motion-core";
 		{
 			key: "fadeIn.start",
 			type: "number",
-			default: "0.05",
+			default: "0.01",
 			description: "Z-position where images start fading in.",
 		},
 		{
@@ -123,13 +123,13 @@ import { InfiniteGallery } from "$lib/motion-core";
 		{
 			key: "fadeOut.start",
 			type: "number",
-			default: "0.4",
+			default: "0.43",
 			description: "Z-position where images start fading out.",
 		},
 		{
 			key: "fadeOut.end",
 			type: "number",
-			default: "0.43",
+			default: "0.46",
 			description: "Z-position where images are fully transparent.",
 		},
 	]}
@@ -150,19 +150,19 @@ import { InfiniteGallery } from "$lib/motion-core";
 		{
 			key: "blurIn.end",
 			type: "number",
-			default: "0.1",
+			default: "0.2",
 			description: "Z-position where images are sharp (no blur).",
 		},
 		{
 			key: "blurOut.start",
 			type: "number",
-			default: "0.4",
+			default: "0.43",
 			description: "Z-position where blur starts increasing again.",
 		},
 		{
 			key: "blurOut.end",
 			type: "number",
-			default: "0.43",
+			default: "0.46",
 			description: "Z-position where images are max blurred.",
 		},
 		{
