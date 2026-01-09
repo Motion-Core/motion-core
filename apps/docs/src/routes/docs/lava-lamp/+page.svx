@@ -66,14 +66,14 @@ import { LavaLamp } from "$lib/motion-core";
 		{
 			prop: "color",
 			type: "string",
-			default: '"#ffffff"',
-			description: "Color of the rim light.",
+			default: '"#18181b"',
+			description: "Base color of the lava blobs.",
 		},
 		{
-			prop: "backgroundColor",
+			prop: "fresnelColor",
 			type: "string",
-			default: '"#ffffff"',
-			description: "Background color of the canvas.",
+			default: '"#ff6900"',
+			description: "Color of the rim light (fresnel effect).",
 		},
 		{
 			prop: "speed",

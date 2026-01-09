@@ -13,15 +13,15 @@
 		 */
 		class?: string;
 		/**
-		 * Color of the rim light.
-		 * @default "#ffffff"
+		 * Base color of the lava blobs.
+		 * @default "#18181b"
 		 */
 		color?: SceneProps["color"];
 		/**
-		 * Background color of the scene.
-		 * @default "#ffffff"
+		 * Color of the fresnel effect.
+		 * @default "#ff6900"
 		 */
-		backgroundColor?: SceneProps["backgroundColor"];
+		fresnelColor?: SceneProps["fresnelColor"];
 		/**
 		 * Speed of the lava animation.
 		 * @default 1.0
@@ -47,8 +47,8 @@
 
 	let {
 		class: className = "",
-		color = "#ffffff",
-		backgroundColor = "#ffffff",
+		color = "#18181b",
+		fresnelColor = "#ff6900",
 		speed = 1.0,
 		fresnelPower = 3.0,
 		radius = 1,
@@ -64,7 +64,7 @@
 		<Canvas {dpr} toneMapping={NoToneMapping}>
 			<Scene
 				{color}
-				{backgroundColor}
+				{fresnelColor}
 				{speed}
 				{fresnelPower}
 				{radius}

@@ -4,38 +4,44 @@
 
 	interface Props {
 		/**
-		 * Color of the rim light.
+		 * Base color of the lava blobs.
+		 * @default "#18181b"
 		 */
-		color: string;
+		color?: string;
 		/**
-		 * Background color of the scene.
+		 * Color of the fresnel effect.
+		 * @default "#ff6900"
 		 */
-		backgroundColor: string;
+		fresnelColor?: string;
 		/**
 		 * Speed of the lava animation.
+		 * @default 1.0
 		 */
-		speed: number;
+		speed?: number;
 		/**
 		 * Fresnel power for the edge lighting effect.
+		 * @default 3.0
 		 */
-		fresnelPower: number;
+		fresnelPower?: number;
 		/**
 		 * Base radius of the blobs.
+		 * @default 1
 		 */
-		radius: number;
+		radius?: number;
 		/**
 		 * Smoothness of the blob blending (metaball effect).
+		 * @default 0.1
 		 */
-		smoothness: number;
+		smoothness?: number;
 	}
 
 	let {
-		color,
-		backgroundColor,
-		speed,
-		fresnelPower,
-		radius,
-		smoothness,
+		color = "#18181b",
+		fresnelColor = "#ff6900",
+		speed = 1.0,
+		fresnelPower = 3.0,
+		radius = 1,
+		smoothness = 0.1,
 	}: Props = $props();
 
 	const { size } = useThrelte();
@@ -45,7 +51,7 @@
 
 	const resolutionUniform = new Vector4();
 	const colorUniform = new Color();
-	const backgroundColorUniform = new Color();
+	const fresnelColorUniform = new Color();
 
 	const updateResolution = () => {
 		const width = $size.width;
@@ -70,10 +76,10 @@
 
 	$effect(() => {
 		colorUniform.set(color);
-		backgroundColorUniform.set(backgroundColor);
+		fresnelColorUniform.set(fresnelColor);
 		if (material) {
 			material.uniforms.uColor.value.copy(colorUniform);
-			material.uniforms.uBackgroundColor.value.copy(backgroundColorUniform);
+			material.uniforms.uFresnelColor.value.copy(fresnelColorUniform);
 			material.uniforms.uFresnelPower.value = fresnelPower;
 			material.uniforms.uRadius.value = radius;
 			material.uniforms.uSmoothness.value = smoothness;
@@ -97,7 +103,7 @@
     uniform float uTime;
     uniform vec4 uResolution;
     uniform vec3 uColor;
-    uniform vec3 uBackgroundColor;
+    uniform vec3 uFresnelColor;
     uniform float uFresnelPower;
     uniform float uRadius;
     uniform float uSmoothness;
@@ -184,13 +190,13 @@
             float fresnel = pow(1.0 + dot(ray, normal), uFresnelPower);
 
 
-            vec3 color = uColor * fresnel;
-            color += uBackgroundColor * 0.1;
+            vec3 color = mix(uColor, uFresnelColor, fresnel);
 
             gl_FragColor = vec4(color, 1.0);
         } else {
-             gl_FragColor = vec4(uBackgroundColor, 1.0);
+             gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
         }
+        #include <colorspace_fragment>
     }
   `;
 
@@ -224,10 +230,11 @@
 			uTime: { value: 0 },
 			uResolution: { value: resolutionUniform },
 			uColor: { value: colorUniform },
-			uBackgroundColor: { value: backgroundColorUniform },
+			uFresnelColor: { value: fresnelColorUniform },
 			uFresnelPower: { value: fresnelPower },
 			uRadius: { value: radius },
 			uSmoothness: { value: smoothness },
 		}}
+		transparent
 	/>
 </T.Mesh>
