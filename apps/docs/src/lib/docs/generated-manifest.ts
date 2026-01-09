@@ -46,6 +46,16 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "glass-slideshow",
+		name: "Glass Slideshow",
+		category: "canvas",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			"@threlte/extras": "^9.7.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "globe",
 		name: "Globe",
 		category: "canvas",

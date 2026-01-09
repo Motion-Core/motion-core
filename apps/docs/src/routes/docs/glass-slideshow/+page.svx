@@ -1,0 +1,127 @@
+---
+name: Glass Slideshow
+description: A slideshow component featuring organic glass bubble transitions with refraction and chromatic aberration.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import glassSlideshowSource from "motion-core/components/glass-slideshow/GlassSlideshow.svelte?raw";
+	import SceneSource from "motion-core/components/glass-slideshow/GlassSlideshowScene.svelte?raw";
+	import GlassSlideshowDemo from "./GlassSlideshowDemo.svelte";
+	import glassSlideshowDemoSource from "./GlassSlideshowDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="glass-slideshow" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { GlassSlideshow } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: glassSlideshowDemoSource, language: "svelte" },
+		{
+			name: "GlassSlideshow.svelte",
+			code: glassSlideshowSource,
+			language: "svelte",
+		},
+		{
+			name: "GlassSlideshowScene.svelte",
+			code: SceneSource,
+			language: "svelte",
+		},
+	]}
+>
+	<GlassSlideshowDemo />
+</ComponentPreview>
+
+## Props
+
+### GlassSlideshow
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "images",
+			type: "string[]",
+			default: "—",
+			description: "Array of image URLs to cycle through.",
+		},
+		{
+			prop: "index",
+			type: "number",
+			default: "0",
+			description: "The current image index. Change this to trigger a transition.",
+		},
+		{
+			prop: "transitionDuration",
+			type: "number",
+			default: "2000",
+			description: "Duration of the transition in milliseconds.",
+		},
+		{
+			prop: "intensity",
+			type: "number",
+			default: "1.0",
+			description: "Global intensity of the glass effect.",
+		},
+		{
+			prop: "distortion",
+			type: "number",
+			default: "1.0",
+			description: "Strength of the distortion during transition.",
+		},
+		{
+			prop: "chromaticAberration",
+			type: "number",
+			default: "1.0",
+			description: "Strength of the chromatic aberration effect.",
+		},
+		{
+			prop: "refraction",
+			type: "number",
+			default: "1.0",
+			description: "Strength of the glass refraction effect.",
+		},
+		{
+			prop: "autoplay",
+			type: "boolean",
+			default: "true",
+			description:
+				"Automatically cycle through images. Disable to control transitions manually via the `index` prop.",
+		},
+		{
+			prop: "autoplayInterval",
+			type: "number",
+			default: "5000",
+			description:
+				"Delay between automatic transitions in milliseconds. Ignored when `autoplay` is disabled.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

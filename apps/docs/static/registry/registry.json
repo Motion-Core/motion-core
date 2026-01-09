@@ -129,6 +129,34 @@
         }
       ]
     },
+    "glass-slideshow": {
+      "slug": "glass-slideshow",
+      "name": "Glass Slideshow",
+      "description": "A slideshow component featuring organic glass bubble transitions with refraction and chromatic aberration.",
+      "category": "canvas",
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "@threlte/extras": "^9.7.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.169.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/glass-slideshow/GlassSlideshow.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/glass-slideshow/GlassSlideshowScene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "globe": {
       "slug": "globe",
       "name": "Globe",
