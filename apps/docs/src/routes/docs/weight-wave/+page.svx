@@ -52,11 +52,11 @@ import { WeightWave } from "$lib/motion-core";
 	keys={["prop", "type", "default"]}
 	data={[
 		{
-			prop: "text",
-			type: "string",
-			default: "—",
-			description: "Text content that will be split and animated.",
-		},
+            prop: "children",
+            type: "Snippet",
+            default: "—",
+            description: "The content to be split and animated.",
+        },
 		{
 			prop: "baseWeight",
 			type: "number",

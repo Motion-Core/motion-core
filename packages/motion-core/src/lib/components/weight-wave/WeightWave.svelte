@@ -3,17 +3,14 @@
 	import { gsap } from "gsap/dist/gsap";
 	import { SplitText } from "gsap/dist/SplitText";
 	import { onMount } from "svelte";
+	import type { Snippet } from "svelte";
 	import { cn } from "../../utils/cn";
 
-	onMount(() => {
-		gsap.registerPlugin(SplitText);
-	});
-
-	interface Props {
+	interface ComponentProps {
 		/**
-		 * The text content to be split and animated.
+		 * The content to be split and animated.
 		 */
-		text: string;
+		children?: Snippet;
 		/**
 		 * The standard font weight when not hovering.
 		 * @default 350
@@ -48,20 +45,24 @@
 		 * Additional CSS classes for the container.
 		 */
 		class?: string;
-		[key: string]: unknown;
+		[prop: string]: unknown;
 	}
 
-	let {
-		text,
+	const {
+		children,
 		baseWeight = 350,
 		hoverWeight = 750,
 		influenceRadius = 3,
 		falloffPower = 1.5,
 		duration = 1.0,
 		ease = "power3.out",
-		class: className,
+		class: className = "",
 		...restProps
-	}: Props = $props();
+	}: ComponentProps = $props();
+
+	onMount(() => {
+		gsap.registerPlugin(SplitText);
+	});
 
 	let wrapperRef: HTMLSpanElement;
 	let splitInstance: SplitText | null = null;
@@ -69,7 +70,8 @@
 	let charPositions: { x: number; width: number }[] = [];
 
 	$effect(() => {
-		if (!wrapperRef || typeof window === "undefined") return;
+		if (typeof window === "undefined") return;
+		if (!wrapperRef) return;
 
 		if (splitInstance) {
 			splitInstance.revert();
@@ -104,79 +106,71 @@
 			});
 		});
 
+		const calculateWeight = (distance: number) => {
+			if (influenceRadius <= 0) return baseWeight;
+			if (distance > influenceRadius + 1) return baseWeight;
+
+			const normalized = Math.max(0, 1 - distance / (influenceRadius + 1));
+			const shaped = Math.pow(normalized, falloffPower);
+
+			return baseWeight + (hoverWeight - baseWeight) * shaped;
+		};
+
+		const applyGsap = (node: HTMLElement, weight: number) => {
+			gsap.to(node, {
+				fontWeight: weight,
+				fontVariationSettings: `"wght" ${weight}`,
+				duration,
+				ease,
+				overwrite: "auto",
+			});
+		};
+
+		const animateWeights = (targetIndex: number | null) => {
+			if (!charNodes.length) return;
+			charNodes.forEach((node, i) => {
+				const weight =
+					targetIndex === null
+						? baseWeight
+						: calculateWeight(Math.abs(i - targetIndex));
+				applyGsap(node, weight);
+			});
+		};
+
+		const handleMove = (e: PointerEvent) => {
+			if (!charNodes.length || !charPositions.length) return;
+			const mouseX = e.clientX;
+
+			charNodes.forEach((node, i) => {
+				const { x, width } = charPositions[i];
+				const distance = Math.abs(mouseX - x) / width;
+				const weight = calculateWeight(distance);
+				applyGsap(node, weight);
+			});
+		};
+
+		const handleLeave = () => {
+			animateWeights(null);
+		};
+
+		wrapperRef.addEventListener("pointermove", handleMove);
+		wrapperRef.addEventListener("pointerleave", handleLeave);
+
 		return () => {
+			wrapperRef.removeEventListener("pointermove", handleMove);
+			wrapperRef.removeEventListener("pointerleave", handleLeave);
 			splitInstance?.revert();
 			splitInstance = null;
 			charNodes = [];
 			charPositions = [];
 		};
 	});
-
-	$effect(() => {
-		void baseWeight;
-		if (charNodes.length > 0) {
-			animateWeights(null);
-		}
-	});
-
-	function handleMove(e: PointerEvent) {
-		if (!charNodes.length || !charPositions.length) return;
-
-		const mouseX = e.clientX;
-
-		charNodes.forEach((node, i) => {
-			const { x, width } = charPositions[i];
-			const distance = Math.abs(mouseX - x) / width;
-			const weight = calculateWeight(distance);
-
-			applyGsap(node, weight);
-		});
-	}
-
-	function handleLeave() {
-		animateWeights(null);
-	}
-
-	function animateWeights(targetIndex: number | null) {
-		if (!charNodes.length) return;
-
-		charNodes.forEach((node, i) => {
-			const weight =
-				targetIndex === null
-					? baseWeight
-					: calculateWeight(Math.abs(i - targetIndex));
-
-			applyGsap(node, weight);
-		});
-	}
-
-	function applyGsap(node: HTMLElement, weight: number) {
-		gsap.to(node, {
-			fontWeight: weight,
-			fontVariationSettings: `"wght" ${weight}`,
-			duration,
-			ease,
-			overwrite: "auto",
-		});
-	}
-
-	function calculateWeight(distance: number) {
-		if (influenceRadius <= 0) return baseWeight;
-		if (distance > influenceRadius + 1) return baseWeight;
-
-		const normalized = Math.max(0, 1 - distance / (influenceRadius + 1));
-		const shaped = Math.pow(normalized, falloffPower);
-
-		return baseWeight + (hoverWeight - baseWeight) * shaped;
-	}
 </script>
 
 <span
-	bind:this={wrapperRef}
-	onpointermove={handleMove}
-	onpointerleave={handleLeave}
-	class={cn("font-inherit inline-block align-baseline text-inherit", className)}
 	{...restProps}
+	class={cn("font-inherit inline-block align-baseline text-inherit", className)}
+	bind:this={wrapperRef}
 >
-	{text}
+	{@render children?.()}
 </span>
