@@ -52,22 +52,109 @@ import { FloatingMenu } from "$lib/motion-core";
 	keys={["prop", "type", "default"]}
 	data={[
 		{
-			prop: "links",
-			type: "{ label: string; href: string }[]",
+			prop: "menuGroups",
+			type: "MenuGroup[]",
 			default: "[]",
-			description: "Array of links to display in the menu.",
+			description: "Groups of links to display in the expanded menu.",
 		},
 		{
 			prop: "logo",
 			type: "Snippet",
 			default: "undefined",
-			description: "Snippet for the logo icon.",
+			description: "Snippet for the logo icon (and optional text).",
+		},
+		{
+			prop: "primaryButton",
+			type: "MenuButton",
+			default: "undefined",
+			description: "Configuration for the primary call-to-action button.",
+		},
+		{
+			prop: "secondaryButton",
+			type: "MenuButton",
+			default: "undefined",
+			description: "Configuration for the secondary button.",
+		},
+		{
+			prop: "portalTarget",
+			type: "HTMLElement | string",
+			default: '"body"',
+			description: "Target element to render the menu into.",
 		},
 		{
 			prop: "class",
 			type: "string",
 			default: '""',
 			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
+
+### MenuGroup
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "title",
+			type: "string",
+			default: "—",
+			description: "The title of the link group.",
+		},
+		{
+			key: "variant",
+			type: '"default" | "muted"',
+			default: '"default"',
+			description: "Visual style of the group container.",
+		},
+		{
+			key: "links",
+			type: "MenuLink[]",
+			default: "[]",
+			description: "Array of links within this group.",
+		},
+	]}
+/>
+
+### MenuLink
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "label",
+			type: "string",
+			default: "—",
+			description: "Display text for the link.",
+		},
+		{
+			key: "href",
+			type: "string",
+			default: "—",
+			description: "Destination URL.",
+		},
+	]}
+/>
+
+### MenuButton
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "label",
+			type: "string",
+			default: "—",
+			description: "Button text.",
+		},
+		{
+			key: "href",
+			type: "string",
+			default: "—",
+			description: "Button destination URL.",
 		},
 	]}
 />

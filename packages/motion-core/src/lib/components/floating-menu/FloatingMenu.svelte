@@ -48,6 +48,12 @@
 		 * Additional classes for the container.
 		 */
 		class?: string;
+		/**
+		 * The target element or selector to append the menu to.
+		 * Useful for containment in demos or specific containers.
+		 * @default "body"
+		 */
+		portalTarget?: HTMLElement | string;
 	}
 
 	let {
@@ -56,6 +62,7 @@
 		primaryButton,
 		secondaryButton,
 		class: className,
+		portalTarget = "body",
 	}: Props = $props();
 
 	let isOpen = $state(false);
@@ -144,7 +151,7 @@
 </script>
 
 <div
-	use:portal
+	use:portal={portalTarget}
 	bind:this={overlayRef}
 	class="pointer-events-none fixed inset-0 z-40 bg-background/60 opacity-0 data-[open=true]:pointer-events-auto"
 	data-open={isOpen}
@@ -161,7 +168,7 @@
 ></div>
 
 <div
-	use:portal
+	use:portal={portalTarget}
 	bind:this={containerRef}
 	class={cn(
 		"card-highlight fixed top-2 left-1/2 z-50 w-full max-w-1/2 -translate-x-1/2 rounded-lg border border-border bg-card text-foreground shadow-2xl shadow-lg md:top-4",
