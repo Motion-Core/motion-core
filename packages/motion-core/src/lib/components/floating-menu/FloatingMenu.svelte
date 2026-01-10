@@ -117,7 +117,21 @@
 		});
 
 		timeline
-			.to(containerRef, { maxWidth: maxWidthMobile }, 0)
+			.to(
+				containerRef,
+				{
+					maxWidth: maxWidthMobile,
+					...(isMobile
+						? {
+								top: 0,
+								paddingTop: "0.5rem",
+								borderTopLeftRadius: 0,
+								borderTopRightRadius: 0,
+							}
+						: {}),
+				},
+				0,
+			)
 			.to(overlayRef, { autoAlpha: 1 }, 0)
 			.to(menuWrapperRef, { height: "auto", autoAlpha: 1 }, 0.2)
 			.to([line1Ref, line2Ref], { y: 0, duration: 0.4 }, 0.2)
