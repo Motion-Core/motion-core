@@ -1,0 +1,27 @@
+{
+	"name": "Floating Menu",
+	"slug": "floating-menu",
+	"description": "A floating interaction menu with a GSAP timeline animation, featuring a cross-trigger and staggered split-text reveals.",
+	"category": "navigation",
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "FloatingMenu.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "../../utils/use-portal.ts",
+			"target": "utils"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

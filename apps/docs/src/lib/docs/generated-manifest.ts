@@ -36,6 +36,14 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "floating-menu",
+		name: "Floating Menu",
+		category: "navigation",
+		dependencies: {
+			gsap: "^3.14.2",
+		},
+	},
+	{
 		slug: "glass-pane",
 		name: "Glass Pane",
 		category: "canvas",

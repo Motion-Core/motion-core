@@ -27,3 +27,4 @@ export { default as PlasmaGrid } from "./plasma-grid/PlasmaGrid.svelte";
 export { default as GlassSlideshow } from "./glass-slideshow/GlassSlideshow.svelte";
 export { default as WeightWave } from "./weight-wave/WeightWave.svelte";
 export { default as TextScramble } from "./text-scramble/TextScramble.svelte";
+export { default as FloatingMenu } from "./floating-menu/FloatingMenu.svelte";

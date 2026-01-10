@@ -1,0 +1,73 @@
+---
+name: Floating Menu
+description: A floating interaction menu with a GSAP timeline animation, featuring a cross-trigger and staggered split-text reveals.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import floatingMenuSource from "motion-core/components/floating-menu/FloatingMenu.svelte?raw";
+	import FloatingMenuDemo from "./FloatingMenuDemo.svelte";
+	import floatingMenuDemoSource from "./FloatingMenuDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="floating-menu" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { FloatingMenu } from "$lib/motion-core";
+```
+
+	</Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: floatingMenuDemoSource, language: "svelte" },
+		{ name: "FloatingMenu.svelte", code: floatingMenuSource, language: "svelte" },
+	]}
+>
+	<FloatingMenuDemo />
+</ComponentPreview>
+
+## Props
+
+### FloatingMenu
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "links",
+			type: "{ label: string; href: string }[]",
+			default: "[]",
+			description: "Array of links to display in the menu.",
+		},
+		{
+			prop: "logo",
+			type: "Snippet",
+			default: "undefined",
+			description: "Snippet for the logo icon.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
