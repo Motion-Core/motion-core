@@ -670,7 +670,7 @@ dependencies = [
 
 [[package]]
 name = "motion-core-cli"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -691,7 +691,7 @@ dependencies = [
 
 [[package]]
 name = "motion-core-cli-core"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "base64",
  "dirs",

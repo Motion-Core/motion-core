@@ -1,6 +1,7 @@
 use std::collections::HashMap;
+use std::ffi::OsString;
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use anyhow::{Context, anyhow};
 use clap::Args;
@@ -74,6 +75,9 @@ impl DependencyReport {
     }
 }
 
+const CSS_TOKEN_REGISTRY_PATH: &str = "tokens/motion-core.css";
+const CSS_TOKEN_SENTINEL: &str = "@utility card-highlight";
+
 pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> CommandResult {
     reporter.info(format_args!("{}", heading("Motion Core workspace setup")));
     if args.dry_run {
@@ -141,6 +145,9 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
     spinner.set_message("Scaffolding Motion Core workspace...");
     let scaffold = scaffold_workspace(ctx, reporter, &config, args.dry_run)?;
 
+    spinner.set_message("Syncing Motion Core CSS tokens...");
+    let tokens_synced = sync_tailwind_tokens(ctx, reporter, &config, args.dry_run)?;
+
     spinner.set_message("Loading base dependencies...");
     let base_dependencies = match ctx.registry().base_dependencies() {
         Ok(deps) => Some(deps),
@@ -181,7 +188,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
 
     let mut changed = false;
     if !args.dry_run {
-        if config_state.changed() || scaffold.any() || deps_report.changed() {
+        if config_state.changed() || scaffold.any() || deps_report.changed() || tokens_synced {
             changed = true;
         }
     }
@@ -250,6 +257,209 @@ fn scaffold_workspace(
     }
 
     Ok(report)
+}
+
+fn sync_tailwind_tokens(
+    ctx: &CommandContext,
+    reporter: &dyn Reporter,
+    config: &Config,
+    dry_run: bool,
+) -> anyhow::Result<bool> {
+    let css_path = config.tailwind.css.trim();
+    if css_path.is_empty() {
+        reporter.warn(format_args!(
+            "tailwind.css path missing from motion-core.json; skipping token sync"
+        ));
+        return Ok(false);
+    }
+
+    let target = ctx.workspace_root().join(css_path);
+    if !target.exists() {
+        reporter.warn(format_args!(
+            "Tailwind CSS file {} not found; skipping token sync",
+            relative_display(ctx.workspace_root(), &target)
+        ));
+        return Ok(false);
+    }
+
+    let existing =
+        fs::read_to_string(&target).with_context(|| format!("failed to read {}", target.display()))?;
+    if existing.contains(CSS_TOKEN_SENTINEL) {
+        reporter.info(format_args!(
+            "{}",
+            muted(format!(
+                "Motion Core tokens already present in {}",
+                relative_display(ctx.workspace_root(), &target)
+            ))
+        ));
+        return Ok(false);
+    }
+
+    let tokens_bytes = ctx
+        .registry()
+        .fetch_component_file(CSS_TOKEN_REGISTRY_PATH)
+        .map_err(|err| anyhow!("failed to download Motion Core tokens: {err}"))?;
+    let tokens_source = String::from_utf8(tokens_bytes)
+        .map_err(|err| anyhow!("Motion Core token bundle is not valid UTF-8: {err}"))?;
+
+    let (import_line, mut token_body) = split_token_bundle(&tokens_source);
+    token_body = trim_token_body(&token_body);
+    if token_body.is_empty() {
+        return Err(anyhow!("Motion Core token payload is empty"));
+    }
+
+    let newline = detect_newline(&existing);
+    let insertion_index = find_import_insertion_index(&existing);
+    let prefix = &existing[..insertion_index];
+    let suffix = &existing[insertion_index..];
+    let has_tailwind_import = has_tailwind_import(&existing);
+
+    let mut block = String::new();
+    if !has_tailwind_import {
+        if let Some(line) = import_line {
+            block.push_str(line.trim());
+            block.push_str(newline);
+        }
+    }
+    if !block.is_empty() {
+        block.push_str(newline);
+    }
+    block.push_str(&token_body);
+    if !block.ends_with(newline) {
+        block.push_str(newline);
+    }
+
+    let blank = format!("{newline}{newline}");
+    let mut updated = String::with_capacity(existing.len() + block.len() + 8);
+    updated.push_str(prefix);
+    if !prefix.is_empty() {
+        if prefix.ends_with(&blank) {
+            // already has an empty line
+        } else if prefix.ends_with(newline) {
+            updated.push_str(newline);
+        } else {
+            updated.push_str(newline);
+            updated.push_str(newline);
+        }
+    }
+    updated.push_str(&block);
+    if !suffix.is_empty() && !updated.ends_with(newline) {
+        updated.push_str(newline);
+    }
+    updated.push_str(suffix);
+
+    if dry_run {
+        reporter.info(format_args!(
+            "{}",
+            brand(format!(
+                "Would inject Motion Core tokens into {}",
+                relative_display(ctx.workspace_root(), &target)
+            ))
+        ));
+        return Ok(false);
+    }
+
+    let backup_path = create_backup(&target)?;
+    match fs::write(&target, updated) {
+        Ok(_) => {
+            let _ = fs::remove_file(&backup_path);
+            reporter.info(format_args!(
+                "{}",
+                success(format!(
+                    "Motion Core tokens synced at {}",
+                    relative_display(ctx.workspace_root(), &target)
+                ))
+            ));
+            Ok(true)
+        }
+        Err(err) => {
+            let _ = restore_backup(&backup_path, &target);
+            Err(anyhow!("failed to write {}: {err}", target.display()))
+        }
+    }
+}
+
+fn split_token_bundle(source: &str) -> (Option<String>, String) {
+    let trimmed = source.trim_start_matches('\u{feff}');
+    if trimmed.trim_start().starts_with("@import") {
+        if let Some(idx) = trimmed.find('\n') {
+            let line = trimmed[..idx].trim().to_string();
+            let body = trimmed[idx + 1..].to_string();
+            (Some(line), body)
+        } else {
+            (Some(trimmed.trim().to_string()), String::new())
+        }
+    } else {
+        (None, trimmed.to_string())
+    }
+}
+
+fn trim_token_body(body: &str) -> String {
+    let mut slice = body;
+    while slice.starts_with('\n') || slice.starts_with('\r') {
+        slice = &slice[1..];
+    }
+    slice.trim_end_matches(|c| c == '\n' || c == '\r').to_string()
+}
+
+fn detect_newline(contents: &str) -> &str {
+    if contents.contains("\r\n") {
+        "\r\n"
+    } else {
+        "\n"
+    }
+}
+
+fn find_import_insertion_index(contents: &str) -> usize {
+    let mut last = None;
+    let mut offset = 0usize;
+    for segment in contents.split_inclusive('\n') {
+        let line = segment.trim_end_matches(&['\r', '\n'][..]).trim_start();
+        if line.starts_with("@import") {
+            last = Some(offset + segment.len());
+        }
+        offset += segment.len();
+    }
+
+    if !contents.ends_with('\n') {
+        let start = contents.rfind('\n').map(|idx| idx + 1).unwrap_or(0);
+        let line = contents[start..].trim_start();
+        if line.starts_with("@import") {
+            return contents.len();
+        }
+    }
+
+    last.unwrap_or(0)
+}
+
+fn has_tailwind_import(contents: &str) -> bool {
+    contents.lines().any(|line| {
+        let trimmed = line.trim_start();
+        trimmed.starts_with("@import") && trimmed.contains("tailwindcss")
+    })
+}
+
+fn create_backup(path: &Path) -> anyhow::Result<PathBuf> {
+    let backup_name = match path.file_name() {
+        Some(name) => {
+            let mut os = OsString::from(name);
+            os.push(".motion-core.bak");
+            os
+        }
+        None => OsString::from("motion-core.bak"),
+    };
+    let backup_path = path.with_file_name(backup_name);
+    fs::copy(path, &backup_path).with_context(|| {
+        format!(
+            "failed to create backup {}",
+            backup_path.display()
+        )
+    })?;
+    Ok(backup_path)
+}
+
+fn restore_backup(backup: &Path, target: &Path) {
+    let _ = fs::copy(backup, target);
 }
 
 fn relative_display(root: &Path, target: &Path) -> String {
@@ -544,7 +754,7 @@ mod tests {
     use crate::context::CommandContext;
     use crate::reporter::ConsoleReporter;
     use base64::{Engine as _, engine::general_purpose};
-    use motion_core_cli_core::{CONFIG_FILE_NAME, CacheStore, RegistryClient};
+    use motion_core_cli_core::{CONFIG_FILE_NAME, CacheStore, Config, RegistryClient};
     use serde_json::json;
     use std::collections::HashMap;
     use std::fs;
@@ -572,7 +782,7 @@ mod tests {
             registry,
             cache,
         );
-        preload_cn_helper(&ctx);
+        preload_registry_assets(&ctx);
         let reporter = ConsoleReporter::new();
         let outcome = run(&ctx, &reporter, &InitArgs::default()).unwrap();
         assert_eq!(outcome, CommandOutcome::Completed);
@@ -607,7 +817,7 @@ mod tests {
             registry,
             cache,
         );
-        preload_cn_helper(&ctx);
+        preload_registry_assets(&ctx);
         let reporter = ConsoleReporter::new();
         let args = InitArgs { dry_run: true };
         let outcome = run(&ctx, &reporter, &args).unwrap();
@@ -617,7 +827,72 @@ mod tests {
         assert!(!temp.path().join("src/lib/motion-core/assets").exists());
     }
 
-    fn preload_cn_helper(ctx: &CommandContext) {
+    #[test]
+    fn sync_tokens_injects_after_imports() {
+        let registry = RegistryClient::with_registry(Default::default());
+        let temp = tempfile::tempdir().expect("tempdir");
+        let cache = CacheStore::from_path(temp.path().join("cache"));
+        let ctx = CommandContext::new(
+            temp.path(),
+            temp.path().join(CONFIG_FILE_NAME),
+            registry,
+            cache,
+        );
+        preload_registry_assets(&ctx);
+
+        let css_path = temp.path().join("src/routes/layout.css");
+        fs::create_dir_all(css_path.parent().unwrap()).expect("dirs");
+        fs::write(
+            &css_path,
+            "@import \"tailwindcss\";\n\nbody { background: white; }\n",
+        )
+        .expect("write css");
+
+        let mut config = Config::default();
+        config.tailwind.css = "src/routes/layout.css".into();
+
+        let reporter = ConsoleReporter::new();
+        let changed = sync_tailwind_tokens(&ctx, &reporter, &config, false).unwrap();
+        assert!(changed);
+        let updated = fs::read_to_string(&css_path).expect("read css");
+        assert!(updated.contains(CSS_TOKEN_SENTINEL));
+    }
+
+    #[test]
+    fn sync_tokens_skips_when_present() {
+        let registry = RegistryClient::with_registry(Default::default());
+        let temp = tempfile::tempdir().expect("tempdir");
+        let cache = CacheStore::from_path(temp.path().join("cache"));
+        let ctx = CommandContext::new(
+            temp.path(),
+            temp.path().join(CONFIG_FILE_NAME),
+            registry,
+            cache,
+        );
+        preload_registry_assets(&ctx);
+
+        let css_path = temp.path().join("src/app.css");
+        fs::create_dir_all(css_path.parent().unwrap()).expect("dirs");
+        fs::write(
+            &css_path,
+            "@import \"tailwindcss\";\n\n@utility card-highlight { color: inherit; }\n",
+        )
+        .expect("write css");
+
+        let mut config = Config::default();
+        config.tailwind.css = "src/app.css".into();
+
+        let reporter = ConsoleReporter::new();
+        let changed = sync_tailwind_tokens(&ctx, &reporter, &config, false).unwrap();
+        assert!(!changed);
+        let updated = fs::read_to_string(&css_path).expect("read css");
+        assert_eq!(
+            "@import \"tailwindcss\";\n\n@utility card-highlight { color: inherit; }\n",
+            updated
+        );
+    }
+
+    fn preload_registry_assets(ctx: &CommandContext) {
         let helper = r#"import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -625,10 +900,18 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 "#;
+        let tokens = format!(
+            "@import \"tailwindcss\";\n\n{sentinel} {{\n    color: inherit;\n}}\n",
+            sentinel = CSS_TOKEN_SENTINEL
+        );
         let mut manifest = HashMap::new();
         manifest.insert(
             "utils/cn.ts".into(),
             general_purpose::STANDARD.encode(helper),
+        );
+        manifest.insert(
+            CSS_TOKEN_REGISTRY_PATH.into(),
+            general_purpose::STANDARD.encode(tokens),
         );
         ctx.registry().preload_component_manifest(manifest);
     }

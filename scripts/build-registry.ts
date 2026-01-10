@@ -41,6 +41,14 @@ const componentRoot = path.join(
 	"lib",
 	"components",
 );
+const tokensRoot = path.join(
+	rootDir,
+	"packages",
+	"motion-core",
+	"src",
+	"lib",
+	"tokens",
+);
 const registryOutputDir = path.join(
 	rootDir,
 	"apps",
@@ -143,6 +151,8 @@ async function main() {
 		};
 	}
 
+	await appendCssTokens(assetPayload);
+
 	await mkdir(registryOutputDir, { recursive: true });
 	await mkdir(schemaOutputDir, { recursive: true });
 
@@ -197,6 +207,39 @@ async function fileExists(filePath: string) {
 	} catch {
 		return false;
 	}
+}
+
+async function appendCssTokens(assetPayload: Map<string, Buffer>) {
+	const tokensDirExists = await fileExists(tokensRoot);
+	if (!tokensDirExists) {
+		return;
+	}
+
+	for (const filePath of await collectCssFiles(tokensRoot)) {
+		const relative = path.relative(tokensRoot, filePath);
+		const registryPath = toPosix(path.join("tokens", relative));
+		const buffer = await readFile(filePath);
+		assetPayload.set(registryPath, buffer);
+	}
+}
+
+async function collectCssFiles(dir: string): Promise<string[]> {
+	const entries = await readdir(dir, { withFileTypes: true });
+	const files: string[] = [];
+
+	for (const entry of entries) {
+		const entryPath = path.join(dir, entry.name);
+		if (entry.isDirectory()) {
+			files.push(...(await collectCssFiles(entryPath)));
+		} else if (
+			entry.isFile() &&
+			path.extname(entry.name).toLowerCase() === ".css"
+		) {
+			files.push(entryPath);
+		}
+	}
+
+	return files;
 }
 
 function stringify(value: unknown) {

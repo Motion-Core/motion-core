@@ -171,7 +171,7 @@
 	use:portal={portalTarget}
 	bind:this={containerRef}
 	class={cn(
-		"card-highlight fixed top-2 left-1/2 z-50 w-full max-w-1/2 -translate-x-1/2 rounded-lg border border-border bg-card text-foreground shadow-2xl shadow-lg md:top-4",
+		"card-highlight fixed top-2 left-1/2 z-50 w-full max-w-1/2 -translate-x-1/2 rounded-lg border border-border bg-card text-foreground shadow-2xl md:top-4",
 		className,
 	)}
 >
@@ -212,7 +212,7 @@
 			{#if secondaryButton}
 				<a
 					href={secondaryButton.href}
-					class="flex hidden h-10 items-center justify-center rounded-md px-4 text-sm font-medium text-foreground transition-[background-color,color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-card-muted/60 hover:text-foreground md:inline-flex"
+					class="hidden h-10 items-center justify-center rounded-md px-4 text-sm font-medium text-foreground transition-[background-color,color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-card-muted/60 hover:text-foreground md:flex"
 				>
 					{secondaryButton.label}
 				</a>

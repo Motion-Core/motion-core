@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+	--base-hue: 285;
+	--color-background: oklch(0.9542 0.002 var(--base-hue));
+	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
+	--color-accent: oklch(0.6996 0.201959 44.4414);
+	--color-accent-secondary: oklch(0.5596 0.151959 44.4414);
+	--color-border: oklch(0.9225 0.002 var(--base-hue));
+	--color-card: oklch(1 0 0);
+	--color-card-muted: oklch(0.9642 0.002 var(--base-hue));
+	--shadow-xs: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.15);
+	--shadow-sm:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05);
+	--shadow-md:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05), 0px 6px 6px -3px rgba(0, 0, 0, 0.05);
+	--shadow-lg:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
+		0px 6px 6px -3px rgba(0, 0, 0, 0.05), 0px 12px 12px -6px rgba(0, 0, 0, 0.05);
+	--shadow-xl:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
+		0px 6px 6px -3px rgba(0, 0, 0, 0.05),
+		0px 12px 12px -6px rgba(0, 0, 0, 0.05),
+		0px 24px 24px -12px rgba(0, 0, 0, 0.05);
+	--shadow-2xl:
+		0px 1px 1px -0.5px rgba(0, 0, 0, 0.15),
+		0px 3px 3px -1.5px rgba(0, 0, 0, 0.05),
+		0px 6px 6px -3px rgba(0, 0, 0, 0.05),
+		0px 12px 12px -6px rgba(0, 0, 0, 0.05),
+		0px 24px 24px -12px rgba(0, 0, 0, 0.05),
+		0px 48px 48px -24px rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+	--color-background: oklch(0.18 0.0044 var(--base-hue));
+	--color-foreground: oklch(0.95 0.0013 var(--base-hue));
+	--color-border: oklch(0.28 0.01 var(--base-hue));
+	--color-card: oklch(0.21 0.0065 var(--base-hue));
+	--color-card-muted: oklch(0.26 0.0085 var(--base-hue));
+	--card-highlight: oklch(0.728 0.015 var(--base-hue) / 0.15);
+}
+
+@theme {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-accent: var(--accent);
+	--color-accent-secondary: var(--accent-secondary);
+	--color-border: var(--border);
+	--color-card: var(--card);
+	--color-card-muted: var(--card-muted);
+	--card-highlight: var(--card-highlight);
+	--shadow-xs: var(--shadow-xs);
+	--shadow-sm: var(--shadow-sm);
+	--shadow: var(--shadow);
+	--shadow-md: var(--shadow-md);
+	--shadow-lg: var(--shadow-lg);
+	--shadow-xl: var(--shadow-xl);
+	--shadow-2xl: var(--shadow-2xl);
+}
+
+@utility card-highlight {
+	isolation: isolate;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: -1px;
+		border-radius: inherit;
+		pointer-events: none;
+		z-index: -1;
+	}
+
+	@variant dark {
+		&::before {
+			box-shadow: inset 0 1px 0 0 var(--card-highlight);
+		}
+	}
+}

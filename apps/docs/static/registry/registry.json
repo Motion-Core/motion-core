@@ -119,6 +119,10 @@
           "kind": "entry"
         },
         {
+          "path": "utils/use-portal.ts",
+          "target": "utils"
+        },
+        {
           "path": "utils/cn.ts",
           "target": "utils"
         }
