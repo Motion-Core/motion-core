@@ -146,7 +146,7 @@
 <div
 	use:portal
 	bind:this={overlayRef}
-	class="pointer-events-none fixed inset-0 z-40 bg-background/60 data-[open=true]:pointer-events-auto"
+	class="pointer-events-none fixed inset-0 z-40 bg-background/60 opacity-0 data-[open=true]:pointer-events-auto"
 	data-open={isOpen}
 	onclick={toggle}
 	onkeydown={(e) => {
@@ -223,7 +223,7 @@
 
 	<div
 		bind:this={menuWrapperRef}
-		class="w-full overflow-hidden border-t border-border"
+		class="h-0 w-full overflow-hidden border-t border-border opacity-0"
 	>
 		<div class="grid grid-cols-1 gap-4 p-4 md:grid-cols-3">
 			{#each menuGroups as group (group.title)}
