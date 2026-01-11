@@ -12,7 +12,7 @@
   },
   "baseDevDependencies": {
     "@types/gsap": "^3.0.0",
-    "@types/three": "^0.169.0",
+    "@types/three": "^0.182.0",
     "three": "^0.182.0",
     "@threlte/core": "^8.3.1",
     "@threlte/extras": "^9.7.1",
@@ -30,7 +30,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -58,7 +58,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -139,7 +139,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -167,7 +167,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -195,7 +195,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -259,7 +259,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -290,7 +290,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -317,7 +317,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -439,7 +439,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -467,7 +467,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -494,7 +494,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -568,7 +568,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [
@@ -711,7 +711,7 @@
         "three": "^0.182.0"
       },
       "devDependencies": {
-        "@types/three": "^0.169.0"
+        "@types/three": "^0.182.0"
       },
       "internalDependencies": [],
       "files": [

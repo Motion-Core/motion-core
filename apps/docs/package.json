@@ -32,6 +32,7 @@
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
 		"@tailwindcss/vite": "^4.1.17",
 		"@types/node": "^25.0.1",
+		"@types/three": "^0.182.0",
 		"mdsvex": "^0.12.6",
 		"rehype-pretty-code": "^0.14.1",
 		"shiki": "^3.20.0",
