@@ -1,0 +1,44 @@
+name: Coverage
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  coverage:
+    name: Measure Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: llvm-tools-preview
+      - uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Generate Coverage
+        run: cargo llvm-cov --workspace --all-features --json --output-path coverage.json
+
+      - name: Parse Coverage
+        id: coverage
+        run: |
+          COVERAGE=$(cat coverage.json | jq -r '.data[0].totals.lines.percent | floor')
+          echo "PERCENT=$COVERAGE" >> $GITHUB_ENV
+          echo "Coverage: $COVERAGE%"
+
+      - name: Create Coverage Badge
+        if: github.ref == 'refs/heads/master'
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ secrets.GIST_ID }}
+          filename: motion-core-coverage.json
+          label: Coverage
+          message: ${{ env.PERCENT }}%
+          color: orange
+          valColorRange: ${{ env.PERCENT }}
+          maxColorRange: 90
+          minColorRange: 50

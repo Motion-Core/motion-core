@@ -1,5 +1,13 @@
 ![Motion Core showcase banner](apps/docs/static/og-image.jpg)
 
+<div align="center">
+
+[![License](https://img.shields.io/github/license/motion-core/motion-core?style=for-the-badge)](LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/motion-core/motion-core/coverage.yml?branch=master&label=Tests&style=for-the-badge)](https://github.com/motion-core/motion-core/actions/workflows/coverage.yml)
+![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/66HEX/69a6278a738ed1ad949f1b3032854100/raw/motion-core-coverage.json&style=for-the-badge)
+
+</div>
+
 ---
 
 ## Overview
