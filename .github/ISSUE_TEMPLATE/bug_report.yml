@@ -1,0 +1,57 @@
+name: Bug Report
+description: Report a bug to help us improve Motion Core.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: input
+    id: area
+    attributes:
+      label: Affected Area / Component
+      description: Where did the bug occur? (e.g., CLI, component, Docs)
+      placeholder: e.g., CLI, Infinite Gallery, CSS styles...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: |
+        Steps to reproduce the behavior. If possible, provide a link to a reproduction repository or a StackBlitz/CodeSandbox.
+      placeholder: |
+        1. Install @motion-core/cli
+        2. Run 'npx motion-core add ...'
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Browser, OS, Svelte version, Motion Core version, etc.
+    validations:
+      required: false
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here (screenshots, logs, etc.).
+    validations:
+      required: false

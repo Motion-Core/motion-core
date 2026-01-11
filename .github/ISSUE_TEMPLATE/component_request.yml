@@ -1,0 +1,35 @@
+name: New Component Request
+description: Request a new motion component to be added to the library.
+labels: [component-request]
+body:
+  - type: input
+    id: component-name
+    attributes:
+      label: Component Name
+      placeholder: e.g., Liquid Button, Particle Text
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What should this component do? How should it behave?
+    validations:
+      required: true
+  - type: input
+    id: reference
+    attributes:
+      label: Reference / Inspiration
+      description: Link to a video, website, or Dribbble shot that shows the desired effect.
+      placeholder: https://dribbble.com/shots/...
+    validations:
+      required: true
+  - type: textarea
+    id: usage
+    attributes:
+      label: Potential API / Usage
+      description: How would you like to use this component in Svelte?
+      placeholder: |
+        <LiquidButton color="blue" intensity={0.5}>
+          Click Me
+        </LiquidButton>
