@@ -246,7 +246,9 @@
 		bind:this={menuWrapperRef}
 		class="h-0 w-full overflow-hidden border-t border-border opacity-0"
 	>
-		<div class="grid grid-cols-1 gap-4 p-4 md:grid-cols-3">
+		<div
+			class="grid max-h-[65vh] grid-cols-1 gap-4 overflow-y-auto overscroll-contain p-4 md:max-h-none md:grid-cols-3 md:overflow-visible"
+		>
 			{#each menuGroups as group (group.title)}
 				<div
 					class={cn(
