@@ -185,7 +185,7 @@
 	use:portal={portalTarget}
 	bind:this={containerRef}
 	class={cn(
-		"card-highlight fixed top-2 left-1/2 z-50 w-full max-w-1/2 -translate-x-1/2 rounded-lg border border-border bg-card text-foreground shadow-2xl md:top-4",
+		"card-highlight fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-lg border border-border bg-card text-foreground shadow-2xl md:top-4 md:max-w-1/2",
 		className,
 	)}
 >
