@@ -1,6 +1,6 @@
 {
 	"name": "@motion-core/cli",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "Motion Core CLI tooling",
 	"license": "MIT",
 	"bin": {
