@@ -33,7 +33,7 @@
 	</code>
 {:else}
 	<div
-		class="card-highlight relative inline-block w-fit rounded-lg border border-border bg-card px-1.5 py-0.5 text-xs font-medium text-foreground shadow-sm mono"
+		class="card-highlight relative inline-block w-fit rounded-lg border border-border bg-card px-1.5 py-0.5 text-xs font-medium whitespace-nowrap text-foreground shadow-sm mono"
 	>
 		<code {...restProps} class={cn("", className)}>
 			{@render children?.()}

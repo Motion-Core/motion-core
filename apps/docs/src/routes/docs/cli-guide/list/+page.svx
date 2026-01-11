@@ -26,42 +26,48 @@ motion-core list --json
 ## Sample output
 
 ```text
-› Motion Core components
-  Motion Core v0.5.0 - 32 components
+› Motion Core Registry components
+› Motion Core Registry v0.1.0 - 28 components
+› Curated Motion Core Svelte components
 
-Canvas
-  glass-pane
-    glass effect hero panel
-    slug: glass-pane
+› canvas
+› 13 components
+›   ASCII Renderer
+›     A retro-styled renderer that converts images into character-based visuals with configurable scanlines.
+›     slug: ascii-renderer
+›   Dithered Image
+›     An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).
+›     slug: dithered-image
 
-Carousels
-  logo-carousel
-    Showcase brand logos with a subtle motion trail.
-    slug: logo-carousel
-
-Install components
-  motion-core add glass-pane
-  motion-core add logo-carousel --dry-run
+› Install components
+›   motion-core add glass-pane
+›   motion-core add logo-carousel --dry-run
 ```
 
 With `--json` the same information becomes:
 
 ```json
 {
-  "registry": {
-    "name": "Motion Core",
-    "version": "0.5.0",
-    "description": "Motion-focused component kit.",
-    "components": 32
-  },
   "components": [
     {
-      "slug": "glass-pane",
-      "name": "Glass Pane",
-      "description": "glass effect hero panel",
-      "category": "Canvas"
-    }
-  ]
+      "category": "canvas",
+      "description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
+      "name": "ASCII Renderer",
+      "slug": "ascii-renderer"
+    },
+    {
+      "category": "canvas",
+      "description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
+      "name": "Dithered Image",
+      "slug": "dithered-image"
+    },
+  ],
+  "registry": {
+    "components": 28,
+    "description": "Curated Motion Core Svelte components",
+    "name": "Motion Core Registry",
+    "version": "0.1.0"
+  }
 }
 ```
 

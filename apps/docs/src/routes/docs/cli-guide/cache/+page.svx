@@ -40,7 +40,6 @@ export MOTION_CORE_ASSET_CACHE_TTL_MS=3600000 # asset TTL (1 h)
 ## When to clear the cache
 
 - Registry updates introduced new components but `motion-core list` still shows an old version.
-- During development of Motion Core itself when you want to verify how the CLI behaves with empty caches.
 - After manually editing files inside the cache directory and wanting to revert to a clean state.
 
 Remember that clearing the cache deletes every cached manifest and asset. The next CLI command will re-download them, so make sure you have an internet connection or keep a backup if you rely on offline usage.
