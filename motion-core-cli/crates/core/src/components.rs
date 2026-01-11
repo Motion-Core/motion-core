@@ -1,8 +1,15 @@
-use std::path::{Component, Path, PathBuf};
+use std::path::{Path, PathBuf};
+
+#[cfg(test)]
+use std::path::Component;
 
 use pathdiff::diff_paths;
 
-use crate::{config::Config, registry::ComponentFileRecord};
+use crate::{
+    config::Config,
+    paths::{sanitize_relative_path, workspace_path},
+    registry::ComponentFileRecord,
+};
 
 #[derive(Debug, Clone)]
 pub struct ComponentExportSpec {
@@ -31,11 +38,8 @@ pub fn resolve_component_destination(
         _ => &config.aliases.components.filesystem,
     };
 
-    if base.is_empty() {
-        workspace_root.join(&sanitized)
-    } else {
-        workspace_root.join(base).join(&sanitized)
-    }
+    let base_path = workspace_path(workspace_root, base);
+    base_path.join(&sanitized)
 }
 
 pub fn render_component_barrel(
@@ -51,7 +55,7 @@ pub fn render_component_barrel(
 
     let mut export_map = parse_export_map(existing);
     let mut modified = false;
-    let barrel_path = workspace_root.join(&config.exports.components.barrel);
+    let barrel_path = workspace_path(workspace_root, &config.exports.components.barrel);
     let barrel_dir = barrel_path.parent().unwrap_or(workspace_root);
 
     for component in components {
@@ -65,10 +69,7 @@ pub fn render_component_barrel(
                 "export {{ default as {} }} from \"{}\";",
                 component.export_name, import
             );
-            match export_map
-                .components
-                .entry(component.export_name.clone())
-            {
+            match export_map.components.entry(component.export_name.clone()) {
                 std::collections::btree_map::Entry::Vacant(entry) => {
                     entry.insert(line);
                     modified = true;
@@ -130,20 +131,6 @@ fn strip_category(path: &str) -> &str {
     }
 }
 
-fn sanitize_relative_path(path: &str) -> PathBuf {
-    let mut sanitized = PathBuf::new();
-    for component in Path::new(path).components() {
-        match component {
-            Component::Normal(segment) => sanitized.push(segment),
-            Component::CurDir => continue,
-            Component::ParentDir => continue,
-            Component::RootDir | Component::Prefix(_) => continue,
-        }
-    }
-
-    sanitized
-}
-
 fn compute_import_path(
     workspace_root: &Path,
     barrel_dir: &Path,
@@ -151,11 +138,9 @@ fn compute_import_path(
     entry_path: &Path,
 ) -> Option<String> {
     if let Some(base) = preferred_base {
-        if !base.is_empty() {
-            let components_root = workspace_root.join(base);
-            if let Ok(rel) = entry_path.strip_prefix(&components_root) {
-                return Some(format!("./{}", path_to_slash(rel)));
-            }
+        let components_root = workspace_path(workspace_root, base);
+        if let Ok(rel) = entry_path.strip_prefix(&components_root) {
+            return Some(format!("./{}", path_to_slash(rel)));
         }
     }
 
@@ -226,7 +211,11 @@ fn parse_export_map(contents: &str) -> BarrelExports {
                     .trim()
                     .trim_start_matches('"')
                     .trim_end_matches("\";");
-                for name in names.split(',').map(|value| value.trim()).filter(|v| !v.is_empty()) {
+                for name in names
+                    .split(',')
+                    .map(|value| value.trim())
+                    .filter(|v| !v.is_empty())
+                {
                     map.types.insert(
                         name.to_string(),
                         format!("export type {{ {} }} from \"{}\";", name, cleaned),
@@ -241,7 +230,7 @@ fn parse_export_map(contents: &str) -> BarrelExports {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::Config;
+    use crate::{config::Config, paths::sanitize_relative_path};
 
     #[test]
     fn sanitize_removes_traversal_segments() {
@@ -275,16 +264,48 @@ mod tests {
     }
 
     #[test]
+    fn sanitize_handles_complex_traversal() {
+        let config = Config::default();
+        let record = ComponentFileRecord {
+            path: "components/./.././app/secret.ts".into(),
+            ..Default::default()
+        };
+        let destination = resolve_component_destination(Path::new("/workspace"), &config, &record);
+        assert!(destination.starts_with("/workspace"));
+        assert!(!destination.to_string_lossy().contains(".."));
+    }
+
+    #[test]
+    fn sanitize_strips_windows_style_absolutes() {
+        let path = if cfg!(windows) {
+            "C:\\Windows\\System32"
+        } else {
+            "/etc/shadow"
+        };
+        let sanitized = sanitize_relative_path(path);
+        assert!(!sanitized.is_absolute());
+        if cfg!(windows) {
+            assert_eq!(sanitized, PathBuf::from("Windows\\System32"));
+        } else {
+            assert_eq!(sanitized, PathBuf::from("etc/shadow"));
+        }
+    }
+
+    #[test]
     fn render_component_barrel_combines_entries() {
         let config = Config::default();
         let components = vec![
             ComponentExportSpec {
                 export_name: "GlassPane".into(),
-                entry_path: PathBuf::from("/workspace/src/lib/motion-core/glass-pane/GlassPane.svelte"),
+                entry_path: PathBuf::from(
+                    "/workspace/src/lib/motion-core/glass-pane/GlassPane.svelte",
+                ),
             },
             ComponentExportSpec {
                 export_name: "GlassPaneItem".into(),
-                entry_path: PathBuf::from("/workspace/src/lib/motion-core/glass-pane/GlassPaneItem.svelte"),
+                entry_path: PathBuf::from(
+                    "/workspace/src/lib/motion-core/glass-pane/GlassPaneItem.svelte",
+                ),
             },
         ];
         let type_exports = vec![TypeExportSpec {

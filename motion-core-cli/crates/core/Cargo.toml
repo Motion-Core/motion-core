@@ -15,6 +15,9 @@ reqwest.workspace = true
 base64.workspace = true
 dirs.workspace = true
 pathdiff.workspace = true
+anyhow.workspace = true
+semver.workspace = true
 
 [dev-dependencies]
 tempfile = "3.24"
+filetime = "0.2"

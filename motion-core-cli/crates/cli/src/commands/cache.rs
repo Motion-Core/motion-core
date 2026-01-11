@@ -1,7 +1,9 @@
 use anyhow::anyhow;
 use clap::Args;
 
-use crate::{context::CommandContext, reporter::Reporter};
+use crate::reporter::Reporter;
+use motion_core_cli_core::operations::cache as core_cache;
+use motion_core_cli_core::{CacheOptions, CommandContext};
 
 use super::{CommandOutcome, CommandResult};
 
@@ -16,38 +18,44 @@ pub struct CacheArgs {
 }
 
 pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &CacheArgs) -> CommandResult {
-    let info = ctx.cache_store().info();
-    reporter.info(format_args!("cache directory: {}", info.path.display()));
-    reporter.info(format_args!(
-        "registry TTL: {}s, asset TTL: {}s",
-        info.registry_ttl.as_secs(),
-        info.asset_ttl.as_secs()
-    ));
-
-    if args.clear {
-        if !args.force {
-            reporter.warn(format_args!(
-                "use --force to confirm cache clearing (files will be deleted from disk)"
+    let options = CacheOptions {
+        clear: args.clear,
+        force: args.force,
+    };
+    match core_cache::run(ctx, options) {
+        Ok(result) => {
+            reporter.info(format_args!(
+                "cache directory: {}",
+                result.info.path.display()
             ));
-            return Ok(CommandOutcome::NoOp);
+            reporter.info(format_args!(
+                "registry TTL: {}s, asset TTL: {}s",
+                result.info.registry_ttl.as_secs(),
+                result.info.asset_ttl.as_secs()
+            ));
+            if result.cleared {
+                reporter.info(format_args!("cache cleared"));
+                Ok(CommandOutcome::Completed)
+            } else {
+                Ok(CommandOutcome::NoOp)
+            }
         }
-
-        ctx.cache_store()
-            .clear()
-            .map_err(|err| anyhow!("failed to clear cache: {err}"))?;
-        reporter.info(format_args!("cache cleared"));
-        return Ok(CommandOutcome::Completed);
+        Err(core_cache::CacheError::ConfirmationRequired) => {
+            reporter.warn(format_args!(
+                "{}",
+                core_cache::CacheError::ConfirmationRequired
+            ));
+            Ok(CommandOutcome::NoOp)
+        }
+        Err(core_cache::CacheError::ClearFailed(err)) => Err(anyhow!(err)),
     }
-
-    Ok(CommandOutcome::NoOp)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::context::CommandContext;
     use crate::reporter::ConsoleReporter;
-    use motion_core_cli_core::{CacheStore, RegistryClient};
+    use motion_core_cli_core::{CacheStore, CommandContext, RegistryClient};
     use tempfile::TempDir;
 
     #[test]
@@ -57,7 +65,7 @@ mod tests {
         let ctx = CommandContext::new(
             temp.path(),
             temp.path().join("motion-core.json"),
-            RegistryClient::new("https://registry.motion-core.dev"),
+            RegistryClient::new("https://registry.motion-core.dev").expect("registry client"),
             cache,
         );
         let reporter = ConsoleReporter::new();

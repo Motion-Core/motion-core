@@ -171,3 +171,29 @@ fn read_duration(var: &str, default_ms: u64) -> Duration {
         .map(Duration::from_millis)
         .unwrap_or_else(|| Duration::from_millis(default_ms))
 }
+
+#[cfg(test)]
+impl RegistryCache {
+    pub(crate) fn mark_registry_stale(&self) {
+        let _ = mark_file_stale(&self.root.join("registry.json"));
+    }
+
+    pub(crate) fn mark_components_stale(&self) {
+        let _ = mark_file_stale(&self.root.join("components.json"));
+    }
+}
+
+#[cfg(test)]
+fn mark_file_stale(path: &Path) -> std::io::Result<()> {
+    use filetime::{set_file_mtime, FileTime};
+    use std::time::{Duration, SystemTime};
+
+    if path.exists() {
+        let stale_time = SystemTime::now()
+            .checked_sub(Duration::from_secs(86_400))
+            .unwrap_or(SystemTime::UNIX_EPOCH);
+        let time = FileTime::from_system_time(stale_time);
+        set_file_mtime(path, time)?;
+    }
+    Ok(())
+}

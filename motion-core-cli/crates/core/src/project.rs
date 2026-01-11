@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
 
+use semver::Version;
 use serde::Deserialize;
 use thiserror::Error;
 
@@ -123,30 +124,62 @@ pub fn detect_framework(root: &Path) -> Result<FrameworkDetection, ProjectError>
 }
 
 fn parse_major(version: &str) -> Option<u64> {
-    let trimmed = version.trim().trim_start_matches(|c| "^~=><".contains(c));
-    let mut digits = String::new();
-    for ch in trimmed.chars() {
-        if ch.is_ascii_digit() {
-            digits.push(ch);
-        } else if ch == '.' {
-            break;
-        } else if digits.is_empty() {
-            continue;
-        } else {
-            break;
+    let mut v = version.trim();
+    for prefix in &["workspace:", "file:"] {
+        if let Some(rest) = v.strip_prefix(prefix) {
+            v = rest;
         }
     }
-    if digits.is_empty() {
-        None
-    } else {
-        digits.parse().ok()
+
+    let start = v.find(|c: char| c.is_ascii_digit())?;
+    v = &v[start..];
+
+    let end = v
+        .find(|c: char| !c.is_alphanumeric() && c != '.' && c != '-' && c != '+')
+        .unwrap_or(v.len());
+    let mut clean_version = v[..end].to_string();
+
+    let numeric_part = clean_version
+        .split(|c| c == '-' || c == '+')
+        .next()
+        .unwrap_or("");
+    let dots = numeric_part.chars().filter(|&c| c == '.').count();
+    if dots == 0 {
+        if clean_version.contains(|c| c == '-' || c == '+') {
+            let (num, rest) = clean_version.split_once(|c| c == '-' || c == '+').unwrap();
+            clean_version = format!("{}.0.0-{}", num, rest);
+        } else {
+            clean_version.push_str(".0.0");
+        }
+    } else if dots == 1 {
+        if clean_version.contains(|c| c == '-' || c == '+') {
+            let (num, rest) = clean_version.split_once(|c| c == '-' || c == '+').unwrap();
+            clean_version = format!("{}.0-{}", num, rest);
+        } else {
+            clean_version.push_str(".0");
+        }
     }
+
+    Version::parse(&clean_version).ok().map(|v| v.major)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use serde_json::json;
+
+    #[test]
+    fn parse_major_handles_various_formats() {
+        assert_eq!(parse_major("5.0.0"), Some(5));
+        assert_eq!(parse_major("^5.0.0"), Some(5));
+        assert_eq!(parse_major("~5.2.0"), Some(5));
+        assert_eq!(parse_major("v5.0.0"), Some(5));
+        assert_eq!(parse_major("workspace:^5.0.0"), Some(5));
+        assert_eq!(parse_major("workspace:*"), None);
+        assert_eq!(parse_major("5"), Some(5));
+        assert_eq!(parse_major("5.0"), Some(5));
+        assert_eq!(parse_major("4.0.0-beta.1"), Some(4));
+    }
 
     #[test]
     fn detects_framework_and_versions() {
@@ -179,5 +212,43 @@ mod tests {
         let nested = root.path().join("apps/docs");
         fs::create_dir_all(&nested).expect("nested dir");
         assert_eq!(detect_package_manager(&nested), PackageManagerKind::Npm);
+    }
+
+    #[test]
+    fn detect_framework_handles_malformed_package_json() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        fs::write(dir.path().join("package.json"), "{ invalid json ...").expect("write garbage");
+        let result = detect_framework(dir.path());
+        assert!(matches!(result, Err(ProjectError::PackageParse(_))));
+    }
+
+    #[test]
+    fn detect_framework_handles_missing_file() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let result = detect_framework(dir.path());
+        assert!(matches!(result, Err(ProjectError::PackageRead(_))));
+    }
+
+    #[test]
+    fn parse_major_handles_extreme_inputs() {
+        assert_eq!(parse_major(""), None);
+        assert_eq!(parse_major("   "), None);
+        assert_eq!(parse_major("not-a-version"), None);
+        assert_eq!(parse_major("v"), None);
+        assert_eq!(parse_major("workspace:"), None);
+        assert_eq!(parse_major("file:"), None);
+        assert_eq!(parse_major("∞.x.y"), None);
+
+        let huge_version = "99999999999999999999999.0.0";
+        assert_eq!(parse_major(huge_version), None);
+    }
+
+    #[test]
+    fn detect_package_manager_handles_missing_files() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        assert_eq!(
+            detect_package_manager(dir.path()),
+            PackageManagerKind::Unknown
+        );
     }
 }

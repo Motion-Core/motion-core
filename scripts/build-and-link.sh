@@ -3,7 +3,7 @@ set -euo pipefail
 
 TARGET=${1:-aarch64-apple-darwin}
 
-BIN_NAME="motion-core"
+BIN_NAME="motion-core-cli"
 CRATE_BIN_NAME="motion-core-cli"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CLI_DIR="$REPO_ROOT/motion-core-cli"

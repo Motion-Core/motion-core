@@ -1,12 +1,10 @@
 mod commands;
-mod context;
-mod deps;
 mod reporter;
 mod style;
 
 use anyhow::Result;
 use clap::{Parser, Subcommand};
-use motion_core_cli_core::{CacheStore, RegistryClient};
+use motion_core_cli_core::{CacheStore, CommandContext, RegistryClient};
 use tracing_subscriber::EnvFilter;
 
 use commands::{
@@ -16,7 +14,6 @@ use commands::{
     init::{InitArgs, run as run_init},
     list::{ListArgs, run as run_list},
 };
-use context::CommandContext;
 use reporter::ConsoleReporter;
 
 #[derive(Parser, Debug)]
@@ -54,7 +51,7 @@ fn main() -> Result<()> {
         .unwrap_or_else(|| "https://motion-core.dev/registry".to_string());
     let cache_store = CacheStore::new();
     let registry_cache = cache_store.scoped(&registry_url);
-    let registry = RegistryClient::with_cache(registry_url, registry_cache);
+    let registry = RegistryClient::with_cache(registry_url, registry_cache)?;
     let ctx = CommandContext::discover(registry, cache_store)?;
     let reporter = ConsoleReporter::new();
 

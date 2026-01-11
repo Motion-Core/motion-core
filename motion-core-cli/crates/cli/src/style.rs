@@ -37,7 +37,7 @@ pub fn create_spinner(message: impl Into<String>) -> ProgressBar {
     let tinted_refs: Vec<&str> = tinted.iter().map(|s| s.as_str()).collect();
 
     let style = ProgressStyle::with_template("{spinner} {msg}")
-        .unwrap()
+        .unwrap_or_else(|_| ProgressStyle::default_spinner())
         .tick_strings(&tinted_refs);
 
     let spinner = ProgressBar::new_spinner();

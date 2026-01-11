@@ -1,4 +1,4 @@
-use crate::{CacheStore, Config, RegistryClient, RegistryError};
+use crate::{paths::workspace_path, CacheStore, Config, RegistryClient, RegistryError};
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -73,10 +73,10 @@ pub fn scaffold_workspace(
     cache: &CacheStore,
     dry_run: bool,
 ) -> Result<ScaffoldReport, WorkspaceError> {
-    let components_dir = workspace_root.join(&config.aliases.components.filesystem);
-    let helpers_dir = workspace_root.join(&config.aliases.helpers.filesystem);
-    let utils_dir = workspace_root.join(&config.aliases.utils.filesystem);
-    let assets_dir = workspace_root.join(&config.aliases.assets.filesystem);
+    let components_dir = workspace_path(workspace_root, &config.aliases.components.filesystem);
+    let helpers_dir = workspace_path(workspace_root, &config.aliases.helpers.filesystem);
+    let utils_dir = workspace_path(workspace_root, &config.aliases.utils.filesystem);
+    let assets_dir = workspace_path(workspace_root, &config.aliases.assets.filesystem);
 
     let mut report = ScaffoldReport::default();
 
@@ -122,7 +122,7 @@ pub fn sync_tailwind_tokens(
         return Ok(TailwindSyncStatus::MissingConfig);
     }
 
-    let target = workspace_root.join(css_path);
+    let target = workspace_path(workspace_root, css_path);
     let display = relative_display(workspace_root, &target);
     if !target.exists() {
         return Ok(TailwindSyncStatus::MissingFile(display));
@@ -137,9 +137,8 @@ pub fn sync_tailwind_tokens(
     }
 
     let tokens_bytes = registry.fetch_component_file(CSS_TOKEN_REGISTRY_PATH)?;
-    let tokens_source = String::from_utf8(tokens_bytes).map_err(|err| {
-        WorkspaceError::TailwindTokensInvalidUtf8(err.to_string())
-    })?;
+    let tokens_source = String::from_utf8(tokens_bytes)
+        .map_err(|err| WorkspaceError::TailwindTokensInvalidUtf8(err.to_string()))?;
 
     let (import_line, mut token_body) = split_token_bundle(&tokens_source);
     token_body = trim_token_body(&token_body);
@@ -173,7 +172,6 @@ pub fn sync_tailwind_tokens(
     updated.push_str(prefix);
     if !prefix.is_empty() {
         if prefix.ends_with(&blank) {
-            // already has an empty line
         } else if prefix.ends_with(newline) {
             updated.push_str(newline);
         } else {
@@ -198,7 +196,20 @@ pub fn sync_tailwind_tokens(
             Ok(TailwindSyncStatus::Updated { target: display })
         }
         Err(err) => {
-            let _ = restore_backup(&backup_path, &target);
+            if let Err(restore_err) = restore_backup(&backup_path, &target) {
+                return Err(WorkspaceError::Io {
+                    path: target.display().to_string(),
+                    source: std::io::Error::new(
+                        std::io::ErrorKind::Other,
+                        format!(
+                            "write failed: {}; CRITICAL: failed to restore backup from {}: {}",
+                            err,
+                            backup_path.display(),
+                            restore_err
+                        ),
+                    ),
+                });
+            }
             Err(WorkspaceError::Io {
                 path: target.display().to_string(),
                 source: err,
@@ -305,9 +316,8 @@ fn fetch_cn_helper_from_cache(
 }
 
 fn decode_cn_helper(bytes: Vec<u8>) -> Result<String, WorkspaceError> {
-    String::from_utf8(bytes).map_err(|err| {
-        WorkspaceError::HelperDecode("utils/cn.ts".into(), err.to_string())
-    })
+    String::from_utf8(bytes)
+        .map_err(|err| WorkspaceError::HelperDecode("utils/cn.ts".into(), err.to_string()))
 }
 
 fn split_token_bundle(source: &str) -> (Option<String>, String) {
@@ -330,7 +340,9 @@ fn trim_token_body(body: &str) -> String {
     while slice.starts_with('\n') || slice.starts_with('\r') {
         slice = &slice[1..];
     }
-    slice.trim_end_matches(|c| c == '\n' || c == '\r').to_string()
+    slice
+        .trim_end_matches(|c| c == '\n' || c == '\r')
+        .to_string()
 }
 
 fn detect_newline(contents: &str) -> &str {
@@ -380,8 +392,8 @@ fn relative_display(root: &Path, target: &Path) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{config::Config, CacheStore, Registry, RegistryClient};
-    use base64::{engine::general_purpose, Engine as _};
+    use crate::{CacheStore, Registry, RegistryClient, config::Config};
+    use base64::{Engine as _, engine::general_purpose};
     use std::{collections::HashMap, fs};
     use tempfile::TempDir;
 
@@ -414,7 +426,12 @@ mod tests {
         let report =
             scaffold_workspace(temp.path(), &config, &registry, &cache, true).expect("scaffold");
         assert!(report.any());
-        assert!(report.directories.iter().any(|dir| dir.contains("motion-core")));
+        assert!(
+            report
+                .directories
+                .iter()
+                .any(|dir| dir.contains("motion-core"))
+        );
     }
 
     #[test]
@@ -440,6 +457,77 @@ mod tests {
                 assert_eq!(target, "src/app.css");
             }
             other => panic!("unexpected status: {:?}", other),
+        }
+    }
+
+    #[test]
+    fn sync_tailwind_tokens_handles_minified_css() {
+        let registry = registry_with_assets();
+        let temp = TempDir::new().expect("tempdir");
+        let mut config = Config::default();
+        config.tailwind.css = "style.css".into();
+        let css_path = temp.path().join("style.css");
+        fs::write(&css_path, "@import \"tailwindcss\";body{color:red}").expect("write css");
+
+        let status =
+            sync_tailwind_tokens(temp.path(), &config, &registry, false).expect("sync tokens");
+
+        assert!(matches!(status, TailwindSyncStatus::Updated { .. }));
+        let content = fs::read_to_string(&css_path).expect("read css");
+        assert!(content.contains(CSS_TOKEN_SENTINEL));
+        assert!(content.contains("body{color:red}"));
+    }
+
+    #[test]
+    fn sync_tailwind_tokens_handles_binary_file_gracefully() {
+        let registry = registry_with_assets();
+        let temp = TempDir::new().expect("tempdir");
+        let mut config = Config::default();
+        config.tailwind.css = "binary.css".into();
+        let css_path = temp.path().join("binary.css");
+        fs::write(&css_path, b"\xFF\xFE\x00\x00").expect("write binary");
+
+        let result = sync_tailwind_tokens(temp.path(), &config, &registry, false);
+        assert!(matches!(result, Err(WorkspaceError::Io { .. })));
+    }
+
+    #[test]
+    fn find_import_insertion_index_handles_edge_cases() {
+        assert_eq!(find_import_insertion_index(""), 0);
+        assert_eq!(find_import_insertion_index("\n\n"), 0);
+        assert_eq!(find_import_insertion_index("body {}"), 0);
+        assert_eq!(find_import_insertion_index("@import 'a';"), 12);
+        assert_eq!(find_import_insertion_index("@import 'a';\n"), 13);
+        assert_eq!(find_import_insertion_index("code {}\n@import 'b';"), 20);
+    }
+
+    #[test]
+    fn sync_tailwind_tokens_fails_on_readonly_file() {
+        let registry = registry_with_assets();
+        let temp = TempDir::new().expect("tempdir");
+        let mut config = Config::default();
+        config.tailwind.css = "locked.css".into();
+        let css_path = temp.path().join("locked.css");
+        fs::write(&css_path, "body {}").expect("write css");
+
+        let mut perms = fs::metadata(&css_path).expect("metadata").permissions();
+        perms.set_readonly(true);
+        fs::set_permissions(&css_path, perms).expect("set readonly");
+
+        let result = sync_tailwind_tokens(temp.path(), &config, &registry, false);
+
+        let mut perms = fs::metadata(&css_path).expect("metadata").permissions();
+        perms.set_readonly(false);
+        let _ = fs::set_permissions(&css_path, perms);
+
+        match result {
+            Err(WorkspaceError::Io { source, .. }) => {
+                assert!(
+                    source.kind() == std::io::ErrorKind::PermissionDenied
+                        || source.to_string().contains("denied")
+                );
+            }
+            _ => panic!("expected IO error on readonly file, got {:?}", result),
         }
     }
 }

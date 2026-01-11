@@ -1,7 +1,7 @@
-use anyhow::Result;
-use motion_core_cli_core::{
+use crate::{
     CONFIG_FILE_NAME, CacheStore, Config, MotionCliError, RegistryClient, try_load_config,
 };
+use anyhow::Result;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug)]
@@ -58,7 +58,6 @@ impl CommandContext {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use motion_core_cli_core::CONFIG_FILE_NAME;
     use tempfile::TempDir;
 
     #[test]
@@ -68,7 +67,7 @@ mod tests {
         let ctx = CommandContext::new(
             "/tmp/demo/workspace",
             "/tmp/demo/workspace/motion-core.json",
-            RegistryClient::new("https://registry.motion-core.dev"),
+            RegistryClient::new("https://registry.motion-core.dev").expect("registry client"),
             cache,
         );
         assert_eq!(ctx.workspace_root(), Path::new("/tmp/demo/workspace"));
@@ -85,7 +84,7 @@ mod tests {
         let ctx = CommandContext::new(
             "/workspace",
             "/workspace/motion-core.json",
-            RegistryClient::new("https://registry.motion-core.dev"),
+            RegistryClient::new("https://registry.motion-core.dev").expect("registry client"),
             cache,
         );
         assert_eq!(

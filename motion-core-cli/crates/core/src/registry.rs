@@ -116,35 +116,35 @@ pub enum RegistryError {
 }
 
 impl RegistryClient {
-    pub fn new(base_url: impl Into<String>) -> Self {
+    pub fn new(base_url: impl Into<String>) -> Result<Self, RegistryError> {
         let cache = None;
         let client = Client::builder()
             .timeout(Duration::from_secs(15))
             .build()
-            .expect("reqwest client");
-        Self {
+            .map_err(|e| RegistryError::Network(format!("failed to create client: {}", e)))?;
+        Ok(Self {
             backend: RegistryBackend::Remote {
                 client,
                 base_url: base_url.into(),
             },
             component_manifest: RefCell::new(None),
             cache,
-        }
+        })
     }
 
-    pub fn with_cache(base_url: impl Into<String>, cache: RegistryCache) -> Self {
+    pub fn with_cache(base_url: impl Into<String>, cache: RegistryCache) -> Result<Self, RegistryError> {
         let client = Client::builder()
             .timeout(Duration::from_secs(15))
             .build()
-            .expect("reqwest client");
-        Self {
+            .map_err(|e| RegistryError::Network(format!("failed to create client: {}", e)))?;
+        Ok(Self {
             backend: RegistryBackend::Remote {
                 client,
                 base_url: base_url.into(),
             },
             component_manifest: RefCell::new(None),
             cache: Some(cache),
-        }
+        })
     }
 
     pub fn with_registry(registry: Registry) -> Self {
@@ -176,15 +176,22 @@ impl RegistryClient {
                 }
 
                 let url = Self::manifest_url(base_url);
-                match fetch_remote_json(client, &url)? {
-                    Some(bytes) => {
+                match fetch_remote_json(client, &url) {
+                    Ok(Some(bytes)) => {
                         if let Some(cache) = &self.cache {
                             cache.write_registry_manifest(&bytes);
                         }
                         serde_json::from_slice::<Registry>(&bytes)
                             .map_err(|err| RegistryError::Parse(err.to_string()))
                     }
-                    None => self.load_registry_from_cache_with_fallback(),
+                    Ok(None) => self.load_registry_from_cache_with_fallback(),
+                    Err(err) => {
+                        tracing::warn!("registry request error {url}: {err}");
+                        match self.load_registry_from_cache_with_fallback() {
+                            Ok(registry) => Ok(registry),
+                            Err(_) => Err(err),
+                        }
+                    }
                 }
             }
         }
@@ -220,8 +227,8 @@ impl RegistryClient {
                 }
 
                 let url = Self::components_url(base_url);
-                match fetch_remote_json(client, &url)? {
-                    Some(bytes) => {
+                match fetch_remote_json(client, &url) {
+                    Ok(Some(bytes)) => {
                         if let Some(cache) = &self.cache {
                             cache.write_components_manifest(&bytes);
                         }
@@ -230,7 +237,14 @@ impl RegistryClient {
                         self.component_manifest.replace(Some(parsed.clone()));
                         parsed
                     }
-                    None => self.load_components_from_cache_with_fallback()?,
+                    Ok(None) => self.load_components_from_cache_with_fallback()?,
+                    Err(err) => {
+                        tracing::warn!("component manifest request error {url}: {err}");
+                        match self.load_components_from_cache_with_fallback() {
+                            Ok(manifest) => manifest,
+                            Err(_) => return Err(err),
+                        }
+                    }
                 }
             }
         };
@@ -341,6 +355,9 @@ fn parse_component_manifest(entry: CachedData) -> Result<HashMap<String, String>
 mod tests {
     use super::*;
     use base64::engine::general_purpose;
+    use crate::cache::CacheStore;
+    use serde_json;
+    use tempfile::TempDir;
 
     fn sample_registry() -> Registry {
         let mut components = HashMap::new();
@@ -406,9 +423,9 @@ mod tests {
     #[test]
     fn fetch_component_file_rejects_invalid_base64() {
         let client = RegistryClient::with_registry(sample_registry());
-        client
-            .component_manifest
-            .replace(Some([("components/bad/file".into(), "***not_base64***".into())].into()));
+        client.component_manifest.replace(Some(
+            [("components/bad/file".into(), "***not_base64***".into())].into(),
+        ));
         let err = client
             .fetch_component_file("components/bad/file")
             .expect_err("should fail to decode");
@@ -421,9 +438,7 @@ mod tests {
     #[test]
     fn fetch_component_file_errors_when_missing() {
         let client = RegistryClient::with_registry(sample_registry());
-        client
-            .component_manifest
-            .replace(Some(HashMap::new()));
+        client.component_manifest.replace(Some(HashMap::new()));
         let err = client
             .fetch_component_file("components/missing/file")
             .expect_err("missing asset should error");
@@ -433,5 +448,43 @@ mod tests {
             }
             other => panic!("unexpected error: {other:?}"),
         }
+    }
+
+    #[test]
+    fn summary_falls_back_to_cached_registry_on_network_error() {
+        let temp = TempDir::new().expect("tempdir");
+        let store = CacheStore::from_path(temp.path().join("cache"));
+        let cache = store.scoped("http://127.0.0.1:9");
+        let registry = sample_registry();
+        let bytes = serde_json::to_vec(&registry).expect("serialize registry");
+        cache.write_registry_manifest(&bytes);
+        cache.mark_registry_stale();
+
+        let client =
+            RegistryClient::with_cache("http://127.0.0.1:9", cache).expect("registry client");
+        let summary = client.summary().expect("summary from cache");
+        assert_eq!(summary.component_count, 1);
+    }
+
+    #[test]
+    fn component_manifest_falls_back_on_network_error() {
+        let temp = TempDir::new().expect("tempdir");
+        let store = CacheStore::from_path(temp.path().join("cache"));
+        let cache = store.scoped("http://127.0.0.1:9");
+        let mut manifest: HashMap<String, String> = HashMap::new();
+        manifest.insert(
+            "components/glass-pane/GlassPane.svelte".into(),
+            general_purpose::STANDARD.encode("hello"),
+        );
+        let bytes = serde_json::to_vec(&manifest).expect("serialize manifest");
+        cache.write_components_manifest(&bytes);
+        cache.mark_components_stale();
+
+        let client =
+            RegistryClient::with_cache("http://127.0.0.1:9", cache).expect("registry client");
+        let bytes = client
+            .fetch_component_file("components/glass-pane/GlassPane.svelte")
+            .expect("component bytes");
+        assert_eq!(bytes, b"hello");
     }
 }

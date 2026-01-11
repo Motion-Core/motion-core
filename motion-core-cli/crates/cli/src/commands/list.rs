@@ -4,10 +4,11 @@ use serde_json::json;
 use std::collections::BTreeMap;
 
 use crate::{
-    context::CommandContext,
     reporter::Reporter,
     style::{brand, create_spinner, heading, muted},
 };
+use motion_core_cli_core::operations::list as core_list;
+use motion_core_cli_core::{CommandContext, ListOptions};
 
 use super::{CommandOutcome, CommandResult};
 
@@ -20,35 +21,26 @@ pub struct ListArgs {
 
 pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &ListArgs) -> CommandResult {
     let spinner = create_spinner("Loading Motion Core registry...");
-    let summary = match ctx.registry().summary().map_err(|err| Error::new(err)) {
-        Ok(summary) => summary,
+    let result = match core_list::run(ctx, ListOptions) {
+        Ok(result) => {
+            spinner.finish_and_clear();
+            result
+        }
         Err(err) => {
             spinner.finish_and_clear();
-            return Err(err);
+            return Err(Error::new(err));
         }
     };
-    let components = match ctx
-        .registry()
-        .list_components()
-        .map_err(|err| Error::new(err))
-    {
-        Ok(list) => list,
-        Err(err) => {
-            spinner.finish_and_clear();
-            return Err(err);
-        }
-    };
-    spinner.finish_and_clear();
 
     if args.json {
         let payload = json!({
             "registry": {
-                "name": summary.name,
-                "version": summary.version,
-                "description": summary.description,
-                "components": summary.component_count,
+                "name": result.summary.name,
+                "version": result.summary.version,
+                "description": result.summary.description,
+                "components": result.summary.component_count,
             },
-            "components": components.iter().map(|component| json!({
+            "components": result.components.iter().map(|component| json!({
                 "slug": component.slug,
                 "name": component.component.name,
                 "description": component.component.description,
@@ -62,21 +54,21 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &ListArgs) -> Co
 
     reporter.info(format_args!(
         "{}",
-        heading(&format!("{} components", summary.name))
+        heading(&format!("{} components", result.summary.name))
     ));
     reporter.info(format_args!(
         "{}",
         muted(format!(
             "{} v{} - {} components",
-            summary.name, summary.version, summary.component_count
+            result.summary.name, result.summary.version, result.summary.component_count
         ))
     ));
-    if let Some(description) = summary.description.clone() {
+    if let Some(description) = result.summary.description.clone() {
         reporter.info(format_args!("{}", muted(description)));
     }
 
     let mut groups: BTreeMap<String, Vec<_>> = BTreeMap::new();
-    for component in components {
+    for component in result.components {
         let category = component
             .component
             .category
@@ -126,9 +118,10 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &ListArgs) -> Co
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::context::CommandContext;
     use crate::reporter::ConsoleReporter;
-    use motion_core_cli_core::{CacheStore, ComponentRecord, Registry, RegistryClient};
+    use motion_core_cli_core::{
+        CacheStore, CommandContext, ComponentRecord, Registry, RegistryClient,
+    };
     use std::collections::HashMap;
     use tempfile::TempDir;
 
