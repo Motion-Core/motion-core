@@ -3,6 +3,7 @@
 	import { slide } from "svelte/transition";
 	import {
 		gettingStartedManifest,
+		changelogManifest,
 		componentManifest,
 	} from "$lib/docs/manifest";
 	import { cn } from "$lib/utils/cn";
@@ -35,7 +36,8 @@
 	}
 
 	$effect(() => {
-		for (const doc of gettingStartedManifest) {
+		const allDocs = [...gettingStartedManifest, ...changelogManifest];
+		for (const doc of allDocs) {
 			if (doc.items?.length) {
 				const isChildActive = doc.items.some(
 					(item) => `/docs/${item.slug}` === currentPath,
@@ -72,7 +74,7 @@
 	>
 		<nav class="flex flex-col gap-1">
 			<h4
-				class="mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
+				class="mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase font-display"
 			>
 				Getting Started
 			</h4>
@@ -146,9 +148,84 @@
 				{/if}
 			{/each}
 
+			<h4
+				class="mt-4 mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase font-display"
+			>
+				Resources
+			</h4>
+			{#each changelogManifest as doc (doc.slug)}
+				{#if doc.items?.length}
+					{@const isGroupActive =
+						expandedGroups[doc.slug] ??
+						doc.items.some((item) => `/docs/${item.slug}` === currentPath)}
+					<button
+						onclick={() => toggleGroup(doc.slug)}
+						class={cn(
+							"flex w-full items-center justify-between rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out hover:bg-card-muted hover:text-foreground",
+							isGroupActive ? "text-foreground" : "text-foreground/70",
+						)}
+					>
+						<span>{doc.name}</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class={cn(
+								"size-4 transition-transform duration-150",
+								isGroupActive && "rotate-90",
+							)}
+						>
+							<path d="m9 18 6-6-6-6" />
+						</svg>
+					</button>
+					{#if isGroupActive}
+						<div
+							transition:slide={{ duration: 150 }}
+							class="flex flex-col gap-1 overflow-hidden pl-4"
+						>
+							{#each doc.items as item (item.slug)}
+								{@const href = `/docs/${item.slug}`}
+								{@const isActive = currentPath === href}
+								<a
+									{href}
+									class={cn(
+										"block rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out",
+										isActive
+											? "bg-accent/10 text-accent"
+											: "text-foreground/70 hover:bg-card-muted hover:text-foreground",
+									)}
+								>
+									{item.name}
+								</a>
+							{/each}
+						</div>
+					{/if}
+				{:else}
+					{@const href = `/docs/${doc.slug}`}
+					{@const isActive = currentPath === href}
+					<a
+						{href}
+						class={cn(
+							"block rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out",
+							isActive
+								? "bg-accent/10 text-accent"
+								: "text-foreground/70 hover:bg-card-muted hover:text-foreground",
+						)}
+					>
+						{doc.name}
+					</a>
+				{/if}
+			{/each}
+
 			{#each sortedCategories as category (category)}
 				<h4
-					class="mt-4 mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase"
+					class="mt-4 mb-2 ml-2 text-xs font-medium tracking-wider text-foreground/45 uppercase font-display"
 				>
 					{category}
 				</h4>

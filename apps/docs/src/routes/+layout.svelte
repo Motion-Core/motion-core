@@ -38,7 +38,7 @@
 
 	const menuGroups = [
 		{
-			title: "Navigation",
+			title: "Getting Started",
 			variant: "muted" as const,
 			links: [
 				{ label: "Home", href: "/" },
@@ -47,7 +47,7 @@
 			],
 		},
 		{
-			title: "CLI",
+			title: "CLI Commands",
 			variant: "default" as const,
 			links: [
 				{ label: "init", href: "/docs/cli-guide/init" },
@@ -57,11 +57,21 @@
 			],
 		},
 		{
-			title: "Community",
+			title: "Resources",
 			variant: "muted" as const,
 			links: [
-				{ label: "GitHub", href: "https://github.com/motion-core/motion-core" },
-				{ label: "Discord", href: "https://discord.gg/stZ8hqAvpE" },
+				{
+					label: "Registry Changelog",
+					href: "/docs/changelog/registry",
+				},
+				{
+					label: "CLI Changelog",
+					href: "/docs/changelog/cli",
+				},
+				{
+					label: "NPM",
+					href: "https://www.npmjs.com/package/@motion-core/cli",
+				},
 			],
 		},
 	];
@@ -138,7 +148,14 @@
 
 <CommandPalette />
 {#if isHomeRoute}
-	<FloatingMenu {menuGroups}>
+	<FloatingMenu
+		primaryButton={{ label: "Discord", href: "https://discord.gg/stZ8hqAvpE" }}
+		secondaryButton={{
+			label: "GitHub",
+			href: "https://github.com/motion-core/motion-core",
+		}}
+		{menuGroups}
+	>
 		{#snippet logo()}
 			<a href="/" class="flex items-center">
 				<span

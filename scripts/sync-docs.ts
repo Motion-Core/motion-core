@@ -70,18 +70,92 @@ async function main() {
 	} else {
 		console.log("\nAll documentation files are up to date.");
 	}
+
+	await syncChangelog();
+	await syncCliChangelog();
+}
+
+async function syncChangelog() {
+	const changelogPath = path.join(rootDir, "CHANGELOG.md");
+	const docsChangelogDir = path.join(docsRoot, "changelog", "registry");
+	const docsChangelogPath = path.join(docsChangelogDir, "+page.svx");
+
+	try {
+		const content = await readFile(changelogPath, "utf8");
+
+		const cleanContent = content.replace(/^[\s\S]*?(?=## \[)/, "");
+
+		const frontmatter = `---
+title: Registry Changelog
+description: All notable changes to Motion Core Component Registry.
+---
+
+`;
+		const finalContent = frontmatter + cleanContent;
+
+		try {
+			await stat(docsChangelogDir);
+		} catch {
+			await import("node:fs/promises").then((fs) =>
+				fs.mkdir(docsChangelogDir, { recursive: true }),
+			);
+		}
+
+		await writeFile(docsChangelogPath, finalContent);
+		console.log("\n[changelog] Successfully synced CHANGELOG.md to docs.");
+	} catch (error) {
+		console.error("\n[changelog] Failed to sync changelog:", error);
+	}
+}
+
+async function syncCliChangelog() {
+	const changelogPath = path.join(
+		rootDir,
+		"motion-core-cli",
+		"js",
+		"CHANGELOG.md",
+	);
+	const docsChangelogDir = path.join(docsRoot, "changelog", "cli");
+	const docsChangelogPath = path.join(docsChangelogDir, "+page.svx");
+
+	try {
+		const content = await readFile(changelogPath, "utf8");
+
+		// Remove header content until the first version header
+		const cleanContent = content.replace(/^[\s\S]*?(?=## \[)/, "");
+
+		const frontmatter = `---
+title: CLI Changelog
+description: All notable changes to Motion Core CLI.
+---
+
+`;
+
+		const finalContent = frontmatter + cleanContent;
+
+		try {
+			await stat(docsChangelogDir);
+		} catch {
+			await import("node:fs/promises").then((fs) =>
+				fs.mkdir(docsChangelogDir, { recursive: true }),
+			);
+		}
+
+		await writeFile(docsChangelogPath, finalContent);
+		console.log(
+			"\n[cli-changelog] Successfully synced CLI CHANGELOG.md to docs.",
+		);
+	} catch (error) {
+		console.error("\n[cli-changelog] Failed to sync CLI changelog:", error);
+	}
 }
 
 function updateDescription(content: string, newDescription: string): string {
-	// Regex to match description in frontmatter
-	// Matches: description: followed by anything until newline
 	const regex = /(^---\n[\s\S]*?\ndescription:\s*)(.*)(\n[\s\S]*?---)/m;
 
 	if (regex.test(content)) {
 		return content.replace(regex, `$1${newDescription}$3`);
 	} else {
-		// Fallback: If description key doesn't exist but frontmatter does, we could add it.
-		// For now, let's assume standard template structure.
 		return content;
 	}
 }

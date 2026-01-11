@@ -15,9 +15,12 @@
 	}: ComponentProps = $props();
 </script>
 
-<strong
+<h3
 	{...restProps}
-	class={cn("text-base font-medium text-foreground font-display", className)}
+	class={cn(
+		"mt-8 scroll-m-24 text-lg font-medium text-foreground font-display",
+		className,
+	)}
 >
 	{@render children?.()}
-</strong>
+</h3>

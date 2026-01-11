@@ -34,6 +34,23 @@ export const gettingStartedManifest: ComponentInfo[] = [
 	},
 ];
 
+export const changelogManifest: ComponentInfo[] = [
+	{
+		slug: "changelog",
+		name: "Changelog",
+		items: [
+			{
+				slug: "changelog/registry",
+				name: "Registry",
+			},
+			{
+				slug: "changelog/cli",
+				name: "CLI",
+			},
+		],
+	},
+];
+
 export { componentManifest };
 
 function flattenManifest(
@@ -52,6 +69,7 @@ function flattenManifest(
 
 export const docsManifest: ComponentInfo[] = [
 	...flattenManifest(gettingStartedManifest),
+	...flattenManifest(changelogManifest),
 	...componentManifest,
 ];
 

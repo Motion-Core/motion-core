@@ -37,6 +37,10 @@
 			: null,
 	);
 
+	const tocSelector = $derived(
+		docSlug?.startsWith("changelog/") ? "[data-doc-content] h2" : undefined,
+	);
+
 	const scrollContainerId = "docs-content-container";
 	const scrollPositions = new SvelteMap<string, number>();
 
@@ -162,7 +166,7 @@
 	<aside
 		class="fixed top-8 right-8 hidden h-[calc(100dvh-4rem)] w-53 shrink-0 flex-col xl:flex"
 	>
-		<TableOfContents />
+		<TableOfContents selector={tocSelector} />
 		{#if metadata && rawPath && rawUrl && githubUrl}
 			<DocShareActions {rawPath} {rawUrl} {githubUrl} />
 		{/if}

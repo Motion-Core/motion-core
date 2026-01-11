@@ -9,6 +9,7 @@
 	export { default as h1 } from "./markdown/H1.svelte";
 	export { default as h2 } from "./markdown/H2.svelte";
 	export { default as h3 } from "./markdown/H3.svelte";
+	export { default as h4 } from "./markdown/H4.svelte";
 	export { default as a } from "./markdown/Link.svelte";
 	export { default as li } from "./markdown/ListItem.svelte";
 	export { default as ol } from "./markdown/OrderedList.svelte";
