@@ -1,14 +1,49 @@
 <script lang="ts">
-	import HeroBackground from "./HeroBackground.svelte";
+	import { PlasmaGrid } from "motion-core";
+	import { onMount } from "svelte";
 
 	const GITHUB_URL = "https://github.com/motion-core/motion-core";
 	const DOCS_URL = "/docs/introduction";
+
+	const COLOR_PRESETS = {
+		dark: {
+			color: "#18181B",
+			highlightColor: "#572400",
+		},
+		light: {
+			color: "#FFFFFF",
+			highlightColor: "#FF6900",
+		},
+	};
+
+	let isDark = $state(false);
+
+	onMount(() => {
+		isDark = document.documentElement.classList.contains("dark");
+
+		const observer = new MutationObserver(() => {
+			isDark = document.documentElement.classList.contains("dark");
+		});
+
+		observer.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ["class"],
+		});
+
+		return () => observer.disconnect();
+	});
 </script>
 
 <div
 	class="card-highlight relative mt-16 flex flex-col items-center justify-center rounded-2xl border border-border bg-background px-4 py-24 text-center md:mt-20"
 >
-	<HeroBackground />
+	<PlasmaGrid
+		color={isDark ? COLOR_PRESETS.dark.color : COLOR_PRESETS.light.color}
+		highlightColor={isDark
+			? COLOR_PRESETS.dark.highlightColor
+			: COLOR_PRESETS.light.highlightColor}
+		class="card-highlight pointer-events-none absolute inset-2 z-0 rounded-xl border border-border shadow-sm"
+	/>
 
 	<h1
 		class="relative z-10 text-3xl font-medium tracking-tight text-foreground font-display md:text-5xl"
