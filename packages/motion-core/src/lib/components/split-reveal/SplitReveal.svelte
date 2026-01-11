@@ -8,10 +8,12 @@
 	import { cn } from "../../utils/cn";
 
 	type SplitMode = "lines" | "words" | "chars";
+
 	interface ModeSettings {
 		duration?: number;
 		stagger?: number;
 	}
+
 	type SplitRevealConfig = Partial<Record<SplitMode, ModeSettings>>;
 
 	interface ComponentProps {
@@ -72,17 +74,20 @@
 		CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
 	});
 
-	const props: ComponentProps = $props();
-	const children = $derived(props.children);
-	const className = $derived(props.class ?? "");
-	const mode = $derived<SplitMode>(props.mode ?? "lines");
-	const as = $derived<keyof HTMLElementTagNameMap>(props.as ?? "div");
-	const delay = $derived(props.delay ?? 0);
-	const triggerOnScroll = $derived(props.triggerOnScroll ?? false);
-	const scrolleElement = $derived(props.scrolleElement);
+	let {
+		children,
+		class: className = "",
+		mode = "lines" as SplitMode,
+		config,
+		as = "div" as keyof HTMLElementTagNameMap,
+		delay = 0,
+		triggerOnScroll = false,
+		scrolleElement,
+		...restProps
+	}: ComponentProps = $props();
 
 	const resolvedConfig = $derived.by(() => {
-		const overrides = props.config?.[mode];
+		const overrides = config?.[mode];
 		const defaults = DEFAULT_CONFIG[mode];
 		return {
 			duration: overrides?.duration ?? defaults.duration,
@@ -90,42 +95,24 @@
 		};
 	});
 
-	const restProps = $derived(() => {
-		const {
-			children: _children,
-			class: _class,
-			mode: _mode,
-			config: _config,
-			as: _as,
-			delay: _delay,
-			triggerOnScroll: _triggerOnScroll,
-			scrolleElement: _scrolleElement,
-			...rest
-		} = props;
-		return rest;
-	});
-
 	let wrapperRef: HTMLSpanElement | null = null;
 
 	$effect(() => {
-		const currentMode = mode;
-		const config = resolvedConfig;
-		const currentTag = as;
-
 		if (typeof window === "undefined") return;
+
 		const node = wrapperRef;
 		if (!node) return;
 
 		const split = SplitText.create(node, {
 			type: "lines, words, chars",
-			tag: currentTag,
+			tag: as,
 			mask: "lines",
 		});
 
 		const targets =
-			currentMode === "lines"
+			mode === "lines"
 				? (split.lines ?? [])
-				: currentMode === "words"
+				: mode === "words"
 					? (split.words ?? [])
 					: (split.chars ?? []);
 
@@ -135,10 +122,11 @@
 		}
 
 		gsap.set(targets, { yPercent: 110 });
+
 		const tween = gsap.to(targets, {
 			yPercent: 0,
-			duration: config.duration,
-			stagger: config.stagger,
+			duration: resolvedConfig.duration,
+			stagger: resolvedConfig.stagger,
 			ease: "motion-core-ease",
 			lazy: false,
 			delay: delay,
@@ -159,7 +147,7 @@
 </script>
 
 <span
-	{...restProps()}
+	{...restProps}
 	class={cn("font-inherit relative align-baseline text-inherit", className)}
 	bind:this={wrapperRef}
 >

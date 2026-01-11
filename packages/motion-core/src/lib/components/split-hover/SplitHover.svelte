@@ -24,7 +24,7 @@
 		[prop: string]: unknown;
 	}
 
-	const {
+	let {
 		children,
 		class: className = "",
 		hoverTarget = null,

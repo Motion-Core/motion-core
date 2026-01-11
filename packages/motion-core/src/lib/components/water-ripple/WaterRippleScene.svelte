@@ -18,7 +18,7 @@
 
 	let { image, brushSize = 100 }: Props = $props();
 
-	const { size, renderer } = useThrelte();
+	let { size, renderer } = useThrelte();
 
 	const max = 100;
 	const meshRefs: THREE.Mesh[] = [];

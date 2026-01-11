@@ -48,7 +48,7 @@
 		[prop: string]: unknown;
 	}
 
-	const {
+	let {
 		children,
 		baseWeight = 350,
 		hoverWeight = 750,

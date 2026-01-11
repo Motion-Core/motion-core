@@ -19,7 +19,7 @@
 		class?: string;
 		[prop: string]: unknown;
 	}
-	const {
+	let {
 		images,
 		class: className = "",
 		...restProps
