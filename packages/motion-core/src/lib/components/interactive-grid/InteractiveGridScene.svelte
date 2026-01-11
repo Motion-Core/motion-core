@@ -160,6 +160,7 @@
 			material.uniforms.time.value = time;
 
 			const data = dataTexture.image.data;
+			if (!data) return;
 			const sizeSq = grid;
 			const gridMouseX = sizeSq * mouseX;
 			const gridMouseY = sizeSq * (1 - mouseY);
