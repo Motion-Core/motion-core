@@ -32,6 +32,39 @@
 		"text effects",
 	].join(", ");
 	const sharedOgImage = $derived(new URL("/og-image.jpg", currentUrl).href);
+
+	import { FloatingMenu } from "motion-core";
+	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
+
+	const menuGroups = [
+		{
+			title: "Navigation",
+			variant: "muted" as const,
+			links: [
+				{ label: "Home", href: "/" },
+				{ label: "Introduction", href: "/docs/introduction" },
+				{ label: "CLI Quick Start", href: "/docs/cli-guide/quick-start" },
+			],
+		},
+		{
+			title: "CLI",
+			variant: "default" as const,
+			links: [
+				{ label: "init", href: "/docs/cli-guide/init" },
+				{ label: "add", href: "/docs/cli-guide/add" },
+				{ label: "list", href: "/docs/cli-guide/list" },
+				{ label: "cache", href: "/docs/cli-guide/cache" },
+			],
+		},
+		{
+			title: "Community",
+			variant: "muted" as const,
+			links: [
+				{ label: "GitHub", href: "https://github.com/motion-core/motion-core" },
+				{ label: "Discord", href: "https://discord.gg/stZ8hqAvpE" },
+			],
+		},
+	];
 </script>
 
 <svelte:head>
@@ -102,5 +135,20 @@
 		<title>{siteName}</title>
 	{/if}
 </svelte:head>
+
 <CommandPalette />
+{#if isHomeRoute}
+	<FloatingMenu {menuGroups}>
+		{#snippet logo()}
+			<a href="/" class="flex items-center">
+				<span
+					class="inline-flex shrink-0 items-center text-accent [&>svg]:h-3 [&>svg]:w-8 [&>svg]:fill-current"
+					aria-hidden="true"
+				>
+					{@html motionCoreLogo}
+				</span>
+			</a>
+		{/snippet}
+	</FloatingMenu>
+{/if}
 {@render children()}

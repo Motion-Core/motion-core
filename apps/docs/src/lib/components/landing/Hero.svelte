@@ -1,5 +1,4 @@
 <script lang="ts">
-	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
 	import HeroBackground from "./HeroBackground.svelte";
 
 	const GITHUB_URL = "https://github.com/motion-core/motion-core";
@@ -7,15 +6,9 @@
 </script>
 
 <div
-	class="card-highlight relative flex flex-col items-center justify-center rounded-2xl border border-border bg-background px-4 py-24 text-center"
+	class="card-highlight relative mt-16 flex flex-col items-center justify-center rounded-2xl border border-border bg-background px-4 py-24 text-center md:mt-20"
 >
 	<HeroBackground />
-
-	<div
-		class="relative z-10 mb-4 flex items-center justify-center gap-2 text-accent [&>svg]:h-8 [&>svg]:w-20 [&>svg]:fill-current"
-	>
-		{@html motionCoreLogo}
-	</div>
 
 	<h1
 		class="relative z-10 text-3xl font-medium tracking-tight text-foreground font-display md:text-5xl"

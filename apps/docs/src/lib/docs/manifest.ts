@@ -11,8 +11,8 @@ export const gettingStartedManifest: ComponentInfo[] = [
 		name: "CLI Guide",
 		items: [
 			{
-				slug: "cli-guide/introduction",
-				name: "Introduction",
+				slug: "cli-guide/quick-start",
+				name: "Quick Start",
 			},
 			{
 				slug: "cli-guide/init",
