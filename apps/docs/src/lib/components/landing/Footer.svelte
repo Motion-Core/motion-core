@@ -27,7 +27,7 @@
 			<div class="flex items-center gap-2">
 				<a
 					class="inline-flex size-7 items-center justify-center gap-2 rounded-lg text-sm font-medium text-foreground transition-colors duration-150 ease-out hover:bg-card-muted hover:text-foreground"
-					href="https://github.com/motion-core"
+					href="https://github.com/motion-core/motion-core"
 					target="_blank"
 					rel="noreferrer"
 					aria-label="Open Motion Core on GitHub"
