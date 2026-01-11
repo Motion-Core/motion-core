@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { T, useTask, useThrelte } from "@threlte/core";
 	import { useTexture } from "@threlte/extras";
+	import { onDestroy } from "svelte";
 	import {
 		Vector2,
 		ShaderMaterial,
@@ -58,6 +59,10 @@
 	let currentIndex = $state(0);
 	let nextIndex = $state(0);
 	let isTransitioning = $state(false);
+
+	onDestroy(() => {
+		gsap.killTweensOf(progress);
+	});
 
 	$effect(() => {
 		const totalImages = images.length;
