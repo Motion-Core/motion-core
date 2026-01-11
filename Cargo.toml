@@ -14,14 +14,14 @@ description = "Motion Core CLI tooling"
 
 [workspace.dependencies]
 anyhow = "1.0.100"
-clap = { version = "4.5.53", features = ["derive", "env"] }
-dialoguer = "0.12"
-serde = { version = "1.0.228", features = ["derive"] }
+clap = { version = "4.5.53", default-features = false, features = ["derive", "env", "std", "help", "usage", "error-context"] }
+dialoguer = { version = "0.12", default-features = false }
+serde = { version = "1.0.228", default-features = false, features = ["derive", "std"] }
 serde_json = "1.0.147"
 thiserror = "2.0.17"
 toml = "0.9"
 tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt", "env-filter", "ansi"] }
 reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
 base64 = "0.22.1"
 dirs = "6.0"
