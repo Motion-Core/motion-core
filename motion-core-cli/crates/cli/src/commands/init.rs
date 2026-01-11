@@ -7,7 +7,7 @@ use clap::Args;
 use motion_core_cli_core::{
     Config, FrameworkDetection, FrameworkKind, InstallPlan, PackageManagerKind, ScaffoldReport,
     TailwindSyncStatus, WorkspaceError, detect_framework, detect_package_manager, save_config,
-    scaffold_workspace, sync_tailwind_tokens, CSS_TOKEN_REGISTRY_PATH, CSS_TOKEN_SENTINEL,
+    scaffold_workspace, sync_tailwind_tokens,
 };
 use serde::Deserialize;
 
@@ -472,7 +472,10 @@ mod tests {
     use crate::context::CommandContext;
     use crate::reporter::ConsoleReporter;
     use base64::{Engine as _, engine::general_purpose};
-    use motion_core_cli_core::{CONFIG_FILE_NAME, CacheStore, Config, RegistryClient};
+    use motion_core_cli_core::{
+        CONFIG_FILE_NAME, CSS_TOKEN_REGISTRY_PATH, CSS_TOKEN_SENTINEL, CacheStore, Config,
+        RegistryClient,
+    };
     use serde_json::json;
     use std::collections::HashMap;
     use std::fs;
