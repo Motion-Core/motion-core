@@ -1,0 +1,306 @@
+use std::path::{Component, Path, PathBuf};
+
+use pathdiff::diff_paths;
+
+use crate::{config::Config, registry::ComponentFileRecord};
+
+#[derive(Debug, Clone)]
+pub struct ComponentExportSpec {
+    pub export_name: String,
+    pub entry_path: PathBuf,
+}
+
+#[derive(Debug, Clone)]
+pub struct TypeExportSpec {
+    pub export_names: Vec<String>,
+    pub entry_path: PathBuf,
+}
+
+pub fn resolve_component_destination(
+    workspace_root: &Path,
+    config: &Config,
+    file: &ComponentFileRecord,
+) -> PathBuf {
+    let relative = strip_category(&file.path);
+    let sanitized = sanitize_relative_path(relative);
+    let base = match file.target.as_deref() {
+        Some("helper") | Some("helpers") => &config.aliases.helpers.filesystem,
+        Some("utils") => &config.aliases.utils.filesystem,
+        Some("asset") | Some("assets") => &config.aliases.assets.filesystem,
+        Some("root") => "",
+        _ => &config.aliases.components.filesystem,
+    };
+
+    if base.is_empty() {
+        workspace_root.join(&sanitized)
+    } else {
+        workspace_root.join(base).join(&sanitized)
+    }
+}
+
+pub fn render_component_barrel(
+    workspace_root: &Path,
+    config: &Config,
+    components: &[ComponentExportSpec],
+    type_exports: &[TypeExportSpec],
+    existing: &str,
+) -> Option<String> {
+    if components.is_empty() && type_exports.is_empty() {
+        return None;
+    }
+
+    let mut export_map = parse_export_map(existing);
+    let mut modified = false;
+    let barrel_path = workspace_root.join(&config.exports.components.barrel);
+    let barrel_dir = barrel_path.parent().unwrap_or(workspace_root);
+
+    for component in components {
+        if let Some(import) = compute_import_path(
+            workspace_root,
+            barrel_dir,
+            Some(&config.aliases.components.filesystem),
+            &component.entry_path,
+        ) {
+            let line = format!(
+                "export {{ default as {} }} from \"{}\";",
+                component.export_name, import
+            );
+            match export_map
+                .components
+                .entry(component.export_name.clone())
+            {
+                std::collections::btree_map::Entry::Vacant(entry) => {
+                    entry.insert(line);
+                    modified = true;
+                }
+                std::collections::btree_map::Entry::Occupied(mut entry) => {
+                    if entry.get() != &line {
+                        entry.insert(line);
+                        modified = true;
+                    }
+                }
+            }
+        }
+    }
+
+    for type_entry in type_exports {
+        if let Some(import) = compute_import_path(
+            workspace_root,
+            barrel_dir,
+            Some(&config.aliases.components.filesystem),
+            &type_entry.entry_path,
+        ) {
+            for name in type_entry
+                .export_names
+                .iter()
+                .filter(|name| !name.is_empty())
+            {
+                let line = format!("export type {{ {} }} from \"{}\";", name, import);
+                match export_map.types.entry(name.clone()) {
+                    std::collections::btree_map::Entry::Vacant(entry) => {
+                        entry.insert(line);
+                        modified = true;
+                    }
+                    std::collections::btree_map::Entry::Occupied(mut entry) => {
+                        if entry.get() != &line {
+                            entry.insert(line);
+                            modified = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if modified && !export_map.is_empty() {
+        Some(export_map.render())
+    } else {
+        None
+    }
+}
+
+fn strip_category(path: &str) -> &str {
+    if let Some((first, rest)) = path.split_once('/') {
+        match first {
+            "components" | "helpers" | "utils" | "assets" => rest,
+            _ => path,
+        }
+    } else {
+        path
+    }
+}
+
+fn sanitize_relative_path(path: &str) -> PathBuf {
+    let mut sanitized = PathBuf::new();
+    for component in Path::new(path).components() {
+        match component {
+            Component::Normal(segment) => sanitized.push(segment),
+            Component::CurDir => continue,
+            Component::ParentDir => continue,
+            Component::RootDir | Component::Prefix(_) => continue,
+        }
+    }
+
+    sanitized
+}
+
+fn compute_import_path(
+    workspace_root: &Path,
+    barrel_dir: &Path,
+    preferred_base: Option<&str>,
+    entry_path: &Path,
+) -> Option<String> {
+    if let Some(base) = preferred_base {
+        if !base.is_empty() {
+            let components_root = workspace_root.join(base);
+            if let Ok(rel) = entry_path.strip_prefix(&components_root) {
+                return Some(format!("./{}", path_to_slash(rel)));
+            }
+        }
+    }
+
+    diff_paths(entry_path, barrel_dir).map(|relative| {
+        let path_str = path_to_slash(&relative);
+        if path_str.starts_with('.') {
+            path_str
+        } else {
+            format!("./{}", path_str)
+        }
+    })
+}
+
+fn path_to_slash(path: &Path) -> String {
+    path.components()
+        .map(|comp| comp.as_os_str().to_string_lossy())
+        .collect::<Vec<_>>()
+        .join("/")
+}
+
+#[derive(Default)]
+struct BarrelExports {
+    components: std::collections::BTreeMap<String, String>,
+    types: std::collections::BTreeMap<String, String>,
+}
+
+impl BarrelExports {
+    fn is_empty(&self) -> bool {
+        self.components.is_empty() && self.types.is_empty()
+    }
+
+    fn render(&self) -> String {
+        let mut next = String::new();
+        for line in self.components.values() {
+            next.push_str(line);
+            next.push('\n');
+        }
+        for line in self.types.values() {
+            next.push_str(line);
+            next.push('\n');
+        }
+        next
+    }
+}
+
+fn parse_export_map(contents: &str) -> BarrelExports {
+    let mut map = BarrelExports::default();
+    for line in contents.lines() {
+        let trimmed = line.trim();
+        if let Some(rest) = trimmed.strip_prefix("export { default as ") {
+            if let Some((name, remainder)) = rest.split_once(" } from ") {
+                let cleaned = remainder
+                    .trim()
+                    .trim_start_matches('"')
+                    .trim_end_matches("\";");
+                map.components.insert(
+                    name.trim().to_string(),
+                    format!(
+                        "export {{ default as {} }} from \"{}\";",
+                        name.trim(),
+                        cleaned
+                    ),
+                );
+            }
+        } else if let Some(rest) = trimmed.strip_prefix("export type {") {
+            if let Some((names, remainder)) = rest.split_once("} from ") {
+                let cleaned = remainder
+                    .trim()
+                    .trim_start_matches('"')
+                    .trim_end_matches("\";");
+                for name in names.split(',').map(|value| value.trim()).filter(|v| !v.is_empty()) {
+                    map.types.insert(
+                        name.to_string(),
+                        format!("export type {{ {} }} from \"{}\";", name, cleaned),
+                    );
+                }
+            }
+        }
+    }
+    map
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::Config;
+
+    #[test]
+    fn sanitize_removes_traversal_segments() {
+        let config = Config::default();
+        let record = ComponentFileRecord {
+            path: "components/../../../../etc/passwd".into(),
+            ..Default::default()
+        };
+        let destination = resolve_component_destination(Path::new("/workspace"), &config, &record);
+        assert!(destination.starts_with("/workspace"));
+        assert!(
+            !destination
+                .components()
+                .any(|component| matches!(component, Component::ParentDir)),
+            "destination still contains parent directory segments: {}",
+            destination.display()
+        );
+    }
+
+    #[test]
+    fn sanitize_removes_absolute_segments() {
+        let config = Config::default();
+        let record = ComponentFileRecord {
+            path: "components//tmp/evil".into(),
+            target: Some("root".into()),
+            ..Default::default()
+        };
+        let destination = resolve_component_destination(Path::new("/workspace"), &config, &record);
+        assert!(destination.starts_with("/workspace"));
+        assert!(destination.ends_with("tmp/evil"));
+    }
+
+    #[test]
+    fn render_component_barrel_combines_entries() {
+        let config = Config::default();
+        let components = vec![
+            ComponentExportSpec {
+                export_name: "GlassPane".into(),
+                entry_path: PathBuf::from("/workspace/src/lib/motion-core/glass-pane/GlassPane.svelte"),
+            },
+            ComponentExportSpec {
+                export_name: "GlassPaneItem".into(),
+                entry_path: PathBuf::from("/workspace/src/lib/motion-core/glass-pane/GlassPaneItem.svelte"),
+            },
+        ];
+        let type_exports = vec![TypeExportSpec {
+            export_names: vec!["GlassPaneProps".into()],
+            entry_path: PathBuf::from("/workspace/src/lib/motion-core/glass-pane/types.ts"),
+        }];
+        let rendered = render_component_barrel(
+            Path::new("/workspace"),
+            &config,
+            &components,
+            &type_exports,
+            "",
+        )
+        .expect("rendered barrel");
+        assert!(rendered.contains("export { default as GlassPane }"));
+        assert!(rendered.contains("GlassPaneItem"));
+        assert!(rendered.contains("export type { GlassPaneProps }"));
+    }
+}

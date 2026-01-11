@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, BTreeSet, HashMap, btree_map::Entry};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::fs;
 use std::io::IsTerminal;
 use std::path::{Path, PathBuf};
@@ -7,10 +7,9 @@ use anyhow::{Context, Error, anyhow};
 use clap::Args;
 use dialoguer::Confirm;
 use motion_core_cli_core::{
-    ComponentFileRecord, ComponentRecord, Config, InstallPlan, PackageManagerKind,
-    detect_package_manager,
+    ComponentExportSpec, ComponentFileRecord, ComponentRecord, InstallPlan, PackageManagerKind,
+    TypeExportSpec, render_component_barrel, resolve_component_destination, detect_package_manager,
 };
-use pathdiff::diff_paths;
 use serde::Deserialize;
 use similar::{ChangeTag, TextDiff};
 
@@ -137,8 +136,8 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
 
     let mut runtime_requirements = BTreeMap::new();
     let mut dev_requirements = BTreeMap::new();
-    let mut installed_components = Vec::new();
-    let mut registered_type_exports = Vec::new();
+    let mut installed_components: Vec<ComponentExportSpec> = Vec::new();
+    let mut registered_type_exports: Vec<TypeExportSpec> = Vec::new();
     let mut planned_files = Vec::new();
 
     for slug in install_order.iter() {
@@ -155,7 +154,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
                 .registry()
                 .fetch_component_file(&file.path)
                 .map_err(|err| Error::new(err))?;
-            let destination = resolve_destination(workspace_root, &config, file);
+            let destination = resolve_component_destination(workspace_root, &config, file);
             let existing_contents = if destination.exists() {
                 Some(
                     fs::read(&destination)
@@ -187,7 +186,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
             }
 
             if !file.type_exports.is_empty() {
-                registered_type_exports.push(InstalledTypeExport {
+                registered_type_exports.push(TypeExportSpec {
                     export_names: file.type_exports.clone(),
                     entry_path: destination.clone(),
                 });
@@ -206,7 +205,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
             ));
         } else {
             for (idx, entry) in entry_paths.into_iter().enumerate() {
-                installed_components.push(InstalledComponent {
+                installed_components.push(ComponentExportSpec {
                     export_name: entry_export_name(slug, &entry, idx),
                     entry_path: entry,
                 });
@@ -266,23 +265,36 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
     }
     file_spinner.finish_and_clear();
 
-    let exports_updated = update_component_exports(
+    let barrel_path = workspace_root.join(&config.exports.components.barrel);
+    let existing_barrel = if barrel_path.exists() {
+        fs::read_to_string(&barrel_path)?
+    } else {
+        String::new()
+    };
+    let mut exports_updated = false;
+    if let Some(rendered) = render_component_barrel(
         workspace_root,
         &config,
         &installed_components,
         &registered_type_exports,
-        args.dry_run,
-    )?;
-    if exports_updated {
+        &existing_barrel,
+    ) {
+        exports_updated = true;
         if args.dry_run {
             reporter.info(format_args!(
                 "would update exports at {}",
-                display_path(&workspace_root.join(&config.exports.components.barrel))
+                display_path(&barrel_path)
             ));
         } else {
+            if let Some(parent) = barrel_path.parent() {
+                fs::create_dir_all(parent)
+                    .with_context(|| format!("failed to create {}", parent.display()))?;
+            }
+            fs::write(&barrel_path, rendered)
+                .with_context(|| format!("failed to write {}", barrel_path.display()))?;
             reporter.info(format_args!(
                 "updated exports at {}",
-                display_path(&workspace_root.join(&config.exports.components.barrel))
+                display_path(&barrel_path)
             ));
         }
     }
@@ -397,39 +409,6 @@ fn resolve_install_order(
     }
 
     Ok(resolved.into_iter().collect())
-}
-
-fn resolve_destination(
-    workspace_root: &Path,
-    config: &Config,
-    file: &ComponentFileRecord,
-) -> PathBuf {
-    let relative = strip_category(&file.path);
-    let sanitized = Path::new(relative);
-    let base = match file.target.as_deref() {
-        Some("helper") | Some("helpers") => &config.aliases.helpers.filesystem,
-        Some("utils") => &config.aliases.utils.filesystem,
-        Some("asset") | Some("assets") => &config.aliases.assets.filesystem,
-        Some("root") => "",
-        _ => &config.aliases.components.filesystem,
-    };
-
-    if base.is_empty() {
-        workspace_root.join(sanitized)
-    } else {
-        workspace_root.join(base).join(sanitized)
-    }
-}
-
-fn strip_category(path: &str) -> &str {
-    if let Some((first, rest)) = path.split_once('/') {
-        match first {
-            "components" | "helpers" | "utils" | "assets" => rest,
-            _ => path,
-        }
-    } else {
-        path
-    }
 }
 
 fn write_component_file(path: &Path, contents: &[u8], dry_run: bool) -> anyhow::Result<FileStatus> {
@@ -746,190 +725,6 @@ fn format_export_name(identifier: &str) -> String {
         .collect()
 }
 
-fn update_component_exports(
-    workspace_root: &Path,
-    config: &Config,
-    components: &[InstalledComponent],
-    type_exports: &[InstalledTypeExport],
-    dry_run: bool,
-) -> anyhow::Result<bool> {
-    if components.is_empty() && type_exports.is_empty() {
-        return Ok(false);
-    }
-
-    let barrel_path = workspace_root.join(&config.exports.components.barrel);
-    if !dry_run {
-        if let Some(parent) = barrel_path.parent() {
-            fs::create_dir_all(parent)
-                .with_context(|| format!("failed to create {}", parent.display()))?;
-        }
-    }
-
-    let existing = if barrel_path.exists() {
-        fs::read_to_string(&barrel_path)?
-    } else {
-        String::new()
-    };
-
-    let mut export_map = parse_export_map(&existing);
-    let mut modified = false;
-    let barrel_dir = barrel_path.parent().unwrap_or(workspace_root);
-
-    for component in components {
-        if let Some(import) = compute_import_path(
-            workspace_root,
-            barrel_dir,
-            Some(&config.aliases.components.filesystem),
-            &component.entry_path,
-        ) {
-            let line = format!(
-                "export {{ default as {} }} from \"{}\";",
-                component.export_name, import
-            );
-            match export_map
-                .components
-                .entry(component.export_name.clone())
-            {
-                Entry::Vacant(entry) => {
-                    entry.insert(line);
-                    modified = true;
-                }
-                Entry::Occupied(mut entry) => {
-                    if entry.get() != &line {
-                        entry.insert(line);
-                        modified = true;
-                    }
-                }
-            }
-        }
-    }
-
-    for type_entry in type_exports {
-        if let Some(import) = compute_import_path(
-            workspace_root,
-            barrel_dir,
-            Some(&config.aliases.components.filesystem),
-            &type_entry.entry_path,
-        ) {
-            for name in type_entry.export_names.iter().filter(|name| !name.is_empty()) {
-                let line = format!("export type {{ {} }} from \"{}\";", name, import);
-                match export_map.types.entry(name.clone()) {
-                    Entry::Vacant(entry) => {
-                        entry.insert(line);
-                        modified = true;
-                    }
-                    Entry::Occupied(mut entry) => {
-                        if entry.get() != &line {
-                            entry.insert(line);
-                            modified = true;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if modified && !export_map.is_empty() {
-        if !dry_run {
-            fs::write(&barrel_path, export_map.render())?;
-        }
-        Ok(true)
-    } else {
-        Ok(false)
-    }
-}
-
-#[derive(Default)]
-struct BarrelExports {
-    components: BTreeMap<String, String>,
-    types: BTreeMap<String, String>,
-}
-
-impl BarrelExports {
-    fn is_empty(&self) -> bool {
-        self.components.is_empty() && self.types.is_empty()
-    }
-
-    fn render(&self) -> String {
-        let mut next = String::new();
-        for line in self.components.values() {
-            next.push_str(line);
-            next.push('\n');
-        }
-        for line in self.types.values() {
-            next.push_str(line);
-            next.push('\n');
-        }
-        next
-    }
-}
-
-fn parse_export_map(contents: &str) -> BarrelExports {
-    let mut map = BarrelExports::default();
-    for line in contents.lines() {
-        let trimmed = line.trim();
-        if let Some(rest) = trimmed.strip_prefix("export { default as ") {
-            if let Some((name, remainder)) = rest.split_once(" } from ") {
-                let cleaned = remainder
-                    .trim()
-                    .trim_start_matches('"')
-                    .trim_end_matches("\";");
-                map.components.insert(
-                    name.trim().to_string(),
-                    format!(
-                        "export {{ default as {} }} from \"{}\";",
-                        name.trim(),
-                        cleaned
-                    ),
-                );
-            }
-        } else if let Some(rest) = trimmed.strip_prefix("export type {") {
-            if let Some((names, remainder)) = rest.split_once("} from ") {
-                let cleaned = remainder
-                    .trim()
-                    .trim_start_matches('"')
-                    .trim_end_matches("\";");
-                for name in names.split(',').map(|value| value.trim()).filter(|v| !v.is_empty()) {
-                    map.types.insert(
-                        name.to_string(),
-                        format!("export type {{ {} }} from \"{}\";", name, cleaned),
-                    );
-                }
-            }
-        }
-    }
-    map
-}
-
-fn compute_import_path(
-    workspace_root: &Path,
-    barrel_dir: &Path,
-    preferred_base: Option<&str>,
-    entry_path: &Path,
-) -> Option<String> {
-    if let Some(base) = preferred_base {
-        let components_root = workspace_root.join(base);
-        if let Ok(rel) = entry_path.strip_prefix(&components_root) {
-            return Some(format!("./{}", path_to_slash(rel)));
-        }
-    }
-
-    diff_paths(entry_path, barrel_dir).map(|relative| {
-        let path_str = path_to_slash(&relative);
-        if path_str.starts_with('.') {
-            path_str
-        } else {
-            format!("./{}", path_str)
-        }
-    })
-}
-
-fn path_to_slash(path: &Path) -> String {
-    path.components()
-        .map(|comp| comp.as_os_str().to_string_lossy())
-        .collect::<Vec<_>>()
-        .join("/")
-}
 
 fn display_path(path: &Path) -> String {
     path.to_string_lossy().to_string()
@@ -986,18 +781,6 @@ enum ConfirmationMode {
     Prompt,
     AssumeYes,
     NonInteractive,
-}
-
-#[derive(Debug)]
-struct InstalledComponent {
-    export_name: String,
-    entry_path: PathBuf,
-}
-
-#[derive(Debug)]
-struct InstalledTypeExport {
-    export_names: Vec<String>,
-    entry_path: PathBuf,
 }
 
 #[derive(Debug, Deserialize, Default)]

@@ -402,4 +402,36 @@ mod tests {
             .expect("file bytes");
         assert_eq!(bytes, b"hello");
     }
+
+    #[test]
+    fn fetch_component_file_rejects_invalid_base64() {
+        let client = RegistryClient::with_registry(sample_registry());
+        client
+            .component_manifest
+            .replace(Some([("components/bad/file".into(), "***not_base64***".into())].into()));
+        let err = client
+            .fetch_component_file("components/bad/file")
+            .expect_err("should fail to decode");
+        match err {
+            RegistryError::Decode(_, _) => {}
+            other => panic!("unexpected error: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn fetch_component_file_errors_when_missing() {
+        let client = RegistryClient::with_registry(sample_registry());
+        client
+            .component_manifest
+            .replace(Some(HashMap::new()));
+        let err = client
+            .fetch_component_file("components/missing/file")
+            .expect_err("missing asset should error");
+        match err {
+            RegistryError::AssetNotFound(path) => {
+                assert_eq!(path, "components/missing/file");
+            }
+            other => panic!("unexpected error: {other:?}"),
+        }
+    }
 }

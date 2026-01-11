@@ -695,6 +695,7 @@ version = "0.5.0"
 dependencies = [
  "base64",
  "dirs",
+ "pathdiff",
  "reqwest",
  "serde",
  "serde_json",
