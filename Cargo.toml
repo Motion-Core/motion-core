@@ -32,7 +32,7 @@ semver = "1.0.27"
 
 [profile.release]
 opt-level = "z"
-lto = "thin"
+lto = true
 codegen-units = 1
 strip = true
 panic = "abort"
