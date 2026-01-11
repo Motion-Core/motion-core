@@ -93,9 +93,20 @@
 	$effect(() => {
 		if (!menuGroups.length) return;
 
-		const isMobile = window.innerWidth < 768;
-		const maxWidthMobile = isMobile ? "100%" : "75%";
-		const maxWidthInitial = isMobile ? "95%" : "50%";
+		const width = window.innerWidth;
+		const isMobile = width < 768;
+		const isTablet = width >= 768 && width < 1024;
+
+		let maxWidthOpen = "75%";
+		let maxWidthInitial = "50%";
+
+		if (isMobile) {
+			maxWidthOpen = "100%";
+			maxWidthInitial = "95%";
+		} else if (isTablet) {
+			maxWidthOpen = "85%";
+			maxWidthInitial = "70%";
+		}
 
 		gsap.set(overlayRef, { autoAlpha: 0 });
 		gsap.set(containerRef, { maxWidth: maxWidthInitial });
@@ -120,7 +131,7 @@
 			.to(
 				containerRef,
 				{
-					maxWidth: maxWidthMobile,
+					maxWidth: maxWidthOpen,
 					...(isMobile
 						? {
 								top: 0,
@@ -185,7 +196,7 @@
 	use:portal={portalTarget}
 	bind:this={containerRef}
 	class={cn(
-		"card-highlight fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-lg border border-border bg-card text-foreground shadow-2xl md:top-4 md:max-w-1/2",
+		"card-highlight fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-lg border border-border bg-card text-foreground shadow-2xl md:top-4 md:max-w-[70vw] lg:max-w-[50vw]",
 		className,
 	)}
 >
