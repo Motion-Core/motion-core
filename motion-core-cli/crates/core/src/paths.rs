@@ -1,6 +1,5 @@
 use std::path::{Component, Path, PathBuf};
 
-/// Remove traversal and absolute components from a relative path string.
 pub(crate) fn sanitize_relative_path(path: &str) -> PathBuf {
     let mut sanitized = PathBuf::new();
     for component in Path::new(path).components() {
@@ -15,7 +14,6 @@ pub(crate) fn sanitize_relative_path(path: &str) -> PathBuf {
     sanitized
 }
 
-/// Resolve a configuration-provided path so it always points inside the workspace.
 pub(crate) fn workspace_path(workspace_root: &Path, configured: &str) -> PathBuf {
     let relative = sanitize_relative_path(configured);
     if relative.as_os_str().is_empty() {

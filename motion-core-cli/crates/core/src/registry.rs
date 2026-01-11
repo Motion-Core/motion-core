@@ -132,7 +132,10 @@ impl RegistryClient {
         })
     }
 
-    pub fn with_cache(base_url: impl Into<String>, cache: RegistryCache) -> Result<Self, RegistryError> {
+    pub fn with_cache(
+        base_url: impl Into<String>,
+        cache: RegistryCache,
+    ) -> Result<Self, RegistryError> {
         let client = Client::builder()
             .timeout(Duration::from_secs(15))
             .build()
@@ -354,8 +357,8 @@ fn parse_component_manifest(entry: CachedData) -> Result<HashMap<String, String>
 #[cfg(test)]
 mod tests {
     use super::*;
-    use base64::engine::general_purpose;
     use crate::cache::CacheStore;
+    use base64::engine::general_purpose;
     use serde_json;
     use tempfile::TempDir;
 
@@ -486,5 +489,31 @@ mod tests {
             .fetch_component_file("components/glass-pane/GlassPane.svelte")
             .expect("component bytes");
         assert_eq!(bytes, b"hello");
+    }
+
+    #[test]
+    fn summary_fails_gracefully_on_network_error_without_cache() {
+        let temp = TempDir::new().expect("tempdir");
+        let store = CacheStore::from_path(temp.path().join("cache"));
+        let cache = store.scoped("http://127.0.0.1:9");
+
+        let client =
+            RegistryClient::with_cache("http://127.0.0.1:9", cache).expect("registry client");
+        let err = client.summary().expect_err("should fail");
+        assert!(matches!(err, RegistryError::Network(_)));
+    }
+
+    #[test]
+    fn fetch_component_file_fails_gracefully_on_network_error_without_cache() {
+        let temp = TempDir::new().expect("tempdir");
+        let store = CacheStore::from_path(temp.path().join("cache"));
+        let cache = store.scoped("http://127.0.0.1:9");
+
+        let client =
+            RegistryClient::with_cache("http://127.0.0.1:9", cache).expect("registry client");
+        let err = client
+            .fetch_component_file("foo.ts")
+            .expect_err("should fail");
+        assert!(matches!(err, RegistryError::Network(_)));
     }
 }

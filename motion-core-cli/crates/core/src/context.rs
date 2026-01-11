@@ -96,6 +96,40 @@ mod tests {
     fn test_cache_store(temp: &TempDir) -> CacheStore {
         CacheStore::from_path(temp.path().join("cache"))
     }
+
+    #[test]
+    fn locate_config_finds_in_parent() {
+        let temp = TempDir::new().expect("temp");
+        let root = temp.path();
+        let config_path = root.join(CONFIG_FILE_NAME);
+        std::fs::write(&config_path, "{}").expect("write");
+        
+        let nested = root.join("apps/web/src");
+        std::fs::create_dir_all(&nested).expect("mkdir");
+        
+        let (found_root, found_config) = locate_config(&nested);
+        assert_eq!(found_root.canonicalize().unwrap(), root.canonicalize().unwrap());
+        assert_eq!(found_config.canonicalize().unwrap(), config_path.canonicalize().unwrap());
+    }
+
+    #[test]
+    fn discover_uses_current_dir() {
+        let temp = TempDir::new().expect("temp");
+        let root = temp.path();
+        let config_path = root.join(CONFIG_FILE_NAME);
+        std::fs::write(&config_path, "{}").expect("write");
+        
+        let original_dir = std::env::current_dir().expect("cwd");
+        std::env::set_current_dir(root).expect("chdir");
+        
+        let registry = RegistryClient::with_registry(crate::Registry::default());
+        let cache = CacheStore::from_path(root.join("cache"));
+        
+        let ctx = CommandContext::discover(registry, cache).expect("discover");
+        assert_eq!(ctx.workspace_root().canonicalize().unwrap(), root.canonicalize().unwrap());
+        
+        std::env::set_current_dir(original_dir).expect("restore chdir");
+    }
 }
 fn locate_config(start: &Path) -> (PathBuf, PathBuf) {
     let mut current = start.canonicalize().unwrap_or_else(|_| start.to_path_buf());

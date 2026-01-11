@@ -530,4 +530,46 @@ mod tests {
             _ => panic!("expected IO error on readonly file, got {:?}", result),
         }
     }
+
+    #[test]
+    fn split_token_bundle_handles_imports() {
+        let source = "@import \"tailwindcss\";\nbody {}";
+        let (import, body) = split_token_bundle(source);
+        assert_eq!(import, Some("@import \"tailwindcss\";".into()));
+        assert_eq!(body, "body {}");
+
+        let no_import = "body {}";
+        let (import, body) = split_token_bundle(no_import);
+        assert_eq!(import, None);
+        assert_eq!(body, "body {}");
+    }
+
+    #[test]
+    fn trim_token_body_removes_newlines() {
+        assert_eq!(trim_token_body("\n\ncontent\n"), "content");
+        assert_eq!(trim_token_body("pure"), "pure");
+    }
+
+    #[test]
+    fn detect_newline_recognizes_crlf() {
+        assert_eq!(detect_newline("a\nb"), "\n");
+        assert_eq!(detect_newline("a\r\nb"), "\r\n");
+    }
+
+    #[test]
+    fn has_tailwind_import_checks_content() {
+        assert!(has_tailwind_import("@import \"tailwindcss\";"));
+        assert!(has_tailwind_import("  @import 'tailwindcss/preflight';"));
+        assert!(!has_tailwind_import("body { color: red; }"));
+    }
+
+    #[test]
+    fn relative_display_formats_paths() {
+        let root = Path::new("/root");
+        let target = Path::new("/root/src/app.css");
+        assert_eq!(relative_display(root, target), "src/app.css");
+
+        let external = Path::new("/other/file.txt");
+        assert_eq!(relative_display(root, external), "/other/file.txt");
+    }
 }

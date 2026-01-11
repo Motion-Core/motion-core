@@ -487,3 +487,174 @@ impl PackageSnapshot {
             .map(|value| value.as_str())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn format_export_name_converts_to_pascal_case() {
+        assert_eq!(format_export_name("my-component"), "MyComponent");
+        assert_eq!(format_export_name("my_component"), "MyComponent");
+        assert_eq!(format_export_name("component"), "Component");
+        assert_eq!(format_export_name("my-cool-component"), "MyCoolComponent");
+        assert_eq!(format_export_name("123-component"), "123Component");
+    }
+
+    #[test]
+    fn resolve_install_order_resolves_transitive_dependencies() {
+        let mut components = HashMap::new();
+        components.insert(
+            "a".into(),
+            ComponentRecord {
+                internal_dependencies: vec!["b".into()],
+                ..Default::default()
+            },
+        );
+        components.insert(
+            "b".into(),
+            ComponentRecord {
+                internal_dependencies: vec!["c".into()],
+                ..Default::default()
+            },
+        );
+        components.insert("c".into(), ComponentRecord::default());
+
+        let order = resolve_install_order(&vec!["a".into()], &components).unwrap();
+        assert_eq!(order, vec!["a", "b", "c"]);
+    }
+
+    #[test]
+    fn diff_dependencies_finds_missing() {
+        let json = r#"{
+            "dependencies": {
+                "react": "^18.0.0"
+            }
+        }"#;
+        let snapshot: PackageSnapshot = serde_json::from_str(json).unwrap();
+
+        let mut requirements = BTreeMap::new();
+        requirements.insert("react".into(), "^18.0.0".into());
+        requirements.insert("vue".into(), "^3.0.0".into());
+
+        let diff = diff_dependencies(&requirements, &snapshot);
+        assert_eq!(diff.len(), 1);
+        assert_eq!(diff[0], "vue@^3.0.0");
+    }
+
+    #[test]
+    fn is_svelte_file_detects_svelte() {
+        let file = ComponentFileRecord {
+            path: "foo/bar/Baz.svelte".into(),
+            ..Default::default()
+        };
+        assert!(is_svelte_file(&file));
+
+        let file = ComponentFileRecord {
+            path: "foo/bar/Baz.ts".into(),
+            ..Default::default()
+        };
+        assert!(!is_svelte_file(&file));
+    }
+
+    #[test]
+    fn entry_export_name_formats_correctly() {
+        let path = Path::new("src/lib/MyComponent.svelte");
+        assert_eq!(entry_export_name("my-component", path, 0), "MyComponent");
+
+        let path = Path::new("src/lib/Variant.svelte");
+        assert_eq!(entry_export_name("my-component", path, 1), "Variant");
+    }
+
+    #[test]
+    fn write_component_file_handles_dry_run_and_updates() {
+        let temp = tempfile::tempdir().expect("temp");
+        let path = temp.path().join("test.txt");
+        let content = b"hello";
+
+        let status = write_component_file(&path, content, false).expect("write");
+        assert_eq!(status, FileStatus::Created);
+        assert_eq!(fs::read(&path).unwrap(), content);
+
+        let status = write_component_file(&path, content, false).expect("write");
+        assert_eq!(status, FileStatus::Unchanged);
+
+        let new_content = b"world";
+        let status = write_component_file(&path, new_content, false).expect("write");
+        assert_eq!(status, FileStatus::Updated);
+        assert_eq!(fs::read(&path).unwrap(), new_content);
+
+        let status = write_component_file(&path, content, true).expect("write");
+        assert_eq!(status, FileStatus::Updated);
+        assert_eq!(fs::read(&path).unwrap(), new_content);
+    }
+
+    #[test]
+    fn plan_errors_when_config_missing() {
+        let temp = tempfile::tempdir().expect("temp");
+        let ctx = CommandContext::new(
+            temp.path(),
+            temp.path().join("missing.json"),
+            crate::RegistryClient::with_registry(crate::Registry::default()),
+            crate::CacheStore::from_path(temp.path().join("cache")),
+        );
+        let options = AddOptions {
+            components: vec!["a".into()],
+        };
+        let result = plan(&ctx, &options);
+        assert!(matches!(result, Err(AddError::MissingConfig(_))));
+    }
+
+    #[test]
+    fn apply_creates_files_and_updates_exports() {
+        let temp = tempfile::tempdir().expect("temp");
+        let root = temp.path();
+        let config = crate::Config::default();
+        let barrel_path = root.join("src/lib/motion-core/index.ts");
+
+        let mut plan = AddPlan {
+            config: config.clone(),
+            config_path: root.join("motion-core.json"),
+            workspace_root: root.to_path_buf(),
+            requested_components: vec![],
+            component_map: HashMap::new(),
+            install_order: vec![],
+            planned_files: vec![PlannedFile {
+                component_name: "Test".into(),
+                registry_path: "test.svelte".into(),
+                destination: root.join("src/lib/motion-core/Test.svelte"),
+                contents: b"<script></script>".to_vec(),
+                existing_contents: None,
+                status: PlannedFileStatus::Create,
+                apply: true,
+            }],
+            installed_components: vec![crate::ComponentExportSpec {
+                export_name: "Test".into(),
+                entry_path: root.join("src/lib/motion-core/Test.svelte"),
+            }],
+            registered_type_exports: vec![],
+            runtime_requirements: BTreeMap::new(),
+            dev_requirements: BTreeMap::new(),
+            barrel_path: barrel_path.clone(),
+            existing_barrel: "".into(),
+            package_manager: PackageManagerKind::Unknown,
+            package_snapshot: PackageSnapshot::default(),
+            missing_entry_components: vec![],
+        };
+
+        let ctx = CommandContext::new(
+            root,
+            root.join("motion-core.json"),
+            crate::RegistryClient::with_registry(crate::Registry::default()),
+            crate::CacheStore::from_path(root.join("cache")),
+        );
+
+        let outcome = apply(&ctx, &mut plan, ApplyOptions { dry_run: false }).expect("apply");
+
+        assert!(outcome.exports_updated);
+        assert!(root.join("src/lib/motion-core/Test.svelte").exists());
+        assert!(barrel_path.exists());
+        let barrel = fs::read_to_string(&barrel_path).expect("read barrel");
+        assert!(barrel.contains("export { default as Test }"));
+    }
+}

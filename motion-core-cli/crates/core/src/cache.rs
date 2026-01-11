@@ -185,7 +185,7 @@ impl RegistryCache {
 
 #[cfg(test)]
 fn mark_file_stale(path: &Path) -> std::io::Result<()> {
-    use filetime::{set_file_mtime, FileTime};
+    use filetime::{FileTime, set_file_mtime};
     use std::time::{Duration, SystemTime};
 
     if path.exists() {
@@ -196,4 +196,50 @@ fn mark_file_stale(path: &Path) -> std::io::Result<()> {
         set_file_mtime(path, time)?;
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tempfile::TempDir;
+
+    #[test]
+    fn cache_store_creates_dirs() {
+        let temp = TempDir::new().expect("temp");
+        let store = CacheStore::from_path(temp.path().join("cache"));
+        assert!(temp.path().join("cache").exists());
+
+        let scoped = store.scoped("https://example.com");
+        assert!(scoped.root.to_string_lossy().contains("registry-"));
+    }
+
+    #[test]
+    fn registry_cache_round_trip() {
+        let temp = TempDir::new().expect("temp");
+        let store = CacheStore::from_path(temp.path().join("cache"));
+        let scoped = store.scoped("test");
+
+        let data = b"test-data";
+        scoped.write_registry_manifest(data);
+
+        let read = scoped.registry_manifest(false).expect("read");
+        assert_eq!(read.bytes, data);
+        assert!(read.fresh);
+    }
+
+    #[test]
+    fn registry_cache_handles_ttl() {
+        let temp = TempDir::new().expect("temp");
+        let store = CacheStore::from_path(temp.path().join("cache"));
+        let scoped = store.scoped("test");
+
+        scoped.write_registry_manifest(b"data");
+
+        scoped.mark_registry_stale();
+
+        assert!(scoped.registry_manifest(false).is_none());
+
+        let read = scoped.registry_manifest(true).expect("read stale");
+        assert!(!read.fresh);
+    }
 }

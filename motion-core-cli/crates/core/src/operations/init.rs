@@ -356,4 +356,51 @@ mod tests {
         let result = run(&ctx, InitOptions { dry_run: false }).expect("init result");
         assert!(result.has_changes());
     }
+
+    #[test]
+    fn locate_tailwind_css_finds_file() {
+        let temp = TempDir::new().expect("tempdir");
+        let css_path = temp.path().join("src/app.css");
+        fs::create_dir_all(css_path.parent().unwrap()).expect("dirs");
+        fs::write(&css_path, "@tailwind base;").expect("write css");
+
+        let found = locate_tailwind_css(temp.path()).expect("locate");
+        assert_eq!(found, Some("src/app.css".to_string()));
+    }
+
+    #[test]
+    fn locate_tailwind_css_ignores_node_modules() {
+        let temp = TempDir::new().expect("tempdir");
+        let css_path = temp.path().join("node_modules/pkg/style.css");
+        fs::create_dir_all(css_path.parent().unwrap()).expect("dirs");
+        fs::write(&css_path, "@tailwind base;").expect("write css");
+
+        let found = locate_tailwind_css(temp.path()).expect("locate");
+        assert_eq!(found, None);
+    }
+
+    #[test]
+    fn install_base_dependencies_skips_if_present() {
+        let temp = TempDir::new().expect("tempdir");
+        let package = json!({
+            "dependencies": {
+                "clsx": "^2.0.0"
+            }
+        });
+        fs::write(temp.path().join("package.json"), package.to_string()).expect("write package");
+
+        let mut deps = HashMap::new();
+        deps.insert("clsx".into(), "^2.0.0".into());
+
+        let report = install_base_dependencies(
+            PackageManagerKind::Npm,
+            temp.path(),
+            &deps,
+            false,
+            false
+        ).expect("install");
+
+        assert!(!report.changed());
+        assert!(matches!(report, DependencyReport::AlreadyInstalled));
+    }
 }

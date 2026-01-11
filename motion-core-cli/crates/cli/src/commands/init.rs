@@ -437,6 +437,40 @@ export function cn(...inputs: ClassValue[]) {
         );
     }
 
+    #[test]
+    fn handle_warnings_logs_correctly() {
+        let reporter = RecordingReporter::default();
+        handle_warnings(
+            &reporter,
+            &[
+                InitWarning::TailwindUnsupported { detected: Some("3.0.0".into()) },
+                InitWarning::RegistryMetadataUnavailable("Registry error".into()),
+            ],
+        );
+        let warns = reporter.warns.lock().unwrap();
+        assert!(warns.iter().any(|s| s.contains("found 3.0.0")));
+        assert!(warns.iter().any(|s| s.contains("Registry error")));
+    }
+
+    #[test]
+    fn handle_token_status_logs_correctly() {
+        let reporter = RecordingReporter::default();
+        handle_token_status(&reporter, &TailwindSyncStatus::MissingConfig);
+        handle_token_status(&reporter, &TailwindSyncStatus::MissingFile("style.css".into()));
+        handle_token_status(&reporter, &TailwindSyncStatus::AlreadyPresent("style.css".into()));
+        handle_token_status(&reporter, &TailwindSyncStatus::DryRun { target: "style.css".into() });
+        handle_token_status(&reporter, &TailwindSyncStatus::Updated { target: "style.css".into() });
+
+        let warns = reporter.warns.lock().unwrap();
+        let infos = reporter.infos.lock().unwrap();
+
+        assert!(warns.iter().any(|s| s.contains("missing from motion-core.json")));
+        assert!(warns.iter().any(|s| s.contains("style.css not found")));
+        assert!(infos.iter().any(|s| s.contains("already present in style.css")));
+        assert!(infos.iter().any(|s| s.contains("Would inject Motion Core tokens into style.css")));
+        assert!(infos.iter().any(|s| s.contains("Motion Core tokens synced at style.css")));
+    }
+
     #[derive(Default)]
     struct RecordingReporter {
         infos: std::sync::Mutex<Vec<String>>,

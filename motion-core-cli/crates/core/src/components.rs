@@ -324,4 +324,72 @@ mod tests {
         assert!(rendered.contains("GlassPaneItem"));
         assert!(rendered.contains("export type { GlassPaneProps }"));
     }
+
+    #[test]
+    fn resolve_component_destination_respects_targets() {
+        let config = Config::default();
+        let root = Path::new("/workspace");
+
+        let helper_record = ComponentFileRecord {
+            path: "helpers/foo.ts".into(),
+            target: Some("helper".into()),
+            ..Default::default()
+        };
+        let dest = resolve_component_destination(root, &config, &helper_record);
+        assert!(dest.to_string_lossy().contains("helpers/foo.ts"));
+
+        let utils_record = ComponentFileRecord {
+            path: "utils/bar.ts".into(),
+            target: Some("utils".into()),
+            ..Default::default()
+        };
+        let dest = resolve_component_destination(root, &config, &utils_record);
+        assert!(dest.to_string_lossy().contains("utils/bar.ts"));
+
+        let asset_record = ComponentFileRecord {
+            path: "assets/logo.svg".into(),
+            target: Some("asset".into()),
+            ..Default::default()
+        };
+        let dest = resolve_component_destination(root, &config, &asset_record);
+        assert!(dest.to_string_lossy().contains("assets/logo.svg"));
+
+        let root_record = ComponentFileRecord {
+            path: "README.md".into(),
+            target: Some("root".into()),
+            ..Default::default()
+        };
+        let dest = resolve_component_destination(root, &config, &root_record);
+        assert_eq!(dest, root.join("README.md"));
+    }
+
+    #[test]
+    fn strip_category_handles_various_paths() {
+        assert_eq!(strip_category("components/foo.svelte"), "foo.svelte");
+        assert_eq!(strip_category("helpers/bar.ts"), "bar.ts");
+        assert_eq!(strip_category("unknown/baz.txt"), "unknown/baz.txt");
+        assert_eq!(strip_category("components"), "components");
+    }
+
+    #[test]
+    fn compute_import_path_handles_relative_paths() {
+        let root = Path::new("/workspace");
+        let barrel_dir = Path::new("/workspace/src/lib/motion-core");
+        let entry = Path::new("/workspace/src/lib/motion-core/foo/bar.svelte");
+
+        let path = compute_import_path(root, barrel_dir, Some("src/lib/motion-core"), entry);
+        assert_eq!(path, Some("./foo/bar.svelte".into()));
+    }
+
+    #[test]
+    fn parse_export_map_handles_complex_existing_barrel() {
+        let existing = r#"
+export { default as A } from "./A.svelte";
+export type { B, C } from "./types";
+"#;
+        let map = parse_export_map(existing);
+        assert!(map.components.contains_key("A"));
+        assert!(map.types.contains_key("B"));
+        assert!(map.types.contains_key("C"));
+    }
 }

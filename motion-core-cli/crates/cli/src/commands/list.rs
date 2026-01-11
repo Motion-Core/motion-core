@@ -127,25 +127,7 @@ mod tests {
 
     #[test]
     fn list_runs_with_json_flag() {
-        let mut components = HashMap::new();
-        components.insert(
-            "glass-pane".into(),
-            ComponentRecord {
-                name: "Glass Pane".into(),
-                description: Some("glass effect".into()),
-                category: Some("canvas".into()),
-                ..Default::default()
-            },
-        );
-        let registry = Registry {
-            name: "Motion Core".into(),
-            version: "0.1.0".into(),
-            description: Some("demo".into()),
-            base_dependencies: HashMap::new(),
-            base_dev_dependencies: HashMap::new(),
-            components,
-        };
-
+        let registry = sample_registry();
         let temp = TempDir::new().expect("temp");
         let cache = CacheStore::from_path(temp.path().join("cache"));
         let ctx = CommandContext::new(
@@ -158,5 +140,93 @@ mod tests {
         let args = ListArgs { json: true };
         let outcome = run(&ctx, &reporter, &args).unwrap();
         assert_eq!(outcome, CommandOutcome::NoOp);
+    }
+
+    #[test]
+    fn list_displays_formatted_output() {
+        let registry = sample_registry();
+        let temp = TempDir::new().expect("temp");
+        let cache = CacheStore::from_path(temp.path().join("cache"));
+        let ctx = CommandContext::new(
+            temp.path(),
+            temp.path().join("motion-core.json"),
+            RegistryClient::with_registry(registry),
+            cache,
+        );
+        let reporter = MemoryReporter::default();
+        let args = ListArgs { json: false };
+        let outcome = run(&ctx, &reporter, &args).unwrap();
+        assert_eq!(outcome, CommandOutcome::NoOp);
+
+        let output = reporter.infos.lock().unwrap().join("\n");
+        assert!(output.contains("Motion Core components"));
+        assert!(output.contains("glass-pane"));
+        assert!(output.contains("canvas"));
+    }
+
+    #[test]
+    fn list_handles_missing_metadata_gracefully() {
+        let mut components = HashMap::new();
+        components.insert(
+            "minimal".into(),
+            ComponentRecord {
+                name: "Minimal".into(),
+                ..Default::default()
+            },
+        );
+        let registry = Registry {
+            name: "Minimal Registry".into(),
+            version: "0.1.0".into(),
+            components,
+            ..Default::default()
+        };
+        let temp = TempDir::new().expect("temp");
+        let ctx = CommandContext::new(
+            temp.path(),
+            temp.path().join("motion-core.json"),
+            RegistryClient::with_registry(registry),
+            CacheStore::from_path(temp.path().join("cache")),
+        );
+        let reporter = MemoryReporter::default();
+        run(&ctx, &reporter, &ListArgs { json: false }).expect("run");
+
+        let output = reporter.infos.lock().unwrap().join("\n");
+        assert!(output.contains("Inne"));
+        assert!(output.contains("No description provided yet"));
+    }
+
+    fn sample_registry() -> Registry {
+        let mut components = HashMap::new();
+        components.insert(
+            "glass-pane".into(),
+            ComponentRecord {
+                name: "Glass Pane".into(),
+                description: Some("glass effect".into()),
+                category: Some("canvas".into()),
+                ..Default::default()
+            },
+        );
+        Registry {
+            name: "Motion Core".into(),
+            version: "0.1.0".into(),
+            description: Some("demo".into()),
+            base_dependencies: HashMap::new(),
+            base_dev_dependencies: HashMap::new(),
+            components,
+        }
+    }
+
+    #[derive(Default)]
+    struct MemoryReporter {
+        infos: std::sync::Mutex<Vec<String>>,
+    }
+
+    impl Reporter for MemoryReporter {
+        fn info(&self, message: std::fmt::Arguments<'_>) {
+            self.infos.lock().unwrap().push(format!("{message}"));
+        }
+        fn warn(&self, _message: std::fmt::Arguments<'_>) {}
+        fn error(&self, _message: std::fmt::Arguments<'_>) {}
+        fn blank(&self) {}
     }
 }

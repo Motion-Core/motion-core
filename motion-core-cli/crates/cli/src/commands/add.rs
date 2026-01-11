@@ -418,10 +418,9 @@ mod tests {
     };
     use serde_json;
     use std::collections::HashMap;
-    use std::fs;
     use std::fmt::Arguments;
+    use std::fs;
     use std::path::PathBuf;
-    use tempfile::TempDir;
 
     #[test]
     fn add_runs_with_components() {
@@ -493,14 +492,8 @@ mod tests {
             status: PlannedFileStatus::Update,
             apply: true,
         }];
-        resolve_file_conflicts(
-            &reporter,
-            &mut files,
-            true,
-            ConfirmationMode::Prompt,
-            false,
-        )
-        .expect("conflicts resolve");
+        resolve_file_conflicts(&reporter, &mut files, true, ConfirmationMode::Prompt, false)
+            .expect("conflicts resolve");
 
         let infos = reporter.infos.lock().unwrap();
         let has_message = infos
@@ -509,7 +502,39 @@ mod tests {
         assert!(has_message, "missing dry run notification: {infos:?}");
     }
 
-    fn build_context(temp: &TempDir, registry: Registry) -> CommandContext {
+    #[test]
+    fn confirmation_mode_respects_flags() {
+        assert_eq!(confirmation_mode(true, false), ConfirmationMode::AssumeYes);
+        assert_eq!(confirmation_mode(false, true), ConfirmationMode::AssumeYes);
+    }
+
+    #[test]
+    fn status_label_formats_correctly() {
+        let path = Path::new("foo.ts");
+        assert!(status_label(FileStatus::Created, false, path).contains("created"));
+        assert!(status_label(FileStatus::Created, true, path).contains("would create"));
+        assert!(status_label(FileStatus::Updated, false, path).contains("updated"));
+        assert!(status_label(FileStatus::Skipped, false, path).contains("skipped"));
+    }
+
+    #[test]
+    fn report_dependency_action_logs_messages() {
+        let reporter = MemoryReporter::default();
+        report_dependency_action(
+            &reporter,
+            motion_core_cli_core::PackageManagerKind::Npm,
+            &DependencyAction::Installed(vec!["a".into()]),
+            "runtime",
+        );
+        let infos = reporter.infos.lock().unwrap();
+        assert!(
+            infos
+                .iter()
+                .any(|s| s.contains("Installed runtime dependencies: a"))
+        );
+    }
+
+    fn build_context(temp: &tempfile::TempDir, registry: Registry) -> CommandContext {
         let cache = CacheStore::from_path(temp.path().join("cache"));
         CommandContext::new(
             temp.path(),

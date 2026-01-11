@@ -81,4 +81,25 @@ mod tests {
     fn rejects_when_missing() {
         assert!(!spec_satisfies(None, "^1.0.0"));
     }
+
+    #[test]
+    fn handles_edge_case_inputs() {
+        assert!(!spec_satisfies(Some(""), "^1.0.0"));
+        assert!(!spec_satisfies(Some("^1.0.0"), ""));
+        assert!(!spec_satisfies(Some("invalid"), "^1.0.0"));
+        assert!(!spec_satisfies(Some("^1.0.0"), "invalid"));
+    }
+
+    #[test]
+    fn handles_complex_comparators() {
+        assert!(spec_satisfies(Some("^1.0.0"), ">=1.0.0"));
+
+        assert!(spec_satisfies(Some("^1.0.1"), ">1.0.0"));
+
+        assert!(spec_satisfies(Some("*"), "*"));
+
+        assert!(spec_satisfies(Some("1.2.3"), "=1.2.3"));
+
+        assert!(!spec_satisfies(Some("0.9.0"), "<1.0.0"));
+    }
 }

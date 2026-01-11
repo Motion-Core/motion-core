@@ -41,3 +41,65 @@ pub fn run(ctx: &CommandContext, options: CacheOptions) -> Result<CacheResult, C
         })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{CacheStore, CommandContext, Registry, RegistryClient};
+    use std::fs;
+    use tempfile::TempDir;
+
+    #[test]
+    fn run_reports_info_and_handles_clear() {
+        let temp = TempDir::new().expect("temp");
+        let cache_dir = temp.path().join("cache");
+        let cache = CacheStore::from_path(&cache_dir);
+        let ctx = CommandContext::new(
+            temp.path(),
+            temp.path().join("motion-core.json"),
+            RegistryClient::with_registry(Registry::default()),
+            cache,
+        );
+
+        let result = run(&ctx, CacheOptions::default()).expect("run");
+        assert!(!result.cleared);
+        assert_eq!(result.info.path, cache_dir);
+
+        let err = run(
+            &ctx,
+            CacheOptions {
+                clear: true,
+                force: false,
+            },
+        )
+        .unwrap_err();
+        assert!(matches!(err, CacheError::ConfirmationRequired));
+
+        fs::write(cache_dir.join("some-file"), "data").expect("write");
+        let result = run(
+            &ctx,
+            CacheOptions {
+                clear: true,
+                force: true,
+            },
+        )
+        .expect("run");
+        assert!(result.cleared);
+        assert!(!cache_dir.join("some-file").exists());
+    }
+
+    #[test]
+    fn derived_traits_work() {
+        let opts = CacheOptions::default();
+        let _ = format!("{:?}", opts);
+        let res = CacheResult {
+            info: crate::CacheInfo {
+                path: ".".into(),
+                registry_ttl: std::time::Duration::ZERO,
+                asset_ttl: std::time::Duration::ZERO,
+            },
+            cleared: false,
+        };
+        let _ = format!("{:?}", res);
+    }
+}
