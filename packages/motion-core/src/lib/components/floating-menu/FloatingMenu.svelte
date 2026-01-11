@@ -214,7 +214,10 @@
 			</span>
 		</button>
 
-		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+		<div
+			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform-gpu"
+			style="backface-visibility: hidden;"
+		>
 			{#if logo}
 				<div class="flex items-center gap-3">
 					{@render logo()}
