@@ -12,18 +12,40 @@
 	type MenuVariant = "default" | "muted";
 
 	interface MenuLink {
+		/**
+		 * The text to display for the link.
+		 */
 		label: string;
+		/**
+		 * The URL the link points to.
+		 */
 		href: string;
 	}
 
 	interface MenuButton {
+		/**
+		 * The text to display on the button.
+		 */
 		label: string;
+		/**
+		 * The URL the button links to.
+		 */
 		href: string;
 	}
 
 	interface MenuGroup {
+		/**
+		 * The title of the menu group, displayed above the links.
+		 */
 		title: string;
+		/**
+		 * The visual style variant of the group.
+		 * 'muted' adds a background color.
+		 */
 		variant?: MenuVariant;
+		/**
+		 * Array of links to display within this group.
+		 */
 		links: MenuLink[];
 	}
 
