@@ -11,12 +11,12 @@
 		/**
 		 * Array of image URLs to cycle through.
 		 */
-		images: string[];
+		images: SceneProps["images"];
 		/**
 		 * The current image index. Change this to trigger a transition.
 		 * @default 0
 		 */
-		index?: number;
+		index?: SceneProps["index"];
 		/**
 		 * Additional CSS classes for the container.
 		 */
@@ -25,27 +25,27 @@
 		 * Duration of the transition in milliseconds.
 		 * @default 2000
 		 */
-		transitionDuration?: number;
+		transitionDuration?: SceneProps["transitionDuration"];
 		/**
 		 * Intensity of the glass effect.
 		 * @default 1.0
 		 */
-		intensity?: number;
+		intensity?: SceneProps["intensity"];
 		/**
 		 * Strength of the distortion.
 		 * @default 1.0
 		 */
-		distortion?: number;
+		distortion?: SceneProps["distortion"];
 		/**
 		 * Strength of the chromatic aberration.
 		 * @default 1.0
 		 */
-		chromaticAberration?: number;
+		chromaticAberration?: SceneProps["chromaticAberration"];
 		/**
 		 * Strength of the refraction.
 		 * @default 1.0
 		 */
-		refraction?: number;
+		refraction?: SceneProps["refraction"];
 		/**
 		 * Automatically cycle through the provided images.
 		 * @default true

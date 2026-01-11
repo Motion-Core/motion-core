@@ -27,8 +27,7 @@
 		onpointerleave?: () => void;
 	}
 
-	let { marker, radius, position, onpointerenter, onpointerleave }: Props =
-		$props();
+	let { marker, position, onpointerenter, onpointerleave }: Props = $props();
 
 	let isHovered = $state(false);
 

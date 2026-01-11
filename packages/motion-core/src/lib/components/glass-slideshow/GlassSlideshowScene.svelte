@@ -8,8 +8,7 @@
 		ClampToEdgeWrapping,
 		SRGBColorSpace,
 	} from "three";
-	import { tweened } from "svelte/motion";
-	import { cubicInOut } from "svelte/easing";
+	import { gsap } from "gsap/dist/gsap";
 
 	interface Props {
 		/** Array of image URLs used for textures. */
@@ -41,10 +40,7 @@
 	const { size } = useThrelte();
 
 	let material = $state<ShaderMaterial>();
-	const progress = tweened(0, {
-		duration: 0,
-		easing: cubicInOut,
-	});
+	let progress = $state({ value: 0 });
 
 	const textures = $derived(
 		useTexture(images, {
@@ -86,10 +82,15 @@
 		isTransitioning = true;
 		nextIndex = normalizedIndex;
 
-		progress.set(1, { duration: transitionDuration }).then(() => {
-			currentIndex = nextIndex;
-			progress.set(0, { duration: 0 });
-			isTransitioning = false;
+		gsap.to(progress, {
+			value: 1,
+			duration: transitionDuration / 1000,
+			ease: "power3.inOut",
+			onComplete: () => {
+				currentIndex = nextIndex;
+				progress.value = 0;
+				isTransitioning = false;
+			},
 		});
 	});
 
@@ -257,7 +258,7 @@
 
 			if (tex1 && tex2) {
 				material.uniforms.uResolution.value.set($size.width, $size.height);
-				material.uniforms.uProgress.value = $progress;
+				material.uniforms.uProgress.value = progress.value;
 				material.uniforms.uTexture1.value = tex1;
 				material.uniforms.uTexture2.value = tex2;
 
