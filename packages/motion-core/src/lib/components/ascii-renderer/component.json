@@ -4,8 +4,8 @@
 	"description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
 	"category": "canvas",
 	"preview": {
-		"video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/ascii-renderer/preview.mp4",
-		"poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/ascii-renderer/poster.webp"
+		"video": "https://videos.motion-core.dev/ascii-renderer/preview.mp4",
+		"poster": "https://videos.motion-core.dev/ascii-renderer/poster.webp"
 	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",

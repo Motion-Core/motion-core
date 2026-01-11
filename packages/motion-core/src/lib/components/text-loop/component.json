@@ -4,8 +4,8 @@
 	"description": "A text animator that cycles through phrases with blurred vertical transitions, suitable for headlines.",
 	"category": "typography",
 	"preview": {
-		"video": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/text-loop/preview.mp4",
-		"poster": "https://motion-core.s3.eu-north-1.amazonaws.com/previews/text-loop/poster.webp"
+		"video": "https://videos.motion-core.dev/text-loop/preview.mp4",
+		"poster": "https://videos.motion-core.dev/text-loop/poster.webp"
 	},
 	"dependencies": {
 		"gsap": "^3.14.2"
