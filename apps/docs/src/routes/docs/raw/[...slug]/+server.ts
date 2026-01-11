@@ -1,14 +1,11 @@
 import { error, type RequestHandler } from "@sveltejs/kit";
 
-// Load doc pages
 const docFiles = import.meta.glob("/src/routes/docs/**/+page.svx", {
 	query: "?raw",
 	import: "default",
 	eager: true,
 }) as Record<string, string>;
 
-// Load Motion Core library files (aliased as motion-core)
-// We use a relative glob to ensure Vite can resolve it from this file's location
 const libFiles = import.meta.glob(
 	"../../../../../../../packages/motion-core/src/lib/**/*",
 	{
@@ -18,14 +15,12 @@ const libFiles = import.meta.glob(
 	},
 ) as Record<string, string>;
 
-// Load local demo files
 const demoFiles = import.meta.glob("/src/routes/docs/**/*", {
 	query: "?raw",
 	import: "default",
 	eager: true,
 }) as Record<string, string>;
 
-// Helper to normalize keys for lookup
 const normalizeKey = (key: string) =>
 	key.replace(/^\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\//, "/../../");
 
@@ -33,7 +28,6 @@ const libFilesNormalized = Object.fromEntries(
 	Object.entries(libFiles).map(([k, v]) => [normalizeKey(k), v]),
 );
 
-// Ensure demo files have consistent keys (Vite usually gives /src/...)
 const demoFilesNormalized = Object.fromEntries(
 	Object.entries(demoFiles).map(([k, v]) => [
 		k.startsWith("/") ? k : `/${k}`,
@@ -71,14 +65,13 @@ function resolveImportPath(
 
 	if (cleanPath.startsWith(".")) {
 		const segments = currentFilePath.split("/");
-		segments.pop(); // remove +page.svx
+		segments.pop();
 		const pathSegments = cleanPath.split("/");
 
 		for (const segment of pathSegments) {
 			if (segment === "..") segments.pop();
 			else if (segment !== ".") segments.push(segment);
 		}
-		// Ensure it starts with / to match Vite's keys
 		const result = segments.join("/");
 		return result.startsWith("/") ? result : `/${result}`;
 	}
@@ -98,7 +91,6 @@ export const GET: RequestHandler = ({ params }) => {
 	const { filePath } = docEntry;
 	const resolvedSources: string[] = [];
 
-	// Regex: match import varName from "path?raw" (handling newlines, spaces, optional semicolons)
 	const rawImportRegex = /import\s+(\w+)\s+from\s+["']([^"']+\?raw)["']/gs;
 	let match;
 

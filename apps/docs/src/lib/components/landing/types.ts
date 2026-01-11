@@ -6,4 +6,5 @@ export type ComponentInfo = {
 	slug: string;
 	category?: string;
 	dependencies?: Record<string, string>;
+	items?: ComponentInfo[];
 };

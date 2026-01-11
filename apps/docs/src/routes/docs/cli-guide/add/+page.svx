@@ -1,0 +1,63 @@
+---
+title: Add
+description: Add a component from the registry to your project.
+---
+
+## Overview
+
+`motion-core add` downloads one or more components (plus their internal dependencies) from the registry, writes every referenced file into your project, updates your barrel exports, and installs the required npm packages. The command is smart enough to show diffs for files you have modified locally and to keep your changes if you decline an overwrite.
+
+## Usage
+
+```bash
+motion-core add <component-slug> [...slugs] [options]
+```
+
+Examples:
+
+```bash
+# Install a single component
+motion-core add glass-pane
+
+# Install multiple components and all of their internal dependencies
+motion-core add glass-pane image-trail
+
+# Preview without writing
+motion-core add logo-carousel --dry-run
+```
+
+## Options & environment variables
+
+| Flag/Env | Description |
+| -------- | ----------- |
+| `--dry-run` | Computes the full plan (download manifests, resolve internal dependencies, diff files, check npm spec satisfaction, show barrel/dep updates) but does not touch the filesystem or run package managers. Perfect for code review and CI validation. |
+| `-y`, `--yes` | Skips every interactive prompt, including “Apply this plan?” and individual file overwrite confirmations. |
+| `MOTION_CORE_CLI_ASSUME_YES=1` | Environment equivalent of `--yes`. Useful for scripts or package.json tasks that should not expose CLI flags. |
+| `CI=1` | When `CI` is set the CLI assumes a non-interactive environment and automatically applies the plan (still respecting `--dry-run`). |
+
+## Install workflow
+
+1. **Registry sync** – pulls the registry summary and builds a map of all available component slugs, including internal Motion Core dependencies that must accompany the requested component.
+2. **Plan generation** – determines the install order (requested components first, then transitives), prints a grouped “Install plan” section, and fetches the binary file contents for every record.
+3. **Destination resolution** – maps each remote file to your workspace using `motion-core.json` aliases. Targets like `helpers`, `utils`, `assets`, or `root` redirect files to their respective folders while default files go under `aliases.components.filesystem`.
+4. **Conflict handling** – before writing a file the CLI looks for a local version. If one exists it computes a colored diff and lets you keep your local file. Declining a prompt marks that component file as “kept” while the rest of the component continues installing.
+5. **Barrel export sync** – once the component’s entry files are written the CLI updates `exports.components.barrel`, adding both default exports and any `export type` declarations listed in the manifest. Relative import paths are rewritten automatically even if you move the barrel.
+6. **Dependency installation** – gathers every runtime/dev dependency declared by the installed components and compares them against your `package.json`. Missing specs are installed via the detected package manager; if none was detected a warning tells you which packages to install manually.
+7. **Completion summary** – prints per-file statuses (`created`, `updated`, `unchanged`, `skipped`) and encourages you to import components from the barrel file.
+
+## Handling existing files
+
+- Without `--dry-run` the CLI pauses on every conflicting file and displays a diff that looks like Git output (`+` for incoming changes, `-` for removed lines). Declining an overwrite retains the local file and marks the item as “skipped”.
+- With `--dry-run` the same conflicts are listed, but no prompts are shown. Instead, the CLI explains which files would have been overwritten.
+- With `--yes`, `MOTION_CORE_CLI_ASSUME_YES`, or `CI=1` the CLI automatically overwrites conflicting files and notes the behavior so you know the decision was automated.
+
+## Dependency insights
+
+- Dependencies are compared using semver ranges, so if your project already satisfies `gsap@^^3.14.2` no install occurs.
+- When no package manager can be detected you still get the missing package list (e.g. `install runtime dependencies manually: tailwind-merge@^3.0.0`). Install them yourself and rerun the command to let Motion Core finish file syncing.
+
+## Tips
+
+- Combine `motion-core add <slug> --dry-run` with `git diff` to understand upcoming changes before accepting them.
+- If you reorganize your component directories, update `motion-core.json` first and rerun the `add` command; the CLI respects your new alias paths immediately.
+- When scripting, prefer `MOTION_CORE_CLI_ASSUME_YES=1 motion-core add ...` so your pipeline does not block waiting for user input.

@@ -128,7 +128,6 @@
 			const nextDirY = nextVecY / nextLen;
 			const dot = prevDirX * nextDirX + prevDirY * nextDirY;
 
-			// Straight lines don't need rounding
 			if (Math.abs(dot) > 0.999) {
 				commands.push(` L ${point.x} ${point.y}`);
 				continue;

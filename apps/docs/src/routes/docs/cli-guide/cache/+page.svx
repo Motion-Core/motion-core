@@ -1,0 +1,46 @@
+---
+title: Cache
+description: Manage the local cache for registry data and assets.
+---
+
+## Overview
+
+The CLI caches registry manifests and component assets on disk so repeated installs are instant and work offline. `motion-core cache` lets you inspect that cache or clear it when you need to force a refresh.
+
+## Usage
+
+```bash
+# Print cache location and TTLs
+motion-core cache
+
+# Delete every cached manifest and asset
+motion-core cache --clear --force
+```
+
+### Options
+
+| Flag | Description |
+| ---- | ----------- |
+| `--clear` | Requests cache deletion. On its own it only prints a warning, acting as a safeguard against accidental data loss. |
+| `--force` | Must be combined with `--clear` to actually remove the cache directory. |
+
+## What gets cached?
+
+- **Registry manifest (`registry.json`)** – includes metadata about every component (name, slug, dependencies, preview assets). Default TTL: 10 minutes.
+- **Component manifest (`components.json`)** – a map of registry paths → base64 encoded file contents that power `motion-core add`. Default TTL: 24 hours, also used as a fallback when offline.
+
+Both TTLs can be customized via environment variables:
+
+```bash
+export MOTION_CORE_CACHE_DIR="$HOME/.cache/motion-core"
+export MOTION_CORE_CACHE_TTL_MS=120000       # registry TTL (2 min)
+export MOTION_CORE_ASSET_CACHE_TTL_MS=3600000 # asset TTL (1 h)
+```
+
+## When to clear the cache
+
+- Registry updates introduced new components but `motion-core list` still shows an old version.
+- During development of Motion Core itself when you want to verify how the CLI behaves with empty caches.
+- After manually editing files inside the cache directory and wanting to revert to a clean state.
+
+Remember that clearing the cache deletes every cached manifest and asset. The next CLI command will re-download them, so make sure you have an internet connection or keep a backup if you rely on offline usage.

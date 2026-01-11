@@ -4,7 +4,7 @@ import { getDocMetadata } from "$lib/docs/metadata";
 
 const extractSlug = (pathname: string) => {
 	const normalized = pathname.replace(/\/$/, "");
-	const slug = normalized.replace(/^\/docs\/?/, "").split("/")[0] ?? "";
+	const slug = normalized.replace(/^\/docs\/?/, "");
 	return slug;
 };
 

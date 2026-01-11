@@ -9,13 +9,49 @@ export const gettingStartedManifest: ComponentInfo[] = [
 	{
 		slug: "cli-guide",
 		name: "CLI Guide",
+		items: [
+			{
+				slug: "cli-guide/introduction",
+				name: "Introduction",
+			},
+			{
+				slug: "cli-guide/init",
+				name: "Init",
+			},
+			{
+				slug: "cli-guide/add",
+				name: "Add",
+			},
+			{
+				slug: "cli-guide/list",
+				name: "List",
+			},
+			{
+				slug: "cli-guide/cache",
+				name: "Cache",
+			},
+		],
 	},
 ];
 
 export { componentManifest };
 
+function flattenManifest(
+	items: ComponentInfo[],
+	category?: string,
+): ComponentInfo[] {
+	return items.reduce<ComponentInfo[]>((acc, item) => {
+		if (item.items) {
+			acc.push(...flattenManifest(item.items, item.name));
+		} else {
+			acc.push({ ...item, category: item.category ?? category });
+		}
+		return acc;
+	}, []);
+}
+
 export const docsManifest: ComponentInfo[] = [
-	...gettingStartedManifest,
+	...flattenManifest(gettingStartedManifest),
 	...componentManifest,
 ];
 

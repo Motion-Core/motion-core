@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/state";
+	import { slide } from "svelte/transition";
 	import {
 		gettingStartedManifest,
 		componentManifest,
@@ -26,6 +27,25 @@
 	);
 
 	const sortedCategories = Object.keys(groupedComponents).sort();
+
+	let expandedGroups = $state<Record<string, boolean>>({});
+
+	function toggleGroup(slug: string) {
+		expandedGroups[slug] = !expandedGroups[slug];
+	}
+
+	$effect(() => {
+		for (const doc of gettingStartedManifest) {
+			if (doc.items?.length) {
+				const isChildActive = doc.items.some(
+					(item) => `/docs/${item.slug}` === currentPath,
+				);
+				if (isChildActive && expandedGroups[doc.slug] === undefined) {
+					expandedGroups[doc.slug] = true;
+				}
+			}
+		}
+	});
 </script>
 
 <aside class="flex h-dvh flex-col bg-card">
@@ -57,19 +77,73 @@
 				Getting Started
 			</h4>
 			{#each gettingStartedManifest as doc (doc.slug)}
-				{@const href = `/docs/${doc.slug}`}
-				{@const isActive = currentPath === href}
-				<a
-					{href}
-					class={cn(
-						"block rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out",
-						isActive
-							? "bg-accent/10 text-accent"
-							: "text-foreground/70 hover:bg-card-muted hover:text-foreground",
-					)}
-				>
-					{doc.name}
-				</a>
+				{#if doc.items?.length}
+					{@const isGroupActive =
+						expandedGroups[doc.slug] ??
+						doc.items.some((item) => `/docs/${item.slug}` === currentPath)}
+					<button
+						onclick={() => toggleGroup(doc.slug)}
+						class={cn(
+							"flex w-full items-center justify-between rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out hover:bg-card-muted hover:text-foreground",
+							isGroupActive ? "text-foreground" : "text-foreground/70",
+						)}
+					>
+						<span>{doc.name}</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class={cn(
+								"size-4 transition-transform duration-150",
+								isGroupActive && "rotate-90",
+							)}
+						>
+							<path d="m9 18 6-6-6-6" />
+						</svg>
+					</button>
+					{#if isGroupActive}
+						<div
+							transition:slide={{ duration: 150 }}
+							class="flex flex-col gap-1 overflow-hidden pl-4"
+						>
+							{#each doc.items as item (item.slug)}
+								{@const href = `/docs/${item.slug}`}
+								{@const isActive = currentPath === href}
+								<a
+									{href}
+									class={cn(
+										"block rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out",
+										isActive
+											? "bg-accent/10 text-accent"
+											: "text-foreground/70 hover:bg-card-muted hover:text-foreground",
+									)}
+								>
+									{item.name}
+								</a>
+							{/each}
+						</div>
+					{/if}
+				{:else}
+					{@const href = `/docs/${doc.slug}`}
+					{@const isActive = currentPath === href}
+					<a
+						{href}
+						class={cn(
+							"block rounded-xl px-3 py-1.5 text-sm transition-all duration-150 ease-out",
+							isActive
+								? "bg-accent/10 text-accent"
+								: "text-foreground/70 hover:bg-card-muted hover:text-foreground",
+						)}
+					>
+						{doc.name}
+					</a>
+				{/if}
 			{/each}
 
 			{#each sortedCategories as category (category)}

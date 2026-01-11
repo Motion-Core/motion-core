@@ -1,0 +1,52 @@
+---
+title: Init
+description: Initialize a new Motion Core configuration.
+---
+
+## Overview
+
+`motion-core init` prepares an existing Svelte workspace to host Motion Core components. It detects your tooling, writes (or validates) `motion-core.json`, scaffolds folders, syncs design tokens, and optionally installs the base dependencies declared by the remote registry.
+
+### When to run it
+
+- Right after creating a new SvelteKit/Vite + Svelte project so Motion Core files land in predictable locations.
+- When you clone a project that already uses Motion Core but the scaffolding or Tailwind tokens are missing.
+- Inside CI pipelines to verify the workspace layout by using `--dry-run`.
+
+## Usage
+
+```bash
+motion-core init [--dry-run]
+```
+
+### Options
+
+| Flag | Description |
+| ---- | ----------- |
+| `--dry-run` | Print every planned action (config path, directories, dependencies, Tailwind edits) without touching disk. Useful for audits and CI. |
+
+## What the command does
+
+1. **Framework & package manager detection** – reads `package.json` to ensure `svelte >= 5`. Missing or older Svelte aborts the command. Tailwind `< 4` is allowed but triggers a warning. The CLI walks up the directory tree to locate lockfiles and remember whether to call npm, pnpm, yarn, or bun later.
+2. **Configuration bootstrap** – if `motion-core.json` does not exist the CLI writes the default template (including the JSON Schema URL) and tries to locate your Tailwind CSS file automatically. When the file exists it is left untouched unless you edit it yourself afterwards.
+3. **Workspace scaffolding** – guarantees that the directories referenced by your aliases exist (components, helpers, utils, assets) and downloads the shared `utils/cn.ts` helper. Every directory or file created is reported in the summary output.
+4. **Tailwind token sync** – downloads `tokens/motion-core.css` from the registry (or the local cache when offline), inserts the bundle into the configured Tailwind CSS file, keeps a `.motion-core.bak` backup, and avoids duplicating the block if the sentinel `@utility card-highlight` is already present.
+5. **Base dependency check** – compares the registry’s base dependency map with your `package.json`. When a package manager was detected the CLI installs missing packages automatically; otherwise it prints the commands you should run manually.
+6. **Summary** – prints the detected framework, package manager, whether configuration was created or reused, directories/files touched, dependency changes, and a suggested next command (`motion-core add glass-pane`).
+
+## Dry-run reporting
+
+`motion-core init --dry-run` uses the same discovery logic but never writes files or runs installs. Instead it shows:
+
+- Where `motion-core.json` would live.
+- Which directories/files would be created.
+- Whether Tailwind tokens would be injected and into which file.
+- The list of dependencies that would be installed and via which package manager.
+
+This is ideal when you are upgrading Motion Core or reviewing contributions.
+
+## Troubleshooting & tips
+
+- **“Svelte >=5 is required”** – upgrade your dependency before retrying, otherwise components may rely on APIs that are missing in older versions.
+- **Offline runs** – the CLI falls back to cached registry manifests for helpers and tokens. If the cache is empty you will see an error telling you to rerun the command once online.
+- **Custom folder layout** – edit `motion-core.json` after initialization to point aliases elsewhere, then re-run `motion-core init` to recreate missing folders or `motion-core add` to sync files into the new paths.

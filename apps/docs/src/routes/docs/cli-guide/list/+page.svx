@@ -1,0 +1,72 @@
+---
+title: List
+description: List all available components in the registry.
+---
+
+## Overview
+
+`motion-core list` queries the Motion Core registry and prints the full catalog of available components grouped by category. Use it to discover new components, verify that your CLI can reach the registry, or to pipe registry data into other tooling through the JSON output mode.
+
+## Usage
+
+```bash
+# Human-readable table grouped by category
+motion-core list
+
+# Structured JSON for tooling or scripts
+motion-core list --json
+```
+
+### Options
+
+| Flag | Description |
+| ---- | ----------- |
+| `--json` | Outputs the registry metadata (`name`, `version`, `componentCount`) and every component’s slug, name, description, and category as pretty-printed JSON instead of formatted text. |
+
+## Sample output
+
+```text
+› Motion Core components
+  Motion Core v0.5.0 - 32 components
+
+Canvas
+  glass-pane
+    glass effect hero panel
+    slug: glass-pane
+
+Carousels
+  logo-carousel
+    Showcase brand logos with a subtle motion trail.
+    slug: logo-carousel
+
+Install components
+  motion-core add glass-pane
+  motion-core add logo-carousel --dry-run
+```
+
+With `--json` the same information becomes:
+
+```json
+{
+  "registry": {
+    "name": "Motion Core",
+    "version": "0.5.0",
+    "description": "Motion-focused component kit.",
+    "components": 32
+  },
+  "components": [
+    {
+      "slug": "glass-pane",
+      "name": "Glass Pane",
+      "description": "glass effect hero panel",
+      "category": "Canvas"
+    }
+  ]
+}
+```
+
+## When to use it
+
+- Validate connectivity: if the command fails you likely need to adjust `MOTION_CORE_REGISTRY_URL` or fix networking before running `motion-core add`.
+- Preview the names of components you plan to install, especially when scripting against the CLI.
+- Feed the JSON output into custom dashboards or documentation generators to keep stakeholders aware of the catalog.

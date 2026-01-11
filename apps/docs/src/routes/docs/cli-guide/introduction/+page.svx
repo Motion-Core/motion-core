@@ -1,13 +1,11 @@
 ---
-title: CLI Guide
-description: How to use the Motion Core CLI to manage your workspace.
+title: Introduction
+description: Getting started with the Motion Core CLI.
 ---
 
 <script lang="ts">
 	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
 </script>
-
-The Motion Core CLI is the primary way to integrate components into your project. It automates the setup, dependency installation, and component scaffolding.
 
 ## Installation
 
@@ -28,52 +26,6 @@ motion-core --help
 You can also run the CLI directly using `npx`, `bunx`, or `pnpm dlx` without installation:
 
 <InstallationTabs args="init" />
-
-## Commands
-
-### `init`
-
-Initialize your project for Motion Core. This command will:
-
-- Detect your framework (SvelteKit or Vite + Svelte).
-- Detect your package manager.
-- Create a `motion-core.json` file.
-- Scaffold required directories and base utility files (`cn.ts`).
-- Install base dependencies (`clsx`, `tailwind-merge`).
-
-```bash
-motion-core init
-```
-
-### `add`
-
-Add a component from the registry to your project.
-
-```bash
-motion-core add [component-slug]
-```
-
-**Options:**
-
-- `--dry-run`: See what would be installed without making any changes.
-- `-y, --yes`: Skip confirmation prompts.
-- Existing files are diffed before overwrite. The CLI shows the incoming vs. local changes and lets you keep local edits. Use `-y` or set `MOTION_CORE_CLI_ASSUME_YES=1` to auto-accept every overwrite (useful for CI), while `--dry-run` reports conflicts without touching disk.
-
-### `list`
-
-List all available components in the registry.
-
-```bash
-motion-core list
-```
-
-### `cache`
-
-Manage the local cache for registry data and assets.
-
-```bash
-motion-core cache --clear --force
-```
 
 ## Configuration
 
