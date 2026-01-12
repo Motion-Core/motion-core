@@ -7,6 +7,4 @@
 	image="/images/demos/sample-2.jpg"
 	showPreview
 	radius={0.25}
-	height={4}
-	width={6}
 />
