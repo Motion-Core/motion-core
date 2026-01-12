@@ -14,6 +14,17 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "card-3d",
+		name: "Card 3D",
+		category: "canvas",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			"@threlte/extras": "^9.0.0",
+			"@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "dithered-image",
 		name: "Dithered Image",
 		category: "canvas",

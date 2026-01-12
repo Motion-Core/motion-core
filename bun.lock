@@ -26,6 +26,7 @@
       "name": "docs",
       "version": "0.1.0",
       "dependencies": {
+        "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
         "gsap": "^3.14.2",
@@ -58,6 +59,7 @@
         "tailwind-merge": "^3.4.0",
       },
       "devDependencies": {
+        "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
         "@threlte/core": "^8.3.1",
         "@threlte/extras": "^9.7.1",
         "@types/gsap": "^3.0.0",
@@ -66,6 +68,7 @@
         "three": "^0.182.0",
       },
       "peerDependencies": {
+        "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
         "@threlte/core": "^8.0.0",
         "@threlte/extras": "^9.0.0",
         "gsap": "^3.14.2",
@@ -185,6 +188,8 @@
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
     "@mapbox/node-pre-gyp": ["@mapbox/node-pre-gyp@2.0.3", "", { "dependencies": { "consola": "^3.2.3", "detect-libc": "^2.0.0", "https-proxy-agent": "^7.0.5", "node-fetch": "^2.6.7", "nopt": "^8.0.0", "semver": "^7.5.3", "tar": "^7.4.0" }, "bin": { "node-pre-gyp": "bin/node-pre-gyp" } }, "sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg=="],
+
+    "@mediapipe/tasks-vision": ["@mediapipe/tasks-vision@0.10.22-rc.20250304", "", {}, "sha512-dElxVXMFGthshfIj+qAVm8KE2jmNo2p8oXFib8WzEjb7GNaX/ClWBc8UJfoSZwjEMVrdHJ4YUfa7P3ifl6MIWw=="],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@0.2.4", "", { "dependencies": { "@emnapi/core": "^1.1.0", "@emnapi/runtime": "^1.1.0", "@tybys/wasm-util": "^0.9.0" } }, "sha512-9zESzOO5aDByvhIAsOy9TbpZ0Ur2AJbUI7UT73kcUTS2mxAMHOBaa1st/jAymNoCtvrit99kkzT1FZuXVcgfIQ=="],
 

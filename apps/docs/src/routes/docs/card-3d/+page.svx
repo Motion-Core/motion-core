@@ -1,0 +1,102 @@
+---
+name: Card 3D
+description: A 3D card with rounded corners that displays an image and responds to head tracking for a parallax effect.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import card3DSource from "motion-core/components/card-3d/Card3D.svelte?raw";
+	import sceneSource from "motion-core/components/card-3d/Card3DScene.svelte?raw";
+	import faceTrackerSource from "motion-core/components/card-3d/Card3DFaceTracker.svelte?raw";
+	import Card3DDemo from "./Card3DDemo.svelte";
+	import demoSource from "./Card3DDemo.svelte?raw";
+</script>
+
+> Warning: This component needs camera permission to work properly.
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="card-3d" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { Card3D } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: demoSource, language: "svelte" },
+		{ name: "Card3D.svelte", code: card3DSource, language: "svelte" },
+		{ name: "Card3DScene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "Card3DFaceTracker.svelte", code: faceTrackerSource, language: "svelte" },
+	]}
+>
+	<Card3DDemo />
+</ComponentPreview>
+
+## Props
+
+### Card3D
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "image",
+			type: "string",
+			default: "—",
+			description: "The image source URL (required).",
+		},
+		{
+			prop: "width",
+			type: "number",
+			default: "3.2",
+			description: "Width of the card.",
+		},
+		{
+			prop: "height",
+			type: "number",
+			default: "2",
+			description: "Height of the card.",
+		},
+		{
+			prop: "depth",
+			type: "number",
+			default: "0.08",
+			description: "Depth/thickness of the card.",
+		},
+		{
+			prop: "radius",
+			type: "number",
+			default: "0.15",
+			description: "Corner radius of the card.",
+		},
+		{
+			prop: "showPreview",
+			type: "boolean",
+			default: "false",
+			description: "Show the camera preview when tracking is enabled.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
