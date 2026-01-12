@@ -136,7 +136,7 @@
 								</p>
 							{/if}
 							{#if dependencies.length > 0}
-								<div class="flex gap-2">
+								<div class="flex flex-wrap gap-2">
 									{#each dependencies as dep (dep)}
 										<a
 											href={`https://www.npmjs.com/package/${dep}`}
