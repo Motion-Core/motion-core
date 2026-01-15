@@ -1,0 +1,93 @@
+---
+name: Fluid Simulation
+description: A physics-based fluid simulation with pointer interaction.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import fluidSimulationSource from "motion-core/components/fluid-simulation/FluidSimulation.svelte?raw";
+	import sceneSource from "motion-core/components/fluid-simulation/FluidSimulationScene.svelte?raw";
+	import FluidSimulationDemo from "./FluidSimulationDemo.svelte";
+	import fluidSimulationDemoSource from "./FluidSimulationDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="fluid-simulation" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { FluidSimulation } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: fluidSimulationDemoSource, language: "svelte" },
+		{ name: "FluidSimulation.svelte", code: fluidSimulationSource, language: "svelte" },
+		{ name: "FluidSimulationScene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<FluidSimulationDemo />
+</ComponentPreview>
+
+## Props
+
+### FluidSimulation
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "dissipation",
+			type: "number",
+			default: "0.96",
+			description: "Dissipation factor for the fluid density. Lower values make the fluid disappear faster.",
+		},
+		{
+			prop: "pointerSize",
+			type: "number",
+			default: "0.005",
+			description: "Radius of the pointer influence (splat size).",
+		},
+		{
+			prop: "color",
+			type: "THREE.ColorRepresentation",
+			default: '"#ff6900"',
+			description: "Color of the fluid splat. Accepts any valid Three.js color representation.",
+		},
+		{
+			prop: "velocityDissipation",
+			type: "number",
+			default: "0.96",
+			description: "Dissipation factor for the fluid velocity. Lower values make the fluid stop moving faster.",
+		},
+		{
+			prop: "pressureIterations",
+			type: "number",
+			default: "10",
+			description: "Number of Jacobi iterations for the pressure solver. More iterations result in more accurate and stable simulation.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

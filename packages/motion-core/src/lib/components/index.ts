@@ -29,3 +29,4 @@ export { default as GlassSlideshow } from "./glass-slideshow/GlassSlideshow.svel
 export { default as WeightWave } from "./weight-wave/WeightWave.svelte";
 export { default as TextScramble } from "./text-scramble/TextScramble.svelte";
 export { default as FloatingMenu } from "./floating-menu/FloatingMenu.svelte";
+export { default as FluidSimulation } from "./fluid-simulation/FluidSimulation.svelte";

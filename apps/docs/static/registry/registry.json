@@ -165,6 +165,33 @@
         }
       ]
     },
+    "fluid-simulation": {
+      "slug": "fluid-simulation",
+      "name": "Fluid Simulation",
+      "description": "A physics-based fluid simulation with pointer interaction.",
+      "category": "canvas",
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.182.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/fluid-simulation/FluidSimulation.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/fluid-simulation/FluidSimulationScene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "glass-pane": {
       "slug": "glass-pane",
       "name": "Glass Pane",

@@ -52,6 +52,15 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "fluid-simulation",
+		name: "Fluid Simulation",
+		category: "canvas",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "glass-pane",
 		name: "Glass Pane",
 		category: "canvas",
