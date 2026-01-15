@@ -24,7 +24,7 @@
     },
     "apps/docs": {
       "name": "docs",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
         "@threlte/core": "^8.3.1",
@@ -53,7 +53,7 @@
     },
     "packages/motion-core": {
       "name": "motion-core",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "clsx": "^2.1.1",
         "tailwind-merge": "^3.4.0",

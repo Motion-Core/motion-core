@@ -52,6 +52,12 @@ import { Marquee } from "$lib/motion-core";
 	keys={["prop", "type", "default"]}
 	data={[
 		{
+			prop: "children",
+			type: "Snippet",
+			default: "—",
+			description: "The content of the marquee.",
+		},
+		{
 			prop: "duration",
 			type: "number",
 			default: "5",

@@ -25,6 +25,14 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "card-stack",
+		name: "Card Stack",
+		category: "showcase",
+		dependencies: {
+			gsap: "^3.14.2",
+		},
+	},
+	{
 		slug: "dithered-image",
 		name: "Dithered Image",
 		category: "canvas",

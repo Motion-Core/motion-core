@@ -1,0 +1,122 @@
+---
+name: Card Stack
+description: A stack of cards that stick to the top and scale down as you scroll.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import cardStackSource from "motion-core/components/card-stack/CardStack.svelte?raw";
+	import cardStackItemSource from "motion-core/components/card-stack/CardStackItem.svelte?raw";
+	import CardStackDemo from "./CardStackDemo.svelte";
+	import cardStackDemoSource from "./CardStackDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="card-stack" />
+	</Step>
+	<Step title="Import the component">
+		Import the components into your Svelte file:
+
+```ts
+import { CardStack, CardStackItem } from "motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	refreshOnFullScreen={true}
+	sources={[
+		{ name: "Example", code: cardStackDemoSource, language: "svelte" },
+		{ name: "CardStack.svelte", code: cardStackSource, language: "svelte" },
+		{ name: "CardStackItem.svelte", code: cardStackItemSource, language: "svelte" },
+	]}
+>
+	<CardStackDemo />
+</ComponentPreview>
+
+## API Reference
+
+### CardStack
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "children",
+			type: "Snippet",
+			default: "—",
+			description: "The cards to stack. Use the Card component for best results.",
+		},
+		{
+			prop: "scaleFactor",
+			type: "number",
+			default: "0.05",
+			description: "The scale difference between stacked cards.",
+		},
+		{
+			prop: "offset",
+			type: "number",
+			default: "10",
+			description: "The vertical offset (in pixels) between stacked cards.",
+		},
+		{
+			prop: "topOffset",
+			type: "number",
+			default: "0",
+			description:
+				"The vertical distance from the top of the screen where the first card stops.",
+		},
+		{
+			prop: "scrollElement",
+			type: "string | HTMLElement",
+			default: "window",
+			description: "The element to use as the scroll trigger.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: "—",
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
+
+### CardStackItem
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "children",
+			type: "Snippet",
+			default: "—",
+			description: "The content of the card.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the card.",
+		},
+		{
+			prop: "style",
+			type: "string",
+			default: '""',
+			description: "Additional inline styles.",
+		},
+	]}
+/>

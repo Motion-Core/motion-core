@@ -22,6 +22,7 @@
 		children?: Snippet;
 		codeSlot?: Snippet;
 		sources?: SourceTab[];
+		refreshOnFullScreen?: boolean;
 		[key: string]: unknown;
 	};
 
@@ -32,6 +33,7 @@
 		language: providedLanguage,
 		label: providedLabel,
 		sources: providedSources,
+		refreshOnFullScreen = false,
 		...restProps
 	}: ComponentProps = $props();
 
@@ -76,6 +78,11 @@
 				ease: "power3.inOut",
 				absolute: true,
 				zIndex: 50,
+				onComplete: () => {
+					if (refreshOnFullScreen) {
+						reloadPreview();
+					}
+				},
 			});
 		} else {
 			Flip.fit(previewRef, placeholderRef, {
@@ -89,6 +96,9 @@
 					placeholderRef.style.height = "";
 					placeholderRef.style.width = "";
 					previewRef.style.cssText = "";
+					if (refreshOnFullScreen) {
+						reloadPreview();
+					}
 				},
 			});
 		}
@@ -166,8 +176,9 @@
 		>
 			<div
 				bind:this={previewRef}
+				data-fullscreen={isFullScreen}
 				class={cn(
-					"relative flex items-center justify-center overflow-hidden bg-card",
+					"group relative flex flex-col items-center justify-center overflow-hidden bg-card",
 					isFullScreen ? "z-50" : "w-full flex-1 rounded-t-xl",
 				)}
 			>
@@ -254,7 +265,7 @@
 					</div>
 				</div>
 			{/if}
-			<ScrollArea class="relative max-h-96 flex-1">
+			<ScrollArea id="component-preview" class="relative max-h-96 flex-1">
 				<div class="p-4 text-sm">
 					{#if activeSource}
 						{#if highlightedSources[activeSource.name]}
