@@ -11,7 +11,7 @@
 
 <main class="min-h-dvh w-full">
 	<div class="mx-auto space-y-2 p-2">
-		<Hero />
+		<Hero stars={data.stars} />
 		<ComponentGrid {components} />
 		<Footer />
 	</div>
