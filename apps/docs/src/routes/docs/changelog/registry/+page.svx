@@ -3,6 +3,14 @@ title: Registry Changelog
 description: All notable changes to Motion Core Component Registry.
 ---
 
+## [0.1.1] - 2026-01-16
+
+### Added
+
+- **2 components**:
+    - **Canvas**: Fluid Simulation.
+    - **Showcase**: Card Stack.
+
 ## [0.1.0] - 2026-01-11
 
 ### Added

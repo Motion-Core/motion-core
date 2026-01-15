@@ -1,7 +1,7 @@
 {
   "name": "Motion Core Registry",
   "description": "Curated Motion Core Svelte components",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "requirements": {
     "svelte": "^5.0.0",
     "tailwindcss": "^4.1.0"
@@ -77,6 +77,33 @@
         {
           "path": "utils/use-portal.ts",
           "target": "utils"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
+    "card-stack": {
+      "slug": "card-stack",
+      "name": "Card Stack",
+      "description": "A stack of cards that stick to the top and scale down as you scroll.",
+      "category": "showcase",
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/card-stack/CardStack.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/card-stack/CardStackItem.svelte",
+          "kind": "entry"
         },
         {
           "path": "utils/cn.ts",

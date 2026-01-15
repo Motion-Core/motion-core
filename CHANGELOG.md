@@ -4,6 +4,14 @@ All notable changes to **Motion Core** will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-01-16
+
+### Added
+
+- **2 components**:
+    - **Canvas**: Fluid Simulation.
+    - **Showcase**: Card Stack.
+
 ## [0.1.0] - 2026-01-11
 
 ### Added
