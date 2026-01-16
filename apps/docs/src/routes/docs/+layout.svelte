@@ -11,6 +11,7 @@
 	import { beforeNavigate, afterNavigate } from "$app/navigation";
 	import { SvelteMap } from "svelte/reactivity";
 	import DocShareActions from "$lib/components/docs/DocShareActions.svelte";
+	import MobileDocShareActions from "$lib/components/docs/MobileDocShareActions.svelte";
 	import { docsManifest } from "$lib/docs/manifest";
 
 	const props = $props<{ data: LayoutData; children?: Snippet }>();
@@ -148,6 +149,10 @@
 										</a>
 									{/each}
 								</div>
+							{/if}
+
+							{#if metadata && rawPath && rawUrl && githubUrl}
+								<MobileDocShareActions {rawPath} {rawUrl} {githubUrl} />
 							{/if}
 						</div>
 						<hr class="text-border" />

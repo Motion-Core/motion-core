@@ -1,0 +1,296 @@
+<script lang="ts">
+	import { fly } from "svelte/transition";
+	import { backOut } from "svelte/easing";
+	import { portal } from "$lib/utils/use-portal";
+
+	type Props = {
+		rawPath: string;
+		rawUrl: string;
+		githubUrl: string;
+	};
+
+	let { rawPath, rawUrl, githubUrl }: Props = $props();
+
+	let copyState = $state<"idle" | "copying" | "success" | "error">("idle");
+	let resetTimer = $state<ReturnType<typeof setTimeout> | null>(null);
+	let isDropdownOpen = $state(false);
+	let dropdownRef = $state<HTMLDivElement | null>(null);
+	let triggerRef = $state<HTMLButtonElement | null>(null);
+	let dropdownStyle = $state("");
+
+	const encodedPrompt = $derived(
+		rawUrl
+			? encodeURIComponent(
+					`I'm currently viewing the Motion Core documentation at ${rawUrl}. Please assist me in learning how to work with it. I may need clarification on concepts, sample code demonstrations, or troubleshooting guidance related to this documentation.`,
+				)
+			: "",
+	);
+	const chatGptUrl = $derived(
+		encodedPrompt
+			? `https://chatgpt.com/?hints=search&prompt=${encodedPrompt}`
+			: null,
+	);
+	const claudeUrl = $derived(
+		encodedPrompt ? `https://claude.ai/new?q=${encodedPrompt}` : null,
+	);
+
+	const copyLabel = $derived(
+		copyState === "copying"
+			? "Copying…"
+			: copyState === "success"
+				? "Copied!"
+				: copyState === "error"
+					? "Copy failed"
+					: "Copy Markdown",
+	);
+
+	async function handleCopy() {
+		if (!rawPath || copyState === "copying" || copyState === "success") return;
+
+		copyState = "copying";
+
+		try {
+			const response = await fetch(rawPath);
+			if (!response.ok) {
+				throw new Error("Failed to load document");
+			}
+
+			const content = await response.text();
+			if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) {
+				throw new Error("Clipboard unavailable");
+			}
+
+			await navigator.clipboard.writeText(content);
+			copyState = "success";
+		} catch {
+			copyState = "error";
+		} finally {
+			if (resetTimer) {
+				clearTimeout(resetTimer);
+			}
+
+			resetTimer = setTimeout(() => {
+				copyState = "idle";
+			}, 2000);
+		}
+	}
+
+	function toggleDropdown() {
+		isDropdownOpen = !isDropdownOpen;
+	}
+
+	function closeDropdown() {
+		isDropdownOpen = false;
+	}
+
+	function handleClickOutside(event: MouseEvent) {
+		if (
+			isDropdownOpen &&
+			dropdownRef &&
+			!dropdownRef.contains(event.target as Node) &&
+			triggerRef &&
+			!triggerRef.contains(event.target as Node)
+		) {
+			closeDropdown();
+		}
+	}
+
+	function updatePosition() {
+		if (!triggerRef) return;
+		const rect = triggerRef.getBoundingClientRect();
+		dropdownStyle = `top: ${rect.bottom + 8}px; right: ${window.innerWidth - rect.right}px; position: fixed;`;
+	}
+
+	$effect(() => {
+		if (isDropdownOpen) {
+			updatePosition();
+			window.addEventListener("click", handleClickOutside);
+			window.addEventListener("scroll", updatePosition, true);
+			window.addEventListener("resize", updatePosition);
+		} else {
+			window.removeEventListener("click", handleClickOutside);
+			window.removeEventListener("scroll", updatePosition, true);
+			window.removeEventListener("resize", updatePosition);
+		}
+		return () => {
+			window.removeEventListener("click", handleClickOutside);
+			window.removeEventListener("scroll", updatePosition, true);
+			window.removeEventListener("resize", updatePosition);
+		};
+	});
+
+	$effect(() => {
+		return () => {
+			if (resetTimer) {
+				clearTimeout(resetTimer);
+			}
+		};
+	});
+
+	const buttonClass =
+		"card-highlight relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium whitespace-nowrap text-foreground shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex-1";
+</script>
+
+<div class="relative z-20 mt-8 flex w-full gap-2 overflow-hidden lg:hidden">
+	<button
+		type="button"
+		onclick={handleCopy}
+		aria-live="polite"
+		aria-disabled={copyState === "success"}
+		class={buttonClass}
+	>
+		<span
+			class="grid place-items-center"
+			style="grid-template-areas: 'content';"
+		>
+			{#key copyState}
+				<span
+					class="flex items-center gap-2 will-change-transform"
+					style="grid-area: content;"
+					in:fly={{ y: 20, duration: 300, easing: backOut }}
+					out:fly={{ y: -20, duration: 200, easing: backOut }}
+				>
+					{#if copyState === "success"}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 256 256"
+							fill="currentColor"
+							aria-hidden="true"
+							class="size-4 flex-none"
+						>
+							<path
+								d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"
+							></path>
+						</svg>
+					{:else}
+						<svg
+							role="img"
+							viewBox="0 0 24 24"
+							fill="none"
+							aria-hidden="true"
+							class="size-4 flex-none"
+						>
+							<title>Markdown</title>
+							<path
+								class="stroke-current"
+								d="M1.212 5.5h21.576c.407 0 .712.317.712.679v11.549a.695.695 0 0 1-.712.677H1.212a.695.695 0 0 1-.712-.678V6.18c0-.362.305-.679.712-.679Z"
+							/>
+							<path
+								class="fill-current"
+								d="M3.03 15.96V7.946h2.425l2.424 2.946 2.424-2.946h2.424v8.014h-2.424v-4.596L7.88 14.31l-2.424-2.946v4.596H3.03Zm15.152 0-3.636-3.89h2.424V7.947h2.424v4.125h2.424l-3.636 3.889Z"
+							/>
+						</svg>
+					{/if}
+					<span>{copyLabel}</span>
+				</span>
+			{/key}
+		</span>
+	</button>
+
+	<div class="relative">
+		<button
+			bind:this={triggerRef}
+			type="button"
+			onclick={toggleDropdown}
+			class="{buttonClass} w-auto! px-2.5!"
+			aria-label="More actions"
+			aria-haspopup="true"
+			aria-expanded={isDropdownOpen}
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="size-4"
+			>
+				<circle cx="12" cy="12" r="1" />
+				<circle cx="19" cy="12" r="1" />
+				<circle cx="5" cy="12" r="1" />
+			</svg>
+		</button>
+
+		{#if isDropdownOpen}
+			<div
+				use:portal
+				bind:this={dropdownRef}
+				style={dropdownStyle}
+				class="card-highlight z-50 flex w-48 origin-top-right flex-col gap-0.5 rounded-xl border border-border bg-card p-1 shadow-lg"
+				in:fly={{ y: -5, duration: 200, easing: backOut }}
+				out:fly={{ y: -5, duration: 150, easing: backOut }}
+			>
+				<a
+					href={githubUrl}
+					target="_blank"
+					rel="noreferrer"
+					class="group flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground/70 transition-colors hover:bg-card-muted hover:text-foreground"
+				>
+					<svg
+						role="img"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						aria-hidden="true"
+						class="size-4 flex-none"
+					>
+						<title>GitHub</title>
+						<path
+							d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+						/>
+					</svg>
+					Open in GitHub
+				</a>
+
+				{#if chatGptUrl}
+					<a
+						href={chatGptUrl}
+						target="_blank"
+						rel="noreferrer"
+						class="group flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground/70 transition-colors hover:bg-card-muted hover:text-foreground"
+					>
+						<svg
+							role="img"
+							viewBox="0 0 24 24"
+							fill="currentColor"
+							aria-hidden="true"
+							class="size-4 flex-none"
+						>
+							<title>OpenAI</title>
+							<path
+								d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"
+							/>
+						</svg>
+						Open in ChatGPT
+					</a>
+				{/if}
+
+				{#if claudeUrl}
+					<a
+						href={claudeUrl}
+						target="_blank"
+						rel="noreferrer"
+						class="group flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-foreground/70 transition-colors hover:bg-card-muted hover:text-foreground"
+					>
+						<svg
+							role="img"
+							viewBox="0 0 24 24"
+							fill="currentColor"
+							aria-hidden="true"
+							class="size-4 flex-none"
+						>
+							<title>Anthropic</title>
+							<path
+								d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"
+							/>
+						</svg>
+						Open in Claude
+					</a>
+				{/if}
+			</div>
+		{/if}
+	</div>
+</div>
