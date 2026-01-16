@@ -42,7 +42,7 @@
 		/**
 		 * The element to watch for scroll events to adjust velocity.
 		 */
-		scrollElement?: string | HTMLElement;
+		scrollElement?: string | HTMLElement | null;
 	}
 
 	let {

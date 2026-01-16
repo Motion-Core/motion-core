@@ -47,7 +47,7 @@
 		/**
 		 * The element to use as the scroll trigger (optional).
 		 */
-		scrolleElement?: string | HTMLElement;
+		scrollElement?: string | HTMLElement | null;
 		/**
 		 * The HTML tag to use for the wrapper.
 		 * @default "div"
@@ -82,7 +82,7 @@
 		as = "div" as keyof HTMLElementTagNameMap,
 		delay = 0,
 		triggerOnScroll = false,
-		scrolleElement,
+		scrollElement,
 		...restProps
 	}: ComponentProps = $props();
 
@@ -133,7 +133,7 @@
 			scrollTrigger: triggerOnScroll
 				? {
 						trigger: node,
-						scroller: scrolleElement,
+						scroller: scrollElement,
 						start: "top 85%",
 					}
 				: undefined,

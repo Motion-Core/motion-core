@@ -81,7 +81,7 @@ import { CardStack, CardStackItem } from "motion-core";
 		},
 		{
 			prop: "scrollElement",
-			type: "string | HTMLElement",
+			type: "string | HTMLElement | null",
 			default: "window",
 			description: "The element to use as the scroll trigger.",
 		},
