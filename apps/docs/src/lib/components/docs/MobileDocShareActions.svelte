@@ -17,6 +17,7 @@
 	let dropdownRef = $state<HTMLDivElement | null>(null);
 	let triggerRef = $state<HTMLButtonElement | null>(null);
 	let dropdownStyle = $state("");
+	let prefetchedContent = $state<string | null>(null);
 
 	const encodedPrompt = $derived(
 		rawUrl
@@ -44,25 +45,81 @@
 					: "Copy Markdown",
 	);
 
+	async function prefetchContent() {
+		if (!rawPath) return;
+		try {
+			const response = await fetch(rawPath);
+			if (response.ok) {
+				prefetchedContent = await response.text();
+			}
+		} catch (e) {
+			console.warn("Failed to prefetch document content:", e);
+		}
+	}
+
+	$effect(() => {
+		prefetchContent();
+	});
+
 	async function handleCopy() {
-		if (!rawPath || copyState === "copying" || copyState === "success") return;
+		if (copyState === "copying" || copyState === "success") return;
 
 		copyState = "copying";
 
 		try {
-			const response = await fetch(rawPath);
-			if (!response.ok) {
-				throw new Error("Failed to load document");
+			let content = prefetchedContent;
+			if (!content) {
+				if (!rawPath) throw new Error("No path to fetch");
+				const response = await fetch(rawPath);
+				if (!response.ok) throw new Error("Failed to load document");
+				content = await response.text();
 			}
 
-			const content = await response.text();
-			if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) {
-				throw new Error("Clipboard unavailable");
+			let success = false;
+
+			// 1. Try modern Clipboard API
+			if (navigator?.clipboard?.writeText) {
+				try {
+					await navigator.clipboard.writeText(content);
+					success = true;
+				} catch (err) {
+					console.warn("Clipboard API failed, trying fallback...", err);
+				}
 			}
 
-			await navigator.clipboard.writeText(content);
+			// 2. Fallback for Mobile Safari
+			if (!success) {
+				try {
+					const textArea = document.createElement("textarea");
+					textArea.value = content;
+
+					// Ensure it's not visible but part of the DOM
+					textArea.style.position = "fixed";
+					textArea.style.left = "-9999px";
+					textArea.style.top = "0";
+					textArea.setAttribute("readonly", "");
+					document.body.appendChild(textArea);
+
+					textArea.focus();
+					textArea.select();
+
+					const supported = document.queryCommandSupported("copy");
+					if (supported) {
+						success = document.execCommand("copy");
+					}
+					document.body.removeChild(textArea);
+				} catch (err) {
+					console.warn("Fallback copy mechanism failed:", err);
+				}
+			}
+
+			if (!success) {
+				throw new Error("All copy methods failed");
+			}
+
 			copyState = "success";
-		} catch {
+		} catch (e) {
+			console.error("Copy failed:", e);
 			copyState = "error";
 		} finally {
 			if (resetTimer) {
