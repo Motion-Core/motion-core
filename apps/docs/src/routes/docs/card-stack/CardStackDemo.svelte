@@ -23,7 +23,7 @@
 	<CardStack {scrollElement} offset={40} topOffset={32}>
 		{#each items as item (item)}
 			<CardStackItem
-				class="card-highlight mx-auto mb-8 flex h-96 max-w-2/3 flex-col rounded-xl border border-border bg-background p-2 shadow-sm"
+				class="card-highlight mx-auto mb-8 flex h-96 w-96 flex-col rounded-xl border border-border bg-background p-2 shadow-sm md:w-120 md:group-data-[fullscreen=true]:h-150 md:group-data-[fullscreen=true]:w-220"
 			>
 				<div
 					class="relative flex-1 overflow-hidden rounded-lg border border-border/60"
