@@ -1,7 +1,7 @@
 {
   "name": "Motion Core Registry",
   "description": "Curated Motion Core Svelte components",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "requirements": {
     "svelte": "^5.0.0",
     "tailwindcss": "^4.1.0"
