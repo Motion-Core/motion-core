@@ -6,12 +6,6 @@
 	import { cn } from "../../utils/cn";
 	import VideoSlider from "./VideoSlider.svelte";
 
-	const enterPath = "M15 3h6v6 M9 21H3v-6 M21 3l-7 7 M3 21l7-7";
-	const exitPath =
-		"M8 3v3a2 2 0 0 1-2 2H3 M21 8h-3a2 2 0 0 1-2-2V3 M3 16h3a2 2 0 0 1 2 2v3 M16 21v-3a2 2 0 0 1 2-2h3";
-	const iconPlay = "M7 5v14l11-7z";
-	const iconPause = "M6 5h4v14H6zm8 0h4v14h-4z";
-
 	interface Props {
 		/**
 		 * The source URL of the video.
@@ -68,6 +62,12 @@
 	let currentTimeStr = $derived(formatTime(currentTime));
 	let durationStr = $derived(formatTime(duration));
 	let rafId: number;
+
+	const enterPath = "M15 3h6v6 M9 21H3v-6 M21 3l-7 7 M3 21l7-7";
+	const exitPath =
+		"M8 3v3a2 2 0 0 1-2 2H3 M21 8h-3a2 2 0 0 1-2-2V3 M3 16h3a2 2 0 0 1 2 2v3 M16 21v-3a2 2 0 0 1 2-2h3";
+	const iconPlay = "M7 5v14l11-7z";
+	const iconPause = "M6 5h4v14H6zm8 0h4v14h-4z";
 
 	onMount(() => {
 		gsap.registerPlugin(MorphSVGPlugin);
