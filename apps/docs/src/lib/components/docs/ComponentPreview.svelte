@@ -182,7 +182,7 @@
 				bind:this={previewRef}
 				data-fullscreen={isFullScreen}
 				class={cn(
-					"group relative flex flex-col overflow-hidden bg-card",
+					"relative flex flex-col overflow-hidden bg-card",
 					isFullScreen ? "z-50" : "w-full flex-1 rounded-t-xl",
 				)}
 			>
