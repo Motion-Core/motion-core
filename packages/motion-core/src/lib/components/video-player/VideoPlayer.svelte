@@ -274,7 +274,7 @@
 >
 	<div
 		class={cn(
-			"relative overflow-hidden rounded-xl bg-background",
+			"relative overflow-hidden rounded-xl border border-border/60 bg-background",
 			!isLayoutFullscreen && "aspect-video",
 			isLayoutFullscreen && "flex-1",
 		)}
