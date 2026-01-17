@@ -22,22 +22,14 @@
 	gap={100}
 	elementSize={160}
 >
-	{#snippet children(item, i)}
+	{#snippet children(item)}
 		<div
-			class="h-56 w-40 rounded-xl border border-border bg-background p-1 shadow-sm"
+			class="relative h-48 w-48 rounded-xl border border-border bg-background shadow-sm group-data-[fullscreen=true]/preview:h-96 group-data-[fullscreen=true]/preview:w-96"
 		>
 			<div
-				class="relative h-44 w-full overflow-hidden rounded-lg border border-border/60 bg-card-muted"
+				class="absolute inset-1 overflow-hidden rounded-lg border border-border/60 bg-card-muted"
 			>
 				<img src={item} class="h-full w-full object-cover" alt="Gallery item" />
-			</div>
-			<div class="flex h-12 w-full items-center justify-between px-2">
-				<p class="text-xs font-medium text-foreground font-display">
-					Motion Core
-				</p>
-				<p class="text-[10px] text-foreground/45">
-					Item {i}
-				</p>
 			</div>
 		</div>
 	{/snippet}
