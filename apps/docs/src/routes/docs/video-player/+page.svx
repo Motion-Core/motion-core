@@ -1,6 +1,6 @@
 ---
 name: Video Player
-description: A refined video player component with an elastic progress slider and smooth GSAP-powered interactions.
+description: A refined video player component with a progress slider and smooth GSAP-powered interactions.
 ---
 
 <script lang="ts">

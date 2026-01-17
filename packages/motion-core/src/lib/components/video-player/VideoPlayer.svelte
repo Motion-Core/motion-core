@@ -41,16 +41,20 @@
 		src,
 		poster,
 		autoplay = false,
-		muted = true,
+		muted = $bindable(true),
 		loop = false,
 		class: className,
 	}: Props = $props();
 
 	let videoRef: HTMLVideoElement;
 	let containerRef: HTMLElement;
+	let controlsRef: HTMLElement;
+	let bgRef: HTMLElement;
 	let pathRef: SVGPathElement;
 	let playPathRef: SVGPathElement;
+	let mutePathRef: SVGPathElement;
 	let isPlaying = $state(false);
+	let isHovered = $state(false);
 	let currentTime = $state(0);
 	let duration = $state(0);
 	let isScrubbing = $state(false);
@@ -68,6 +72,10 @@
 		"M8 3v3a2 2 0 0 1-2 2H3 M21 8h-3a2 2 0 0 1-2-2V3 M3 16h3a2 2 0 0 1 2 2v3 M16 21v-3a2 2 0 0 1 2-2h3";
 	const iconPlay = "M7 5v14l11-7z";
 	const iconPause = "M6 5h4v14H6zm8 0h4v14h-4z";
+	const iconVolume =
+		"M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z";
+	const iconMute =
+		"M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z";
 
 	onMount(() => {
 		gsap.registerPlugin(MorphSVGPlugin);
@@ -76,7 +84,7 @@
 
 	async function toggleFullscreen() {
 		if (!containerRef) return;
-		const state = Flip.getState(containerRef);
+		const state = Flip.getState(containerRef, { props: "borderRadius" });
 		if (!isExpanded) {
 			isExpanded = true;
 
@@ -110,6 +118,7 @@
 					duration: 0.5,
 					ease: "power4.inOut",
 					absolute: true,
+					borderRadius: "1rem",
 					onComplete: () => {
 						isLayoutFullscreen = false;
 
@@ -155,6 +164,12 @@
 			videoRef.play();
 		} else {
 			videoRef.pause();
+		}
+	}
+
+	function toggleMute() {
+		if (videoRef) {
+			muted = !muted;
 		}
 	}
 
@@ -242,6 +257,24 @@
 	});
 
 	$effect(() => {
+		if (!mutePathRef) return;
+
+		if (muted) {
+			gsap.to(mutePathRef, {
+				morphSVG: iconMute,
+				duration: 0.3,
+				ease: "power4.inOut",
+			});
+		} else {
+			gsap.to(mutePathRef, {
+				morphSVG: iconVolume,
+				duration: 0.3,
+				ease: "power4.inOut",
+			});
+		}
+	});
+
+	$effect(() => {
 		if (!pathRef) return;
 
 		if (isExpanded) {
@@ -258,48 +291,87 @@
 			});
 		}
 	});
+
+	$effect(() => {
+		if (!controlsRef || !bgRef) return;
+
+		if (isHovered || !isPlaying) {
+			gsap.to(bgRef, {
+				opacity: 1,
+				duration: 0.3,
+				ease: "power4.out",
+				overwrite: true,
+			});
+			gsap.to(controlsRef.children, {
+				y: 0,
+				opacity: 1,
+				duration: 0.3,
+				ease: "power4.out",
+				overwrite: true,
+			});
+			gsap.set(controlsRef, { pointerEvents: "auto" });
+		} else {
+			gsap.to(bgRef, {
+				opacity: 0,
+				duration: 0.3,
+				ease: "power4.in",
+				overwrite: true,
+			});
+			gsap.to(controlsRef.children, {
+				y: 20,
+				opacity: 0,
+				duration: 0.3,
+				ease: "power4.in",
+				overwrite: true,
+			});
+			gsap.set(controlsRef, { pointerEvents: "none" });
+		}
+	});
 </script>
 
 <div
 	bind:this={containerRef}
+	onmouseenter={() => (isHovered = true)}
+	onmouseleave={() => (isHovered = false)}
+	role="region"
+	aria-label="Video Player"
 	class={cn(
-		"group flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-2 shadow-sm",
-
+		"group relative flex overflow-hidden bg-fixed-dark shadow-sm",
 		isLayoutFullscreen
-			? "fixed inset-0 z-50 h-screen w-screen"
-			: "w-full max-w-3xl",
-
+			? "fixed inset-0 z-50 h-screen w-screen rounded-none"
+			: "aspect-video w-full max-w-3xl rounded-2xl",
 		className,
 	)}
 >
-	<div
-		class={cn(
-			"relative overflow-hidden rounded-xl border border-border/60 bg-background",
-			!isLayoutFullscreen && "aspect-video",
-			isLayoutFullscreen && "flex-1",
-		)}
-	>
-		<video
-			bind:this={videoRef}
-			{src}
-			{poster}
-			{autoplay}
-			{muted}
-			{loop}
-			class="h-full w-full object-cover"
-			playsinline
-			onplay={onPlay}
-			onpause={onPause}
-			onloadedmetadata={onLoadedMetadata}
-			onended={onEnded}
-			onclick={togglePlay}
-		></video>
-	</div>
+	<!-- svelte-ignore a11y_media_has_caption -->
+	<video
+		bind:this={videoRef}
+		{src}
+		{poster}
+		{autoplay}
+		bind:muted
+		{loop}
+		class="h-full w-full object-cover"
+		playsinline
+		onplay={onPlay}
+		onpause={onPause}
+		onloadedmetadata={onLoadedMetadata}
+		onended={onEnded}
+		onclick={togglePlay}
+	></video>
 
-	<div class="flex items-center gap-3 px-2 py-3">
+	<div
+		bind:this={bgRef}
+		class="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-32 bg-linear-to-t from-fixed-dark/70 via-fixed-dark/45 to-transparent opacity-0"
+	></div>
+
+	<div
+		bind:this={controlsRef}
+		class="pointer-events-none absolute right-0 bottom-0 left-0 z-20 flex items-center gap-3 px-4 pt-10 pb-4"
+	>
 		<button
 			onclick={togglePlay}
-			class="flex size-8 items-center justify-center rounded-full bg-foreground/45 text-background transition-[background-color,scale] duration-150 ease-out hover:bg-foreground/70 active:scale-95"
+			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20 active:scale-95"
 			aria-label={isPlaying ? "Pause" : "Play"}
 		>
 			<svg
@@ -313,7 +385,7 @@
 			</svg>
 		</button>
 
-		<div class="flex-1">
+		<div class="flex-1 translate-y-5 opacity-0">
 			<VideoSlider
 				{currentTime}
 				{duration}
@@ -324,16 +396,32 @@
 		</div>
 
 		<div
-			class="flex items-center gap-1 font-mono text-[10px] font-medium text-foreground/70"
+			class="flex translate-y-5 items-center gap-1 font-mono text-[10px] font-medium text-fixed-light opacity-0"
 		>
-			<span class="text-foreground/45">{currentTimeStr}</span>
+			<span class="text-fixed-light/70">{currentTimeStr}</span>
 			<span>/</span>
 			<span>{durationStr}</span>
 		</div>
 
 		<button
+			onclick={toggleMute}
+			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20"
+			aria-label={muted ? "Unmute" : "Mute"}
+		>
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="currentColor"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path bind:this={mutePathRef} d={iconVolume} />
+			</svg>
+		</button>
+
+		<button
 			onclick={toggleFullscreen}
-			class="flex size-8 items-center justify-center rounded-full bg-foreground/45 text-background transition-[background-color,scale] duration-150 ease-out hover:bg-foreground/70"
+			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20"
 			aria-label={isExpanded ? "Exit Fullscreen" : "Enter Fullscreen"}
 		>
 			<svg

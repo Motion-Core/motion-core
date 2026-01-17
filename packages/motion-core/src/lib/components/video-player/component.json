@@ -1,7 +1,7 @@
 {
 	"name": "Video Player",
 	"slug": "video-player",
-	"description": "A refined video player component with an elastic progress slider and smooth GSAP-powered interactions.",
+	"description": "A refined video player component with a progress slider and smooth GSAP-powered interactions.",
 	"category": "showcase",
 	"dependencies": {
 		"gsap": "^3.14.2"

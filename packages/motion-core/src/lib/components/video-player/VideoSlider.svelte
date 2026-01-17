@@ -141,10 +141,10 @@
 >
 	<div
 		bind:this={sliderRef}
-		class="relative h-1.5 w-full overflow-hidden rounded-lg bg-foreground/45 transition-[height]"
+		class="relative h-1.5 w-full overflow-hidden rounded-lg bg-fixed-light/10 backdrop-blur-md transition-[height]"
 	>
 		<div
-			class="absolute inset-0 h-full w-full origin-left bg-foreground/45"
+			class="absolute inset-0 h-full w-full origin-left bg-fixed-light/20 backdrop-blur-md"
 			style="transform: scaleX({progressPercent / 100})"
 		></div>
 	</div>
@@ -156,7 +156,7 @@
 
 	<div
 		bind:this={hoverTimeRef}
-		class="pointer-events-none absolute -top-8 left-0 -translate-x-1/2 rounded bg-background px-1.5 py-0.5 font-mono text-[10px] leading-none text-foreground opacity-0 shadow-sm"
+		class="pointer-events-none absolute -top-8 left-0 -translate-x-1/2 rounded bg-fixed-light/10 px-1.5 py-0.5 font-mono text-[10px] leading-none text-fixed-light opacity-0 shadow-sm backdrop-blur-md"
 	>
 		{formatTime(hoverTime)}
 	</div>
