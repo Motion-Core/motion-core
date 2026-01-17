@@ -37,6 +37,7 @@ import { CardStack, CardStackItem } from "motion-core";
 
 <ComponentPreview
 	class="max-h-150"
+	refreshOnFullScreen={true}
 	sources={[
 		{ name: "Example", code: cardStackDemoSource, language: "svelte" },
 		{ name: "CardStack.svelte", code: cardStackSource, language: "svelte" },
