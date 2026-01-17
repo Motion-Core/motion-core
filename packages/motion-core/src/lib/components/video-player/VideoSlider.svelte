@@ -144,7 +144,7 @@
 		class="relative h-1.5 w-full overflow-hidden rounded-lg bg-foreground/45 transition-[height]"
 	>
 		<div
-			class="absolute inset-0 h-full w-full origin-left bg-foreground/70"
+			class="absolute inset-0 h-full w-full origin-left bg-foreground/45"
 			style="transform: scaleX({progressPercent / 100})"
 		></div>
 	</div>

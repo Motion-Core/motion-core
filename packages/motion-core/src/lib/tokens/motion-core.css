@@ -3,7 +3,7 @@
 :root {
 	--base-hue: 285;
 	--color-background: oklch(0.9542 0.002 var(--base-hue));
-	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
+	--color-foreground: oklch(0.2408 0.0044 var(--base-hue));
 	--color-accent: oklch(0.6996 0.201959 44.4414);
 	--color-accent-secondary: oklch(0.5596 0.151959 44.4414);
 	--color-border: oklch(0.9225 0.002 var(--base-hue));
