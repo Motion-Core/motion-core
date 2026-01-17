@@ -182,13 +182,13 @@
 				bind:this={previewRef}
 				data-fullscreen={isFullScreen}
 				class={cn(
-					"group/preview relative flex flex-col overflow-hidden bg-card",
+					"group/preview relative flex flex-col overflow-hidden bg-background",
 					isFullScreen ? "z-50" : "w-full flex-1 rounded-t-xl",
 				)}
 			>
 				<button
 					onclick={reloadPreview}
-					class="transition-scale absolute top-2 right-11 z-30 flex size-7 cursor-pointer items-center justify-center rounded-lg border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
+					class="transition-scale absolute top-2 right-11 z-30 flex size-7 cursor-pointer items-center justify-center rounded-lg border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -205,7 +205,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="transition-scale absolute top-2 right-2 z-30 flex size-7 cursor-pointer items-center justify-center rounded-lg border border-border bg-background text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
+					class="transition-scale absolute top-2 right-2 z-30 flex size-7 cursor-pointer items-center justify-center rounded-lg border border-border bg-card text-foreground shadow-sm duration-150 ease-out active:scale-[0.95]"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}
@@ -272,7 +272,7 @@
 					</div>
 					<div class="flex-none px-2">
 						{#if activeSource}
-							<CopyCodeButton class="size-6" code={activeSource.code} />
+							<CopyCodeButton class="size-6 bg-card" code={activeSource.code} />
 						{/if}
 					</div>
 				</div>

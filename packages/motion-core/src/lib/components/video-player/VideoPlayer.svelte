@@ -263,7 +263,7 @@
 <div
 	bind:this={containerRef}
 	class={cn(
-		"group flex flex-col overflow-hidden rounded-2xl border border-border bg-background p-2 shadow-sm",
+		"group flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-2 shadow-sm",
 
 		isLayoutFullscreen
 			? "fixed inset-0 z-50 h-screen w-screen"
