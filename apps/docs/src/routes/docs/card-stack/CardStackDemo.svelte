@@ -20,10 +20,15 @@
 			Scroll Down
 		</p>
 	</div>
-	<CardStack {scrollElement} offset={40} topOffset={32}>
+	<CardStack
+		{scrollElement}
+		offset={32}
+		topOffset={32}
+		class="flex flex-col gap-8"
+	>
 		{#each items as item (item)}
 			<CardStackItem
-				class="card-highlight mx-auto mb-8 flex h-96 w-96 flex-col rounded-xl border border-border bg-background p-2 shadow-sm md:w-120 md:group-data-[fullscreen=true]:h-150 md:group-data-[fullscreen=true]:w-220"
+				class="card-highlight mx-auto flex h-96 w-80 flex-col rounded-xl border border-border bg-background p-2 shadow-sm md:w-120 md:group-data-[fullscreen=true]:h-dvh md:group-data-[fullscreen=true]:w-7xl"
 			>
 				<div
 					class="relative flex-1 overflow-hidden rounded-lg border border-border/60"

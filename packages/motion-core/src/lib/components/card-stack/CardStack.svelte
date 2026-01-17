@@ -85,19 +85,21 @@
 			}
 
 			cards.forEach((card, index) => {
+				const cardTop = topOffset + index * offset;
+
 				gsap.set(card, {
 					transformOrigin: "top center",
 					zIndex: index,
+					position: "sticky",
+					top: `${cardTop}px`,
 				});
 
 				const tl = gsap.timeline({
 					scrollTrigger: {
 						trigger: card,
-						start: `top top+=${topOffset + index * offset}`,
+						start: `top top+=${cardTop}`,
 						endTrigger: container,
 						end: "bottom bottom",
-						pin: true,
-						pinSpacing: false,
 						scrub: true,
 						scroller: scrollElement || window,
 						invalidateOnRefresh: true,
