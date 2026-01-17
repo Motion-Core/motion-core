@@ -32,3 +32,4 @@ export { default as FloatingMenu } from "./floating-menu/FloatingMenu.svelte";
 export { default as FluidSimulation } from "./fluid-simulation/FluidSimulation.svelte";
 export { default as CardStack } from "./card-stack/CardStack.svelte";
 export { default as CardStackItem } from "./card-stack/CardStackItem.svelte";
+export { default as VideoPlayer } from "./video-player/VideoPlayer.svelte";

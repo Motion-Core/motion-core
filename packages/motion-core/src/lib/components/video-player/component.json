@@ -1,0 +1,26 @@
+{
+	"name": "Video Player",
+	"slug": "video-player",
+	"description": "A refined video player component with an elastic progress slider and smooth GSAP-powered interactions.",
+	"category": "showcase",
+	"dependencies": {
+		"gsap": "^3.14.2"
+	},
+	"devDependencies": {
+		"@types/gsap": "^3.0.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "VideoPlayer.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "VideoSlider.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

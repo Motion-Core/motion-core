@@ -272,6 +272,14 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "video-player",
+		name: "Video Player",
+		category: "showcase",
+		dependencies: {
+			gsap: "^3.14.2",
+		},
+	},
+	{
 		slug: "water-ripple",
 		name: "Water Ripple",
 		category: "canvas",

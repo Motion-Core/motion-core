@@ -9,8 +9,8 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - **2 components**:
-    - **Canvas**: Fluid Simulation.
-    - **Showcase**: Card Stack.
+  - **Canvas**: Fluid Simulation.
+  - **Showcase**: Card Stack.
 
 ## [0.1.0] - 2026-01-11
 
@@ -21,10 +21,10 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - Registry System allowing for individual component installation via CLI.
 - Documentation app built with SvelteKit featuring interactive demos.
 - **28 components**:
-    - **Canvas**: ASCII Renderer, Dithered Image, Glass Pane, Glass Slideshow, Globe, Infinite Gallery, Interactive Grid, Lava Lamp, Neural Noise, Pixelated Image, Plasma Grid, Rubik's Cube, Water Ripple.
-    - **Showcase**: Logo Carousel, Marquee, Radial Gallery, Slideshow.
-    - **Typography**: Split Hover, Split Reveal, Text Loop, Text Scramble, Weight Wave.
-    - **Pointer**: Image Trail, MacOS Dock, Magnetic.
-    - **Navigation**: Floating Menu.
-    - **Layout**: Flip Grid.
-    - **Transition**: Preloader.
+  - **Canvas**: ASCII Renderer, Dithered Image, Glass Pane, Glass Slideshow, Globe, Infinite Gallery, Interactive Grid, Lava Lamp, Neural Noise, Pixelated Image, Plasma Grid, Rubik's Cube, Water Ripple.
+  - **Showcase**: Logo Carousel, Marquee, Radial Gallery, Slideshow.
+  - **Typography**: Split Hover, Split Reveal, Text Loop, Text Scramble, Weight Wave.
+  - **Pointer**: Image Trail, MacOS Dock, Magnetic.
+  - **Navigation**: Floating Menu.
+  - **Layout**: Flip Grid.
+  - **Transition**: Preloader.

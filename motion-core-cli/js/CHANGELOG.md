@@ -7,9 +7,11 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.5.1] - 2026-01-11
 
 ### Added
+
 - Enhanced error reporting and overall CLI stability for a smoother user experience.
 
 ### Changed
+
 - Reduced binary size and improved execution speed by removing unused dependencies and enabling Link Time Optimization (LTO).
 - Optimized default build features to ensure a lighter executable footprint.
 - Expanded test suite coverage to ensure higher reliability of core commands.
@@ -17,55 +19,68 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.5.0] - 2026-01-11
 
 ### Added
+
 - Added automatic injection of CSS variables (tokens) into the project's global CSS file during component installation.
 
 ### Fixed
+
 - Fixed an issue where test-specific imports could leak into the production build.
 
 ## [0.4.0] - 2026-01-09
 
 ### Added
+
 - Implemented a safety check that detects modifications in existing components before overwriting them.
 - Added support for partial updates to component files.
 
 ## [0.3.0] - 2026-01-08
 
 ### Added
+
 - Added capability to install shared utility types and TypeScript definitions required by certain components.
 
 ## [0.2.2] - 2026-01-06
 
 ### Added
+
 - Added support for installing complex components that consist of multiple entry files (e.g., `flip-grid`).
 
 ### Changed
+
 - Established cross-platform End-to-End testing to ensure consistent behavior on Windows, macOS, and Linux.
 
 ### Fixed
+
 - Fixed command execution issues when invoking package managers (npm, pnpm, yarn, bun) on Windows.
 
 ## [0.2.0] - 2025-12-28
 
 ### Added
+
 - Extended CLI capabilities to automatically download and place necessary static assets (images, 3D models) for components.
 
 ### Fixed
+
 - Fixed asset path resolution to prevent redundant category directories in the public folder.
 
 ## [0.1.1] - 2025-12-27
 
 ### Added
+
 - Introduced a caching mechanism for initialization to improve performance and reliability.
 - Added semantic version compatibility checks for dependencies prior to installation.
 
 ### Changed
+
 - Standardized component templates to use the registry-provided `cn` utility for class merging.
 - Cleaned up internal dependencies.
 
 ### Fixed
+
 - Corrected binary name resolution in the ESM entrypoint to fix execution errors.
 
 ## [0.1.0] - 2025-12-25
 
 ### Added
+
 - Initial release of the Motion Core CLI.

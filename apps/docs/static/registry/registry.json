@@ -791,6 +791,32 @@
         }
       ]
     },
+    "video-player": {
+      "slug": "video-player",
+      "name": "Video Player",
+      "description": "A refined video player component with an elastic progress slider and smooth GSAP-powered interactions.",
+      "category": "showcase",
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/video-player/VideoPlayer.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/video-player/VideoSlider.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "water-ripple": {
       "slug": "water-ripple",
       "name": "Water Ripple",

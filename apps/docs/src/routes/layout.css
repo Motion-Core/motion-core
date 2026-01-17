@@ -13,6 +13,8 @@
 
 :root {
 	--base-hue: 285;
+	--color-fixed-dark: oklch(0.18 0.0044 var(--base-hue));
+	--color-fixed-light: oklch(0.95 0.0013 var(--base-hue));
 	--color-background: oklch(0.9542 0.002 var(--base-hue));
 	--color-foreground: oklch(0.1408 0.0044 var(--base-hue));
 	--color-accent: oklch(0.6996 0.201959 44.4414);
@@ -58,6 +60,8 @@
 @theme {
 	--font-sans: "Haffer";
 	--mono: "HafferMono";
+	--color-fixed-dark: var(--fixed-dark);
+	--color-fixed-light: var(--fixed-light);
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-accent: var(--accent);
