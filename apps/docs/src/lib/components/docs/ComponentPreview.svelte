@@ -23,6 +23,7 @@
 		codeSlot?: Snippet;
 		sources?: SourceTab[];
 		refreshOnFullScreen?: boolean;
+		class?: string;
 		[key: string]: unknown;
 	};
 
@@ -34,6 +35,7 @@
 		label: providedLabel,
 		sources: providedSources,
 		refreshOnFullScreen = false,
+		class: className,
 		...restProps
 	}: ComponentProps = $props();
 
@@ -166,10 +168,12 @@
 </script>
 
 <section
-	class="relative max-w-[calc(var(--container-4xl)-2rem)] rounded-xl border border-border bg-background shadow-sm"
+	class={cn(
+		"relative max-w-[calc(var(--container-4xl)-2rem)] rounded-xl border border-border bg-background shadow-sm",
+	)}
 	{...restProps}
 >
-	<div class="flex flex-col">
+	<div class="flex h-full flex-col">
 		<div
 			bind:this={placeholderRef}
 			class="relative flex min-h-96 flex-1 flex-col items-center justify-center rounded-t-xl border-b border-border"
@@ -178,7 +182,7 @@
 				bind:this={previewRef}
 				data-fullscreen={isFullScreen}
 				class={cn(
-					"group relative flex flex-col items-center justify-center overflow-hidden bg-card",
+					"group relative flex flex-col overflow-hidden bg-card",
 					isFullScreen ? "z-50" : "w-full flex-1 rounded-t-xl",
 				)}
 			>
@@ -230,9 +234,17 @@
 						>
 					{/if}
 				</button>
-				{#key previewKey}
-					{@render children?.()}
-				{/key}
+				<ScrollArea
+					id="preview-scroll-area"
+					class={cn("w-full flex-1", !isFullScreen && className)}
+					viewportClass="min-h-full w-full flex flex-col"
+				>
+					<div class="flex w-full flex-1 flex-col items-center justify-center">
+						{#key previewKey}
+							{@render children?.()}
+						{/key}
+					</div>
+				</ScrollArea>
 			</div>
 		</div>
 		<div class="flex flex-1 flex-col overflow-hidden rounded-b-xl bg-card">
