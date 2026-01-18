@@ -24,7 +24,7 @@
 >
 	{#snippet children(item)}
 		<div
-			class="relative h-48 w-48 rounded-xl border border-border bg-card shadow-sm group-data-[fullscreen=true]/preview:h-96 group-data-[fullscreen=true]/preview:w-96"
+			class="relative h-48 w-48 rounded-xl border border-border bg-background shadow-sm group-data-[fullscreen=true]/preview:h-96 group-data-[fullscreen=true]/preview:w-96"
 		>
 			<div
 				class="absolute inset-1 overflow-hidden rounded-lg border border-border/60 bg-card-muted"

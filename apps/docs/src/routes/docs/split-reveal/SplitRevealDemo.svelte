@@ -25,7 +25,7 @@
 	</SplitReveal>
 {/key}
 <div
-	class="absolute bottom-4 left-1/2 flex w-fit -translate-x-1/2 justify-center gap-1 rounded-lg border border-border bg-card p-1 shadow-sm"
+	class="absolute bottom-4 left-1/2 flex w-fit -translate-x-1/2 justify-center gap-1 rounded-lg border border-border bg-background p-1 shadow-sm"
 >
 	{#each modes as mode (mode)}
 		<button
