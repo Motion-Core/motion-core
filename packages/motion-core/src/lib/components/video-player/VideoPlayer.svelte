@@ -32,6 +32,11 @@
 		 */
 		loop?: boolean;
 		/**
+		 * Whether to permanently hide controls and disable interaction.
+		 * @default false
+		 */
+		hideControls?: boolean;
+		/**
 		 * Additional CSS classes for the container.
 		 */
 		class?: string;
@@ -43,6 +48,7 @@
 		autoplay = false,
 		muted = $bindable(true),
 		loop = false,
+		hideControls = false,
 		class: className,
 	}: Props = $props();
 
@@ -158,6 +164,7 @@
 	}
 
 	function togglePlay() {
+		if (hideControls) return;
 		if (!videoRef) return;
 
 		if (videoRef.paused) {
@@ -293,7 +300,7 @@
 	});
 
 	$effect(() => {
-		if (!controlsRef || !bgRef) return;
+		if (!controlsRef || !bgRef || hideControls) return;
 
 		if (isHovered || !isPlaying) {
 			gsap.to(bgRef, {
@@ -362,12 +369,18 @@
 
 	<div
 		bind:this={bgRef}
-		class="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-32 bg-linear-to-t from-fixed-dark/70 via-fixed-dark/45 to-transparent opacity-0"
+		class={cn(
+			"pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-32 bg-linear-to-t from-fixed-dark/70 via-fixed-dark/45 to-transparent opacity-0",
+			hideControls && "hidden",
+		)}
 	></div>
 
 	<div
 		bind:this={controlsRef}
-		class="pointer-events-none absolute right-0 bottom-0 left-0 z-20 flex items-center gap-3 px-4 pt-10 pb-4"
+		class={cn(
+			"pointer-events-none absolute right-0 bottom-0 left-0 z-20 flex items-center gap-3 px-4 pt-10 pb-4",
+			hideControls && "hidden",
+		)}
 	>
 		<button
 			onclick={togglePlay}
