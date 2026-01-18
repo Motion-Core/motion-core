@@ -30,7 +30,7 @@
 >
 	{#each items as item (item)}
 		<CardStackItem
-			class="card-highlight mx-auto flex h-96 w-80 flex-col rounded-xl border border-border bg-card p-2 shadow-sm md:w-120 md:group-data-[fullscreen=true]/preview:h-dvh md:group-data-[fullscreen=true]/preview:w-7xl"
+			class="card-highlight mx-auto flex h-96 w-80 flex-col rounded-xl border border-border bg-background p-2 shadow-sm md:w-120 md:group-data-[fullscreen=true]/preview:h-dvh md:group-data-[fullscreen=true]/preview:w-7xl"
 		>
 			<div
 				class="relative flex-1 overflow-hidden rounded-lg border border-border/60"
