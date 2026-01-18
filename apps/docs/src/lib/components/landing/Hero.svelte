@@ -43,7 +43,7 @@
 		highlightColor={isDark
 			? COLOR_PRESETS.dark.highlightColor
 			: COLOR_PRESETS.light.highlightColor}
-		class="card-highlight pointer-events-none absolute inset-2 z-0 rounded-xl border border-border shadow-sm"
+		class="card-highlight pointer-events-none absolute inset-2 z-0 h-auto w-auto rounded-xl border border-border shadow-sm"
 	/>
 
 	<h1
