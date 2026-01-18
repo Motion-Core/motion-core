@@ -70,7 +70,6 @@
 					stagger: 0.1,
 					ease: motionCoreEase,
 					filter: "blur(0px)",
-					clearProps: "all",
 				},
 			);
 		}, listRef);
