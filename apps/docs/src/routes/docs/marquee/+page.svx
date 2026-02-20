@@ -4,14 +4,14 @@ description: A scrolling content loop that accelerates, reverses, or syncs with 
 ---
 
 <script lang="ts">
-	import ComponentPreview from '$lib/components/docs/ComponentPreview.svelte';
-	import ApiTable from '$lib/components/docs/ApiTable.svelte';
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
 	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import MarqueeDemo from './MarqueeDemo.svelte';
-	import marqueeDemoSource from './MarqueeDemo.svelte?raw';
-	import marqueeSource from 'motion-core/components/marquee/Marquee.svelte?raw';
+	import MarqueeDemo from "./MarqueeDemo.svelte";
+	import marqueeDemoSource from "./MarqueeDemo.svelte?raw";
+	import marqueeSource from "motion-core/components/marquee/Marquee.svelte?raw";
 </script>
 
 ## Installation
