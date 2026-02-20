@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PlasmaGrid } from "motion-core";
+	import { GlitterCloth } from "motion-core";
 	import { onMount } from "svelte";
 
 	const GITHUB_URL = "https://github.com/motion-core/motion-core";
@@ -7,12 +7,10 @@
 
 	const COLOR_PRESETS = {
 		dark: {
-			color: "#18181B",
-			highlightColor: "#572400",
+			color: "#212124",
 		},
 		light: {
-			color: "#FFFFFF",
-			highlightColor: "#FF6900",
+			color: "#ECECED",
 		},
 	};
 
@@ -36,18 +34,15 @@
 </script>
 
 <div
-	class="input-highlight relative mt-16 flex flex-col items-center justify-center rounded-2xl bg-background px-4 py-24 text-center md:mt-20"
+	class="input-highlight relative flex flex-col items-center justify-center rounded-2xl bg-background px-4 py-24 text-center"
 >
-	<PlasmaGrid
+	<GlitterCloth
 		color={isDark ? COLOR_PRESETS.dark.color : COLOR_PRESETS.light.color}
-		highlightColor={isDark
-			? COLOR_PRESETS.dark.highlightColor
-			: COLOR_PRESETS.light.highlightColor}
 		class="card-highlight pointer-events-none absolute inset-2 z-0 h-auto w-auto rounded-xl border border-border shadow-sm"
 	/>
 
 	<h1
-		class="relative z-10 text-3xl font-medium tracking-tight text-foreground font-display md:text-5xl"
+		class="relative z-10 mt-16 text-3xl font-medium tracking-tight text-foreground font-display md:mt-20 md:text-5xl"
 	>
 		High-quality<br />
 		<span class="text-accent">motion components</span><br />
@@ -66,7 +61,7 @@
 	<div class="relative z-10 mt-8 flex items-center justify-center gap-x-4">
 		<a
 			href={DOCS_URL}
-			class="transition-[background-color, filter] card-highlight relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-linear-to-b from-accent to-accent-secondary px-4 py-2 text-sm font-medium whitespace-nowrap shadow-[inset_0_1px_0_0_rgb(255_255_255/.32),0px_1px_1px_-0.5px_rgba(9,9,11,0.05),0px_3px_3px_-1.5px_rgba(9,9,11,0.05),0px_6px_6px_-3px_rgba(9,9,11,0.05)] duration-150 ease-out hover:contrast-110 disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 dark:text-foreground light:text-card [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+			class="transition-[background-color, filter] relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-linear-to-b from-accent to-accent-secondary px-4 py-2 text-sm font-medium whitespace-nowrap shadow-[inset_0_1px_0_0_rgb(255_255_255/.32),0px_1px_1px_-0.5px_rgba(9,9,11,0.05),0px_3px_3px_-1.5px_rgba(9,9,11,0.05),0px_6px_6px_-3px_rgba(9,9,11,0.05)] duration-150 ease-out hover:contrast-110 disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 dark:text-foreground light:text-card [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 		>
 			Documentation
 		</a>
