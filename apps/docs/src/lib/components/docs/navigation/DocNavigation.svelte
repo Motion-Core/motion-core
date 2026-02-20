@@ -15,7 +15,9 @@
 </script>
 
 {#if previous || next}
-	<nav class="mt-16 border-t border-border pt-8">
+	<nav
+		class="relative mt-16 pt-9 before:absolute before:top-0 before:left-0 before:h-px before:w-full before:border-0 before:shadow-2xs dark:before:bg-black dark:before:shadow-border light:before:bg-black/15 light:before:shadow-white"
+	>
 		<div class="grid gap-4 sm:grid-cols-2">
 			{#if previous}
 				<DocNavButton label="Previous" {...previous} />

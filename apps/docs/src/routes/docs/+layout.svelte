@@ -155,7 +155,9 @@
 								<MobileDocShareActions {rawPath} {rawUrl} {githubUrl} />
 							{/if}
 						</div>
-						<hr class="text-border" />
+						<div
+							class="my-8 h-px border-0 shadow-2xs dark:bg-black dark:shadow-border light:bg-black/15 light:shadow-white"
+						></div>
 					{/if}
 
 					<div>
