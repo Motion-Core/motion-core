@@ -370,7 +370,7 @@ function buildConfigSchema() {
 				additionalProperties: false,
 			},
 		},
-		required: ["style", "aliases", "aliasPrefixes", "exports"],
+		required: ["aliases", "aliasPrefixes", "exports"],
 		additionalProperties: false,
 	};
 }
