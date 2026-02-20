@@ -21,14 +21,14 @@
 	onMount(() => {
 		const observer = new IntersectionObserver(
 			(entries) => {
-				entries.forEach((entry) => {
+				for (const entry of entries) {
 					if (entry.isIntersecting) {
 						shouldLoad = true;
 					}
-				});
+				}
 			},
 			{
-				rootMargin: "200px",
+				rootMargin: "180px",
 				threshold: 0.1,
 			},
 		);
@@ -37,9 +37,7 @@
 			observer.observe(cardElement);
 		}
 
-		return () => {
-			observer.disconnect();
-		};
+		return () => observer.disconnect();
 	});
 
 	$effect(() => {
@@ -47,30 +45,21 @@
 
 		const observer = new IntersectionObserver(
 			(entries) => {
-				entries.forEach((entry) => {
+				for (const entry of entries) {
 					if (entry.isIntersecting) {
 						videoElement?.play().catch(() => {});
 					} else {
 						videoElement?.pause();
 					}
-				});
+				}
 			},
 			{
-				threshold: 0.1,
+				threshold: 0.2,
 			},
 		);
 
 		observer.observe(cardElement);
-
-		const rect = cardElement.getBoundingClientRect();
-		const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-		if (isVisible) {
-			videoElement?.play().catch(() => {});
-		}
-
-		return () => {
-			observer.disconnect();
-		};
+		return () => observer.disconnect();
 	});
 </script>
 
@@ -78,27 +67,24 @@
 	bind:this={cardElement}
 	href={`/docs/${component.slug}`}
 	class={cn(
-		"group card-highlight relative block min-h-64 break-inside-avoid rounded-xl border border-border bg-card p-1 opacity-0 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted md:min-h-0",
-		featured ? "flex h-full flex-col" : "",
+		"group/card card-highlight relative block rounded-2xl border border-border bg-card opacity-0 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted",
+		featured ? "h-full" : "h-full min-h-64",
 		className,
 	)}
 	data-component-card
 >
-	<div
-		class={cn(
-			"bg-muted relative overflow-hidden rounded-lg border border-border/60",
-			featured ? "h-full min-h-0 flex-1" : "aspect-video",
-		)}
-	>
+	<div class="relative h-full overflow-hidden rounded-2xl">
 		{#if component.poster}
 			<img
 				src={component.poster}
 				alt={component.name}
-				class="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 {isLoaded
-					? 'opacity-0'
-					: 'opacity-100'}"
+				class={cn(
+					"absolute inset-0 h-full w-full object-cover transition-all duration-500",
+					isLoaded ? "scale-103 opacity-0" : "scale-100 opacity-100",
+				)}
 			/>
 		{/if}
+
 		{#if component.video && shouldLoad}
 			<video
 				bind:this={videoElement}
@@ -109,21 +95,48 @@
 				playsinline
 				preload="metadata"
 				oncanplay={() => (isLoaded = true)}
-				class="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 {isLoaded
-					? 'opacity-100'
-					: 'opacity-0'}"
+				class={cn(
+					"absolute inset-0 h-full w-full object-cover transition-all duration-500",
+					isLoaded ? "scale-100 opacity-100" : "scale-103 opacity-0",
+				)}
 			>
 			</video>
 		{/if}
-	</div>
-	<div class="mt-2 flex w-full items-center justify-between p-2">
-		<p
-			class="pointer-events-none text-sm font-medium text-foreground font-display"
-		>
-			{component.name}
-		</p>
-		<p class="pointer-events-none text-xs font-medium text-foreground/45">
-			{component.category}
-		</p>
+
+		<div class="absolute top-3 left-3">
+			<span
+				class="input-highlight relative inline-flex items-center justify-center rounded-full bg-background px-2 py-0.5 text-[10px] text-foreground uppercase"
+			>
+				{component.category}
+			</span>
+		</div>
+
+		<div class="absolute right-0 bottom-0 left-0 p-4">
+			<div class="flex items-end justify-between gap-3">
+				<div>
+					<p
+						class="text-lg leading-tight font-medium text-foreground font-display"
+					>
+						{component.name}
+					</p>
+				</div>
+				<span
+					class="input-highlight relative inline-flex size-8 items-center justify-center rounded-full bg-background text-foreground"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						aria-hidden="true"
+						width="16"
+						height="16"
+						fill="currentColor"
+						viewBox="0 0 256 256"
+					>
+						<path
+							d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"
+						></path>
+					</svg>
+				</span>
+			</div>
+		</div>
 	</div>
 </a>

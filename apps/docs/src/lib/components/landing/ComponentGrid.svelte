@@ -6,30 +6,26 @@
 	import { onMount } from "svelte";
 
 	const motionCoreEase = "motion-core-ease";
-
-	const props = $props<{ components?: ComponentInfo[] }>();
-	const components = $derived(props.components ?? []);
-
-	const featuredConfig = [
+	const FEATURED_LAYOUT = [
 		{ slug: "dithered-image", className: "md:col-span-1 md:row-span-1" },
 		{ slug: "text-loop", className: "md:col-span-2 md:row-span-1" },
 		{ slug: "water-ripple", className: "md:col-span-1 md:row-span-2" },
 		{ slug: "image-trail", className: "md:col-span-2 md:row-span-1" },
-		{ slug: "ascii-renderer", className: "md:col-span-1 md:row-span-1" },
+		{ slug: "globe", className: "md:col-span-1 md:row-span-1" },
 		{ slug: "magnetic", className: "md:col-span-2 md:row-span-1" },
-		{ slug: "globe", className: "md:col-span-2 md:row-span-2" },
 		{ slug: "rubiks-cube", className: "md:col-span-2 md:row-span-1" },
 	];
 
+	const props = $props<{ components?: ComponentInfo[] }>();
+	const components = $derived(props.components ?? []);
+
 	const featuredComponents = $derived(
-		featuredConfig
-			.map((conf) => {
-				const component = components.find(
-					(c: ComponentInfo) => c.slug === conf.slug,
-				);
-				return component ? { component, className: conf.className } : null;
-			})
-			.filter((item) => item !== null),
+		FEATURED_LAYOUT.map((conf) => {
+			const component = components.find(
+				(entry: ComponentInfo) => entry.slug === conf.slug,
+			);
+			return component ? { component, className: conf.className } : null;
+		}).filter((item) => item !== null),
 	);
 
 	let listRef: HTMLDivElement | null = null;
