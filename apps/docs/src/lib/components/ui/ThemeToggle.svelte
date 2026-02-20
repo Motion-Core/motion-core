@@ -48,11 +48,11 @@
 	};
 
 	const buttonBaseClasses =
-		"relative z-10 inline-flex size-6 items-center justify-center rounded-xl border border-transparent text-[10px] transition-colors duration-250 ease-out";
+		"relative z-10 inline-flex size-6 items-center justify-center rounded-full border border-transparent text-[10px] transition-colors duration-250 ease-out";
 
 	const getThemeButtonClasses = (mode: ThemeMode) =>
 		mode === theme
-			? `${buttonBaseClasses} text-accent bg-accent/10`
+			? `${buttonBaseClasses} text-fixed-light`
 			: `${buttonBaseClasses} text-foreground/70`;
 
 	let containerRef: HTMLDivElement | null = null;
@@ -139,7 +139,7 @@
 
 <div class="space-y-2">
 	<div
-		class="theme-toggle input-highlight relative inline-flex items-center gap-1 rounded-xl bg-background p-0.5"
+		class="theme-toggle input-highlight relative inline-flex items-center gap-1 rounded-full bg-background p-1"
 		bind:this={containerRef}
 	>
 		<button
@@ -153,8 +153,8 @@
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				aria-hidden="true"
-				width="16"
-				height="16"
+				width="14"
+				height="14"
 				fill="currentColor"
 				viewBox="0 0 256 256"
 				><path
@@ -173,8 +173,8 @@
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				aria-hidden="true"
-				width="16"
-				height="16"
+				width="14"
+				height="14"
 				fill="currentColor"
 				viewBox="0 0 256 256"
 				><path
@@ -193,8 +193,8 @@
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				aria-hidden="true"
-				width="16"
-				height="16"
+				width="14"
+				height="14"
 				fill="currentColor"
 				viewBox="0 0 256 256"
 				><path
@@ -215,10 +215,65 @@
 		height: var(--toggle-highlight-height);
 		z-index: 0;
 		border-radius: 0.75rem;
-		background: var(--color-card);
-		border: 1px solid color-mix(in oklab, var(--color-border), transparent 15%);
-		box-shadow: var(--shadow-sm);
-		transition: opacity 0.2s ease;
 		pointer-events: none;
+		border: 1.5px solid transparent;
+		background:
+			radial-gradient(
+					ellipse at -20px top,
+					rgb(255 255 255 / 0.22),
+					rgb(255 255 255 / 0)
+				)
+				padding-box,
+			linear-gradient(
+					180deg,
+					var(--color-accent),
+					var(--color-accent-secondary)
+				)
+				padding-box,
+			linear-gradient(
+					180deg,
+					rgb(255 255 255 / 0.72),
+					rgb(0 0 0 / 0.24) 41%,
+					rgb(0 0 0 / 0.24) 75%,
+					rgb(255 255 255 / 0.28)
+				)
+				border-box;
+		box-shadow:
+			inset 0 1px 0 rgb(255 255 255 / 0.22),
+			var(--shadow-sm),
+			var(--shadow-lg);
+		transition: opacity 0.2s ease;
+	}
+
+	:global(html.dark .theme-toggle)::after {
+		background:
+			radial-gradient(
+					ellipse at -20px top,
+					rgb(255 255 255 / 0.08),
+					rgb(255 255 255 / 0)
+				)
+				padding-box,
+			linear-gradient(
+					180deg,
+					color-mix(in oklab, var(--color-accent) 70%, var(--color-card) 30%),
+					color-mix(
+						in oklab,
+						var(--color-accent-secondary) 60%,
+						var(--color-card) 40%
+					)
+				)
+				padding-box,
+			linear-gradient(
+					180deg,
+					rgb(255 255 255 / 0.72),
+					rgb(0 0 0 / 0.24) 41%,
+					rgb(0 0 0 / 0.24) 75%,
+					rgb(255 255 255 / 0.28)
+				)
+				border-box;
+		box-shadow:
+			inset 0 1px 0 rgb(255 255 255 / 0.08),
+			var(--shadow-sm),
+			var(--shadow-xl);
 	}
 </style>

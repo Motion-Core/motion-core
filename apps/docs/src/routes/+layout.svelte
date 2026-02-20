@@ -154,7 +154,7 @@
 			label: "GitHub",
 			href: "https://github.com/motion-core/motion-core",
 		}}
-		class="card-highlight"
+		class="card-highlight border-none"
 		{menuGroups}
 	>
 		{#snippet logo()}

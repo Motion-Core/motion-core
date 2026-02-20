@@ -63,9 +63,7 @@
 	});
 </script>
 
-<div
-	class="card-highlight relative my-6 w-full rounded-xl border border-border bg-card shadow-sm"
->
+<div class="card-highlight relative my-6 w-full rounded-xl bg-card shadow-sm">
 	<div
 		class="flex items-center justify-between rounded-t-xl border-b border-border bg-card-muted/60"
 	>

@@ -185,7 +185,7 @@
 	});
 
 	const buttonClass =
-		"card-highlight relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium whitespace-nowrap text-foreground shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex-1";
+		"card-highlight relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-card px-4 py-2 text-sm font-medium whitespace-nowrap text-foreground shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex-1";
 </script>
 
 <div class="relative z-20 mt-8 flex w-full gap-2 overflow-hidden lg:hidden">
@@ -277,7 +277,7 @@
 				use:portal
 				bind:this={dropdownRef}
 				style={dropdownStyle}
-				class="card-highlight z-50 flex w-48 origin-top-right flex-col gap-0.5 rounded-xl border border-border bg-card p-1 shadow-lg"
+				class="card-highlight z-50 flex w-48 origin-top-right flex-col gap-0.5 rounded-xl bg-card p-1 shadow-lg"
 				in:fly={{ y: -5, duration: 200, easing: backOut }}
 				out:fly={{ y: -5, duration: 150, easing: backOut }}
 			>

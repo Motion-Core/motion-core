@@ -40,7 +40,7 @@
 		color={isDark ? COLOR_PRESETS.dark.color : COLOR_PRESETS.light.color}
 		vignettePower={0.05}
 		vignetteStrength={50}
-		class="card-highlight pointer-events-none absolute inset-2 z-0 h-auto w-auto rounded-xl border border-border shadow-sm"
+		class="card-highlight pointer-events-none absolute inset-2 z-0 h-auto w-auto rounded-xl shadow-sm"
 	/>
 
 	<h1
@@ -63,7 +63,7 @@
 	<div class="relative z-10 mt-8 flex items-center justify-center gap-x-4">
 		<a
 			href={DOCS_URL}
-			class="transition-[background-color, filter] relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-linear-to-b from-accent to-accent-secondary px-4 py-2 text-sm font-medium whitespace-nowrap shadow-[inset_0_1px_0_0_rgb(255_255_255/.32),0px_1px_1px_-0.5px_rgba(9,9,11,0.05),0px_3px_3px_-1.5px_rgba(9,9,11,0.05),0px_6px_6px_-3px_rgba(9,9,11,0.05)] duration-150 ease-out hover:contrast-110 disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 dark:text-foreground light:text-card [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+			class="btn-primary relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 dark:text-foreground light:text-card [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 		>
 			Documentation
 		</a>
@@ -71,7 +71,7 @@
 			href={GITHUB_URL}
 			target="_blank"
 			rel="noreferrer"
-			class="card-highlight relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium whitespace-nowrap text-foreground shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+			class="btn-secondary relative inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 dark:text-foreground light:text-card [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 		>
 			<svg
 				role="img"

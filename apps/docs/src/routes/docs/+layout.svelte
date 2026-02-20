@@ -143,7 +143,7 @@
 											href={`https://www.npmjs.com/package/${dep}`}
 											target="_blank"
 											rel="noreferrer"
-											class="card-highlight relative inline-flex items-center rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-foreground/70 shadow-sm transition-[color] duration-150 ease-out hover:text-foreground"
+											class="card-highlight relative inline-flex items-center rounded-full bg-card px-2.5 py-0.5 text-xs font-medium text-foreground/70 shadow-sm transition-[color] duration-150 ease-out hover:text-foreground"
 										>
 											{dep}
 										</a>

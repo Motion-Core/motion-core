@@ -65,7 +65,7 @@
 	bind:this={cardElement}
 	href={`/docs/${component.slug}`}
 	class={cn(
-		"group/card card-highlight relative block h-full min-h-64 rounded-2xl border border-border bg-card opacity-0 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted",
+		"group/card card-highlight relative block h-full min-h-64 rounded-2xl bg-card opacity-0 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted",
 		className,
 	)}
 	data-component-card
@@ -102,7 +102,7 @@
 
 		<div class="absolute top-3 left-3">
 			<span
-				class="input-highlight relative inline-flex items-center justify-center rounded-full bg-background px-2 py-0.5 text-[10px] text-foreground uppercase"
+				class="input-highlight relative inline-flex items-center justify-center rounded-full bg-background px-2 py-0.5 text-[10px] text-foreground"
 			>
 				{component.category}
 			</span>
@@ -117,22 +117,24 @@
 						{component.name}
 					</p>
 				</div>
-				<span
-					class="input-highlight relative inline-flex size-8 items-center justify-center rounded-full bg-background text-foreground"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden="true"
-						width="16"
-						height="16"
-						fill="currentColor"
-						viewBox="0 0 256 256"
+				<div class="input-highlight relative rounded-full bg-background p-1">
+					<span
+						class="btn-secondary relative inline-flex size-8 items-center justify-center rounded-full bg-background text-foreground"
 					>
-						<path
-							d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"
-						></path>
-					</svg>
-				</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true"
+							width="16"
+							height="16"
+							fill="currentColor"
+							viewBox="0 0 256 256"
+						>
+							<path
+								d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"
+							></path>
+						</svg>
+					</span>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -27,7 +27,7 @@
 	>
 	<span class="flex-1 text-left">Search...</span>
 	<kbd
-		class="card-highlight pointer-events-none relative hidden h-5 items-center gap-1 rounded-lg border border-border bg-card px-1.5 text-[10px] font-medium text-foreground/45 opacity-100 shadow-sm select-none mono sm:flex"
+		class="card-highlight pointer-events-none relative hidden h-5 items-center gap-1 rounded-lg px-1.5 text-[10px] font-medium text-foreground/45 opacity-100 shadow-sm select-none mono sm:flex dark:bg-card-muted light:bg-card"
 	>
 		<span class="text-xs">⌘</span>K
 	</kbd>

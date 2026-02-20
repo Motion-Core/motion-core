@@ -19,8 +19,7 @@
 			<span
 				class="absolute -left-4 flex size-8 items-center justify-center rounded-full bg-card text-xs font-medium text-foreground [counter-increment:step] before:content-[counter(step)]"
 			>
-				<span
-					class="card-highlight absolute z-0 size-8 rounded-full border border-border shadow-sm"
+				<span class="card-highlight absolute z-0 size-8 rounded-full shadow-sm"
 				></span>
 			</span>
 			<h3 class="relative z-10 text-base leading-none font-medium">

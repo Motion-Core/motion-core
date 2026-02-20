@@ -8,7 +8,7 @@
 	class="input-highlight relative flex flex-col items-center justify-center rounded-2xl bg-background p-2 text-center"
 >
 	<div
-		class="card-highlight relative flex w-full flex-col items-center justify-between gap-4 rounded-xl border border-border bg-card px-4 py-8 md:flex-row md:px-8"
+		class="card-highlight relative flex w-full flex-col items-center justify-between gap-4 rounded-xl bg-card px-4 py-8 md:flex-row md:px-8"
 	>
 		<p class="text-muted-foreground text-sm">
 			&copy; {currentYear} Motion Core. MIT License.

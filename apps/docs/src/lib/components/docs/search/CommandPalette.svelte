@@ -119,7 +119,7 @@
 		onkeydown={(e) => e.key === "Escape" && close()}
 	>
 		<div
-			class="card-highlight relative w-full max-w-164 rounded-2xl border border-border bg-card shadow-2xl"
+			class="card-highlight relative w-full max-w-164 rounded-2xl bg-card shadow-2xl"
 			role="document"
 			transition:scale={{
 				duration: 300,
@@ -152,7 +152,7 @@
 					aria-label="Search documentation"
 				/>
 				<kbd
-					class="card-highlight pointer-events-none relative hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
+					class="card-highlight pointer-events-none relative hidden h-5 items-center gap-1 rounded-lg bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
 				>
 					ESC
 				</kbd>
@@ -242,7 +242,7 @@
 				class="flex w-full flex-row items-center justify-start gap-2 rounded-b-2xl border-t border-border/60 bg-card-muted/60 p-2"
 			>
 				<kbd
-					class="card-highlight pointer-events-none relative hidden h-5 items-center gap-1 rounded-lg border border-border bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
+					class="card-highlight pointer-events-none relative hidden h-5 items-center gap-1 rounded-lg bg-card-muted px-1.5 text-[10px] font-medium text-foreground/45 shadow-sm select-none mono sm:flex"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

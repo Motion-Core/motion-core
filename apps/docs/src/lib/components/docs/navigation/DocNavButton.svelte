@@ -23,7 +23,7 @@
 	{href}
 	{...rest}
 	class={cn(
-		"group card-highlight relative flex flex-col rounded-xl border border-border bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted",
+		"group card-highlight relative flex flex-col rounded-xl bg-card px-4 py-3 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted",
 		align === "right" && "sm:text-right",
 		forceSecondColumn && "sm:col-start-2",
 	)}
