@@ -139,7 +139,7 @@
 
 <div class="space-y-2">
 	<div
-		class="input-highlight relative inline-flex items-center gap-1 rounded-xl bg-background p-0.5"
+		class="theme-toggle input-highlight relative inline-flex items-center gap-1 rounded-xl bg-background p-0.5"
 		bind:this={containerRef}
 	>
 		<button
