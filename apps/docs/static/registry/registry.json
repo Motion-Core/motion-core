@@ -275,6 +275,33 @@
         }
       ]
     },
+    "glitter-cloth": {
+      "slug": "glitter-cloth",
+      "name": "Glitter Cloth",
+      "description": "Animated silk-like cloth shader with fine glitter noise and subtle vignette depth shading.",
+      "category": "canvas",
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.182.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/glitter-cloth/GlitterCloth.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/glitter-cloth/GlitterClothScene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "globe": {
       "slug": "globe",
       "name": "Globe",
@@ -540,33 +567,6 @@
         },
         {
           "path": "components/neural-noise/NeuralNoiseScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "pale-silk": {
-      "slug": "pale-silk",
-      "name": "Pale Silk",
-      "description": "A silky procedural shader blending animated wave fields with simplex-noise glitter and Photoshop-inspired blend modes.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/pale-silk/PaleSilk.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/pale-silk/PaleSilkScene.svelte"
         },
         {
           "path": "utils/cn.ts",

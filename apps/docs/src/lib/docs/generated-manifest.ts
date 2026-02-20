@@ -89,6 +89,15 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "glitter-cloth",
+		name: "Glitter Cloth",
+		category: "canvas",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "globe",
 		name: "Globe",
 		category: "canvas",
@@ -176,15 +185,6 @@ export const docsManifest: ComponentInfo[] = [
 	{
 		slug: "neural-noise",
 		name: "Neural Noise",
-		category: "canvas",
-		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
-		},
-	},
-	{
-		slug: "pale-silk",
-		name: "Pale Silk",
 		category: "canvas",
 		dependencies: {
 			"@threlte/core": "^8.3.1",

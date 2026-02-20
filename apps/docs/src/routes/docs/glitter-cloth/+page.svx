@@ -1,0 +1,94 @@
+---
+name: Glitter Cloth
+description: Animated silk-like cloth shader with fine glitter noise and subtle vignette depth shading.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/InstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import glitterClothSource from "motion-core/components/glitter-cloth/GlitterCloth.svelte?raw";
+	import sceneSource from "motion-core/components/glitter-cloth/GlitterClothScene.svelte?raw";
+	import GlitterClothDemo from "./GlitterClothDemo.svelte";
+	import glitterClothDemoSource from "./GlitterClothDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="glitter-cloth" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { GlitterCloth } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: glitterClothDemoSource, language: "svelte" },
+		{ name: "GlitterCloth.svelte", code: glitterClothSource, language: "svelte" },
+		{ name: "GlitterClothScene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<GlitterClothDemo />
+</ComponentPreview>
+
+## Props
+
+### GlitterCloth
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "color",
+			type: "THREE.ColorRepresentation",
+			default: '"#FF6900"',
+			description:
+				"Primary color used for the shader palette. Accent and shadow tones are derived automatically.",
+		},
+		{
+			prop: "speed",
+			type: "number",
+			default: "1.0",
+			description: "Speed multiplier for the full shader animation timeline.",
+		},
+		{
+			prop: "brightness",
+			type: "number",
+			default: "1.0",
+			description: "Global intensity multiplier for the base silk color.",
+		},
+		{
+			prop: "blendStrength",
+			type: "number",
+			default: "0.02",
+			description: "Opacity of the vivid-light glitter blend.",
+		},
+		{
+			prop: "noiseScale",
+			type: "number",
+			default: "4.0",
+			description: "Spatial scale for simplex noise sampling. Lower values create finer glitter.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
