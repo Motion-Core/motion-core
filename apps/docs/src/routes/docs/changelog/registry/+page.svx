@@ -3,6 +3,13 @@ title: Registry Changelog
 description: All notable changes to Motion Core Component Registry.
 ---
 
+## [0.4.0] - 2026-02-21
+
+### Added
+
+- **1 component**:
+  - **Canvas**: Glitter Cloth.
+
 ## [0.3.0] - 2026-01-18
 
 ### Added

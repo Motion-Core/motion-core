@@ -4,6 +4,13 @@ All notable changes to **Motion Core** will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-02-21
+
+### Added
+
+- **1 component**:
+  - **Canvas**: Glitter Cloth.
+
 ## [0.3.0] - 2026-01-18
 
 ### Added
