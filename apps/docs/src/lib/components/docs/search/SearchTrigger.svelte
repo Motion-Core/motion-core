@@ -8,7 +8,7 @@
 <button
 	type="button"
 	class={cn(
-		"group input-highlight relative flex h-9 w-full items-center gap-2 rounded-xl  bg-background px-3 py-1.5 text-sm text-foreground/45 transition-[color] duration-150 ease-out hover:text-foreground/70",
+		"group input-highlight relative flex h-9 w-full items-center gap-2 rounded-xl bg-background px-3 py-1.5 text-sm text-foreground/45 transition-[color] duration-150 ease-out hover:text-foreground/70",
 		className,
 	)}
 	onclick={() => searchState.open()}
