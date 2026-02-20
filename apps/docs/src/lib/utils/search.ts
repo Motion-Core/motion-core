@@ -110,6 +110,8 @@ function parseDocs() {
 		let currentHeading: string | undefined = undefined;
 		let currentAnchor = "";
 		let currentContentBuffer: string[] = [];
+		const slugCounts = new Map<string, number>();
+		let untitledSectionCount = 0;
 
 		const flushBuffer = () => {
 			if (currentContentBuffer.length > 0) {
@@ -137,7 +139,23 @@ function parseDocs() {
 
 				const level = headingMatch[1].length;
 				const text = headingMatch[2].trim();
-				const anchor = `#${slugify(text)}`;
+				let baseSlug = slugify(text);
+				if (!baseSlug) {
+					untitledSectionCount += 1;
+					baseSlug = `section-${untitledSectionCount}`;
+				}
+				const count = slugCounts.get(baseSlug);
+				let uniqueSlug = baseSlug;
+
+				if (typeof count === "number") {
+					const nextCount = count + 1;
+					slugCounts.set(baseSlug, nextCount);
+					uniqueSlug = `${baseSlug}-${nextCount}`;
+				} else {
+					slugCounts.set(baseSlug, 0);
+				}
+
+				const anchor = `#${uniqueSlug}`;
 
 				currentHeading = text;
 				currentAnchor = anchor;

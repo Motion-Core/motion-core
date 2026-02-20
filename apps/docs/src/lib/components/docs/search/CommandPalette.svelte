@@ -47,6 +47,16 @@
 	function handleKeydown(e: KeyboardEvent) {
 		if (!searchState.isOpen) return;
 
+		if (e.key === "Escape") {
+			e.preventDefault();
+			close();
+			return;
+		}
+
+		if (results.length === 0) {
+			return;
+		}
+
 		if (e.key === "ArrowDown") {
 			e.preventDefault();
 			selectedIndex = (selectedIndex + 1) % results.length;
@@ -58,9 +68,6 @@
 			if (results[selectedIndex]) {
 				selectResult(results[selectedIndex]);
 			}
-		} else if (e.key === "Escape") {
-			e.preventDefault();
-			close();
 		}
 	}
 
