@@ -1,5 +1,9 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { componentManifest, gettingStartedManifest } from "$lib/docs/manifest";
+import {
+	changelogManifest,
+	componentManifest,
+	gettingStartedManifest,
+} from "$lib/docs/manifest";
 import { getDocMetadata } from "$lib/docs/metadata";
 
 const summary =
@@ -18,6 +22,12 @@ type DocEntry = {
 	fallbackTitle: string;
 };
 
+type ManifestDoc = {
+	slug: string;
+	name: string;
+	items?: ManifestDoc[];
+};
+
 const buildDocEntry = (origin: string, entry: DocEntry) => {
 	const metadata = getDocMetadata(`/docs/${entry.slug}`);
 	const title = metadata?.title ?? entry.fallbackTitle;
@@ -26,6 +36,13 @@ const buildDocEntry = (origin: string, entry: DocEntry) => {
 	const link = new URL(`/docs/raw/${entry.slug}`, origin).href;
 	return `- [${title}](${link}): ${description}`;
 };
+
+const flattenManifestEntries = (docs: ManifestDoc[]): DocEntry[] =>
+	docs.flatMap((doc) =>
+		doc.items?.length
+			? flattenManifestEntries(doc.items)
+			: [{ slug: doc.slug, fallbackTitle: doc.name }],
+	);
 
 const buildSection = (title: string, items: string[]) => {
 	if (items.length === 0) return [];
@@ -43,8 +60,12 @@ const optionalLinks = [
 export const GET: RequestHandler = ({ url }) => {
 	const origin = url.origin;
 
-	const gettingStartedEntries = gettingStartedManifest.map((doc) =>
-		buildDocEntry(origin, { slug: doc.slug, fallbackTitle: doc.name }),
+	const gettingStartedEntries = flattenManifestEntries(
+		gettingStartedManifest,
+	).map((doc) => buildDocEntry(origin, doc));
+
+	const resourceEntries = flattenManifestEntries(changelogManifest).map((doc) =>
+		buildDocEntry(origin, doc),
 	);
 
 	const componentEntries = componentManifest.map((doc) =>
@@ -59,6 +80,8 @@ export const GET: RequestHandler = ({ url }) => {
 		...detailParagraphs,
 		"",
 		...buildSection("Getting Started", gettingStartedEntries),
+		"",
+		...buildSection("Resources", resourceEntries),
 		"",
 		...buildSection("Component Demos", componentEntries),
 		"",
