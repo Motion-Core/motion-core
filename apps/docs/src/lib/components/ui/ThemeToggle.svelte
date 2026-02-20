@@ -206,13 +206,14 @@
 </div>
 
 <style>
-	:global(.theme-toggle)::before {
+	:global(.theme-toggle)::after {
 		content: "";
 		position: absolute;
 		left: var(--toggle-highlight-x);
 		top: var(--toggle-highlight-y);
 		width: var(--toggle-highlight-width);
 		height: var(--toggle-highlight-height);
+		z-index: 0;
 		border-radius: 0.5rem;
 		background: var(--color-card);
 		border: 1px solid color-mix(in oklab, var(--color-border), transparent 15%);
