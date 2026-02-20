@@ -7,7 +7,7 @@
 
 	const COLOR_PRESETS = {
 		dark: {
-			color: "#ff6900",
+			color: "#242428",
 		},
 		light: {
 			color: "#ECECED",
@@ -34,15 +34,17 @@
 </script>
 
 <div
-	class="input-highlight relative flex flex-col items-center justify-center rounded-2xl bg-background px-4 py-24 text-center"
+	class="input-highlight relative flex h-[calc(100svh-1rem)] flex-col items-center justify-center rounded-2xl bg-background px-4 py-24 text-center"
 >
 	<GlitterCloth
 		color={isDark ? COLOR_PRESETS.dark.color : COLOR_PRESETS.light.color}
+		vignettePower={0.05}
+		vignetteStrength={50}
 		class="card-highlight pointer-events-none absolute inset-2 z-0 h-auto w-auto rounded-xl border border-border shadow-sm"
 	/>
 
 	<h1
-		class="relative z-10 mt-16 text-3xl font-medium tracking-tight text-foreground font-display md:mt-20 md:text-5xl"
+		class="relative z-10 text-3xl font-medium tracking-tight text-foreground font-display md:text-5xl"
 	>
 		High-quality<br />
 		<span class="text-accent">motion components</span><br />

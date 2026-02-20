@@ -6,11 +6,9 @@
 	let {
 		component,
 		class: className,
-		featured = false,
 	}: {
 		component: ComponentInfo;
 		class?: string;
-		featured?: boolean;
 	} = $props();
 
 	let cardElement: HTMLAnchorElement;
@@ -67,8 +65,7 @@
 	bind:this={cardElement}
 	href={`/docs/${component.slug}`}
 	class={cn(
-		"group/card card-highlight relative block rounded-2xl border border-border bg-card opacity-0 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted",
-		featured ? "h-full" : "h-full min-h-64",
+		"group/card card-highlight relative block h-full min-h-64 rounded-2xl border border-border bg-card opacity-0 shadow-sm transition-[background-color] duration-150 ease-out hover:bg-card-muted",
 		className,
 	)}
 	data-component-card
@@ -115,7 +112,7 @@
 			<div class="flex items-end justify-between gap-3">
 				<div>
 					<p
-						class="text-base leading-tight font-medium text-foreground font-display"
+						class="text-base leading-tight font-medium text-fixed-light font-display"
 					>
 						{component.name}
 					</p>
