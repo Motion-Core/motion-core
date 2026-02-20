@@ -7,7 +7,7 @@
 
 	const COLOR_PRESETS = {
 		dark: {
-			color: "#212124",
+			color: "#ff6900",
 		},
 		light: {
 			color: "#ECECED",

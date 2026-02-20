@@ -115,7 +115,7 @@
 			<div class="flex items-end justify-between gap-3">
 				<div>
 					<p
-						class="text-lg leading-tight font-medium text-foreground font-display"
+						class="text-base leading-tight font-medium text-foreground font-display"
 					>
 						{component.name}
 					</p>
