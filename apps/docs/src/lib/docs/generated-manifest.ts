@@ -183,6 +183,15 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "pale-silk",
+		name: "Pale Silk",
+		category: "canvas",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "pixelated-image",
 		name: "Pixelated Image",
 		category: "canvas",

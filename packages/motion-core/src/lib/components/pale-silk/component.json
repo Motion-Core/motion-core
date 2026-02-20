@@ -1,0 +1,27 @@
+{
+	"name": "Pale Silk",
+	"slug": "pale-silk",
+	"description": "A silky procedural shader blending animated wave fields with simplex-noise glitter and Photoshop-inspired blend modes.",
+	"category": "canvas",
+	"dependencies": {
+		"@threlte/core": "^8.3.1",
+		"three": "^0.182.0"
+	},
+	"devDependencies": {
+		"@types/three": "^0.182.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "PaleSilk.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "PaleSilkScene.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}
