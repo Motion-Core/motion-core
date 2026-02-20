@@ -19,7 +19,7 @@
 		dissipation?: SceneProps["dissipation"];
 		/**
 		 * Radius of the pointer influence.
-		 * @default 0.025
+		 * @default 0.005
 		 */
 		pointerSize?: SceneProps["pointerSize"];
 		/**

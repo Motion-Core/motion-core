@@ -57,7 +57,7 @@ import { InfiniteGallery } from "$lib/motion-core";
 
 ## Props
 
-### ImageTrail
+### InfiniteGallery
 
 <ApiTable
 	headers={["Prop", "Type", "Default"]}

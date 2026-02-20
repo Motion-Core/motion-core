@@ -37,7 +37,7 @@
 	interface AtmosphereConfig {
 		/**
 		 * Color of the atmosphere glow.
-		 * @default "#ffffff"
+		 * @default "#FF6900"
 		 */
 		color?: THREE.ColorRepresentation;
 		/**
