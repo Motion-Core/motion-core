@@ -124,7 +124,7 @@
 {#if showPreview}
 	<div
 		use:portal
-		class="card-highlight fixed right-4 bottom-4 z-50 rounded-lg border border-border bg-card-muted {className}"
+		class="fixed right-4 bottom-4 z-50 rounded-lg border border-border bg-card-muted {className}"
 	>
 		<video
 			bind:this={video}

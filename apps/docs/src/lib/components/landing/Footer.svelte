@@ -5,7 +5,7 @@
 </script>
 
 <footer
-	class="card-highlight relative flex flex-col items-center justify-center rounded-2xl border border-border bg-background p-2 text-center"
+	class="input-highlight relative flex flex-col items-center justify-center rounded-2xl bg-background p-2 text-center"
 >
 	<div
 		class="card-highlight relative flex w-full flex-col items-center justify-between gap-4 rounded-xl border border-border bg-card px-4 py-8 md:flex-row md:px-8"

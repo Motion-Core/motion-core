@@ -80,9 +80,7 @@
 	});
 </script>
 
-<section
-	class="card-highlight relative w-full rounded-2xl border border-border bg-background p-2"
->
+<section class="input-highlight relative w-full rounded-2xl bg-background p-2">
 	<div
 		class="grid grid-cols-1 gap-2 md:auto-rows-[280px] md:grid-cols-4"
 		bind:this={listRef}

@@ -109,7 +109,7 @@
 	</aside>
 
 	<div
-		class="card-highlight relative mx-auto w-full max-w-4xl overflow-hidden border-border bg-background pt-12 md:overflow-visible lg:ml-88 lg:max-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border lg:pt-0 xl:mr-88"
+		class="input-highlight relative mx-auto w-full max-w-4xl overflow-hidden bg-background pt-12 md:overflow-visible lg:ml-88 lg:max-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:pt-0 xl:mr-88"
 	>
 		<ScrollArea
 			id="docs-content-container"

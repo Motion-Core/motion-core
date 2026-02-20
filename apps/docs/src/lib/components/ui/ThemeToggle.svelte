@@ -139,7 +139,7 @@
 
 <div class="space-y-2">
 	<div
-		class="card-highlight relative inline-flex items-center gap-1 rounded-xl border border-border bg-background p-0.5"
+		class="input-highlight relative inline-flex items-center gap-1 rounded-xl bg-background p-0.5"
 		bind:this={containerRef}
 	>
 		<button
