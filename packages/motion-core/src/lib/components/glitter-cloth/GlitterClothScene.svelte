@@ -29,6 +29,23 @@
 		 * @default 4.0
 		 */
 		noiseScale?: number;
+		/**
+		 * Base strength of vignette falloff.
+		 * @default 15.0
+		 */
+		vignetteStrength?: number;
+		/**
+		 * Vignette curve exponent.
+		 * Lower values produce a softer rolloff.
+		 * @default 0.25
+		 */
+		vignettePower?: number;
+		/**
+		 * Opacity of the vignette effect.
+		 * `0` disables vignette influence, `1` applies full vignette.
+		 * @default 1.0
+		 */
+		vignetteOpacity?: number;
 	}
 
 	let {
@@ -37,6 +54,9 @@
 		brightness = 1.0,
 		blendStrength = 0.02,
 		noiseScale = 4.0,
+		vignetteStrength = 15.0,
+		vignettePower = 0.25,
+		vignetteOpacity = 1.0,
 	}: Props = $props();
 
 	let material = $state<THREE.ShaderMaterial>();
@@ -68,6 +88,9 @@
 		uniform float uBrightness;
 		uniform float uBlendStrength;
 		uniform float uNoiseScale;
+		uniform float uVignetteStrength;
+		uniform float uVignettePower;
+		uniform float uVignetteOpacity;
 
 		const float noiseSizeCoeff = 0.61;
 		const float noiseDensity = 53.0;
@@ -203,10 +226,10 @@
 			return c;
 		}
 
-		float vignette(vec2 uv) {
+		float vignette(vec2 uv, float strength, float power) {
 			uv *= 1.0 - uv.yx;
-			float vig = uv.x * uv.y * 15.0;
-			vig = pow(vig, 0.25);
+			float vig = uv.x * uv.y * strength;
+			vig = pow(vig, power);
 			return vig;
 		}
 
@@ -225,7 +248,8 @@
 			col = vec4(uPrimaryColor * b, 1.0) * vec4(f);
 
 			uv = fragCoord.xy / uResolution.xy;
-			float vig = vignette(uv);
+			float vig = vignette(uv, uVignetteStrength, uVignettePower);
+			float vignetteMask = mix(1.0, vig, uVignetteOpacity);
 
 			float fadeLR = 0.7 - abs(uv.x - 0.4);
 			float fadeTB = 1.1 - uv.y;
@@ -236,7 +260,7 @@
 
 			vec3 mixed = col.xyz;
 			mixed = mix(col.xyz, vividLight(noiseGreyShifted, col.xyz), uBlendStrength);
-			col = vec4(mixed, 1.0) * vig;
+			col = vec4(mixed, 1.0) * vignetteMask;
 
 			float k = (sin(time / 1.0) + 1.0) / 4.0 + 0.75;
 
@@ -283,6 +307,9 @@
 		material.uniforms.uBrightness.value = brightness;
 		material.uniforms.uBlendStrength.value = blendStrength;
 		material.uniforms.uNoiseScale.value = noiseScale;
+		material.uniforms.uVignetteStrength.value = vignetteStrength;
+		material.uniforms.uVignettePower.value = vignettePower;
+		material.uniforms.uVignetteOpacity.value = vignetteOpacity;
 	});
 
 	useTask((delta) => {
@@ -309,6 +336,9 @@
 			uBrightness: { value: brightness },
 			uBlendStrength: { value: blendStrength },
 			uNoiseScale: { value: noiseScale },
+			uVignetteStrength: { value: vignetteStrength },
+			uVignettePower: { value: vignettePower },
+			uVignetteOpacity: { value: vignetteOpacity },
 		}}
 	/>
 </T.Mesh>

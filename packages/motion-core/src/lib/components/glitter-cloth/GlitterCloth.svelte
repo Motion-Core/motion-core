@@ -38,6 +38,23 @@
 		 * @default 4.0
 		 */
 		noiseScale?: SceneProps["noiseScale"];
+		/**
+		 * Base strength of vignette falloff.
+		 * @default 15.0
+		 */
+		vignetteStrength?: SceneProps["vignetteStrength"];
+		/**
+		 * Vignette curve exponent.
+		 * Lower values produce a softer rolloff.
+		 * @default 0.25
+		 */
+		vignettePower?: SceneProps["vignettePower"];
+		/**
+		 * Opacity of the vignette effect.
+		 * `0` disables vignette influence, `1` applies full vignette.
+		 * @default 1.0
+		 */
+		vignetteOpacity?: SceneProps["vignetteOpacity"];
 		[key: string]: unknown;
 	}
 
@@ -48,6 +65,9 @@
 		brightness = 1.0,
 		blendStrength = 0.02,
 		noiseScale = 4.0,
+		vignetteStrength = 15.0,
+		vignettePower = 0.25,
+		vignetteOpacity = 1.0,
 		...rest
 	}: Props = $props();
 
@@ -57,7 +77,16 @@
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
 		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene {color} {speed} {brightness} {blendStrength} {noiseScale} />
+			<Scene
+				{color}
+				{speed}
+				{brightness}
+				{blendStrength}
+				{noiseScale}
+				{vignetteStrength}
+				{vignettePower}
+				{vignetteOpacity}
+			/>
 		</Canvas>
 	</div>
 </div>

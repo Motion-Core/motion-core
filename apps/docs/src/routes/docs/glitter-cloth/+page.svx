@@ -85,6 +85,24 @@ import { GlitterCloth } from "$lib/motion-core";
 			description: "Spatial scale for simplex noise sampling. Lower values create finer glitter.",
 		},
 		{
+			prop: "vignetteStrength",
+			type: "number",
+			default: "15.0",
+			description: "Base strength of vignette falloff.",
+		},
+		{
+			prop: "vignettePower",
+			type: "number",
+			default: "0.25",
+			description: "Vignette curve exponent. Lower values produce a softer rolloff.",
+		},
+		{
+			prop: "vignetteOpacity",
+			type: "number",
+			default: "1.0",
+			description: "Opacity of the vignette effect (`0` disables it, `1` is full effect).",
+		},
+		{
 			prop: "class",
 			type: "string",
 			default: '""',
