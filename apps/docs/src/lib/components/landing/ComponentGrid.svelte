@@ -82,11 +82,7 @@
 		bind:this={listRef}
 	>
 		{#each featuredComponents as item (item.component.slug)}
-			<ComponentCard
-				component={item.component}
-				class={item.className}
-				featured={true}
-			/>
+			<ComponentCard component={item.component} class={item.className} />
 		{/each}
 	</div>
 </section>
