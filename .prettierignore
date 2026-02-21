@@ -5,6 +5,7 @@ build
 apps/docs/.svelte-kit
 apps/docs/build
 apps/docs/static
+apps/docs/src/lib/docs/generated-manifest.ts
 packages/**/dist
 coverage
 motion-core-cli/target/**

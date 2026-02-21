@@ -32,6 +32,28 @@
 		"text effects",
 	].join(", ");
 	const sharedOgImage = $derived(new URL("/og-image.jpg", currentUrl).href);
+	const homeStructuredData = $derived.by(() =>
+		JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "SoftwareApplication",
+			name: siteName,
+			alternateName: "Motion Core animations",
+			url: canonicalUrl,
+			applicationCategory: "DeveloperApplication",
+			operatingSystem: "Any",
+			description: homeDescription,
+			image: sharedOgImage,
+			offers: {
+				"@type": "Offer",
+				price: "0",
+				priceCurrency: "USD",
+			},
+			provider: {
+				"@type": "Person",
+				name: authorName,
+			},
+		}),
+	);
 
 	import { FloatingMenu } from "motion-core";
 	import motionCoreLogo from "$lib/assets/motion-core-logo.svg?raw";
@@ -119,28 +141,9 @@
 		<meta name="twitter:title" content={homeTitle} />
 		<meta name="twitter:description" content={homeDescription} />
 		<meta name="twitter:image" content={sharedOgImage} />
-		<script type="application/ld+json">
-			{JSON.stringify({
-				"@context": "https://schema.org",
-				"@type": "SoftwareApplication",
-				name: siteName,
-				alternateName: "Motion Core animations",
-				url: canonicalUrl,
-				applicationCategory: "DeveloperApplication",
-				operatingSystem: "Any",
-				description: homeDescription,
-				image: sharedOgImage,
-				offers: {
-					"@type": "Offer",
-					price: "0",
-					priceCurrency: "USD",
-				},
-				provider: {
-					"@type": "Person",
-					name: authorName,
-				},
-			})}
-		</script>
+		<svelte:element this={"script"} type="application/ld+json">
+			{homeStructuredData}
+		</svelte:element>
 	{:else if !isDocsRoute}
 		<title>{siteName}</title>
 	{/if}
