@@ -130,7 +130,7 @@ pub fn plan(ctx: &CommandContext, options: &AddOptions) -> Result<AddPlan, AddEr
     let workspace_root = ctx.workspace_root().to_path_buf();
     let package_manager = crate::detect_package_manager(&workspace_root);
     let package_snapshot =
-        PackageSnapshot::load(&workspace_root).map_err(|err| AddError::Other(err.into()))?;
+        PackageSnapshot::load(&workspace_root).map_err(AddError::Other)?;
 
     let mut runtime_requirements = BTreeMap::new();
     let mut dev_requirements = BTreeMap::new();
@@ -195,11 +195,10 @@ pub fn plan(ctx: &CommandContext, options: &AddOptions) -> Result<AddPlan, AddEr
             }
         }
 
-        if entry_paths.is_empty() {
-            if let Some(entry) = fallback_entry.take() {
+        if entry_paths.is_empty()
+            && let Some(entry) = fallback_entry.take() {
                 entry_paths.push(entry);
             }
-        }
 
         if entry_paths.is_empty() {
             missing_entry_components.push(record.name.clone());
@@ -342,21 +341,20 @@ fn resolve_install_order(
     components: &HashMap<String, ComponentRecord>,
 ) -> Result<Vec<String>, anyhow::Error> {
     let mut resolved = BTreeSet::new();
-    let mut queue: Vec<String> = requested.iter().cloned().collect();
+    let mut queue: Vec<String> = requested.to_vec();
 
     while let Some(slug) = queue.pop() {
         if !components.contains_key(&slug) {
             return Err(anyhow!("component `{slug}` not found in registry"));
         }
-        if resolved.insert(slug.clone()) {
-            if let Some(record) = components.get(&slug) {
+        if resolved.insert(slug.clone())
+            && let Some(record) = components.get(&slug) {
                 for dep in &record.internal_dependencies {
                     if !resolved.contains(dep) {
                         queue.push(dep.clone());
                     }
                 }
             }
-        }
     }
 
     Ok(resolved.into_iter().collect())
@@ -367,14 +365,13 @@ fn write_component_file(
     contents: &[u8],
     dry_run: bool,
 ) -> Result<FileStatus, AddError> {
-    if let Some(parent) = path.parent() {
-        if !dry_run {
+    if let Some(parent) = path.parent()
+        && !dry_run {
             fs::create_dir_all(parent).map_err(|source| AddError::Io {
                 path: parent.to_path_buf(),
                 source,
             })?;
         }
-    }
 
     let existed = path.exists();
     if dry_run {
@@ -520,7 +517,7 @@ mod tests {
         );
         components.insert("c".into(), ComponentRecord::default());
 
-        let order = resolve_install_order(&vec!["a".into()], &components).unwrap();
+        let order = resolve_install_order(&["a".into()], &components).unwrap();
         assert_eq!(order, vec!["a", "b", "c"]);
     }
 

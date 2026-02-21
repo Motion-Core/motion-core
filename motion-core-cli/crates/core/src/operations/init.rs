@@ -229,11 +229,10 @@ fn scan_for_tailwind_css(
             scan_for_tailwind_css(root, &path, matches, depth + 1)?;
         } else if path.extension().and_then(|ext| ext.to_str()) == Some("css") {
             let contents = fs::read_to_string(&path)?;
-            if contents.contains("@tailwind") || contents.contains("tailwindcss") {
-                if let Ok(relative) = path.strip_prefix(root) {
+            if (contents.contains("@tailwind") || contents.contains("tailwindcss"))
+                && let Ok(relative) = path.strip_prefix(root) {
                     matches.push((depth, relative.to_string_lossy().to_string()));
                 }
-            }
         }
     }
     Ok(())

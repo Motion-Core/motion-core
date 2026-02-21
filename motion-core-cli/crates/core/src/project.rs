@@ -140,20 +140,20 @@ fn parse_major(version: &str) -> Option<u64> {
     let mut clean_version = v[..end].to_string();
 
     let numeric_part = clean_version
-        .split(|c| c == '-' || c == '+')
+        .split(['-', '+'])
         .next()
         .unwrap_or("");
     let dots = numeric_part.chars().filter(|&c| c == '.').count();
     if dots == 0 {
-        if clean_version.contains(|c| c == '-' || c == '+') {
-            let (num, rest) = clean_version.split_once(|c| c == '-' || c == '+').unwrap();
+        if clean_version.contains(['-', '+']) {
+            let (num, rest) = clean_version.split_once(['-', '+']).unwrap();
             clean_version = format!("{}.0.0-{}", num, rest);
         } else {
             clean_version.push_str(".0.0");
         }
     } else if dots == 1 {
-        if clean_version.contains(|c| c == '-' || c == '+') {
-            let (num, rest) = clean_version.split_once(|c| c == '-' || c == '+').unwrap();
+        if clean_version.contains(['-', '+']) {
+            let (num, rest) = clean_version.split_once(['-', '+']).unwrap();
             clean_version = format!("{}.0-{}", num, rest);
         } else {
             clean_version.push_str(".0");

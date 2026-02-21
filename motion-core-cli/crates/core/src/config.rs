@@ -120,18 +120,12 @@ impl Default for AliasPrefixes {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct Exports {
     #[serde(default)]
     pub components: ExportEntry,
 }
 
-impl Default for Exports {
-    fn default() -> Self {
-        Self {
-            components: ExportEntry::default(),
-        }
-    }
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
@@ -153,15 +147,12 @@ impl Default for ExportEntry {
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 pub enum ExportStrategy {
+    #[default]
     Named,
 }
 
-impl Default for ExportStrategy {
-    fn default() -> Self {
-        ExportStrategy::Named
-    }
-}
 
 #[derive(Debug, Error)]
 pub enum ConfigError {

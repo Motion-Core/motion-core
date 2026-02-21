@@ -153,12 +153,11 @@ pub fn sync_tailwind_tokens(
     let has_tailwind_import = has_tailwind_import(&existing);
 
     let mut block = String::new();
-    if !has_tailwind_import {
-        if let Some(line) = import_line {
+    if !has_tailwind_import
+        && let Some(line) = import_line {
             block.push_str(line.trim());
             block.push_str(newline);
         }
-    }
     if !block.is_empty() {
         block.push_str(newline);
     }
@@ -199,8 +198,7 @@ pub fn sync_tailwind_tokens(
             if let Err(restore_err) = restore_backup(&backup_path, &target) {
                 return Err(WorkspaceError::Io {
                     path: target.display().to_string(),
-                    source: std::io::Error::new(
-                        std::io::ErrorKind::Other,
+                    source: std::io::Error::other(
                         format!(
                             "write failed: {}; CRITICAL: failed to restore backup from {}: {}",
                             err,
@@ -304,14 +302,13 @@ fn fetch_cn_helper_from_cache(
         return Ok(None);
     };
     let scoped = cache.scoped(base_url);
-    if let Some(entry) = scoped.components_manifest(true) {
-        if let Ok(manifest) = serde_json::from_slice::<HashMap<String, String>>(&entry.bytes) {
+    if let Some(entry) = scoped.components_manifest(true)
+        && let Ok(manifest) = serde_json::from_slice::<HashMap<String, String>>(&entry.bytes) {
             registry.preload_component_manifest(manifest);
             if let Ok(bytes) = registry.fetch_component_file("utils/cn.ts") {
                 return Ok(Some(bytes));
             }
         }
-    }
     Ok(None)
 }
 
@@ -341,7 +338,7 @@ fn trim_token_body(body: &str) -> String {
         slice = &slice[1..];
     }
     slice
-        .trim_end_matches(|c| c == '\n' || c == '\r')
+        .trim_end_matches(['\n', '\r'])
         .to_string()
 }
 
@@ -516,9 +513,19 @@ mod tests {
 
         let result = sync_tailwind_tokens(temp.path(), &config, &registry, false);
 
-        let mut perms = fs::metadata(&css_path).expect("metadata").permissions();
-        perms.set_readonly(false);
-        let _ = fs::set_permissions(&css_path, perms);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            let mut perms = fs::metadata(&css_path).expect("metadata").permissions();
+            perms.set_mode(0o644);
+            let _ = fs::set_permissions(&css_path, perms);
+        }
+        #[cfg(not(unix))]
+        {
+            let mut perms = fs::metadata(&css_path).expect("metadata").permissions();
+            perms.set_readonly(false);
+            let _ = fs::set_permissions(&css_path, perms);
+        }
 
         match result {
             Err(WorkspaceError::Io { source, .. }) => {

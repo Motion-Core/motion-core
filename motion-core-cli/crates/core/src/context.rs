@@ -54,6 +54,22 @@ impl CommandContext {
         Ok(config)
     }
 }
+fn locate_config(start: &Path) -> (PathBuf, PathBuf) {
+    let mut current = start.canonicalize().unwrap_or_else(|_| start.to_path_buf());
+    loop {
+        let candidate = current.join(CONFIG_FILE_NAME);
+        if candidate.exists() {
+            return (current.clone(), candidate);
+        }
+        if !current.pop() {
+            break;
+        }
+    }
+
+    let fallback = start.canonicalize().unwrap_or_else(|_| start.to_path_buf());
+    let candidate = fallback.join(CONFIG_FILE_NAME);
+    (fallback, candidate)
+}
 
 #[cfg(test)]
 mod tests {
@@ -130,20 +146,4 @@ mod tests {
         
         std::env::set_current_dir(original_dir).expect("restore chdir");
     }
-}
-fn locate_config(start: &Path) -> (PathBuf, PathBuf) {
-    let mut current = start.canonicalize().unwrap_or_else(|_| start.to_path_buf());
-    loop {
-        let candidate = current.join(CONFIG_FILE_NAME);
-        if candidate.exists() {
-            return (current.clone(), candidate);
-        }
-        if !current.pop() {
-            break;
-        }
-    }
-
-    let fallback = start.canonicalize().unwrap_or_else(|_| start.to_path_buf());
-    let candidate = fallback.join(CONFIG_FILE_NAME);
-    (fallback, candidate)
 }

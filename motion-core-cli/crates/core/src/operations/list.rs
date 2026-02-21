@@ -51,7 +51,7 @@ mod tests {
 
     #[test]
     fn derived_traits_work() {
-        let opts = ListOptions::default();
+        let opts = ListOptions;
         let _ = format!("{:?}", opts);
         let res = ListResult {
             summary: crate::RegistrySummary {

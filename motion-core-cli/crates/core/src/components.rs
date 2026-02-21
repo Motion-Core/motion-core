@@ -205,8 +205,8 @@ fn parse_export_map(contents: &str) -> BarrelExports {
                     ),
                 );
             }
-        } else if let Some(rest) = trimmed.strip_prefix("export type {") {
-            if let Some((names, remainder)) = rest.split_once("} from ") {
+        } else if let Some(rest) = trimmed.strip_prefix("export type {")
+            && let Some((names, remainder)) = rest.split_once("} from ") {
                 let cleaned = remainder
                     .trim()
                     .trim_start_matches('"')
@@ -222,7 +222,6 @@ fn parse_export_map(contents: &str) -> BarrelExports {
                     );
                 }
             }
-        }
     }
     map
 }

@@ -54,7 +54,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &ListArgs) -> Co
 
     reporter.info(format_args!(
         "{}",
-        heading(&format!("{} components", result.summary.name))
+        heading(format!("{} components", result.summary.name))
     ));
     reporter.info(format_args!(
         "{}",

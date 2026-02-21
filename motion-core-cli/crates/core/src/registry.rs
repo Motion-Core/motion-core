@@ -170,13 +170,11 @@ impl RegistryClient {
         match &self.backend {
             RegistryBackend::Static { registry } => Ok(registry.clone()),
             RegistryBackend::Remote { client, base_url } => {
-                if let Some(cache) = &self.cache {
-                    if let Some(entry) = cache.registry_manifest(false) {
-                        if let Ok(registry) = parse_registry_entry(entry) {
+                if let Some(cache) = &self.cache
+                    && let Some(entry) = cache.registry_manifest(false)
+                        && let Ok(registry) = parse_registry_entry(entry) {
                             return Ok(registry);
                         }
-                    }
-                }
 
                 let url = Self::manifest_url(base_url);
                 match fetch_remote_json(client, &url) {
@@ -201,12 +199,11 @@ impl RegistryClient {
     }
 
     fn load_registry_from_cache_with_fallback(&self) -> Result<Registry, RegistryError> {
-        if let Some(cache) = &self.cache {
-            if let Some(entry) = cache.registry_manifest(true) {
+        if let Some(cache) = &self.cache
+            && let Some(entry) = cache.registry_manifest(true) {
                 tracing::warn!("registry request failed; falling back to cached manifest");
                 return parse_registry_entry(entry);
             }
-        }
         Err(RegistryError::Network(
             "failed to fetch registry manifest".into(),
         ))
@@ -220,14 +217,12 @@ impl RegistryClient {
         let manifest = match &self.backend {
             RegistryBackend::Static { .. } => HashMap::new(),
             RegistryBackend::Remote { client, base_url } => {
-                if let Some(cache) = &self.cache {
-                    if let Some(entry) = cache.components_manifest(false) {
-                        if let Ok(map) = parse_component_manifest(entry) {
+                if let Some(cache) = &self.cache
+                    && let Some(entry) = cache.components_manifest(false)
+                        && let Ok(map) = parse_component_manifest(entry) {
                             self.component_manifest.replace(Some(map.clone()));
                             return Ok(map);
                         }
-                    }
-                }
 
                 let url = Self::components_url(base_url);
                 match fetch_remote_json(client, &url) {
@@ -259,12 +254,11 @@ impl RegistryClient {
     fn load_components_from_cache_with_fallback(
         &self,
     ) -> Result<HashMap<String, String>, RegistryError> {
-        if let Some(cache) = &self.cache {
-            if let Some(entry) = cache.components_manifest(true) {
+        if let Some(cache) = &self.cache
+            && let Some(entry) = cache.components_manifest(true) {
                 tracing::warn!("component manifest request failed; using cached entries");
                 return parse_component_manifest(entry);
             }
-        }
         Err(RegistryError::Network(
             "failed to fetch component manifest".into(),
         ))

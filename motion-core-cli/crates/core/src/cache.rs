@@ -39,6 +39,12 @@ pub struct CachedData {
     pub fresh: bool,
 }
 
+impl Default for CacheStore {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CacheStore {
     pub fn new() -> Self {
         let base = env::var("MOTION_CORE_CACHE_DIR")
