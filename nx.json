@@ -5,7 +5,7 @@
 		"appsDir": "apps",
 		"libsDir": "packages"
 	},
-	"defaultBase": "main",
+	"defaultBase": "master",
 	"tasksRunnerOptions": {
 		"default": {
 			"runner": "nx/tasks-runners/default",
