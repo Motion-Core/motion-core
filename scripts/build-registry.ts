@@ -83,6 +83,12 @@ type PackageJson = {
 	devDependencies?: Record<string, string>;
 };
 
+function filterTypePackages(dependencies: Record<string, string>) {
+	return Object.fromEntries(
+		Object.entries(dependencies).filter(([name]) => name.startsWith("@types/")),
+	);
+}
+
 async function main() {
 	const pkgJson = JSON.parse(
 		await readFile(
@@ -157,7 +163,7 @@ async function main() {
 	await mkdir(schemaOutputDir, { recursive: true });
 
 	const baseDependencies = pkgJson.dependencies ?? {};
-	const baseDevDependencies = pkgJson.devDependencies ?? {};
+	const baseDevDependencies = filterTypePackages(pkgJson.devDependencies ?? {});
 
 	const registry = {
 		name: REGISTRY_NAME,
