@@ -3,6 +3,12 @@ title: CLI Changelog
 description: All notable changes to Motion Core CLI.
 ---
 
+## [0.5.2] - 2026-02-22
+
+### Fixed
+
+- Resolved strict Clippy warnings across CLI core modules to keep builds and CI checks clean under stricter lint settings.
+
 ## [0.5.1] - 2026-01-11
 
 ### Added
