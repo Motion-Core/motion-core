@@ -4,6 +4,12 @@ All notable changes to **Motion Core CLI** will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.2] - 2026-02-22
+
+### Fixed
+
+- Resolved strict Clippy warnings across CLI core modules to keep builds and CI checks clean under stricter lint settings.
+
 ## [0.5.1] - 2026-01-11
 
 ### Added
