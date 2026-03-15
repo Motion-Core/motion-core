@@ -229,7 +229,7 @@
 	use:portal={portalTarget}
 	bind:this={containerRef}
 	class={cn(
-		"fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-md border border-border bg-background-inset text-foreground shadow-2xl md:top-4 md:max-w-[70vw] lg:max-w-[50vw]",
+		"fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-md border border-border bg-background text-foreground shadow-2xl md:top-4 md:max-w-[70vw] lg:max-w-[50vw]",
 		className,
 	)}
 >
@@ -273,7 +273,7 @@
 			{#if secondaryButton}
 				<a
 					href={secondaryButton.href}
-					class="hidden h-10 items-center justify-center rounded-sm px-4 text-sm font-medium text-foreground transition-[background-color,color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-background-inset/60 hover:text-foreground md:flex"
+					class="hidden h-10 items-center justify-center rounded-sm px-4 text-sm font-medium text-foreground transition-[background-color,color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-background-inset/40 hover:text-foreground md:flex"
 				>
 					{secondaryButton.label}
 				</a>
@@ -281,7 +281,7 @@
 			{#if primaryButton}
 				<a
 					href={primaryButton.href}
-					class="flex h-10 items-center justify-center rounded-md bg-accent/10 px-4 text-sm font-medium text-accent transition-[background-color] ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/20"
+					class="flex h-10 items-center justify-center rounded-sm bg-accent/10 px-4 text-sm font-medium text-accent transition-[background-color] ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/20"
 				>
 					{primaryButton.label}
 				</a>
@@ -299,9 +299,9 @@
 			{#each menuGroups as group (group.title)}
 				<div
 					class={cn(
-						"flex flex-col gap-4 rounded-md p-4 transition-colors ease-[cubic-bezier(0.625,0.05,0,1)]",
+						"flex flex-col gap-4 rounded-sm p-4 transition-colors ease-[cubic-bezier(0.625,0.05,0,1)]",
 						group.variant === "muted"
-							? "bg-background-inset/60"
+							? "bg-background-inset/40"
 							: "bg-transparent",
 					)}
 				>

@@ -14,7 +14,6 @@ build
 .svelte-kit
 .turbo
 .nx
-.vercel
 *.tsbuildinfo
 *.tgz
 target

@@ -42,7 +42,7 @@
 		<h1
 			class="max-w-3xl text-center text-3xl font-medium tracking-tight text-balance text-foreground sm:text-5xl"
 		>
-			A High-quality <span class="text-accent">motion components</span>
+			High-quality <span class="text-accent">motion components</span>
 			for Svelte.
 		</h1>
 		<p

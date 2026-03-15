@@ -13,11 +13,5 @@ fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
-echo "Running Nx docs build..."
+echo "Running Nx web build..."
 bun run build
-
-if [ -d "apps/docs/.vercel/output" ]; then
-  rm -rf .vercel
-  mkdir -p .vercel
-  cp -R apps/docs/.vercel/output .vercel/
-fi
