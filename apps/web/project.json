@@ -28,6 +28,13 @@
 			"dependsOn": ["build"],
 			"cache": false
 		},
+		"deploy": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bun run --cwd apps/web deploy"
+			},
+			"cache": false
+		},
 		"check": {
 			"executor": "nx:run-commands",
 			"options": {

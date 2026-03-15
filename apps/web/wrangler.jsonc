@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "motion-core-web",
+	"name": "motion-core",
 	"compatibility_date": "2025-09-27",
 	"observability": {
 		"enabled": true,
