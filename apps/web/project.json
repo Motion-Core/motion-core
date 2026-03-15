@@ -1,0 +1,50 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"name": "web",
+	"projectType": "application",
+	"root": "apps/web",
+	"sourceRoot": "apps/web/src",
+	"targets": {
+		"dev": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bun run --cwd apps/web dev",
+				"forwardAllArgs": true
+			},
+			"cache": false
+		},
+		"build": {
+			"executor": "nx:run-commands",
+			"outputs": ["{projectRoot}/.svelte-kit", "{projectRoot}/build"],
+			"options": {
+				"command": "bun run --cwd apps/web build"
+			}
+		},
+		"preview": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bun run --cwd apps/web preview"
+			},
+			"dependsOn": ["build"],
+			"cache": false
+		},
+		"check": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bun run --cwd apps/web check"
+			}
+		},
+		"registry": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bun run --cwd apps/web build:registry"
+			},
+			"outputs": [
+				"{projectRoot}/static/registry",
+				"{projectRoot}/src/lib/docs/generated-manifest.ts"
+			]
+		}
+	},
+	"tags": ["scope:docs", "type:app"],
+	"implicitDependencies": ["motion-core"]
+}

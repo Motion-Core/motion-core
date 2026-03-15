@@ -112,7 +112,7 @@
 			>
 				<a
 					href={item.href || "#"}
-					class="z-10 flex h-full w-full cursor-pointer items-center justify-center p-2"
+					class="z-10 flex h-full w-full items-center justify-center p-2"
 				>
 					<img
 						src={item.src}
@@ -125,7 +125,7 @@
 				{#if item.label}
 					<div
 						bind:this={dockTooltips[index]}
-						class="pointer-events-none absolute top-0 left-1/2 z-0 rounded border border-neutral-200/50 bg-neutral-100 px-2 py-1 text-sm whitespace-nowrap text-black opacity-0 shadow-md"
+						class="pointer-events-none absolute top-0 left-1/2 z-0 rounded border border-neutral-200/50 bg-fixed-light px-2 py-1 text-sm whitespace-nowrap text-black opacity-0 shadow-md"
 					>
 						{item.label}
 					</div>

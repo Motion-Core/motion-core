@@ -1,0 +1,175 @@
+---
+name: Infinite Gallery
+description: A 3D gallery that endlessly scrolls through textured planes with cloth-like distortion and scroll-driven transitions.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import infiniteGallerySource from "motion-core/components/infinite-gallery/InfiniteGallery.svelte?raw";
+	import gallerySceneSource from "motion-core/components/infinite-gallery/InfiniteGalleryScene.svelte?raw";
+	import imagePlaneSource from "motion-core/components/infinite-gallery/ImagePlane.svelte?raw";
+	import InfiniteGalleryDemo from "./InfiniteGalleryDemo.svelte";
+	import infiniteGalleryDemoSource from "./InfiniteGalleryDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="infinite-gallery" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { InfiniteGallery } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: infiniteGalleryDemoSource, language: "svelte" },
+		{
+			name: "InfiniteGallery.svelte",
+			code: infiniteGallerySource,
+			language: "svelte",
+		},
+		{
+			name: "InfiniteGalleryScene.svelte",
+			code: gallerySceneSource,
+			language: "svelte",
+		},
+		{ name: "ImagePlane.svelte", code: imagePlaneSource, language: "svelte" },
+	]}
+>
+	<InfiniteGalleryDemo />
+</ComponentPreview>
+
+## Props
+
+### InfiniteGallery
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "images",
+			type: "ImageItem[]",
+			default: "—",
+			description: "Array of image URLs or objects {src, alt}.",
+		},
+		{
+			prop: "speed",
+			type: "number",
+			default: "1.0",
+			description: "Multiplier for scroll and auto-play speed.",
+		},
+		{
+			prop: "visibleCount",
+			type: "number",
+			default: "8",
+			description: "Number of image planes rendered in the scene.",
+		},
+		{
+			prop: "fadeSettings",
+			type: "FadeSettings",
+			default: "Default Fade",
+			description: "Configures where images fade in/out along the Z axis.",
+		},
+		{
+			prop: "blurSettings",
+			type: "BlurSettings",
+			default: "Default Blur",
+			description: "Configures where images blur in/out along the Z axis.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
+
+### FadeSettings
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "fadeIn.start",
+			type: "number",
+			default: "0.01",
+			description: "Z-position where images start fading in.",
+		},
+		{
+			key: "fadeIn.end",
+			type: "number",
+			default: "0.25",
+			description: "Z-position where images are fully opaque.",
+		},
+		{
+			key: "fadeOut.start",
+			type: "number",
+			default: "0.43",
+			description: "Z-position where images start fading out.",
+		},
+		{
+			key: "fadeOut.end",
+			type: "number",
+			default: "0.46",
+			description: "Z-position where images are fully transparent.",
+		},
+	]}
+/>
+
+### BlurSettings
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "blurIn.start",
+			type: "number",
+			default: "0.0",
+			description: "Z-position where blur starts decreasing.",
+		},
+		{
+			key: "blurIn.end",
+			type: "number",
+			default: "0.2",
+			description: "Z-position where images are sharp (no blur).",
+		},
+		{
+			key: "blurOut.start",
+			type: "number",
+			default: "0.43",
+			description: "Z-position where blur starts increasing again.",
+		},
+		{
+			key: "blurOut.end",
+			type: "number",
+			default: "0.46",
+			description: "Z-position where images are max blurred.",
+		},
+		{
+			key: "maxBlur",
+			type: "number",
+			default: "8.0",
+			description: "Maximum blur radius applied to images.",
+		},
+	]}
+/>

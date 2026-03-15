@@ -25,7 +25,23 @@ if (!existsSync(fixturePath)) {
 	process.exit(1);
 }
 
-const registryRoot = path.join(repoRoot, "apps", "docs", "static", "registry");
+const primaryRegistryRoot = path.join(
+	repoRoot,
+	"apps",
+	"web",
+	"static",
+	"registry",
+);
+const fallbackRegistryRoot = path.join(
+	repoRoot,
+	"apps",
+	"docs",
+	"static",
+	"registry",
+);
+const registryRoot = existsSync(primaryRegistryRoot)
+	? primaryRegistryRoot
+	: fallbackRegistryRoot;
 const requiredRegistryFiles = ["registry.json", "components.json"];
 for (const file of requiredRegistryFiles) {
 	if (!existsSync(path.join(registryRoot, file))) {

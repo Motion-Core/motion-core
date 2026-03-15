@@ -1,0 +1,26 @@
+<script lang="ts">
+	import type { Snippet } from "svelte";
+	import { cn } from "$lib/utils/cn";
+
+	type ComponentProps = {
+		class?: string;
+		children?: Snippet;
+		[prop: string]: unknown;
+	};
+
+	const {
+		children,
+		class: className = "",
+		...restProps
+	}: ComponentProps = $props();
+</script>
+
+<h2
+	{...restProps}
+	class={cn(
+		"mt-12 scroll-m-24 text-2xl font-medium tracking-tight text-foreground [&_code]:text-xl",
+		className,
+	)}
+>
+	{@render children?.()}
+</h2>

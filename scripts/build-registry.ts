@@ -33,6 +33,7 @@ type RegistryComponent = ComponentMetadata & {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
+const docsAppDir = process.env.MOTION_CORE_DOCS_APP ?? "web";
 const componentRoot = path.join(
 	rootDir,
 	"packages",
@@ -52,7 +53,7 @@ const tokensRoot = path.join(
 const registryOutputDir = path.join(
 	rootDir,
 	"apps",
-	"docs",
+	docsAppDir,
 	"static",
 	"registry",
 );
@@ -60,7 +61,7 @@ const schemaOutputDir = path.join(registryOutputDir, "schema");
 const generatedDocsManifestPath = path.join(
 	rootDir,
 	"apps",
-	"docs",
+	docsAppDir,
 	"src",
 	"lib",
 	"docs",
@@ -395,7 +396,14 @@ async function writeGeneratedDocsManifest(
 		}))
 		.sort((a, b) => a.name.localeCompare(b.name));
 
-	const source = `import type { ComponentInfo } from "../components/landing";
+	const source = `type ComponentInfo = {
+  slug: string;
+  name: string;
+  category?: string;
+  video?: string;
+  poster?: string;
+  dependencies?: Record<string, string>;
+};
 
 export const docsManifest: ComponentInfo[] = ${JSON.stringify(
 		manifestEntries,

@@ -1,0 +1,143 @@
+---
+name: Split Reveal
+description: A text animation component that masks content and reveals lines, words, or characters upon mounting.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import splitRevealSource from "motion-core/components/split-reveal/SplitReveal.svelte?raw";
+	import SplitRevealDemo from "./SplitRevealDemo.svelte";
+	import splitRevealDemoSource from "./SplitRevealDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="split-reveal" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { SplitReveal } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: splitRevealDemoSource, language: "svelte" },
+		{ name: "SplitReveal.svelte", code: splitRevealSource, language: "svelte" },
+	]}
+>
+	<SplitRevealDemo />
+</ComponentPreview>
+
+## Props
+
+### SplitReveal
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "mode",
+			type: '"lines" | "words" | "chars"',
+			default: '"lines"',
+			description: "Pick which SplitText grouping animates.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Adds classes to the wrapping element.",
+		},
+		{
+			prop: "as",
+			type: "keyof HTMLElementTagNameMap",
+			default: '"div"',
+			description: "Tag used for the wrapper (swap to div, p, etc.).",
+		},
+		{
+			prop: "config",
+			type: "SplitRevealConfig",
+			default: "DEFAULT_CONFIG",
+			description: "Optional per-mode overrides for duration/stagger.",
+		},
+		{
+			prop: "delay",
+			type: "number",
+			default: "0",
+			description: "Delay before the animation starts (in seconds).",
+		},
+		{
+			prop: "triggerOnScroll",
+			type: "boolean",
+			default: "false",
+			description: "If true, animation starts when element enters viewport.",
+		},
+		{
+			prop: "scrollElement",
+			type: "string | HTMLElement | null",
+			default: "undefined",
+			description:
+				"Optional selector or element for the scroll container. Useful when scrolling within a specific div instead of the window.",
+		},
+	]}
+/>
+
+### SplitRevealConfig
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "lines.duration",
+			type: "number",
+			default: "0.8",
+			description: "Animation duration for 'lines' mode.",
+		},
+		{
+			key: "lines.stagger",
+			type: "number",
+			default: "0.08",
+			description: "Stagger delay for 'lines' mode.",
+		},
+		{
+			key: "words.duration",
+			type: "number",
+			default: "0.6",
+			description: "Animation duration for 'words' mode.",
+		},
+		{
+			key: "words.stagger",
+			type: "number",
+			default: "0.06",
+			description: "Stagger delay for 'words' mode.",
+		},
+		{
+			key: "chars.duration",
+			type: "number",
+			default: "0.4",
+			description: "Animation duration for 'chars' mode.",
+		},
+		{
+			key: "chars.stagger",
+			type: "number",
+			default: "0.008",
+			description: "Stagger delay for 'chars' mode.",
+		},
+	]}
+/>

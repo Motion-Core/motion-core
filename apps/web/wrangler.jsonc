@@ -1,0 +1,21 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "motion-core-web",
+	"compatibility_date": "2025-09-27",
+	"observability": {
+		"enabled": true,
+	},
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare",
+	},
+	"rules": [
+		{
+			"type": "Text",
+			"globs": ["**/*.ttf"],
+			"fallthrough": true,
+		},
+	],
+	"compatibility_flags": ["nodejs_compat"],
+}

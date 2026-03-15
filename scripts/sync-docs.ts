@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
+const docsAppDir = process.env.MOTION_CORE_DOCS_APP ?? "web";
 const componentRoot = path.join(
 	rootDir,
 	"packages",
@@ -15,7 +16,14 @@ const componentRoot = path.join(
 	"lib",
 	"components",
 );
-const docsRoot = path.join(rootDir, "apps", "docs", "src", "routes", "docs");
+const docsRoot = path.join(
+	rootDir,
+	"apps",
+	docsAppDir,
+	"src",
+	"routes",
+	"docs",
+);
 
 async function main() {
 	const componentDirs = (await readdir(componentRoot, { withFileTypes: true }))

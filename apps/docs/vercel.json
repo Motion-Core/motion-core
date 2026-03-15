@@ -1,4 +1,0 @@
-{
-	"buildCommand": "cd ../.. && ./scripts/ci-build.sh",
-	"outputDirectory": "apps/docs/.vercel/output"
-}

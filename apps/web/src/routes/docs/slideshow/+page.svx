@@ -1,0 +1,67 @@
+---
+name: Slideshow
+description: A full-bleed gallery featuring parallax transitions and a synchronized thumbnail navigator.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import slideshowSource from "motion-core/components/slideshow/Slideshow.svelte?raw";
+	import SlideshowDemo from "./SlideshowDemo.svelte";
+	import slideshowDemoSource from "./SlideshowDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="slideshow" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { Slideshow } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: slideshowDemoSource, language: "svelte" },
+		{ name: "Slideshow.svelte", code: slideshowSource, language: "svelte" },
+	]}
+>
+	<SlideshowDemo />
+</ComponentPreview>
+
+## Props
+
+### Slideshow
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "images",
+			type: "{src: string, alt?: string}[]",
+			default: "—",
+			description: "Array of image objects to display.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

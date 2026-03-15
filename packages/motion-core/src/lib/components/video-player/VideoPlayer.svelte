@@ -346,7 +346,7 @@
 		"group relative flex overflow-hidden bg-fixed-dark shadow-sm",
 		isLayoutFullscreen
 			? "fixed inset-0 z-50 h-screen w-screen rounded-none"
-			: "aspect-video w-full max-w-3xl rounded-2xl",
+			: "aspect-video w-full max-w-3xl rounded-xl",
 		className,
 	)}
 >
@@ -370,7 +370,7 @@
 	<div
 		bind:this={bgRef}
 		class={cn(
-			"pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-32 bg-linear-to-t from-fixed-dark/70 via-fixed-dark/45 to-transparent opacity-0",
+			"pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-32 bg-linear-to-t from-black/70 via-black/45 to-transparent opacity-0",
 			hideControls && "hidden",
 		)}
 	></div>

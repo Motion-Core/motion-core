@@ -1,0 +1,73 @@
+---
+name: Text Loop
+description: A text animator that cycles through phrases with blurred vertical transitions, suitable for headlines.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import textLoopSource from "motion-core/components/text-loop/TextLoop.svelte?raw";
+	import TextLoopDemo from "./TextLoopDemo.svelte";
+	import textLoopDemoSource from "./TextLoopDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="text-loop" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { TextLoop } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: textLoopDemoSource, language: "svelte" },
+		{ name: "TextLoop.svelte", code: textLoopSource, language: "svelte" },
+	]}
+>
+	<TextLoopDemo />
+</ComponentPreview>
+
+## Props
+
+### TextLoop
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "texts",
+			type: "string[]",
+			default: "—",
+			description: "Array of strings to loop through.",
+		},
+		{
+			prop: "interval",
+			type: "number",
+			default: "2000",
+			description: "Time in milliseconds between transitions.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: "—",
+			description: "Additional CSS classes.",
+		},
+	]}
+/>

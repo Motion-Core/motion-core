@@ -211,7 +211,7 @@
 <div
 	use:portal={portalTarget}
 	bind:this={overlayRef}
-	class="pointer-events-none fixed inset-0 z-40 bg-background/60 opacity-0 data-[open=true]:pointer-events-auto"
+	class="pointer-events-none fixed inset-0 z-40 bg-background-inset/60 opacity-0 data-[open=true]:pointer-events-auto"
 	data-open={isOpen}
 	onclick={toggle}
 	onkeydown={(e) => {
@@ -229,14 +229,14 @@
 	use:portal={portalTarget}
 	bind:this={containerRef}
 	class={cn(
-		"fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-lg border border-border bg-card text-foreground shadow-2xl md:top-4 md:max-w-[70vw] lg:max-w-[50vw]",
+		"fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-md border border-border bg-background-inset text-foreground shadow-2xl md:top-4 md:max-w-[70vw] lg:max-w-[50vw]",
 		className,
 	)}
 >
 	<div class="relative z-20 flex w-full items-center justify-between p-1">
 		<button
 			onclick={toggle}
-			class="group relative flex h-10 cursor-pointer items-center justify-center rounded-md pr-2 transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/10"
+			class="group relative flex h-10 items-center justify-center rounded-sm pr-2 transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/10"
 			aria-label="Toggle menu"
 		>
 			<div class="relative flex h-10 w-10 items-center justify-center">
@@ -273,7 +273,7 @@
 			{#if secondaryButton}
 				<a
 					href={secondaryButton.href}
-					class="hidden h-10 items-center justify-center rounded-md px-4 text-sm font-medium text-foreground transition-[background-color,color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-card-muted/60 hover:text-foreground md:flex"
+					class="hidden h-10 items-center justify-center rounded-sm px-4 text-sm font-medium text-foreground transition-[background-color,color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-background-inset/60 hover:text-foreground md:flex"
 				>
 					{secondaryButton.label}
 				</a>
@@ -299,12 +299,14 @@
 			{#each menuGroups as group (group.title)}
 				<div
 					class={cn(
-						"flex flex-col gap-4 rounded-lg p-4 transition-colors ease-[cubic-bezier(0.625,0.05,0,1)]",
-						group.variant === "muted" ? "bg-card-muted/60" : "bg-transparent",
+						"flex flex-col gap-4 rounded-md p-4 transition-colors ease-[cubic-bezier(0.625,0.05,0,1)]",
+						group.variant === "muted"
+							? "bg-background-inset/60"
+							: "bg-transparent",
 					)}
 				>
 					<h3
-						class="text-xs font-medium tracking-wider text-foreground/45 uppercase mono"
+						class="mono text-xs font-medium tracking-wider text-foreground-muted/50 uppercase"
 					>
 						{group.title}
 					</h3>
@@ -312,7 +314,7 @@
 						{#each group.links as link, i (link.href + link.label)}
 							<a
 								href={link.href}
-								class="group/link relative block w-fit text-2xl font-normal text-foreground/70 transition-colors duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:text-foreground"
+								class="group/link relative block w-fit text-2xl font-normal text-foreground-muted transition-colors duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:text-foreground"
 							>
 								<span class="relative z-10 block leading-tight">
 									<span class="menu-link-text block whitespace-nowrap">
