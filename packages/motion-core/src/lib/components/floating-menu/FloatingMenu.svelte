@@ -281,7 +281,7 @@
 			{#if primaryButton}
 				<a
 					href={primaryButton.href}
-					class="flex h-10 items-center justify-center rounded-sm bg-accent/10 px-4 text-sm font-medium text-accent transition-[background-color] ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/20"
+					class="flex h-10 items-center justify-center rounded-sm bg-accent/10 px-4 text-sm font-medium text-accent transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/20"
 				>
 					{primaryButton.label}
 				</a>
