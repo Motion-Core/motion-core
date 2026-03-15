@@ -46,6 +46,11 @@
 	let isDragging = $state(false);
 	let hoverTime = $state(0);
 	let hoverX = $state(0);
+	let safeDuration = $derived(Math.max(duration || 0, 0));
+	let safeCurrentTime = $derived(
+		Math.max(0, Math.min(currentTime || 0, safeDuration)),
+	);
+	let isDisabled = $derived(safeDuration <= 0);
 
 	function formatTime(seconds: number) {
 		if (!Number.isFinite(seconds) || seconds < 0) return "00:00";
@@ -55,7 +60,9 @@
 	}
 
 	function handlePointerMove(e: PointerEvent) {
+		if (isDisabled) return;
 		const bounds = sliderRef.getBoundingClientRect();
+		if (bounds.width <= 0) return;
 		const clientX = e.clientX;
 
 		let x = clientX - bounds.left;
@@ -71,6 +78,7 @@
 	}
 
 	function handlePointerDown(e: PointerEvent) {
+		if (isDisabled) return;
 		sliderRef.setPointerCapture(e.pointerId);
 		isDragging = true;
 		onScrubStart();
@@ -89,7 +97,51 @@
 		}
 	}
 
-	let progressPercent = $derived((currentTime / duration) * 100 || 0);
+	function clampTime(time: number) {
+		return Math.max(0, Math.min(time, safeDuration));
+	}
+
+	function handleKeyDown(e: KeyboardEvent) {
+		if (isDisabled) return;
+
+		const smallStep = Math.max(safeDuration / 100, 0.1);
+		const largeStep = Math.max(safeDuration / 10, 1);
+		let nextTime: number | null = null;
+
+		switch (e.key) {
+			case "ArrowLeft":
+			case "ArrowDown":
+				nextTime = safeCurrentTime - smallStep;
+				break;
+			case "ArrowRight":
+			case "ArrowUp":
+				nextTime = safeCurrentTime + smallStep;
+				break;
+			case "PageDown":
+				nextTime = safeCurrentTime - largeStep;
+				break;
+			case "PageUp":
+				nextTime = safeCurrentTime + largeStep;
+				break;
+			case "Home":
+				nextTime = 0;
+				break;
+			case "End":
+				nextTime = safeDuration;
+				break;
+		}
+
+		if (nextTime === null) return;
+
+		e.preventDefault();
+		onScrubStart();
+		onSeek(clampTime(nextTime));
+		onScrubEnd();
+	}
+
+	let progressPercent = $derived(
+		safeDuration > 0 ? (safeCurrentTime / safeDuration) * 100 : 0,
+	);
 
 	$effect(() => {
 		if (isHovered || isDragging) {
@@ -133,11 +185,20 @@
 		"relative flex h-10 w-full touch-none items-center justify-center select-none",
 		className,
 	)}
+	role="slider"
+	tabindex={isDisabled ? -1 : 0}
+	aria-label="Video timeline"
+	aria-disabled={isDisabled}
+	aria-valuemin={0}
+	aria-valuemax={safeDuration}
+	aria-valuenow={safeCurrentTime}
+	aria-valuetext={formatTime(safeCurrentTime)}
 	onpointerenter={() => (isHovered = true)}
 	onpointerleave={handlePointerLeave}
 	onpointermove={handlePointerMove}
 	onpointerdown={handlePointerDown}
 	onpointerup={handlePointerUp}
+	onkeydown={handleKeyDown}
 >
 	<div
 		bind:this={sliderRef}
