@@ -5,13 +5,13 @@ description: A rotating circular gallery that creates an arch/rainbow layout, pe
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import radialGallerySource from "motion-core/components/radial-gallery/RadialGallery.svelte?raw";
-	import RadialGalleryDemo from "./RadialGalleryDemo.svelte";
-	import radialGalleryDemoSource from "./RadialGalleryDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import radialGallerySource
+	from "motion-core/components/radial-gallery/RadialGallery.svelte?raw"; import
+	RadialGalleryDemo from "./RadialGalleryDemo.svelte"; import
+	radialGalleryDemoSource from "./RadialGalleryDemo.svelte?raw";
 </script>
 
 ## Installation

@@ -5,14 +5,14 @@ description: A refractive view simulating moving glass rods that distort the und
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import glassPaneSource from "motion-core/components/glass-pane/GlassPane.svelte?raw";
-	import sceneSource from "motion-core/components/glass-pane/GlassPaneScene.svelte?raw";
-	import GlassPaneDemo from "./GlassPaneDemo.svelte";
-	import glassPaneDemoSource from "./GlassPaneDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import glassPaneSource from
+	"motion-core/components/glass-pane/GlassPane.svelte?raw"; import sceneSource
+	from "motion-core/components/glass-pane/GlassPaneScene.svelte?raw"; import
+	GlassPaneDemo from "./GlassPaneDemo.svelte"; import glassPaneDemoSource from
+	"./GlassPaneDemo.svelte?raw";
 </script>
 
 ## Installation

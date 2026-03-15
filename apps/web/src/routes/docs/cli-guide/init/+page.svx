@@ -21,8 +21,8 @@ motion-core init [--dry-run]
 
 ### Options
 
-| Flag | Description |
-| ---- | ----------- |
+| Flag        | Description                                                                                                                          |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | `--dry-run` | Print every planned action (config path, directories, dependencies, Tailwind edits) without touching disk. Useful for audits and CI. |
 
 ## What the command does

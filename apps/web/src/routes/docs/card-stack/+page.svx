@@ -5,14 +5,15 @@ description: A stack of cards that stick to the top and scale down as you scroll
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import cardStackSource from "motion-core/components/card-stack/CardStack.svelte?raw";
-	import cardStackItemSource from "motion-core/components/card-stack/CardStackItem.svelte?raw";
-	import CardStackDemo from "./CardStackDemo.svelte";
-	import cardStackDemoSource from "./CardStackDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import cardStackSource from
+	"motion-core/components/card-stack/CardStack.svelte?raw"; import
+	cardStackItemSource from
+	"motion-core/components/card-stack/CardStackItem.svelte?raw"; import
+	CardStackDemo from "./CardStackDemo.svelte"; import cardStackDemoSource from
+	"./CardStackDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -41,7 +42,11 @@ import { CardStack, CardStackItem } from "motion-core";
 	sources={[
 		{ name: "Example", code: cardStackDemoSource, language: "svelte" },
 		{ name: "CardStack.svelte", code: cardStackSource, language: "svelte" },
-		{ name: "CardStackItem.svelte", code: cardStackItemSource, language: "svelte" },
+		{
+			name: "CardStackItem.svelte",
+			code: cardStackItemSource,
+			language: "svelte",
+		},
 	]}
 >
 	<CardStackDemo />
@@ -59,7 +64,8 @@ import { CardStack, CardStackItem } from "motion-core";
 			prop: "children",
 			type: "Snippet",
 			default: "—",
-			description: "The cards to stack. Use the Card component for best results.",
+			description:
+				"The cards to stack. Use the Card component for best results.",
 		},
 		{
 			prop: "scaleFactor",

@@ -5,14 +5,15 @@ description: Animated silk-like cloth shader with fine glitter noise and subtle 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import glitterClothSource from "motion-core/components/glitter-cloth/GlitterCloth.svelte?raw";
-	import sceneSource from "motion-core/components/glitter-cloth/GlitterClothScene.svelte?raw";
-	import GlitterClothDemo from "./GlitterClothDemo.svelte";
-	import glitterClothDemoSource from "./GlitterClothDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import glitterClothSource
+	from "motion-core/components/glitter-cloth/GlitterCloth.svelte?raw"; import
+	sceneSource from
+	"motion-core/components/glitter-cloth/GlitterClothScene.svelte?raw"; import
+	GlitterClothDemo from "./GlitterClothDemo.svelte"; import
+	glitterClothDemoSource from "./GlitterClothDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -38,7 +39,11 @@ import { GlitterCloth } from "$lib/motion-core";
 <ComponentPreview
 	sources={[
 		{ name: "Example", code: glitterClothDemoSource, language: "svelte" },
-		{ name: "GlitterCloth.svelte", code: glitterClothSource, language: "svelte" },
+		{
+			name: "GlitterCloth.svelte",
+			code: glitterClothSource,
+			language: "svelte",
+		},
 		{ name: "GlitterClothScene.svelte", code: sceneSource, language: "svelte" },
 	]}
 >
@@ -82,7 +87,8 @@ import { GlitterCloth } from "$lib/motion-core";
 			prop: "noiseScale",
 			type: "number",
 			default: "4.0",
-			description: "Spatial scale for simplex noise sampling. Lower values create finer glitter.",
+			description:
+				"Spatial scale for simplex noise sampling. Lower values create finer glitter.",
 		},
 		{
 			prop: "vignetteStrength",
@@ -94,13 +100,15 @@ import { GlitterCloth } from "$lib/motion-core";
 			prop: "vignettePower",
 			type: "number",
 			default: "0.25",
-			description: "Vignette curve exponent. Lower values produce a softer rolloff.",
+			description:
+				"Vignette curve exponent. Lower values produce a softer rolloff.",
 		},
 		{
 			prop: "vignetteOpacity",
 			type: "number",
 			default: "1.0",
-			description: "Opacity of the vignette effect (`0` disables it, `1` is full effect).",
+			description:
+				"Opacity of the vignette effect (`0` disables it, `1` is full effect).",
 		},
 		{
 			prop: "class",

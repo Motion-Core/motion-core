@@ -19,8 +19,8 @@ motion-core list --json
 
 ### Options
 
-| Flag | Description |
-| ---- | ----------- |
+| Flag     | Description                                                                                                                                                                       |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--json` | Outputs the registry metadata (`name`, `version`, `componentCount`) and every component’s slug, name, description, and category as pretty-printed JSON instead of formatted text. |
 
 ## Sample output
@@ -48,26 +48,26 @@ With `--json` the same information becomes:
 
 ```json
 {
-  "components": [
-    {
-      "category": "canvas",
-      "description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
-      "name": "ASCII Renderer",
-      "slug": "ascii-renderer"
-    },
-    {
-      "category": "canvas",
-      "description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
-      "name": "Dithered Image",
-      "slug": "dithered-image"
-    },
-  ],
-  "registry": {
-    "components": 28,
-    "description": "Curated Motion Core Svelte components",
-    "name": "Motion Core Registry",
-    "version": "0.1.0"
-  }
+	"components": [
+		{
+			"category": "canvas",
+			"description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
+			"name": "ASCII Renderer",
+			"slug": "ascii-renderer"
+		},
+		{
+			"category": "canvas",
+			"description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
+			"name": "Dithered Image",
+			"slug": "dithered-image"
+		}
+	],
+	"registry": {
+		"components": 28,
+		"description": "Curated Motion Core Svelte components",
+		"name": "Motion Core Registry",
+		"version": "0.1.0"
+	}
 }
 ```
 

@@ -5,15 +5,15 @@ description: A refined video player component with a progress slider and smooth 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-
-	import videoPlayerSource from "motion-core/components/video-player/VideoPlayer.svelte?raw";
-	import videoSliderSource from "motion-core/components/video-player/VideoSlider.svelte?raw";
-	import VideoPlayerDemo from "./VideoPlayerDemo.svelte";
-	import videoPlayerDemoSource from "./VideoPlayerDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import videoPlayerSource
+	from "motion-core/components/video-player/VideoPlayer.svelte?raw"; import
+	videoSliderSource from
+	"motion-core/components/video-player/VideoSlider.svelte?raw"; import
+	VideoPlayerDemo from "./VideoPlayerDemo.svelte"; import videoPlayerDemoSource
+	from "./VideoPlayerDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -31,6 +31,7 @@ import { VideoPlayer } from "$lib/motion-core";
 ```
 
     </Step>
+
 </Steps>
 
 ## Usage
@@ -69,7 +70,8 @@ import { VideoPlayer } from "$lib/motion-core";
 			prop: "autoplay",
 			type: "boolean",
 			default: "false",
-			description: "Whether the video should start playing as soon as it is ready.",
+			description:
+				"Whether the video should start playing as soon as it is ready.",
 		},
 		{
 			prop: "muted",
@@ -81,7 +83,8 @@ import { VideoPlayer } from "$lib/motion-core";
 			prop: "loop",
 			type: "boolean",
 			default: "false",
-			description: "Whether the video should start over again every time it is finished.",
+			description:
+				"Whether the video should start over again every time it is finished.",
 		},
 		{
 			prop: "class",

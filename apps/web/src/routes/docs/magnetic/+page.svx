@@ -5,13 +5,13 @@ description: A wrapper that applies spring physics to elements, making them stic
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import magneticSource from "motion-core/components/magnetic/Magnetic.svelte?raw";
-	import MagneticDemo from "./MagneticDemo.svelte";
-	import magneticDemoSource from "./MagneticDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import magneticSource from
+	"motion-core/components/magnetic/Magnetic.svelte?raw"; import MagneticDemo
+	from "./MagneticDemo.svelte"; import magneticDemoSource from
+	"./MagneticDemo.svelte?raw";
 </script>
 
 ## Installation

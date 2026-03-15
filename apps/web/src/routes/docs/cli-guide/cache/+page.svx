@@ -19,10 +19,10 @@ motion-core cache --clear --force
 
 ### Options
 
-| Flag | Description |
-| ---- | ----------- |
+| Flag      | Description                                                                                                       |
+| --------- | ----------------------------------------------------------------------------------------------------------------- |
 | `--clear` | Requests cache deletion. On its own it only prints a warning, acting as a safeguard against accidental data loss. |
-| `--force` | Must be combined with `--clear` to actually remove the cache directory. |
+| `--force` | Must be combined with `--clear` to actually remove the cache directory.                                           |
 
 ## What gets cached?
 

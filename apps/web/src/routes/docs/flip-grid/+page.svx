@@ -5,14 +5,15 @@ description: A layout component that smoothly animates its children when the gri
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import flipGridSource from "motion-core/components/flip-grid/FlipGrid.svelte?raw";
-	import flipGridItemSource from "motion-core/components/flip-grid/FlipGridItem.svelte?raw";
-	import FlipGridDemo from "./FlipGridDemo.svelte";
-	import flipGridDemoSource from "./FlipGridDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import flipGridSource from
+	"motion-core/components/flip-grid/FlipGrid.svelte?raw"; import
+	flipGridItemSource from
+	"motion-core/components/flip-grid/FlipGridItem.svelte?raw"; import
+	FlipGridDemo from "./FlipGridDemo.svelte"; import flipGridDemoSource from
+	"./FlipGridDemo.svelte?raw";
 </script>
 
 ## Installation

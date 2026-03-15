@@ -28,12 +28,12 @@ motion-core add logo-carousel --dry-run
 
 ## Options & environment variables
 
-| Flag/Env | Description |
-| -------- | ----------- |
-| `--dry-run` | Computes the full plan (download manifests, resolve internal dependencies, diff files, check npm spec satisfaction, show barrel/dep updates) but does not touch the filesystem or run package managers. Perfect for code review and CI validation. |
-| `-y`, `--yes` | Skips every interactive prompt, including “Apply this plan?” and individual file overwrite confirmations. |
-| `MOTION_CORE_CLI_ASSUME_YES=1` | Environment equivalent of `--yes`. Useful for scripts or package.json tasks that should not expose CLI flags. |
-| `CI=1` | When `CI` is set the CLI assumes a non-interactive environment and automatically applies the plan (still respecting `--dry-run`). |
+| Flag/Env                       | Description                                                                                                                                                                                                                                        |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--dry-run`                    | Computes the full plan (download manifests, resolve internal dependencies, diff files, check npm spec satisfaction, show barrel/dep updates) but does not touch the filesystem or run package managers. Perfect for code review and CI validation. |
+| `-y`, `--yes`                  | Skips every interactive prompt, including “Apply this plan?” and individual file overwrite confirmations.                                                                                                                                          |
+| `MOTION_CORE_CLI_ASSUME_YES=1` | Environment equivalent of `--yes`. Useful for scripts or package.json tasks that should not expose CLI flags.                                                                                                                                      |
+| `CI=1`                         | When `CI` is set the CLI assumes a non-interactive environment and automatically applies the plan (still respecting `--dry-run`).                                                                                                                  |
 
 ## Install workflow
 

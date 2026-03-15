@@ -5,15 +5,16 @@ description: A 3D card with rounded corners that displays an image and responds 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import card3DSource from "motion-core/components/card-3d/Card3D.svelte?raw";
-	import sceneSource from "motion-core/components/card-3d/Card3DScene.svelte?raw";
-	import faceTrackerSource from "motion-core/components/card-3d/Card3DFaceTracker.svelte?raw";
-	import Card3DDemo from "./Card3DDemo.svelte";
-	import demoSource from "./Card3DDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import card3DSource from
+	"motion-core/components/card-3d/Card3D.svelte?raw"; import sceneSource from
+	"motion-core/components/card-3d/Card3DScene.svelte?raw"; import
+	faceTrackerSource from
+	"motion-core/components/card-3d/Card3DFaceTracker.svelte?raw"; import
+	Card3DDemo from "./Card3DDemo.svelte"; import demoSource from
+	"./Card3DDemo.svelte?raw";
 </script>
 
 > Warning: This component needs camera permission to work properly.
@@ -32,7 +33,8 @@ description: A 3D card with rounded corners that displays an image and responds 
 import { Card3D } from "$lib/motion-core";
 ```
 
-	</Step>
+    </Step>
+
 </Steps>
 
 ## Usage
@@ -42,7 +44,11 @@ import { Card3D } from "$lib/motion-core";
 		{ name: "Example", code: demoSource, language: "svelte" },
 		{ name: "Card3D.svelte", code: card3DSource, language: "svelte" },
 		{ name: "Card3DScene.svelte", code: sceneSource, language: "svelte" },
-		{ name: "Card3DFaceTracker.svelte", code: faceTrackerSource, language: "svelte" },
+		{
+			name: "Card3DFaceTracker.svelte",
+			code: faceTrackerSource,
+			language: "svelte",
+		},
 	]}
 >
 	<Card3DDemo />

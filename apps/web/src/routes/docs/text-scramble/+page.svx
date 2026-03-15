@@ -5,13 +5,13 @@ description: A hover-triggered SplitText effect that scrambles characters before
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import textScrambleSource from "motion-core/components/text-scramble/TextScramble.svelte?raw";
-	import TextScrambleDemo from "./TextScrambleDemo.svelte";
-	import textScrambleDemoSource from "./TextScrambleDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import textScrambleSource
+	from "motion-core/components/text-scramble/TextScramble.svelte?raw"; import
+	TextScrambleDemo from "./TextScrambleDemo.svelte"; import
+	textScrambleDemoSource from "./TextScrambleDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -28,7 +28,8 @@ description: A hover-triggered SplitText effect that scrambles characters before
 import { TextScramble } from "$lib/motion-core";
 ```
 
-	</Step>
+    </Step>
+
 </Steps>
 
 ## Usage
@@ -36,7 +37,11 @@ import { TextScramble } from "$lib/motion-core";
 <ComponentPreview
 	sources={[
 		{ name: "Example", code: textScrambleDemoSource, language: "svelte" },
-		{ name: "TextScramble.svelte", code: textScrambleSource, language: "svelte" },
+		{
+			name: "TextScramble.svelte",
+			code: textScrambleSource,
+			language: "svelte",
+		},
 	]}
 >
 	<TextScrambleDemo />
@@ -60,25 +65,29 @@ import { TextScramble } from "$lib/motion-core";
 			prop: "hoverTarget",
 			type: "HTMLElement | null",
 			default: "null",
-			description: "Optional element whose hover state should trigger the scramble.",
+			description:
+				"Optional element whose hover state should trigger the scramble.",
 		},
 		{
 			prop: "scrambleDuration",
 			type: "number",
 			default: "0.6",
-			description: "Total time (seconds) for each character to cycle through random glyphs.",
+			description:
+				"Total time (seconds) for each character to cycle through random glyphs.",
 		},
 		{
 			prop: "stagger",
 			type: "number",
 			default: "0.03",
-			description: "Delay (seconds) applied between each character's animation start.",
+			description:
+				"Delay (seconds) applied between each character's animation start.",
 		},
 		{
 			prop: "cycles",
 			type: "number",
 			default: "12",
-			description: "How many intermediate characters each glyph displays before finishing.",
+			description:
+				"How many intermediate characters each glyph displays before finishing.",
 		},
 		{
 			prop: "characters",

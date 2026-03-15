@@ -5,14 +5,15 @@ description: A physics-based grid simulation that distorts an image in response 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import interactiveGridSource from "motion-core/components/interactive-grid/InteractiveGrid.svelte?raw";
-	import sceneSource from "motion-core/components/interactive-grid/InteractiveGridScene.svelte?raw";
-	import InteractiveGridDemo from "./InteractiveGridDemo.svelte";
-	import interactiveGridDemoSource from "./InteractiveGridDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import interactiveGridSource
+	from "motion-core/components/interactive-grid/InteractiveGrid.svelte?raw";
+	import sceneSource from
+	"motion-core/components/interactive-grid/InteractiveGridScene.svelte?raw";
+	import InteractiveGridDemo from "./InteractiveGridDemo.svelte"; import
+	interactiveGridDemoSource from "./InteractiveGridDemo.svelte?raw";
 </script>
 
 ## Installation

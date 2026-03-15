@@ -5,13 +5,13 @@ description: A floating interaction menu with a GSAP timeline animation, featuri
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import floatingMenuSource from "motion-core/components/floating-menu/FloatingMenu.svelte?raw";
-	import FloatingMenuDemo from "./FloatingMenuDemo.svelte";
-	import floatingMenuDemoSource from "./FloatingMenuDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import floatingMenuSource
+	from "motion-core/components/floating-menu/FloatingMenu.svelte?raw"; import
+	FloatingMenuDemo from "./FloatingMenuDemo.svelte"; import
+	floatingMenuDemoSource from "./FloatingMenuDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -28,7 +28,7 @@ description: A floating interaction menu with a GSAP timeline animation, featuri
 import { FloatingMenu } from "$lib/motion-core";
 ```
 
-	</Step>
+    </Step>
 
 </Steps>
 
@@ -37,7 +37,11 @@ import { FloatingMenu } from "$lib/motion-core";
 <ComponentPreview
 	sources={[
 		{ name: "Example", code: floatingMenuDemoSource, language: "svelte" },
-		{ name: "FloatingMenu.svelte", code: floatingMenuSource, language: "svelte" },
+		{
+			name: "FloatingMenu.svelte",
+			code: floatingMenuSource,
+			language: "svelte",
+		},
 	]}
 >
 	<FloatingMenuDemo />

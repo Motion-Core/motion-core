@@ -5,14 +5,15 @@ description: A slideshow component featuring organic glass bubble transitions wi
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
-	import ApiTable from "$lib/components/docs/ApiTable.svelte";
-	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
-	import Steps from "$lib/components/docs/markdown/Steps.svelte";
-	import Step from "$lib/components/docs/markdown/Step.svelte";
-	import glassSlideshowSource from "motion-core/components/glass-slideshow/GlassSlideshow.svelte?raw";
-	import SceneSource from "motion-core/components/glass-slideshow/GlassSlideshowScene.svelte?raw";
-	import GlassSlideshowDemo from "./GlassSlideshowDemo.svelte";
-	import glassSlideshowDemoSource from "./GlassSlideshowDemo.svelte?raw";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
+	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
+	from "$lib/components/docs/markdown/Step.svelte"; import glassSlideshowSource
+	from "motion-core/components/glass-slideshow/GlassSlideshow.svelte?raw";
+	import SceneSource from
+	"motion-core/components/glass-slideshow/GlassSlideshowScene.svelte?raw";
+	import GlassSlideshowDemo from "./GlassSlideshowDemo.svelte"; import
+	glassSlideshowDemoSource from "./GlassSlideshowDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -71,7 +72,8 @@ import { GlassSlideshow } from "$lib/motion-core";
 			prop: "index",
 			type: "number",
 			default: "0",
-			description: "The current image index. Change this to trigger a transition.",
+			description:
+				"The current image index. Change this to trigger a transition.",
 		},
 		{
 			prop: "transitionDuration",
