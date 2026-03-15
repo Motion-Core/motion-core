@@ -1,4 +1,4 @@
-![Motion Core showcase banner](apps/docs/static/og-image.jpg)
+![Motion Core showcase banner](apps/web/static/og-image.jpg)
 
 <div align="center">
 
