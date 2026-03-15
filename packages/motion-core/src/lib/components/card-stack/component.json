@@ -9,6 +9,7 @@
 	"devDependencies": {
 		"@types/gsap": "^3.0.0"
 	},
+	"internalDependencies": [],
 	"files": [
 		{
 			"path": "CardStack.svelte",

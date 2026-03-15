@@ -85,6 +85,7 @@ export const docsManifest: ComponentInfo[] = [
     "dependencies": {
       "@threlte/core": "^8.3.1",
       "@threlte/extras": "^9.7.1",
+      "gsap": "^3.14.2",
       "three": "^0.182.0"
     }
   },
@@ -106,6 +107,7 @@ export const docsManifest: ComponentInfo[] = [
     "dependencies": {
       "@threlte/core": "^8.3.1",
       "@threlte/extras": "^9.7.1",
+      "gsap": "^3.14.2",
       "three": "^0.182.0"
     }
   },
