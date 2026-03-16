@@ -239,8 +239,9 @@
 		>
 			<ScrollArea
 				id="docs-content-container"
-				class="mx-auto h-full w-full p-2 lg:max-h-[calc(100dvh-2rem)]"
+				class="mx-auto h-full w-full lg:max-h-[calc(100dvh-2rem)]"
 				viewportClass="rounded-lg overscroll-none flex flex-col gap-8 px-4 py-8 lg:px-8"
+				viewportStyle="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
 			>
 				<section class="min-w-0 flex-1 space-y-8">
 					{#if metadata}
