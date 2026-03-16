@@ -6,14 +6,41 @@
 	import Close from "carbon-icons-svelte/lib/Close.svelte";
 
 	let isOpen = $state(false);
+	let isVisible = $state(false);
 	const pathname = $derived(page.url.pathname);
 
+	function open() {
+		if (isVisible) {
+			isOpen = true;
+			return;
+		}
+
+		isVisible = true;
+		requestAnimationFrame(() => {
+			isOpen = true;
+		});
+	}
+
 	function toggle() {
-		isOpen = !isOpen;
+		if (isOpen) {
+			close();
+			return;
+		}
+
+		open();
 	}
 
 	function close() {
 		isOpen = false;
+	}
+
+	function handleSidebarTransitionEnd(event: TransitionEvent) {
+		if (
+			event.target !== event.currentTarget ||
+			event.propertyName !== "transform"
+		)
+			return;
+		if (!isOpen) isVisible = false;
 	}
 
 	$effect(() => {
@@ -49,32 +76,33 @@
 	</button>
 </div>
 
-<div
-	class="overlay fixed inset-0 z-50 bg-background-inset/80 backdrop-blur-sm lg:hidden"
-	class:active={isOpen}
-	onclick={close}
-	role="button"
-	tabindex="-1"
-	onkeydown={(e) => {
-		if (e.key === "Escape") close();
-	}}
-	aria-label="Close sidebar"
-	aria-hidden={!isOpen}
-></div>
+{#if isVisible}
+	<div
+		class="overlay fixed inset-0 z-50 bg-background-inset/80 backdrop-blur-sm lg:hidden"
+		class:active={isOpen}
+		onclick={close}
+		role="button"
+		tabindex="-1"
+		onkeydown={(e) => {
+			if (e.key === "Escape") close();
+		}}
+		aria-label="Close sidebar"
+		aria-hidden={!isOpen}
+	></div>
 
-<div
-	class="sidebar fixed inset-y-0 right-0 z-50 w-3/4 max-w-sm overflow-hidden border-l border-border bg-background-inset text-foreground-muted shadow-xl lg:hidden"
-	class:active={isOpen}
->
-	{#if isOpen}
+	<div
+		class="sidebar fixed inset-y-0 right-0 z-50 w-3/4 max-w-sm overflow-hidden border-l border-border bg-background-inset text-foreground-muted shadow-xl lg:hidden"
+		class:active={isOpen}
+		ontransitionend={handleSidebarTransitionEnd}
+	>
 		<div class="absolute top-0 right-0 flex justify-end p-4">
 			<button onclick={close} aria-label="Close menu">
 				<Close size={32} class="size-6" />
 			</button>
 		</div>
 		<DocsSidebar />
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style>
 	.overlay {
