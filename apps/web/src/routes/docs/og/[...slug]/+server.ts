@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import satori from "satori";
+import satoriStandalone, { init as initSatoriWasm } from "satori/standalone";
 import { html } from "satori-html";
 import { Resvg, initWasm } from "@resvg/resvg-wasm";
 import type { RequestHandler } from "./$types";
@@ -53,28 +53,48 @@ type ResvgWasmState = {
 	initialized?: boolean;
 };
 
-const resvgState = globalThis as typeof globalThis & {
-	__docsOgResvgWasmState?: ResvgWasmState;
+type SatoriWasmState = {
+	promise?: Promise<void>;
+	initialized?: boolean;
 };
-if (!resvgState.__docsOgResvgWasmState) {
-	resvgState.__docsOgResvgWasmState = {};
+
+let defaultSatoriPromise:
+	| Promise<(typeof import("satori"))["default"]>
+	| undefined;
+
+const ogWasmState = globalThis as typeof globalThis & {
+	__docsOgResvgWasmState?: ResvgWasmState;
+	__docsOgResvgWasmModule?: WebAssembly.Module;
+	__docsOgSatoriWasmState?: SatoriWasmState;
+	__docsOgYogaWasmModule?: WebAssembly.Module;
+};
+if (!ogWasmState.__docsOgResvgWasmState) {
+	ogWasmState.__docsOgResvgWasmState = {};
+}
+
+if (!ogWasmState.__docsOgSatoriWasmState) {
+	ogWasmState.__docsOgSatoriWasmState = {};
 }
 
 const ensureResvgWasm = (origin: string) => {
-	const state = resvgState.__docsOgResvgWasmState as ResvgWasmState;
+	const state = ogWasmState.__docsOgResvgWasmState as ResvgWasmState;
 	if (state.initialized) {
 		return Promise.resolve();
 	}
 
 	if (!state.promise) {
-		state.promise = fetch(new URL("/resvg-index_bg.wasm", origin))
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Failed to load resvg wasm: ${response.status}`);
-				}
-				return response.arrayBuffer();
-			})
-			.then((buffer) => initWasm(buffer))
+		const precompiledWasmModule = ogWasmState.__docsOgResvgWasmModule;
+		const loadWasm = precompiledWasmModule
+			? Promise.resolve(precompiledWasmModule)
+			: fetch(new URL("/resvg-index_bg.wasm", origin)).then((response) => {
+					if (!response.ok) {
+						throw new Error(`Failed to load resvg wasm: ${response.status}`);
+					}
+					return response.arrayBuffer();
+				});
+
+		state.promise = loadWasm
+			.then((wasmSource) => initWasm(wasmSource))
 			.then(() => {
 				state.initialized = true;
 			})
@@ -88,6 +108,31 @@ const ensureResvgWasm = (origin: string) => {
 				throw err;
 			});
 	}
+	return state.promise;
+};
+
+const ensureSatoriWasm = () => {
+	const state = ogWasmState.__docsOgSatoriWasmState as SatoriWasmState;
+	if (state.initialized || !ogWasmState.__docsOgYogaWasmModule) {
+		return Promise.resolve();
+	}
+
+	if (!state.promise) {
+		state.promise = initSatoriWasm(ogWasmState.__docsOgYogaWasmModule)
+			.then(() => {
+				state.initialized = true;
+			})
+			.catch((err: unknown) => {
+				const message = err instanceof Error ? err.message : String(err);
+				if (message.includes("already initialized")) {
+					state.initialized = true;
+					return;
+				}
+				state.promise = undefined;
+				throw err;
+			});
+	}
+
 	return state.promise;
 };
 
@@ -156,6 +201,10 @@ export const GET: RequestHandler = async ({ params, url }) => {
 	const pageUrl = new URL(`/docs/${metadata.slug}`, canonicalOrigin).href;
 	const [aeonikProRegular, aeonikProSemiBold] = await fontDataPromise;
 	await ensureResvgWasm(url.origin);
+	const useStandaloneSatori = Boolean(ogWasmState.__docsOgYogaWasmModule);
+	if (useStandaloneSatori) {
+		await ensureSatoriWasm();
+	}
 
 	const markup = html`
 		<div
@@ -193,24 +242,53 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		</div>
 	`;
 
-	const svg = await satori(markup, {
-		width: OG_WIDTH,
-		height: OG_HEIGHT,
-		fonts: [
-			{
-				name: "Aeonik Pro Regular",
-				data: aeonikProRegular,
-				weight: 400,
-				style: "normal",
-			},
-			{
-				name: "Aeonik Pro SemiBold",
-				data: aeonikProSemiBold,
-				weight: 600,
-				style: "normal",
-			},
-		],
-	});
+	const renderSatori = async () => {
+		if (useStandaloneSatori) {
+			return satoriStandalone(markup, {
+				width: OG_WIDTH,
+				height: OG_HEIGHT,
+				fonts: [
+					{
+						name: "Aeonik Pro Regular",
+						data: aeonikProRegular,
+						weight: 400,
+						style: "normal",
+					},
+					{
+						name: "Aeonik Pro SemiBold",
+						data: aeonikProSemiBold,
+						weight: 600,
+						style: "normal",
+					},
+				],
+			});
+		}
+
+		if (!defaultSatoriPromise) {
+			defaultSatoriPromise = import("satori").then((module) => module.default);
+		}
+		const defaultSatori = await defaultSatoriPromise;
+		return defaultSatori(markup, {
+			width: OG_WIDTH,
+			height: OG_HEIGHT,
+			fonts: [
+				{
+					name: "Aeonik Pro Regular",
+					data: aeonikProRegular,
+					weight: 400,
+					style: "normal",
+				},
+				{
+					name: "Aeonik Pro SemiBold",
+					data: aeonikProSemiBold,
+					weight: 600,
+					style: "normal",
+				},
+			],
+		});
+	};
+
+	const svg = await renderSatori();
 	const rendered = new Resvg(svg, {
 		fitTo: { mode: "width", value: OG_WIDTH },
 	}).render();

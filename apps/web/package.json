@@ -35,7 +35,7 @@
 		"predev": "bun ../../scripts/build-registry.ts && bun run docs:sync",
 		"dev": "vite dev",
 		"prebuild": "bun ../../scripts/build-registry.ts && bun run docs:sync",
-		"build": "vite build",
+		"build": "vite build && node ./scripts/patch-cloudflare-worker-wasm.mjs",
 		"prepreview": "bun ../../scripts/build-registry.ts && bun run docs:sync",
 		"preview": "vite preview",
 		"preview:cf": "bun run build && wrangler dev",
