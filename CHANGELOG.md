@@ -9,6 +9,10 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - **Video Player**: Added accessible slider semantics.
+- 
+### Changed
+
+- **Design Tokens**: Naming convention of the background colors.
 
 ## [0.4.0] - 2026-02-21
 

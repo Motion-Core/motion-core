@@ -8,6 +8,10 @@ description: All notable changes to Motion Core Component Registry.
 ### Fixed
 
 - **Video Player**: Added accessible slider semantics.
+- 
+### Changed
+
+- **Design Tokens**: Naming convention of the background colors.
 
 ## [0.4.0] - 2026-02-21
 
