@@ -123,7 +123,9 @@
 					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 					{@html brandingConfig.logoRaw}
 				</span>
-				<span class="font-medium">{brandingConfig.name}</span>
+				<span class="font-medium tracking-tight text-foreground"
+					>{brandingConfig.name}</span
+				>
 			</a>
 
 			<div
