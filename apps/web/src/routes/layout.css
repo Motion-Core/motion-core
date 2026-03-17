@@ -65,13 +65,14 @@ html {
 
 .dark {
 	--color-background-inset: oklch(0.183 0.006 var(--base-hue));
-	--color-background: oklch(0.21 0.006 var(--base-hue));
+	--color-background: oklch(0.23 0.0075 var(--base-hue));
 	--color-background-muted: oklch(0.2739 0.0055 var(--base-hue));
 	--color-foreground: oklch(0.985 0.0013 var(--base-hue));
 	--color-foreground-muted: oklch(0.985 0.0013 var(--base-hue) / 0.6);
 	--color-accent: oklch(0.6996 0.181959 44.4414);
 	--color-accent-secondary: oklch(0.5096 0.131959 44.4414);
-	--color-border: oklch(0.828 0.01 var(--base-hue) / 0.05);
+	--color-white-fixed: oklch(0.985 0.0013 var(--base-hue));
+	--color-border: oklch(0.828 0.01 var(--base-hue) / 0.075);
 }
 
 @theme {
