@@ -228,7 +228,7 @@
 	<MobileSidebar />
 
 	<div
-		class="flex h-full w-full min-w-0 lg:grid lg:grid-cols-[22rem_minmax(0,1fr)] xl:grid-cols-[22rem_minmax(0,56rem)_minmax(0,1fr)]"
+		class="flex h-full w-full min-w-0 lg:grid lg:grid-cols-[22rem_minmax(0,1fr)] xl:grid-cols-[22rem_minmax(0,56rem)_18rem] xl:justify-center"
 	>
 		<aside class="hidden lg:block">
 			<DocsSidebar />
@@ -282,7 +282,7 @@
 			</ScrollArea>
 		</div>
 
-		<aside class="hidden min-w-0 xl:block xl:py-8 xl:pr-4 xl:pl-4">
+		<aside class="hidden xl:block xl:w-full xl:py-8 xl:pr-4 xl:pl-4">
 			<div
 				class="sticky top-8 flex h-full max-h-[calc(100dvh-4rem)] min-h-0 flex-col"
 			>
