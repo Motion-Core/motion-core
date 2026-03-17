@@ -13,7 +13,7 @@
 	}>();
 </script>
 
-<div class={cn("relative pb-10 pl-8", className)}>
+<div class={cn("relative pl-8", className)}>
 	{#if title}
 		<div class="mb-4 flex h-10 items-center">
 			<div
