@@ -18,6 +18,11 @@
 		 */
 		color?: SceneProps["color"];
 		/**
+		 * Color of the background.
+		 * @default "#000000"
+		 */
+		backgroundColor?: SceneProps["backgroundColor"];
+		/**
 		 * Animation speed multiplier.
 		 * @default 1.0
 		 */
@@ -43,6 +48,7 @@
 	let {
 		class: className = "",
 		color = "#FF6900",
+		backgroundColor = "#000000",
 		speed = 1.0,
 		distortion = 0.2,
 		hueShift = 30.0,
@@ -56,7 +62,14 @@
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
 		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene {color} {speed} {distortion} {hueShift} {intensity} />
+			<Scene
+				{color}
+				{backgroundColor}
+				{speed}
+				{distortion}
+				{hueShift}
+				{intensity}
+			/>
 		</Canvas>
 	</div>
 </div>

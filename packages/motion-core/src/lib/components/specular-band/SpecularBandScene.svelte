@@ -9,6 +9,11 @@
 		 */
 		color?: THREE.ColorRepresentation;
 		/**
+		 * Color of the background.
+		 * @default "#000000"
+		 */
+		backgroundColor?: THREE.ColorRepresentation;
+		/**
 		 * Animation speed multiplier.
 		 * @default 1.0
 		 */
@@ -32,6 +37,7 @@
 
 	let {
 		color = "#FF6900",
+		backgroundColor = "#000000",
 		speed = 1.0,
 		distortion = 0.2,
 		hueShift = 30.0,
@@ -42,6 +48,7 @@
 	const { size } = useThrelte();
 	const resolutionUniform = new THREE.Vector2(1, 1);
 	const primaryColorUniform = new THREE.Color();
+	const backgroundColorUniform = new THREE.Color();
 
 	const vertexShader = `
 		varying vec2 vUv;
@@ -58,6 +65,7 @@
 		uniform float uTime;
 		uniform vec2 uResolution;
 		uniform vec3 uColor;
+		uniform vec3 uBackgroundColor;
 		uniform float uSpeed;
 		uniform float uDistortion;
 		uniform float uHueShift;
@@ -89,18 +97,20 @@
 			palette[2] = hueRot(radians(-uHueShift)) * baseColor;
 
 			vec3 col = vec3(0.0);
-			for(int i = 0; i < 3; i++){
+			for(int i = 0; i < 3; i++) {
 				vec2 uv_loop = sin(1.5 * u.yx + 2.0 * cos(u -= 0.01));
 				float val = 1.0 - exp(-6.0 / exp(6.0 * length(uv_loop + sin(5.0 * uv_loop.y - 3.0 * time) / 4.0)));
+				// sharpening only the shape scalar to preserve hue
+				val = pow(val, 2.2);
 				col += val * palette[i];
 			}
-			o = vec4(col * uIntensity, 1.0);
+			vec3 bands = col * uIntensity;
+			o = vec4(uBackgroundColor + bands, 1.0);
 		}
 
 		void main() {
 			vec4 fragColor;
 			mainImage(fragColor, vUv);
-            fragColor.rgb = pow(fragColor.rgb, vec3(2.0));
 			gl_FragColor = fragColor;
 			#include <colorspace_fragment>
 		}
@@ -112,9 +122,11 @@
 
 	$effect(() => {
 		primaryColorUniform.set(color);
+		backgroundColorUniform.set(backgroundColor);
 
 		if (!material) return;
 		material.uniforms.uColor.value.copy(primaryColorUniform);
+		material.uniforms.uBackgroundColor.value.copy(backgroundColorUniform);
 		material.uniforms.uSpeed.value = speed;
 		material.uniforms.uDistortion.value = distortion;
 		material.uniforms.uHueShift.value = hueShift;
@@ -139,6 +151,7 @@
 			uTime: { value: 0.0 },
 			uResolution: { value: resolutionUniform },
 			uColor: { value: primaryColorUniform },
+			uBackgroundColor: { value: backgroundColorUniform },
 			uSpeed: { value: speed },
 			uDistortion: { value: distortion },
 			uHueShift: { value: hueShift },
