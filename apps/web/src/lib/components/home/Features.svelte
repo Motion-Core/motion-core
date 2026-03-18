@@ -45,7 +45,7 @@
 				>
 					{#if item.component.video}
 						<video
-							class="absolute inset-0 h-full w-full object-cover dark:mix-blend-luminosity light:mix-blend-normal"
+							class="absolute inset-0 h-full w-full object-cover dark:mix-blend-lighten light:mix-blend-normal"
 							src={item.component.video}
 							poster={item.component.poster}
 							autoplay
