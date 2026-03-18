@@ -11,6 +11,8 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **2 components**:
   - **Canvas**: God Rays.
   - **Canvas**: Specular Band.
+  - **Canvas**: Halo.
+
 
 ## [0.4.1] - 2026-03-15
 

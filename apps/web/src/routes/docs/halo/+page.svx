@@ -1,0 +1,115 @@
+---
+name: Halo
+description: Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation. Based on physics simulation of a sky/atmosphere.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+
+	import haloSource from "motion-core/components/halo/Halo.svelte?raw";
+	import sceneSource from "motion-core/components/halo/HaloScene.svelte?raw";
+	import HaloDemo from "./HaloDemo.svelte";
+	import haloDemoSource from "./HaloDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="halo" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { Halo } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: haloDemoSource, language: "svelte" },
+		{
+			name: "Halo.svelte",
+			code: haloSource,
+			language: "svelte",
+		},
+		{ name: "HaloScene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<HaloDemo />
+</ComponentPreview>
+
+## Props
+
+### Halo
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "rotationSpeed",
+			type: "number",
+			default: "0.5",
+			description: "Camera rotation speed multiplier.",
+		},
+		{
+			prop: "backgroundColor",
+			type: '"THREE.ColorRepresentation"',
+			default: '"#000000"',
+			description: "Color of the background behind the scattering effect.",
+		},
+		{
+			prop: "cameraDistance",
+			type: "number",
+			default: "3.0",
+			description: "Distance of the camera from the center.",
+		},
+		{
+			prop: "fov",
+			type: "number",
+			default: "55.0",
+			description: "Field of View (FOV) of the camera in degrees.",
+		},
+		{
+			prop: "sunX",
+			type: "number",
+			default: "0.0",
+			description: "Sun light direction vector (X component).",
+		},
+		{
+			prop: "sunY",
+			type: "number",
+			default: "0.0",
+			description: "Sun light direction vector (Y component).",
+		},
+		{
+			prop: "sunZ",
+			type: "number",
+			default: "1.0",
+			description: "Sun light direction vector (Z component).",
+		},
+		{
+			prop: "intensity",
+			type: "number",
+			default: "1.0",
+			description: "Overall intensity/brightness multiplier for the scattering effect.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

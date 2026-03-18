@@ -367,6 +367,33 @@
         }
       ]
     },
+    "halo": {
+      "slug": "halo",
+      "name": "Halo",
+      "description": "Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation.",
+      "category": "canvas",
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.182.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/halo/Halo.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/halo/HaloScene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "image-trail": {
       "slug": "image-trail",
       "name": "Image Trail",

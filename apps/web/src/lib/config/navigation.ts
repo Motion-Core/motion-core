@@ -122,6 +122,10 @@ export const docsNavigation: DocItem[] = [
 				name: "Specular Band",
 			},
 			{
+				slug: "halo",
+				name: "Halo",
+			},
+			{
 				slug: "water-ripple",
 				name: "Water Ripple",
 			},

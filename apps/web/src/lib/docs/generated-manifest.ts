@@ -129,6 +129,15 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "halo",
+		name: "Halo",
+		category: "canvas",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "image-trail",
 		name: "Image Trail",
 		category: "pointer",
