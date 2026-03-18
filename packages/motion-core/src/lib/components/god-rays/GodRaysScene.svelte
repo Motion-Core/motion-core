@@ -183,13 +183,17 @@
 			float rs2 = rayStrength(rayPos, rayDir, coord, 22.3991, 18.0234,  1.1 * uSpeed, time, maxDim);
 
 			float strength = rs1 * 0.5 + rs2 * 0.4;
+			// sharpen only the strength mask to restore definition in linear space
+			float sharpenedStrength = pow(clamp(strength, 0.0, 1.0), 2.2);
 
-			vec3 rgb = mix(uBackgroundColor, uColor, clamp(strength, 0.0, 1.0));
+			vec3 rayColor = uColor * sharpenedStrength;
 
 			if (uNoiseAmount > 0.0) {
 				float n = noise2(coord * 0.01 + time * 0.1);
-				rgb *= (1.0 - uNoiseAmount + uNoiseAmount * n);
+				rayColor *= (1.0 - uNoiseAmount + uNoiseAmount * n);
 			}
+
+			vec3 rgb = uBackgroundColor + rayColor;
 
 			if (uSaturation != 1.0) {
 				float gray = dot(rgb, vec3(0.299, 0.587, 0.114));
@@ -204,6 +208,7 @@
 			vec2 fragCoord = vUv * uResolution.xy;
 			mainImage(fragColor, fragCoord);
 			gl_FragColor = fragColor;
+			#include <colorspace_fragment>
 		}
 	`;
 
