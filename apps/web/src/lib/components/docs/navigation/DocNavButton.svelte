@@ -28,11 +28,11 @@
 	<a
 		{href}
 		class={cn(
-			"group relative flex flex-col rounded-md border border-border bg-background px-4 py-3 shadow-md transition-[background-color] duration-150 ease-out hover:bg-background-inset",
+			"group relative flex flex-col rounded-md border border-border bg-background px-4 py-3 shadow-md transition-[background-color] duration-150 ease-out hover:bg-background-muted",
 		)}
 	>
 		<span
-			class="text-xs font-normal tracking-wide text-foreground/45 uppercase"
+			class="text-xs font-normal tracking-wide text-foreground-muted/70 uppercase"
 		>
 			{label}
 		</span>

@@ -77,10 +77,10 @@
 					<button
 						onclick={() => (packageManagerStore.active = pm)}
 						class={cn(
-							"relative px-4 py-2.5 text-sm font-medium tracking-normal transition-colors outline-none select-none",
+							"relative px-4 py-2.5 text-sm font-medium tracking-normal transition-colors duration-150 ease-out outline-none select-none",
 							packageManagerStore.active === pm
 								? "text-foreground"
-								: "text-foreground-muted",
+								: "text-foreground-muted hover:text-foreground",
 						)}
 					>
 						{pm}

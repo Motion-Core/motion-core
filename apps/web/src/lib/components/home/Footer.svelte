@@ -6,12 +6,14 @@
 </script>
 
 <footer class="relative flex items-center justify-between p-4 text-center">
-	<p class="text-muted-foreground text-sm">
+	<p class="text-muted-foreground text-sm tracking-tight">
 		&copy; {currentYear} Motion Core. MIT License.
 	</p>
 
 	<div class="flex items-center gap-4">
-		<nav class="flex gap-4 text-sm font-medium text-foreground-muted">
+		<nav
+			class="flex gap-4 text-sm font-medium tracking-tight text-foreground-muted"
+		>
 			<a
 				href="/docs/introduction"
 				class="transition-colors hover:text-foreground">Documentation</a

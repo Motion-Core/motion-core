@@ -5,14 +5,16 @@
 
 	--radius-base: 0.275rem;
 
-	--color-background-inset: oklch(0.956 0.002 var(--base-hue));
+	--color-background-inset: oklch(0.9764 0.0013 var(--base-hue));
 	--color-background: oklch(1 0 0);
 	--color-background-muted: oklch(0.956 0.002 var(--base-hue));
-	--color-foreground: oklch(0.141 0.005 var(--base-hue));
-	--color-foreground-muted: oklch(0.141 0.005 var(--base-hue) / 0.6);
+	--color-white-fixed: oklch(1 0 0);
+	--color-black-fixed: oklch(0.183 0.006 var(--base-hue));
+	--color-foreground: oklch(0.1881 0.006 var(--base-hue));
+	--color-foreground-muted: oklch(0.3857 0.0169 var(--base-hue));
 	--color-accent: oklch(0.6996 0.201959 44.4414);
 	--color-accent-secondary: oklch(0.5096 0.151959 44.4414);
-	--color-border: oklch(0.328 0.01 var(--base-hue) / 0.1);
+	--color-border: oklch(0.9224 0.0013 var(--base-hue));
 
 	--shadow-xs: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.06);
 	--shadow-sm:
@@ -41,19 +43,19 @@
 }
 
 .dark {
-	--color-background-inset: oklch(0.183 0.006 var(--base-hue));
-	--color-background: oklch(0.21 0.006 var(--base-hue));
-	--color-background-muted: oklch(0.2739 0.0055 var(--base-hue));
-	--color-foreground: oklch(0.985 0.0013 var(--base-hue));
-	--color-foreground-muted: oklch(0.985 0.0013 var(--base-hue) / 0.6);
+	--color-background-inset: oklch(0.1881 0.006 var(--base-hue));
+	--color-background: oklch(0.2199 0.0094 var(--base-hue));
+	--color-background-muted: oklch(0.261 0.0125 var(--base-hue));
+	--color-foreground: oklch(1 0 0);
+	--color-foreground-muted: oklch(0.6699 0.0191 var(--base-hue));
 	--color-accent: oklch(0.6996 0.181959 44.4414);
 	--color-accent-secondary: oklch(0.5096 0.131959 44.4414);
-	--color-border: oklch(0.828 0.01 var(--base-hue) / 0.05);
+	--color-border: oklch(0.828 0.04 var(--base-hue) / 0.035);
 }
 
 @theme {
-	--color-fixed-light: var(--background-inset);
-	--color-fixed-dark: var(--background);
+	--color-white-fixed: var(--white-fixed);
+	--color-black-fixed: var(--black-fixed);
 	--color-background-inset: var(--background-inset);
 	--color-background: var(--background);
 	--color-background-muted: var(--background-muted);

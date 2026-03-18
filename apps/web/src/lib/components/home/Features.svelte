@@ -39,13 +39,13 @@
 				<article
 					data-component-card
 					class={cn(
-						"group relative min-h-64 overflow-hidden rounded-md border border-border bg-background",
+						"group relative min-h-64 overflow-hidden rounded-lg border border-border bg-background",
 						item.className,
 					)}
 				>
 					{#if item.component.video}
 						<video
-							class="absolute inset-0 h-full w-full object-cover"
+							class="absolute inset-0 h-full w-full object-cover dark:mix-blend-luminosity light:mix-blend-normal"
 							src={item.component.video}
 							poster={item.component.poster}
 							autoplay
@@ -59,7 +59,7 @@
 					<div class="absolute right-3 bottom-3 left-3 z-10">
 						<div class="flex items-end justify-between gap-3">
 							<h3
-								class="max-w-[60%] text-base font-medium tracking-tight text-fixed-light sm:text-lg"
+								class="max-w-[60%] text-base font-medium tracking-tight text-white-fixed sm:text-lg"
 							>
 								{item.component.name}
 							</h3>

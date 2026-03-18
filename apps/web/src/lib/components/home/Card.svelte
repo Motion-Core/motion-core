@@ -20,6 +20,7 @@
 </script>
 
 <div
+	data-reveal="card"
 	class="inset-shadow relative overflow-hidden rounded-lg border border-border bg-background-inset p-1"
 >
 	<article
@@ -50,7 +51,9 @@
 			<h3 class="text-xl font-medium tracking-tight text-foreground">
 				{title}
 			</h3>
-			<p class="text-base font-normal text-foreground-muted">{description}</p>
+			<p class="text-base font-normal tracking-normal text-foreground-muted">
+				{description}
+			</p>
 		</div>
 	</article>
 </div>

@@ -7,8 +7,8 @@ import {
 	brandLogoRaw,
 	getDocBySlug,
 	getDocMetadata,
-	aeonikProRegularDataUri,
-	aeonikProSemiBoldDataUri,
+	fkGroteskNeueRegularDataUri,
+	fkGroteskNeueSemiBoldDataUri,
 	siteConfig,
 } from "$lib";
 
@@ -44,8 +44,8 @@ const dataUriToArrayBuffer = (dataUri: string) => {
 };
 
 const fontDataPromise = Promise.all([
-	Promise.resolve(dataUriToArrayBuffer(aeonikProRegularDataUri)),
-	Promise.resolve(dataUriToArrayBuffer(aeonikProSemiBoldDataUri)),
+	Promise.resolve(dataUriToArrayBuffer(fkGroteskNeueRegularDataUri)),
+	Promise.resolve(dataUriToArrayBuffer(fkGroteskNeueSemiBoldDataUri)),
 ]);
 
 type ResvgWasmState = {
@@ -199,7 +199,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		MAX_DESCRIPTION_LENGTH,
 	);
 	const pageUrl = new URL(`/docs/${metadata.slug}`, canonicalOrigin).href;
-	const [aeonikProRegular, aeonikProSemiBold] = await fontDataPromise;
+	const [fkGroteskNeueRegular, fkGroteskNeueSemiBold] = await fontDataPromise;
 	await ensureResvgWasm(url.origin);
 	const useStandaloneSatori = Boolean(ogWasmState.__docsOgYogaWasmModule);
 	if (useStandaloneSatori) {
@@ -208,7 +208,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 
 	const markup = html`
 		<div
-			style="display:flex;flex-direction:column;justify-content:space-between;width:100%;height:100%;padding:40px;background:#ffffff;font-family:Aeonik Pro Regular,sans-serif;"
+			style="display:flex;flex-direction:column;justify-content:space-between;width:100%;height:100%;padding:40px;background:#ffffff;font-family:FK Grotesk Neue,sans-serif;"
 		>
 			<div
 				style="display:flex;align-items:flex-start;justify-content:space-between;"
@@ -249,14 +249,14 @@ export const GET: RequestHandler = async ({ params, url }) => {
 				height: OG_HEIGHT,
 				fonts: [
 					{
-						name: "Aeonik Pro Regular",
-						data: aeonikProRegular,
+						name: "FK Grotesk Neue",
+						data: fkGroteskNeueRegular,
 						weight: 400,
 						style: "normal",
 					},
 					{
-						name: "Aeonik Pro SemiBold",
-						data: aeonikProSemiBold,
+						name: "FK Grotesk Neue",
+						data: fkGroteskNeueSemiBold,
 						weight: 600,
 						style: "normal",
 					},
@@ -273,14 +273,14 @@ export const GET: RequestHandler = async ({ params, url }) => {
 			height: OG_HEIGHT,
 			fonts: [
 				{
-					name: "Aeonik Pro Regular",
-					data: aeonikProRegular,
+					name: "FK Grotesk Neue",
+					data: fkGroteskNeueRegular,
 					weight: 400,
 					style: "normal",
 				},
 				{
-					name: "Aeonik Pro SemiBold",
-					data: aeonikProSemiBold,
+					name: "FK Grotesk Neue",
+					data: fkGroteskNeueSemiBold,
 					weight: 600,
 					style: "normal",
 				},

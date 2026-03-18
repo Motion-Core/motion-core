@@ -515,7 +515,7 @@
 {#if headings.length > 0}
 	<nav class="hidden lg:block">
 		<div
-			class="mb-2 flex items-center gap-2 text-xs font-medium tracking-wide text-foreground/45 uppercase"
+			class="mb-2 flex items-center gap-2 text-xs font-medium tracking-wide text-foreground-muted/70 uppercase"
 		>
 			<TableOfContents size={16} />
 			{title}
@@ -571,7 +571,7 @@
 		</div>
 	</nav>
 {:else}
-	<div class="hidden text-sm tracking-normal text-foreground/45 lg:block">
+	<div class="hidden text-sm tracking-normal text-foreground-muted/70 lg:block">
 		{emptyLabel}
 	</div>
 {/if}

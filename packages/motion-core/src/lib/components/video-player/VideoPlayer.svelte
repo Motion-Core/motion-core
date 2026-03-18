@@ -343,7 +343,7 @@
 	role="region"
 	aria-label="Video Player"
 	class={cn(
-		"group relative flex overflow-hidden bg-fixed-dark shadow-sm",
+		"group bg-fixed-dark relative flex overflow-hidden shadow-sm",
 		isLayoutFullscreen
 			? "fixed inset-0 z-50 h-screen w-screen rounded-none"
 			: "aspect-video w-full max-w-3xl rounded-xl",
@@ -384,7 +384,7 @@
 	>
 		<button
 			onclick={togglePlay}
-			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20 active:scale-95"
+			class="bg-fixed-light/10 hover:bg-fixed-light/20 flex size-8 translate-y-5 items-center justify-center rounded-full text-white-fixed opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out active:scale-95"
 			aria-label={isPlaying ? "Pause" : "Play"}
 		>
 			<svg
@@ -409,16 +409,16 @@
 		</div>
 
 		<div
-			class="flex translate-y-5 items-center gap-1 font-mono text-[10px] font-medium text-fixed-light opacity-0"
+			class="flex translate-y-5 items-center gap-1 font-mono text-[10px] font-medium text-white-fixed opacity-0"
 		>
-			<span class="text-fixed-light/70">{currentTimeStr}</span>
+			<span class="text-white-fixed/70">{currentTimeStr}</span>
 			<span>/</span>
 			<span>{durationStr}</span>
 		</div>
 
 		<button
 			onclick={toggleMute}
-			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20"
+			class="bg-fixed-light/10 hover:bg-fixed-light/20 flex size-8 translate-y-5 items-center justify-center rounded-full text-white-fixed opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out"
 			aria-label={muted ? "Unmute" : "Mute"}
 		>
 			<svg
@@ -434,7 +434,7 @@
 
 		<button
 			onclick={toggleFullscreen}
-			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20"
+			class="bg-fixed-light/10 hover:bg-fixed-light/20 flex size-8 translate-y-5 items-center justify-center rounded-full text-white-fixed opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out"
 			aria-label={isExpanded ? "Exit Fullscreen" : "Enter Fullscreen"}
 		>
 			<svg

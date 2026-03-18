@@ -113,7 +113,7 @@
 			pointerEvents="none"
 		>
 			<div
-				class="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded bg-fixed-dark/80 px-2 py-1 text-xs whitespace-nowrap text-fixed-light backdrop-blur-sm transition-opacity duration-200"
+				class="bg-fixed-dark/80 pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs whitespace-nowrap text-white-fixed backdrop-blur-sm transition-opacity duration-200"
 				class:opacity-100={isHovered}
 				class:opacity-0={!isHovered}
 			>

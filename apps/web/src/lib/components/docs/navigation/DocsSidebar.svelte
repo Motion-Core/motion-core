@@ -68,7 +68,7 @@
 	>
 		<nav class="flex flex-col space-y-1">
 			<h4
-				class="mb-2 ml-2 text-xs font-medium tracking-wide text-foreground/45 uppercase"
+				class="mb-2 ml-2 text-xs font-medium tracking-wide text-foreground-muted/70 uppercase"
 			>
 				{docsUiConfig.sidebar.navigationLabel}
 			</h4>
@@ -139,7 +139,7 @@
 		{/if}
 		{#if docsUiConfig.sidebar.showRepositoryLink}
 			<a
-				class="group transition-scale inset-shadow relative inline-flex size-7 items-center justify-center rounded-sm border border-border bg-background-inset text-foreground duration-150 ease-out active:scale-[0.95]"
+				class="group transition-scale inset-shadow relative inline-flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-background-inset text-foreground duration-150 ease-out active:scale-[0.95]"
 				href={githubUrl}
 				target="_blank"
 				rel="noreferrer"

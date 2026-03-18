@@ -46,7 +46,7 @@
 			for Svelte.
 		</h1>
 		<p
-			class="max-w-xl text-center text-base font-normal text-pretty text-foreground-muted sm:text-lg"
+			class="max-w-xl text-center text-base font-normal tracking-normal text-pretty text-foreground-muted sm:text-lg"
 		>
 			Animated Svelte component library powered by GSAP and Three.js. Drop-in
 			solutions for motion design, 3D canvases, and interactive animations.
