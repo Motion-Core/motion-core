@@ -1,0 +1,97 @@
+---
+name: Specular Band
+description: Procedural specular light bands with hue-shifting color palettes and dynamic lens distortion.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+
+	import specularBandSource from "motion-core/components/specular-band/SpecularBand.svelte?raw";
+	import sceneSource from "motion-core/components/specular-band/SpecularBandScene.svelte?raw";
+	import SpecularBandDemo from "./SpecularBandDemo.svelte";
+	import specularBandDemoSource from "./SpecularBandDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="specular-band" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { SpecularBand } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: specularBandDemoSource, language: "svelte" },
+		{
+			name: "SpecularBand.svelte",
+			code: specularBandSource,
+			language: "svelte",
+		},
+		{ name: "SpecularBandScene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<SpecularBandDemo />
+</ComponentPreview>
+
+## Props
+
+### SpecularBand
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "color",
+			type: '"THREE.ColorRepresentation"',
+			default: '"#FF6900"',
+			description: "Base color of the specular bands.",
+		},
+		{
+			prop: "speed",
+			type: "number",
+			default: "1.0",
+			description: "Animation speed multiplier.",
+		},
+		{
+			prop: "distortion",
+			type: "number",
+			default: "0.2",
+			description: "Lens distortion intensity.",
+		},
+		{
+			prop: "hueShift",
+			type: "number",
+			default: "30.0",
+			description: "Amount of hue shift for secondary bands (in degrees).",
+		},
+		{
+			prop: "intensity",
+			type: "number",
+			default: "1.0",
+			description: "Global intensity/brightness of the effect.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

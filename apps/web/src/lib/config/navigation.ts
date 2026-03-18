@@ -118,6 +118,10 @@ export const docsNavigation: DocItem[] = [
 				name: "Rubiks Cube",
 			},
 			{
+				slug: "specular-band",
+				name: "Specular Band",
+			},
+			{
 				slug: "water-ripple",
 				name: "Water Ripple",
 			},

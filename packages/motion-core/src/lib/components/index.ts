@@ -35,3 +35,4 @@ export { default as CardStack } from "./card-stack/CardStack.svelte";
 export { default as CardStackItem } from "./card-stack/CardStackItem.svelte";
 export { default as VideoPlayer } from "./video-player/VideoPlayer.svelte";
 export { default as GodRays } from "./god-rays/GodRays.svelte";
+export { default as SpecularBand } from "./specular-band/SpecularBand.svelte";
