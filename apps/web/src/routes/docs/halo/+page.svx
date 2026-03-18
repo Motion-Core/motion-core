@@ -1,6 +1,6 @@
 ---
 name: Halo
-description: Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation. Based on physics simulation of a sky/atmosphere.
+description: Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation.
 ---
 
 <script lang="ts">

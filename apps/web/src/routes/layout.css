@@ -72,7 +72,7 @@ html {
 	--color-foreground-muted: oklch(0.6699 0.0191 var(--base-hue));
 	--color-accent: oklch(0.6996 0.181959 44.4414);
 	--color-accent-secondary: oklch(0.5096 0.131959 44.4414);
-	--color-border: oklch(0.828 0.04 var(--base-hue) / 0.035);
+	--color-border: oklch(0.928 0.04 var(--base-hue) / 0.05);
 }
 
 @theme {
