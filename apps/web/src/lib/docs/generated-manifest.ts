@@ -266,6 +266,15 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "specular-band",
+		name: "Specular Band",
+		category: "canvas",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "split-hover",
 		name: "Split Hover",
 		category: "typography",

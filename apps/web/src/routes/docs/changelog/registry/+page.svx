@@ -7,8 +7,9 @@ description: All notable changes to Motion Core Component Registry.
 
 ### Added
 
-- **1 component**:
+- **2 components**:
   - **Canvas**: God Rays.
+  - **Canvas**: Specular Band.
 
 ## [0.4.1] - 2026-03-15
 

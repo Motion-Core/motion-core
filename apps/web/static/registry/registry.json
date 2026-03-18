@@ -750,6 +750,33 @@
         }
       ]
     },
+    "specular-band": {
+      "slug": "specular-band",
+      "name": "Specular Band",
+      "description": "Procedural specular light bands with hue-shifting color palettes and dynamic lens distortion.",
+      "category": "canvas",
+      "dependencies": {
+        "@threlte/core": "^8.3.1",
+        "three": "^0.182.0"
+      },
+      "devDependencies": {
+        "@types/three": "^0.182.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/specular-band/SpecularBand.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "components/specular-band/SpecularBandScene.svelte"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "split-hover": {
       "slug": "split-hover",
       "name": "Split Hover",

@@ -8,8 +8,9 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- **1 component**:
+- **2 components**:
   - **Canvas**: God Rays.
+  - **Canvas**: Specular Band.
 
 ## [0.4.1] - 2026-03-15
 
