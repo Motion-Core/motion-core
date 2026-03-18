@@ -34,3 +34,4 @@ export { default as FluidSimulation } from "./fluid-simulation/FluidSimulation.s
 export { default as CardStack } from "./card-stack/CardStack.svelte";
 export { default as CardStackItem } from "./card-stack/CardStackItem.svelte";
 export { default as VideoPlayer } from "./video-player/VideoPlayer.svelte";
+export { default as GodRays } from "./god-rays/GodRays.svelte";

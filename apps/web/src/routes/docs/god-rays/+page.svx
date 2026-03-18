@@ -1,0 +1,151 @@
+---
+name: God Rays
+description: High-performance procedural god rays (crepuscular rays) effect with customizable colors, pulsating intensity, and distortion.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+
+	import godRaysSource from "motion-core/components/god-rays/GodRays.svelte?raw";
+	import sceneSource from "motion-core/components/god-rays/GodRaysScene.svelte?raw";
+	import GodRaysDemo from "./GodRaysDemo.svelte";
+	import godRaysDemoSource from "./GodRaysDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="god-rays" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { GodRays } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: godRaysDemoSource, language: "svelte" },
+		{
+			name: "GodRays.svelte",
+			code: godRaysSource,
+			language: "svelte",
+		},
+		{ name: "GodRaysScene.svelte", code: sceneSource, language: "svelte" },
+	]}
+>
+	<GodRaysDemo />
+</ComponentPreview>
+
+## Props
+
+### GodRays
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "color",
+			type: '"THREE.ColorRepresentation"',
+			default: '"#FFFFFF"',
+			description: "Base color of the rays.",
+		},
+		{
+			prop: "backgroundColor",
+			type: '"THREE.ColorRepresentation"',
+			default: '"#000000"',
+			description: "Color of the background behind the rays.",
+		},
+		{
+			prop: "anchorX",
+			type: "number",
+			default: "0.5",
+			description: "Horizontal anchor point of the ray source (0-1).",
+		},
+		{
+			prop: "anchorY",
+			type: "number",
+			default: "1.2",
+			description: "Vertical anchor point of the ray source (0-1).",
+		},
+		{
+			prop: "directionX",
+			type: "number",
+			default: "0.0",
+			description: "Horizontal direction of the rays.",
+		},
+		{
+			prop: "directionY",
+			type: "number",
+			default: "-1.0",
+			description: "Vertical direction of the rays.",
+		},
+		{
+			prop: "speed",
+			type: "number",
+			default: "1.0",
+			description: "Speed multiplier for the animation.",
+		},
+		{
+			prop: "lightSpread",
+			type: "number",
+			default: "1.0",
+			description: "The spread of the light rays.",
+		},
+		{
+			prop: "rayLength",
+			type: "number",
+			default: "1.0",
+			description: "The length of the rays.",
+		},
+		{
+			prop: "pulsating",
+			type: "boolean",
+			default: "false",
+			description: "Whether the rays should pulsate.",
+		},
+		{
+			prop: "fadeDistance",
+			type: "number",
+			default: "1.0",
+			description: "Distance at which the rays start to fade out.",
+		},
+		{
+			prop: "saturation",
+			type: "number",
+			default: "1.0",
+			description: "Saturation of the final ray colors.",
+		},
+		{
+			prop: "noiseAmount",
+			type: "number",
+			default: "0.0",
+			description: "Amount of grain/noise applied to the rays.",
+		},
+		{
+			prop: "distortion",
+			type: "number",
+			default: "0.0",
+			description: "Amount of wave distortion applied to the rays.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

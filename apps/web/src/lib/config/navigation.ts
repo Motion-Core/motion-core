@@ -86,6 +86,10 @@ export const docsNavigation: DocItem[] = [
 				name: "Globe",
 			},
 			{
+				slug: "god-rays",
+				name: "God Rays",
+			},
+			{
 				slug: "infinite-gallery",
 				name: "Infinite Gallery",
 			},
