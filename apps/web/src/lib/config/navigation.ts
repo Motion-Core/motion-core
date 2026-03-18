@@ -90,6 +90,10 @@ export const docsNavigation: DocItem[] = [
 				name: "God Rays",
 			},
 			{
+				slug: "halo",
+				name: "Halo",
+			},
+			{
 				slug: "infinite-gallery",
 				name: "Infinite Gallery",
 			},
@@ -120,10 +124,6 @@ export const docsNavigation: DocItem[] = [
 			{
 				slug: "specular-band",
 				name: "Specular Band",
-			},
-			{
-				slug: "halo",
-				name: "Halo",
 			},
 			{
 				slug: "water-ripple",

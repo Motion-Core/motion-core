@@ -24,6 +24,7 @@
 		"lint": "eslint .",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
+		"navigation:check": "bun scripts/validate-navigation.ts",
 		"prepare": "husky"
 	},
 	"workspaces": [
@@ -62,10 +63,14 @@
 			"prettier --write"
 		],
 		"packages/motion-core/src/lib/components/**/component.json": [
-			"bun scripts/validate-registry.ts"
+			"bun scripts/validate-registry.ts",
+			"bun scripts/validate-navigation.ts"
 		],
 		"packages/motion-core/src/lib/components/**/*.{svelte,ts,js}": [
 			"bun scripts/validate-registry.ts"
+		],
+		"apps/web/src/lib/config/navigation.ts": [
+			"bun scripts/validate-navigation.ts"
 		]
 	}
 }

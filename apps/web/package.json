@@ -32,7 +32,7 @@
 	"scripts": {
 		"build:registry": "bun ../../scripts/build-registry.ts",
 		"docs:sync": "bun ../../scripts/sync-docs.ts",
-		"predev": "bun ../../scripts/build-registry.ts && bun run docs:sync",
+		"predev": "bun ../../scripts/build-registry.ts && bun run docs:sync && bun ../../scripts/validate-navigation.ts",
 		"dev": "vite dev",
 		"prebuild": "bun ../../scripts/build-registry.ts && bun run docs:sync",
 		"build": "vite build && node ./scripts/patch-cloudflare-worker-wasm.mjs",
