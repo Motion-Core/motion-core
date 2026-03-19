@@ -132,13 +132,16 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
         }
     }
 
-    resolve_file_conflicts(
+    if let Err(err) = resolve_file_conflicts(
         reporter,
         &mut plan.planned_files,
         args.dry_run,
         prompt_mode,
         args.assume_yes,
-    )?;
+    ) {
+        reporter.error(format_args!("{err}"));
+        return Ok(CommandOutcome::Failed);
+    }
 
     let file_spinner = create_spinner("Syncing Motion Core files...");
     let outcome = match core_add::apply(
@@ -293,6 +296,7 @@ fn resolve_file_conflicts(
     ));
     let mut auto_message_printed = false;
 
+    let mut non_interactive_conflict = false;
     for plan in conflicts.iter_mut() {
         reporter.info(format_args!("{}", heading(display_path(&plan.destination))));
         reporter.info(format_args!(
@@ -342,16 +346,23 @@ fn resolve_file_conflicts(
             }
             ConfirmationMode::NonInteractive => {
                 if !auto_message_printed {
-                    reporter.info(format_args!(
+                    reporter.warn(format_args!(
                         "{}",
                         muted(
-                            "Non-interactive shell detected; overwriting conflicts automatically."
+                            "Non-interactive shell detected. Conflicting files require --yes or MOTION_CORE_CLI_ASSUME_YES."
                         )
                     ));
                     auto_message_printed = true;
                 }
+                non_interactive_conflict = true;
             }
         }
+    }
+
+    if non_interactive_conflict {
+        anyhow::bail!(
+            "conflicting files detected in non-interactive mode; rerun with --yes to overwrite"
+        );
     }
 
     Ok(())
@@ -525,6 +536,33 @@ mod tests {
     fn confirmation_mode_respects_flags() {
         assert_eq!(confirmation_mode(true, false), ConfirmationMode::AssumeYes);
         assert_eq!(confirmation_mode(false, true), ConfirmationMode::AssumeYes);
+    }
+
+    #[test]
+    fn resolve_conflicts_fails_in_non_interactive_mode_without_yes() {
+        let reporter = MemoryReporter::default();
+        let mut files = vec![PlannedFile {
+            component_name: "Glass Pane".into(),
+            registry_path: "components/glass-pane/GlassPane.svelte".into(),
+            destination: PathBuf::from("/workspace/src/lib/motion-core/GlassPane.svelte"),
+            contents: b"<script>export let foo;</script>".to_vec(),
+            existing_contents: Some(b"<script></script>".to_vec()),
+            status: PlannedFileStatus::Update,
+            apply: true,
+        }];
+
+        let err = resolve_file_conflicts(
+            &reporter,
+            &mut files,
+            false,
+            ConfirmationMode::NonInteractive,
+            false,
+        )
+        .expect_err("should fail");
+        assert!(
+            err.to_string()
+                .contains("conflicting files detected in non-interactive mode")
+        );
     }
 
     #[test]
