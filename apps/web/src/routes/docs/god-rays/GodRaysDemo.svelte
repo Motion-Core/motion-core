@@ -5,5 +5,6 @@
 <GodRays
 	class="h-full min-h-96 w-full"
 	color="#FFFFFF"
-	backgroundColor="#1A1A1E"
+	backgroundColor="#191A1D"
+	intensity={0.35}
 />
