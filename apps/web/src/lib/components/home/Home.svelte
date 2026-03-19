@@ -4,8 +4,9 @@
 	import Book from "carbon-icons-svelte/lib/Book.svelte";
 	import LogoGithub from "carbon-icons-svelte/lib/LogoGithub.svelte";
 	import Button from "../ui/Button.svelte";
-	import Section from "./Section.svelte";
 	import { siteConfig } from "$lib/config/site";
+	import SpecularBand from "motion-core/components/specular-band/SpecularBand.svelte";
+	import { onMount } from "svelte";
 
 	type Props = {
 		githubStars?: number | null;
@@ -22,25 +23,60 @@
 				}).format(githubStars)
 			: "--",
 	);
+
+	const COLOR_PRESETS = {
+		dark: {
+			backgroundColor: "#111214",
+		},
+		light: {
+			backgroundColor: "#f0f0f2",
+		},
+	};
+
+	let isDark = $state(false);
+
+	onMount(() => {
+		isDark = document.documentElement.classList.contains("dark");
+
+		const observer = new MutationObserver(() => {
+			isDark = document.documentElement.classList.contains("dark");
+		});
+
+		observer.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ["class"],
+		});
+
+		return () => observer.disconnect();
+	});
 </script>
 
-<Section
-	variant="muted"
+<div
 	id="home"
-	class="flex min-h-[50vh] w-full flex-col items-center justify-center gap-4"
+	class="relative flex h-dvh w-full flex-col items-center justify-center gap-4 p-4"
 >
+	<SpecularBand
+		class="absolute inset-0"
+		intensity={isDark ? 1 : 5}
+		backgroundColor={isDark
+			? COLOR_PRESETS.dark.backgroundColor
+			: COLOR_PRESETS.light.backgroundColor}
+	/>
 	<div
-		class="flex w-full flex-col items-center justify-center gap-4 pt-16 sm:pt-10"
+		class="absolute inset-x-0 bottom-0 z-10 h-200 bg-linear-to-t from-background-inset to-transparent"
+	></div>
+	<div
+		class="relative z-10 flex h-full w-full flex-col items-center justify-center gap-4"
 	>
 		<span
-			class="inline-flex shrink-0 items-center text-accent [&>svg]:size-16 [&>svg]:fill-current"
+			class="mb-4 inline-flex shrink-0 items-center text-accent [&>svg]:h-auto [&>svg]:w-24 [&>svg]:fill-current"
 			aria-hidden="true"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html brandLogoRaw}
 		</span>
 		<h1
-			class="max-w-3xl text-center text-3xl font-medium tracking-tight text-balance text-foreground sm:text-5xl"
+			class="max-w-3xl text-center text-4xl font-medium tracking-tight text-balance text-foreground sm:text-6xl"
 		>
 			High-quality <span class="text-accent">motion components</span>
 			for Svelte.
@@ -77,4 +113,4 @@
 			</Button>
 		</div>
 	</div>
-</Section>
+</div>

@@ -77,7 +77,7 @@
 
 	.btn-primary {
 		overflow: hidden;
-		color: var(--color-white-fixed);
+		color: var(--fixed-light);
 		text-shadow: 0 -1px 0 rgb(0 0 0 / 0.25);
 		transition:
 			filter 150ms ease-out,
@@ -88,11 +88,7 @@
 				rgb(255 255 255 / 0.22),
 				rgb(255 255 255 / 0)
 			),
-			linear-gradient(
-				180deg,
-				var(--color-accent),
-				var(--color-accent-secondary)
-			);
+			linear-gradient(180deg, var(--accent), var(--accent-secondary));
 		box-shadow:
 			inset 0 1px 0 rgb(255 255 255 / 0.22),
 			var(--shadow-md);
@@ -132,7 +128,7 @@
 
 	:global(.dark) .btn-primary {
 		overflow: hidden;
-		color: var(--color-white-fixed);
+		color: var(--fixed-light);
 		text-shadow: 0 -1px 0 rgb(0 0 0 / 0.25);
 		transition:
 			filter 150ms ease-out,
@@ -145,16 +141,8 @@
 			),
 			linear-gradient(
 				180deg,
-				color-mix(
-					in oklab,
-					var(--color-accent) 80%,
-					var(--color-background) 20%
-				),
-				color-mix(
-					in oklab,
-					var(--color-accent-secondary) 80%,
-					var(--color-background) 20%
-				)
+				color-mix(in oklab, var(--accent) 80%, var(--background) 20%),
+				color-mix(in oklab, var(--accent-secondary) 80%, var(--background) 20%)
 			);
 		box-shadow:
 			inset 0 1px 0 rgb(255 255 255 / 0.22),
@@ -196,13 +184,13 @@
 	.btn-secondary {
 		isolation: isolate;
 		overflow: hidden;
-		color: var(--color-foreground);
+		color: var(--foreground);
 		text-shadow: 0 -1px 0 rgb(0 0 0 / 0.15);
 
 		transition:
 			filter 150ms ease-out,
 			box-shadow 150ms ease-out;
-		color: var(--color-background);
+		color: var(--background);
 		transition:
 			filter 150ms ease-out,
 			box-shadow 150ms ease-out;
@@ -212,11 +200,7 @@
 				rgb(255 255 255 / 0.22),
 				rgb(255 255 255 / 0)
 			),
-			linear-gradient(
-				180deg,
-				var(--color-foreground),
-				var(--color-foreground-muted)
-			);
+			linear-gradient(180deg, var(--foreground), var(--foreground-muted));
 		box-shadow:
 			inset 0 1px 0 rgb(255 255 255 / 0.22),
 			var(--shadow-md);
@@ -257,13 +241,13 @@
 	:global(.dark) .btn-secondary {
 		isolation: isolate;
 		overflow: hidden;
-		color: var(--color-foreground);
+		color: var(--foreground);
 		text-shadow: 0 -1px 0 rgb(0 0 0 / 0.15);
 
 		transition:
 			filter 150ms ease-out,
 			box-shadow 150ms ease-out;
-		color: var(--color-background);
+		color: var(--background);
 		transition:
 			filter 150ms ease-out,
 			box-shadow 150ms ease-out;
@@ -275,16 +259,8 @@
 			),
 			linear-gradient(
 				180deg,
-				color-mix(
-					in oklab,
-					var(--color-foreground) 80%,
-					var(--color-background) 20%
-				),
-				color-mix(
-					in oklab,
-					var(--color-foreground-muted) 80%,
-					var(--color-background) 20%
-				)
+				color-mix(in oklab, var(--foreground) 80%, var(--background) 20%),
+				color-mix(in oklab, var(--foreground-muted) 80%, var(--background) 20%)
 			);
 		box-shadow:
 			inset 0 1px 0 rgb(255 255 255 / 0.22),

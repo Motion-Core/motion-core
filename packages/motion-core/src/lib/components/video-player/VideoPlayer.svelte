@@ -384,7 +384,7 @@
 	>
 		<button
 			onclick={togglePlay}
-			class="bg-fixed-light/10 hover:bg-fixed-light/20 flex size-8 translate-y-5 items-center justify-center rounded-full text-white-fixed opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out active:scale-95"
+			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20 active:scale-95"
 			aria-label={isPlaying ? "Pause" : "Play"}
 		>
 			<svg
@@ -409,16 +409,16 @@
 		</div>
 
 		<div
-			class="flex translate-y-5 items-center gap-1 font-mono text-[10px] font-medium text-white-fixed opacity-0"
+			class="flex translate-y-5 items-center gap-1 font-mono text-[10px] font-medium text-fixed-light opacity-0"
 		>
-			<span class="text-white-fixed/70">{currentTimeStr}</span>
+			<span class="text-fixed-light/70">{currentTimeStr}</span>
 			<span>/</span>
 			<span>{durationStr}</span>
 		</div>
 
 		<button
 			onclick={toggleMute}
-			class="bg-fixed-light/10 hover:bg-fixed-light/20 flex size-8 translate-y-5 items-center justify-center rounded-full text-white-fixed opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out"
+			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20"
 			aria-label={muted ? "Unmute" : "Mute"}
 		>
 			<svg
@@ -434,7 +434,7 @@
 
 		<button
 			onclick={toggleFullscreen}
-			class="bg-fixed-light/10 hover:bg-fixed-light/20 flex size-8 translate-y-5 items-center justify-center rounded-full text-white-fixed opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out"
+			class="flex size-8 translate-y-5 items-center justify-center rounded-full bg-fixed-light/10 text-fixed-light opacity-0 backdrop-blur-md transition-[background-color,scale] duration-150 ease-out hover:bg-fixed-light/20"
 			aria-label={isExpanded ? "Exit Fullscreen" : "Enter Fullscreen"}
 		>
 			<svg

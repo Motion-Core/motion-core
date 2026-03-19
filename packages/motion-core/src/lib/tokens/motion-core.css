@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
 	--base-hue: 265;
 
 	--radius-base: 0.275rem;
 
-	--color-background-inset: oklch(0.9764 0.0013 var(--base-hue));
-	--color-background: oklch(1 0 0);
-	--color-background-muted: oklch(0.956 0.002 var(--base-hue));
-	--color-white-fixed: oklch(1 0 0);
-	--color-black-fixed: oklch(0.183 0.006 var(--base-hue));
-	--color-foreground: oklch(0.1881 0.006 var(--base-hue));
-	--color-foreground-muted: oklch(0.5493 0.0081 var(--base-hue));
-	--color-accent: oklch(0.6996 0.201959 44.4414);
-	--color-accent-secondary: oklch(0.5096 0.151959 44.4414);
-	--color-border: oklch(0.9224 0.0013 var(--base-hue));
+	--background-inset: oklch(0.9764 0.0013 var(--base-hue));
+	--background: oklch(1 0 0);
+	--background-muted: oklch(0.956 0.002 var(--base-hue));
+	--fixed-light: oklch(1 0 0);
+	--fixed-dark: oklch(0.183 0.006 var(--base-hue));
+	--foreground: oklch(0.1881 0.006 var(--base-hue));
+	--foreground-muted: oklch(0.5493 0.0081 var(--base-hue));
+	--accent: oklch(0.6996 0.201959 44.4414);
+	--accent-secondary: oklch(0.5096 0.151959 44.4414);
+	--border: oklch(0.4224 0.0013 var(--base-hue) / 0.1);
 
 	--shadow-xs: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.06);
 	--shadow-sm:
@@ -43,26 +45,26 @@
 }
 
 .dark {
-	--color-background-inset: oklch(0.1822 0.0044 var(--base-hue));
-	--color-background: oklch(0.2178 0.0056 var(--base-hue));
-	--color-background-muted: oklch(0.261 0.007 var(--base-hue));
-	--color-foreground: oklch(1 0 0);
-	--color-foreground-muted: oklch(0.6699 0.0081 var(--base-hue));
-	--color-accent: oklch(0.6996 0.181959 44.4414);
-	--color-accent-secondary: oklch(0.5096 0.131959 44.4414);
-	--color-border: oklch(0.928 0.013 var(--base-hue) / 0.05);
+	--background-inset: oklch(0.1822 0.0044 var(--base-hue));
+	--background: oklch(0.2178 0.0056 var(--base-hue));
+	--background-muted: oklch(0.261 0.007 var(--base-hue));
+	--foreground: oklch(1 0 0);
+	--foreground-muted: oklch(0.6699 0.0081 var(--base-hue));
+	--accent: oklch(0.6996 0.181959 44.4414);
+	--accent-secondary: oklch(0.5096 0.131959 44.4414);
+	--border: oklch(0.928 0.013 var(--base-hue) / 0.05);
 }
 
 @theme {
-	--color-white-fixed: var(--white-fixed);
-	--color-black-fixed: var(--black-fixed);
+	--color-fixed-light: var(--fixed-light);
+	--color-fixed-dark: var(--fixed-dark);
 	--color-background-inset: var(--background-inset);
 	--color-background: var(--background);
 	--color-background-muted: var(--background-muted);
 	--color-foreground: var(--foreground);
 	--color-foreground-muted: var(--foreground-muted);
 	--color-accent: var(--accent);
-	--color-accent-secoundary: var(--accent-secondary);
+	--color-accent-secondary: var(--accent-secondary);
 	--color-border: var(--border);
 
 	--radius-xs: calc(var(--radius-base) * 1);

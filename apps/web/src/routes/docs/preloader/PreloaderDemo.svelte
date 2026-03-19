@@ -45,7 +45,7 @@
 <div class="flex flex-col items-center justify-center">
 	<button
 		onclick={startPreloader}
-		class="h-8 gap-1.5 rounded border border-border bg-background px-3 text-xs font-medium tracking-wide text-foreground uppercase shadow-md"
+		class="card h-8 gap-1.5 rounded-sm bg-background-muted px-3 text-xs font-medium tracking-wide text-foreground uppercase"
 	>
 		Trigger Preloader
 	</button>

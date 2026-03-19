@@ -4,6 +4,7 @@
 	import { SplitText } from "gsap/dist/SplitText";
 	import { CustomEase } from "gsap/dist/CustomEase";
 	import { onMount } from "svelte";
+	import type { ClassValue } from "clsx";
 
 	import type { Snippet } from "svelte";
 	import { cn } from "../../utils/cn";
@@ -49,6 +50,27 @@
 		links: MenuLink[];
 	}
 
+	interface FloatingMenuClasses {
+		root?: ClassValue;
+		overlay?: ClassValue;
+		header?: ClassValue;
+		toggleButton?: ClassValue;
+		toggleLine?: ClassValue;
+		logo?: ClassValue;
+		actions?: ClassValue;
+		primaryButton?: ClassValue;
+		secondaryButton?: ClassValue;
+		menuWrapper?: ClassValue;
+		grid?: ClassValue;
+		group?: ClassValue;
+		groupMuted?: ClassValue;
+		groupTitle?: ClassValue;
+		link?: ClassValue;
+		linkText?: ClassValue;
+		linkUnderline?: ClassValue;
+		divider?: ClassValue;
+	}
+
 	interface Props {
 		/**
 		 * Groups of links to display in the menu.
@@ -71,6 +93,10 @@
 		 */
 		class?: string;
 		/**
+		 * Additional classes for specific menu slots.
+		 */
+		classes?: FloatingMenuClasses;
+		/**
 		 * The target element or selector to append the menu to.
 		 * Useful for containment in demos or specific containers.
 		 * @default "body"
@@ -84,6 +110,7 @@
 		primaryButton,
 		secondaryButton,
 		class: className,
+		classes,
 		portalTarget = "body",
 	}: Props = $props();
 
@@ -142,7 +169,7 @@
 			gsap.set(menuWrapperRef, { height: 0, autoAlpha: 0 });
 
 			const linkElements = gsap.utils.toArray(
-				".menu-link-text",
+				`[data-slot="link-text"]`,
 				menuWrapperRef,
 			) as HTMLElement[];
 
@@ -211,7 +238,11 @@
 <div
 	use:portal={portalTarget}
 	bind:this={overlayRef}
-	class="pointer-events-none fixed inset-0 z-40 bg-background-inset/60 opacity-0 data-[open=true]:pointer-events-auto"
+	data-slot="overlay"
+	class={cn(
+		"pointer-events-none fixed inset-0 z-40 bg-background-inset/80 opacity-0 data-[open=true]:pointer-events-auto",
+		classes?.overlay,
+	)}
 	data-open={isOpen}
 	onclick={toggle}
 	onkeydown={(e) => {
@@ -228,26 +259,46 @@
 <div
 	use:portal={portalTarget}
 	bind:this={containerRef}
+	data-slot="root"
 	class={cn(
-		"fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-md border border-border bg-background text-foreground shadow-2xl md:top-4 md:max-w-[70vw] lg:max-w-[50vw]",
+		"fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-md border border-border bg-background text-foreground shadow-md md:top-4 md:max-w-[70vw] lg:max-w-[50vw]",
 		className,
+		classes?.root,
 	)}
 >
-	<div class="relative z-20 flex w-full items-center justify-between p-1">
+	<div
+		data-slot="header"
+		class={cn(
+			"relative z-20 flex w-full items-center justify-between p-1",
+			classes?.header,
+		)}
+	>
 		<button
 			onclick={toggle}
-			class="group relative flex h-10 items-center justify-center rounded-sm pr-2 transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/10"
+			data-slot="toggle-button"
+			class={cn(
+				"group relative flex h-10 items-center justify-center rounded-sm pr-2 transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/10",
+				classes?.toggleButton,
+			)}
 			aria-label="Toggle menu"
 		>
 			<div class="relative flex h-10 w-10 items-center justify-center">
 				<span
 					bind:this={line1Ref}
-					class="absolute h-px w-6 bg-foreground transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:bg-accent"
+					data-slot="toggle-line"
+					class={cn(
+						"absolute h-px w-6 bg-foreground transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:bg-accent",
+						classes?.toggleLine,
+					)}
 					style="transform: translateY(4px)"
 				></span>
 				<span
 					bind:this={line2Ref}
-					class="absolute h-px w-6 bg-foreground transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:bg-accent"
+					data-slot="toggle-line"
+					class={cn(
+						"absolute h-px w-6 bg-foreground transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:bg-accent",
+						classes?.toggleLine,
+					)}
 					style="transform: translateY(-4px)"
 				></span>
 			</div>
@@ -263,17 +314,27 @@
 			style="backface-visibility: hidden;"
 		>
 			{#if logo}
-				<div class="flex items-center gap-3">
+				<div
+					data-slot="logo"
+					class={cn("flex items-center gap-3", classes?.logo)}
+				>
 					{@render logo()}
 				</div>
 			{/if}
 		</div>
 
-		<div class="flex items-center gap-1">
+		<div
+			data-slot="actions"
+			class={cn("flex items-center gap-1", classes?.actions)}
+		>
 			{#if secondaryButton}
 				<a
 					href={secondaryButton.href}
-					class="hidden h-10 items-center justify-center rounded-sm px-4 text-sm font-medium text-foreground transition-[background-color,color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-background-inset/40 hover:text-foreground md:flex"
+					data-slot="secondary-button"
+					class={cn(
+						"hidden h-10 items-center justify-center rounded-sm px-4 text-sm font-medium text-foreground transition-[background-color,color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-background-muted hover:text-foreground md:flex",
+						classes?.secondaryButton,
+					)}
 				>
 					{secondaryButton.label}
 				</a>
@@ -281,7 +342,11 @@
 			{#if primaryButton}
 				<a
 					href={primaryButton.href}
-					class="flex h-10 items-center justify-center rounded-sm bg-accent/10 px-4 text-sm font-medium text-accent transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/20"
+					data-slot="primary-button"
+					class={cn(
+						"flex h-10 items-center justify-center rounded-sm bg-accent/10 px-4 text-sm font-medium text-accent transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:bg-accent/20",
+						classes?.primaryButton,
+					)}
 				>
 					{primaryButton.label}
 				</a>
@@ -291,22 +356,37 @@
 
 	<div
 		bind:this={menuWrapperRef}
-		class="h-0 w-full overflow-hidden border-t border-border opacity-0"
+		data-slot="menu-wrapper"
+		class={cn(
+			"h-0 w-full overflow-hidden border-t border-border opacity-0",
+			classes?.menuWrapper,
+		)}
 	>
 		<div
-			class="grid max-h-[65vh] grid-cols-1 gap-4 overflow-y-auto overscroll-contain p-4 md:max-h-none md:grid-cols-3 md:overflow-visible"
+			data-slot="grid"
+			class={cn(
+				"grid max-h-[65vh] grid-cols-1 gap-4 overflow-y-auto overscroll-contain p-4 md:max-h-none md:grid-cols-3 md:overflow-visible",
+				classes?.grid,
+			)}
 		>
 			{#each menuGroups as group (group.title)}
 				<div
+					data-slot="group"
 					class={cn(
 						"flex flex-col gap-4 rounded-sm p-4 transition-colors ease-[cubic-bezier(0.625,0.05,0,1)]",
 						group.variant === "muted"
-							? "bg-background-inset/40"
+							? "bg-background-muted"
 							: "bg-transparent",
+						classes?.group,
+						group.variant === "muted" && classes?.groupMuted,
 					)}
 				>
 					<h3
-						class="mono text-xs font-medium tracking-wider text-foreground-muted/50 uppercase"
+						data-slot="group-title"
+						class={cn(
+							"mono text-xs font-medium tracking-wider text-foreground-muted/50 uppercase",
+							classes?.groupTitle,
+						)}
 					>
 						{group.title}
 					</h3>
@@ -314,19 +394,36 @@
 						{#each group.links as link, i (link.href + link.label)}
 							<a
 								href={link.href}
-								class="group/link relative block w-fit text-2xl font-normal text-foreground-muted transition-colors duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:text-foreground"
+								data-slot="link"
+								class={cn(
+									"group/link relative block w-fit text-2xl font-normal text-foreground-muted transition-colors duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] hover:text-foreground",
+									classes?.link,
+								)}
 							>
 								<span class="relative z-10 block leading-tight">
-									<span class="menu-link-text block whitespace-nowrap">
+									<span
+										data-slot="link-text"
+										class={cn(
+											"menu-link-text block whitespace-nowrap",
+											classes?.linkText,
+										)}
+									>
 										{link.label}
 									</span>
 								</span>
 								<span
-									class="absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-foreground transition-transform duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover/link:origin-left group-hover/link:scale-x-100"
+									data-slot="link-underline"
+									class={cn(
+										"absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-foreground transition-transform duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover/link:origin-left group-hover/link:scale-x-100",
+										classes?.linkUnderline,
+									)}
 								></span>
 							</a>
 							{#if i < group.links.length - 1}
-								<hr class="border-border" />
+								<hr
+									data-slot="divider"
+									class={cn("border-border", classes?.divider)}
+								/>
 							{/if}
 						{/each}
 					</div>

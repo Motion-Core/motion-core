@@ -117,10 +117,7 @@
 	});
 </script>
 
-<div
-	bind:this={container}
-	class={cn("flex h-full w-full overflow-hidden", className)}
->
+<div bind:this={container} class={cn("flex h-full w-full", className)}>
 	{#each Array(repeat) as _, i (i)}
 		<div
 			class="marquee-part flex shrink-0"

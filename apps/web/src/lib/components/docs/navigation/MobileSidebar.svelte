@@ -69,7 +69,7 @@
 	</a>
 	<button
 		onclick={toggle}
-		class="-mr-2 inline-flex size-10 items-center justify-center gap-2 text-sm whitespace-nowrap text-foreground transition-colors duration-150 ease-out hover:bg-background-inset lg:hidden"
+		class="-mr-2 inline-flex size-10 items-center justify-center gap-2 rounded-sm text-sm whitespace-nowrap text-foreground transition-colors duration-150 ease-out hover:bg-background-muted lg:hidden"
 		aria-label="Toggle menu"
 	>
 		<Menu size={20} />
@@ -91,7 +91,7 @@
 	></div>
 
 	<div
-		class="sidebar fixed inset-y-0 right-0 z-50 w-3/4 max-w-sm overflow-hidden border-l border-border bg-background-inset text-foreground-muted shadow-xl lg:hidden"
+		class="sidebar fixed inset-y-0 right-0 z-50 w-3/4 max-w-sm overflow-hidden border-l border-border bg-background-inset text-foreground-muted lg:hidden"
 		class:active={isOpen}
 		ontransitionend={handleSidebarTransitionEnd}
 	>

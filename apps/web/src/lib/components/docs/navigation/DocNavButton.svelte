@@ -20,7 +20,7 @@
 
 <div
 	class={cn(
-		"group inset-shadow rounded-lg border border-border bg-background-inset p-1",
+		"group inset-shadow rounded-lg bg-background-inset p-1.5",
 		align === "right" && "sm:text-right",
 		forceSecondColumn && "sm:col-start-2",
 	)}
@@ -28,7 +28,7 @@
 	<a
 		{href}
 		class={cn(
-			"group relative flex flex-col rounded-md border border-border bg-background px-4 py-3 shadow-md transition-[background-color] duration-150 ease-out hover:bg-background-muted",
+			"group card relative flex flex-col rounded-md bg-background px-4 py-3 transition-[background-color] duration-150 ease-out hover:bg-background-muted",
 		)}
 	>
 		<span

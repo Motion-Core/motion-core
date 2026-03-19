@@ -131,7 +131,7 @@
 		onkeydown={(e) => e.key === "Escape" && close()}
 	>
 		<div
-			class="relative w-full max-w-164 transform-gpu rounded-lg border border-border bg-background shadow-2xl"
+			class="card relative w-full max-w-164 transform-gpu rounded-lg bg-background"
 			role="document"
 			transition:scale={{
 				duration: 300,
@@ -153,7 +153,7 @@
 					aria-label={docsUiConfig.search.dialogPlaceholder}
 				/>
 				<kbd
-					class="pointer-events-none inset-shadow relative hidden h-5 items-center gap-1 rounded-xs border border-border bg-background-inset px-1.5 font-mono text-[10px] font-medium tracking-normal text-foreground-muted/70 select-none sm:flex"
+					class="pointer-events-none inset-shadow relative hidden h-5 items-center gap-1 rounded-[calc(var(--radius-base)*1.5)] bg-background-inset px-1.5 font-mono text-[10px] font-medium tracking-normal text-foreground-muted/70 select-none sm:flex"
 				>
 					ESC
 				</kbd>
@@ -241,7 +241,7 @@
 				class="flex w-full flex-row items-center justify-start gap-2 rounded-b-lg border-t border-border/60 bg-background p-2"
 			>
 				<kbd
-					class="pointer-events-none inset-shadow relative hidden h-5 items-center gap-1 rounded-xs border border-border bg-background-inset px-1.5 font-mono text-[10px] font-medium text-foreground-muted/70 select-none sm:flex"
+					class="pointer-events-none inset-shadow relative hidden h-5 items-center gap-1 rounded-[calc(var(--radius-base)*1.5)] bg-background-inset px-1.5 font-mono text-[10px] font-medium text-foreground-muted/70 select-none sm:flex"
 				>
 					<Return class="size-3" />
 				</kbd>

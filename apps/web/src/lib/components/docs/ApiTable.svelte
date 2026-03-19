@@ -60,11 +60,11 @@
 							{:else}
 								<code
 									class={cn(
-										"inset-shadow relative inline-flex rounded-sm border border-border bg-background-inset px-px py-0.5 text-sm font-medium text-foreground",
+										"inset-shadow relative inline-flex rounded-sm bg-background-inset px-0.75 py-1 text-sm font-medium text-foreground",
 									)}
 								>
 									<span
-										class="rounded-[calc(var(--radius-base)*1.5)] border border-border bg-background px-1.5 py-0.5 font-mono shadow-sm"
+										class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5 font-mono"
 									>
 										{row[key]}
 									</span>

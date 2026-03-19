@@ -64,12 +64,8 @@
 	});
 </script>
 
-<div
-	class="inset-shadow my-6 rounded-lg border border-border bg-background-inset p-1"
->
-	<div
-		class="relative w-full rounded-md border border-border bg-background shadow-md"
-	>
+<div class="inset-shadow my-6 rounded-lg bg-background-inset p-1.5">
+	<div class="card relative w-full rounded-md bg-background">
 		<div
 			class="flex items-center justify-between rounded-t-md border-b border-border"
 		>

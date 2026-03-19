@@ -2,6 +2,8 @@
 	import "./layout.css";
 	import { page } from "$app/state";
 	import { CommandPalette, docsUiConfig, siteConfig } from "$lib";
+	import { FloatingMenu } from "motion-core";
+	import { brandingConfig } from "$lib/config/branding";
 
 	const { children } = $props();
 
@@ -45,6 +47,46 @@
 			},
 		}),
 	);
+
+	const menuGroups = [
+		{
+			title: "Getting Started",
+			variant: "muted" as const,
+			links: [
+				{ label: "Home", href: "/" },
+				{ label: "Introduction", href: "/docs/introduction" },
+				{ label: "CLI Quick Start", href: "/docs/cli-guide/quick-start" },
+			],
+		},
+		{
+			title: "CLI Commands",
+			variant: "default" as const,
+			links: [
+				{ label: "init", href: "/docs/cli-guide/init" },
+				{ label: "add", href: "/docs/cli-guide/add" },
+				{ label: "list", href: "/docs/cli-guide/list" },
+				{ label: "cache", href: "/docs/cli-guide/cache" },
+			],
+		},
+		{
+			title: "Resources",
+			variant: "muted" as const,
+			links: [
+				{
+					label: "Registry Changelog",
+					href: "/docs/changelog/registry",
+				},
+				{
+					label: "CLI Changelog",
+					href: "/docs/changelog/cli",
+				},
+				{
+					label: "NPM",
+					href: "https://www.npmjs.com/package/@motion-core/cli",
+				},
+			],
+		},
+	];
 </script>
 
 <svelte:head>
@@ -92,5 +134,33 @@
 
 {#if docsUiConfig.search.enabled}
 	<CommandPalette />
+{/if}
+{#if isHomeRoute}
+	<FloatingMenu
+		classes={{
+			root: "bg-background-inset/40 dark:bg-background-inset/80 backdrop-blur-xl card border-none",
+			groupMuted: "bg-foreground/5 dark:bg-background-muted/40",
+			secondaryButton: "hover:bg-foreground/10 dark:hover:bg-foreground/5",
+			divider: "border-foreground/5",
+			menuWrapper: "border-foreground/5",
+		}}
+		primaryButton={{ label: "Discord", href: "https://discord.gg/stZ8hqAvpE" }}
+		secondaryButton={{
+			label: "GitHub",
+			href: "https://github.com/motion-core/motion-core",
+		}}
+		{menuGroups}
+	>
+		{#snippet logo()}
+			<a href="/" class="flex items-center">
+				<span
+					class="inline-flex shrink-0 items-center text-accent [&>svg]:h-3 [&>svg]:w-8 [&>svg]:fill-current"
+					aria-hidden="true"
+				>
+					{@html brandingConfig.logoRaw}
+				</span>
+			</a>
+		{/snippet}
+	</FloatingMenu>
 {/if}
 {@render children()}

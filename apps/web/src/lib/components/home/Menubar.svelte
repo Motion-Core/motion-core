@@ -111,7 +111,7 @@
 
 <nav aria-label="Primary navigation" class="fixed top-0 z-60 w-full">
 	<div
-		class="mx-auto max-w-6xl border-b border-border bg-background sm:border-x"
+		class="mx-auto max-w-6xl border-b border-border bg-background-inset sm:border-x"
 	>
 		<div class="relative flex items-center justify-between gap-3 px-4 py-1.5">
 			<a

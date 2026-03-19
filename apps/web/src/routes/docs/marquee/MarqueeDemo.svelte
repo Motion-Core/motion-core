@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { Marquee } from "motion-core";
 
-	const companies = [
-		"Microsoft",
-		"Amazon",
-		"Netflix",
-		"YouTube",
-		"Instagram",
-		"Uber",
-		"Spotify",
+	const texts = [
+		"Motion・",
+		"Craft・",
+		"Ecosystem・",
+		"Initiative・",
+		"Transition・",
+		"Interaction・",
+		"Experience・",
+		"Playground・",
+		"Journey・",
 	];
 </script>
 
@@ -17,29 +19,29 @@
 >
 	<Marquee
 		class="h-fit"
-		gap={32}
+		gap={0}
 		duration={20}
 		velocity={1}
 		scrollElement="#docs-content-container"
 	>
-		{#each companies as company (company)}
+		{#each texts as text (text)}
 			<div class="flex items-center text-4xl font-medium">
-				{company}
+				{text}
 			</div>
 		{/each}
 	</Marquee>
 
 	<Marquee
 		class="h-fit"
-		gap={32}
+		gap={0}
 		duration={20}
 		velocity={1}
 		reversed
 		scrollElement="#docs-content-container"
 	>
-		{#each companies as company (company)}
+		{#each texts as text (text)}
 			<div class="flex items-center text-4xl font-medium">
-				{company}
+				{text}
 			</div>
 		{/each}
 	</Marquee>

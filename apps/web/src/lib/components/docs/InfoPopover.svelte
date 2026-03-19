@@ -107,7 +107,7 @@
 		<div
 			bind:this={popoverRef}
 			transition:scale={{ duration: 150, start: 0.95 }}
-			class="fixed z-50 w-64 rounded-sm border border-border bg-background p-3 text-sm leading-normal text-foreground shadow-lg"
+			class="card fixed z-50 w-64 rounded-sm bg-background p-3 text-sm leading-normal text-foreground"
 			style="top: {coords.top}px; left: {coords.left}px; transform: {transform};"
 		>
 			{description}

@@ -122,10 +122,7 @@
 </script>
 
 {#if showPreview}
-	<div
-		use:portal
-		class="fixed right-4 bottom-4 z-50 rounded-lg border border-border bg-background-inset {className}"
-	>
+	<div use:portal class="fixed right-4 bottom-4 z-50 rounded-lg {className}">
 		<video
 			bind:this={video}
 			playsinline

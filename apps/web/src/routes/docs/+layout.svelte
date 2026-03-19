@@ -235,7 +235,7 @@
 		</aside>
 
 		<div
-			class="inset-shadow relative mx-auto h-full w-full max-w-4xl min-w-0 overflow-hidden border border-border bg-background-inset pt-12 lg:my-4 lg:mr-4 lg:max-h-[calc(100dvh-2rem)] lg:overflow-visible lg:rounded-xl lg:pt-0 xl:mr-0"
+			class="inset-shadow relative mx-auto h-full w-full max-w-4xl min-w-0 overflow-hidden bg-background-inset pt-12 lg:my-4 lg:mr-4 lg:max-h-[calc(100dvh-2rem)] lg:overflow-visible lg:rounded-xl lg:pt-0 xl:mr-0"
 		>
 			<ScrollArea
 				id="docs-content-container"

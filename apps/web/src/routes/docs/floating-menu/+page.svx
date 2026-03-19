@@ -79,20 +79,66 @@ import { FloatingMenu } from "$lib/motion-core";
 			default: "undefined",
 			description: "Configuration for the secondary button.",
 		},
-		{
-			prop: "portalTarget",
-			type: "HTMLElement | string",
-			default: '"body"',
-			description: "Target element to render the menu into.",
-		},
-		{
-			prop: "class",
-			type: "string",
-			default: '""',
-			description: "Additional CSS classes for the container.",
-		},
-	]}
+			{
+				prop: "portalTarget",
+				type: "HTMLElement | string",
+				default: '"body"',
+				description: "Target element to render the menu into.",
+			},
+			{
+				prop: "class",
+				type: "string",
+				default: '""',
+				description: "Additional CSS classes for the container.",
+			},
+			{
+				prop: "classes",
+				type: "FloatingMenuClasses",
+				default: "{}",
+				description:
+					"Optional class overrides for internal slots (buttons, groups, links, etc.).",
+			},
+		]}
 />
+
+### FloatingMenuClasses
+
+Use the `classes` prop to style internal slots without replacing component structure or animation logic.
+
+```ts
+type FloatingMenuClasses = Partial<{
+	root: string;
+	overlay: string;
+	header: string;
+	toggleButton: string;
+	toggleLine: string;
+	logo: string;
+	actions: string;
+	primaryButton: string;
+	secondaryButton: string;
+	menuWrapper: string;
+	grid: string;
+	group: string;
+	groupMuted: string;
+	groupTitle: string;
+	link: string;
+	linkText: string;
+	linkUnderline: string;
+	divider: string;
+}>;
+```
+
+```svelte
+<FloatingMenu
+	{menuGroups}
+	classes={{
+		root: "rounded-xl border-zinc-700/60",
+		primaryButton: "bg-lime-400 text-black hover:bg-lime-300",
+		groupMuted: "bg-zinc-900/80",
+		link: "text-zinc-400 hover:text-zinc-50",
+	}}
+/>
+```
 
 ### MenuGroup
 

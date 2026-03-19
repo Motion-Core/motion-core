@@ -190,15 +190,13 @@
 	});
 
 	const buttonClass =
-		"border border-border relative inline-flex h-9 w-full font-medium shrink-0 overflow-hidden items-center justify-center gap-2 rounded-sm bg-background px-4 py-2 text-sm whitespace-nowrap text-foreground shadow-sm transition-[background-color] duration-150 ease-out hover:bg-background-inset disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex-1";
+		"card relative inline-flex h-9 w-full font-medium shrink-0 overflow-hidden items-center justify-center gap-2 rounded-sm bg-background px-4 py-2 text-sm whitespace-nowrap text-foreground transition-[background-color] duration-150 ease-out hover:bg-background-muted disabled:pointer-events-none disabled:opacity-50 has-[>svg]:px-3 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 flex-1";
 </script>
 
 {#if hasActions}
 	<div class="relative z-20 mt-8 flex w-full gap-2 lg:hidden">
 		{#if canShowCopy}
-			<div
-				class="inset-shadow w-full rounded-md border border-border bg-background-inset p-1"
-			>
+			<div class="inset-shadow w-full rounded-md bg-background-inset p-1.5">
 				<button
 					type="button"
 					onclick={handleCopy}
@@ -247,9 +245,7 @@
 		{/if}
 
 		{#if hasMenuActions}
-			<div
-				class="inset-shadow relative rounded-md border border-border bg-background-inset p-1"
-			>
+			<div class="inset-shadow relative rounded-md bg-background-inset p-1.5">
 				<button
 					bind:this={triggerRef}
 					type="button"
@@ -267,7 +263,7 @@
 						use:portal
 						bind:this={dropdownRef}
 						style={dropdownStyle}
-						class="z-50 flex w-48 origin-top-right flex-col gap-0.5 rounded-md border border-border bg-background p-1 shadow-lg"
+						class="card z-50 flex w-48 origin-top-right flex-col gap-0.5 rounded-md bg-background p-1"
 						in:fly={{ y: -5, duration: 200, easing: backOut }}
 						out:fly={{ y: -5, duration: 150, easing: backOut }}
 					>
@@ -276,7 +272,7 @@
 								href={githubUrl}
 								target="_blank"
 								rel="noreferrer"
-								class="group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium tracking-normal text-foreground-muted transition-colors hover:bg-background-inset hover:text-foreground"
+								class="group flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm font-medium tracking-normal text-foreground-muted transition-colors hover:bg-background-muted hover:text-foreground"
 							>
 								<LogoGithub class="size-4 flex-none" />
 								{docsUiConfig.docActions.repositoryLinkLabel}
@@ -288,7 +284,7 @@
 								href={chatGptUrl}
 								target="_blank"
 								rel="noreferrer"
-								class="group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium tracking-normal text-foreground-muted transition-colors hover:bg-background-inset hover:text-foreground"
+								class="group flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm font-medium tracking-normal text-foreground-muted transition-colors hover:bg-background-muted hover:text-foreground"
 							>
 								<svg
 									role="img"
@@ -311,7 +307,7 @@
 								href={claudeUrl}
 								target="_blank"
 								rel="noreferrer"
-								class="group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium tracking-normal text-foreground-muted transition-colors hover:bg-background-inset hover:text-foreground"
+								class="group flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm font-medium tracking-normal text-foreground-muted transition-colors hover:bg-background-muted hover:text-foreground"
 							>
 								<svg
 									role="img"

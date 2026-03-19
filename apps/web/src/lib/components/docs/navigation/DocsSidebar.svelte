@@ -139,7 +139,7 @@
 		{/if}
 		{#if docsUiConfig.sidebar.showRepositoryLink}
 			<a
-				class="group transition-scale inset-shadow relative inline-flex size-7 cursor-pointer items-center justify-center rounded-sm border border-border bg-background-inset text-foreground duration-150 ease-out active:scale-[0.95]"
+				class="group transition-scale inset-shadow relative inline-flex size-7 cursor-pointer items-center justify-center rounded-sm bg-background-inset text-foreground duration-150 ease-out active:scale-[0.95]"
 				href={githubUrl}
 				target="_blank"
 				rel="noreferrer"
