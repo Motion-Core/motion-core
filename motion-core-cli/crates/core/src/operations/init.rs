@@ -226,13 +226,26 @@ fn scan_for_tailwind_css(
             if name == "node_modules" || name.starts_with('.') {
                 continue;
             }
-            scan_for_tailwind_css(root, &path, matches, depth + 1)?;
+            if let Err(err) = scan_for_tailwind_css(root, &path, matches, depth + 1) {
+                tracing::warn!("skipping tailwind scan for {}: {}", path.display(), err);
+            }
         } else if path.extension().and_then(|ext| ext.to_str()) == Some("css") {
-            let contents = fs::read_to_string(&path)?;
-            if (contents.contains("@tailwind") || contents.contains("tailwindcss"))
-                && let Ok(relative) = path.strip_prefix(root) {
-                    matches.push((depth, relative.to_string_lossy().to_string()));
+            let contents = match fs::read_to_string(&path) {
+                Ok(contents) => contents,
+                Err(err) => {
+                    tracing::warn!(
+                        "skipping unreadable css file during tailwind scan {}: {}",
+                        path.display(),
+                        err
+                    );
+                    continue;
                 }
+            };
+            if (contents.contains("@tailwind") || contents.contains("tailwindcss"))
+                && let Ok(relative) = path.strip_prefix(root)
+            {
+                matches.push((depth, relative.to_string_lossy().to_string()));
+            }
         }
     }
     Ok(())
@@ -379,6 +392,20 @@ mod tests {
     }
 
     #[test]
+    fn locate_tailwind_css_skips_unreadable_files() {
+        let temp = TempDir::new().expect("tempdir");
+        let bad_css = temp.path().join("src/bad.css");
+        fs::create_dir_all(bad_css.parent().expect("bad css parent")).expect("dirs");
+        fs::write(&bad_css, b"\xFF\xFE\x00\x00").expect("write bad css");
+
+        let good_css = temp.path().join("src/app.css");
+        fs::write(&good_css, "@tailwind base;").expect("write good css");
+
+        let found = locate_tailwind_css(temp.path()).expect("locate");
+        assert_eq!(found, Some("src/app.css".to_string()));
+    }
+
+    #[test]
     fn install_base_dependencies_skips_if_present() {
         let temp = TempDir::new().expect("tempdir");
         let package = json!({
@@ -391,13 +418,9 @@ mod tests {
         let mut deps = HashMap::new();
         deps.insert("clsx".into(), "^2.0.0".into());
 
-        let report = install_base_dependencies(
-            PackageManagerKind::Npm,
-            temp.path(),
-            &deps,
-            false,
-            false
-        ).expect("install");
+        let report =
+            install_base_dependencies(PackageManagerKind::Npm, temp.path(), &deps, false, false)
+                .expect("install");
 
         assert!(!report.changed());
         assert!(matches!(report, DependencyReport::AlreadyInstalled));

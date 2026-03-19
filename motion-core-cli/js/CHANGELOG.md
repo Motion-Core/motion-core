@@ -11,6 +11,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - Returned non-zero exit codes for fatal CLI command outcomes (`add` without config and `init` with unsupported Svelte), so automation and CI can fail correctly.
 - Stopped implicit conflict overwrites in non-interactive `add`; conflicting files now require explicit `--yes` approval (or `MOTION_CORE_CLI_ASSUME_YES`).
 - Removed duplicate package installation attempts when the same dependency was required in both runtime and dev scopes during `motion-core add`.
+- Hardened Tailwind CSS discovery in `init` to skip unreadable/binary `.css` files instead of aborting workspace setup.
 
 ## [0.5.2] - 2026-02-22
 
