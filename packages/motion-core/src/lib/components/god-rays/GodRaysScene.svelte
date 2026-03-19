@@ -73,6 +73,11 @@
 		 * @default 0.0
 		 */
 		distortion?: number;
+		/**
+		 * Global ray intensity. Lower values dim and tighten rays, higher values brighten them.
+		 * @default 1.0
+		 */
+		intensity?: number;
 	}
 
 	let {
@@ -90,6 +95,7 @@
 		saturation = 1.0,
 		noiseAmount = 0.0,
 		distortion = 0.0,
+		intensity = 1.0,
 	}: Props = $props();
 
 	let material = $state<THREE.ShaderMaterial>();
@@ -107,8 +113,8 @@
 	`;
 
 	const fragmentShader = `
-		precision highp float;
-		varying vec2 vUv;
+			precision highp float;
+			varying vec2 vUv;
 
 		uniform float uTime;
 		uniform vec2 uResolution;
@@ -125,10 +131,35 @@
 		uniform float uSaturation;
 		uniform float uNoiseAmount;
 		uniform float uDistortion;
+		uniform float uIntensity;
 
-		float noise2(vec2 st) {
-			return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123);
-		}
+			float noise2(vec2 st) {
+				return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123);
+			}
+
+			float colorLuma(vec3 c) {
+				return dot(c, vec3(0.2126, 0.7152, 0.0722));
+			}
+
+			vec3 hueFromColor(vec3 c, vec3 fallback) {
+				float m = max(max(c.r, c.g), c.b);
+				if (m < 1e-5) return fallback;
+				return clamp(c / m, 0.0, 1.0);
+			}
+
+			vec3 blendAdaptive(vec3 bg, vec3 effect, float softness) {
+				float bgLum = colorLuma(bg);
+				float lightBg = smoothstep(0.45, 0.95, bgLum);
+				float edge = clamp(softness, 0.0, 1.0);
+				float tintEnergy = 1.0 - exp(-4.0 * colorLuma(effect));
+
+				vec3 additive = bg + effect;
+				vec3 effectHue = hueFromColor(effect, vec3(1.0));
+				vec3 tintTarget = mix(bg, effectHue, 0.9);
+				vec3 tint = mix(bg, tintTarget, edge * tintEnergy);
+
+				return mix(additive, tint, lightBg);
+			}
 
 		float rayStrength(
 			vec2 raySource,
@@ -182,21 +213,25 @@
 			float rs1 = rayStrength(rayPos, rayDir, coord, 36.2214, 21.11349, 1.5 * uSpeed, time, maxDim);
 			float rs2 = rayStrength(rayPos, rayDir, coord, 22.3991, 18.0234,  1.1 * uSpeed, time, maxDim);
 
-			float strength = rs1 * 0.5 + rs2 * 0.4;
-			// sharpen only the strength mask to restore definition in linear space
-			float sharpenedStrength = pow(clamp(strength, 0.0, 1.0), 2.2);
+				float intensityScale = max(uIntensity, 0.0);
+				float intensityForShape = clamp(intensityScale, 0.0, 1.0);
+				float shapeExponent = mix(2.35, 1.35, intensityForShape);
+				float strength = rs1 * 0.5 + rs2 * 0.4;
+				float shapedStrength = pow(clamp(strength, 0.0, 1.0), shapeExponent);
+				float softMask = 1.0 - exp(-3.0 * shapedStrength);
+				vec3 rayColor = uColor * shapedStrength * intensityScale;
 
-			vec3 rayColor = uColor * sharpenedStrength;
+				if (uNoiseAmount > 0.0) {
+					float n = noise2(coord * 0.01 + time * 0.1);
+					float noiseMix = 1.0 - uNoiseAmount + uNoiseAmount * n;
+					rayColor *= noiseMix;
+					softMask *= mix(1.0, noiseMix, 0.5);
+				}
 
-			if (uNoiseAmount > 0.0) {
-				float n = noise2(coord * 0.01 + time * 0.1);
-				rayColor *= (1.0 - uNoiseAmount + uNoiseAmount * n);
-			}
+				vec3 rgb = blendAdaptive(uBackgroundColor, rayColor, softMask);
 
-			vec3 rgb = uBackgroundColor + rayColor;
-
-			if (uSaturation != 1.0) {
-				float gray = dot(rgb, vec3(0.299, 0.587, 0.114));
+				if (uSaturation != 1.0) {
+					float gray = dot(rgb, vec3(0.299, 0.587, 0.114));
 				rgb = mix(vec3(gray), rgb, uSaturation);
 			}
 
@@ -234,6 +269,7 @@
 		material.uniforms.uSaturation.value = saturation;
 		material.uniforms.uNoiseAmount.value = noiseAmount;
 		material.uniforms.uDistortion.value = distortion;
+		material.uniforms.uIntensity.value = intensity;
 	});
 
 	useTask((delta) => {
@@ -266,6 +302,7 @@
 			uSaturation: { value: saturation },
 			uNoiseAmount: { value: noiseAmount },
 			uDistortion: { value: distortion },
+			uIntensity: { value: intensity },
 		}}
 	/>
 </T.Mesh>

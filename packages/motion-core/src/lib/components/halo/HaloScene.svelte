@@ -71,8 +71,8 @@
 	`;
 
 	const fragmentShader = `
-		precision highp float;
-		varying vec2 vUv;
+			precision highp float;
+			varying vec2 vUv;
 
 		uniform float uTime;
 		uniform vec2 uResolution;
@@ -117,9 +117,32 @@
 			return ( 3.0 / 16.0 / PI ) * ( 1.0 + cc );
 		}
 
-		float density( vec3 p, float ph ) {
-			return exp( -max( length( p ) - R_INNER, 0.0 ) / ph );
-		}
+			float density( vec3 p, float ph ) {
+				return exp( -max( length( p ) - R_INNER, 0.0 ) / ph );
+			}
+
+			float colorLuma(vec3 c) {
+				return dot(c, vec3(0.2126, 0.7152, 0.0722));
+			}
+
+			vec3 hueFromColor(vec3 c, vec3 fallback) {
+				float m = max(max(c.r, c.g), c.b);
+				if (m < 1e-5) return fallback;
+				return clamp(c / m, 0.0, 1.0);
+			}
+
+			vec3 blendAdaptive(vec3 bg, vec3 effect, float softness) {
+				float bgLum = colorLuma(bg);
+				float lightBg = smoothstep(0.45, 0.95, bgLum);
+				float edge = clamp(softness, 0.0, 1.0);
+
+				vec3 additive = bg + effect;
+				vec3 effectHue = hueFromColor(effect, vec3(1.0));
+				vec3 tintTarget = mix(bg, effectHue, 0.85);
+				vec3 tint = mix(bg, tintTarget, edge);
+
+				return mix(additive, tint, lightBg);
+			}
 
 		float optic( vec3 p, vec3 q, float ph ) {
 			vec3 s = ( q - p ) / float( NUM_OUT_SCATTER );
@@ -199,9 +222,12 @@
 			}
 			vec2 f = ray_vs_sphere( eye, dir, R_INNER );
 			e.y = min( e.y, f.x );
-			vec3 I = in_scatter( eye, dir, e, l );
-			fragColor = vec4( uBackgroundColor + (I * uIntensity * 10.0), 1.0 );
-		}
+				vec3 I = in_scatter( eye, dir, e, l );
+				vec3 halo = I * uIntensity * 10.0;
+				float softMask = 1.0 - exp(-1.2 * colorLuma(halo));
+				vec3 rgb = blendAdaptive(uBackgroundColor, halo, softMask);
+				fragColor = vec4( rgb, 1.0 );
+			}
 
 		void main() {
 			vec4 fragColor;

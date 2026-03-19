@@ -82,6 +82,11 @@
 		 * @default 0.0
 		 */
 		distortion?: SceneProps["distortion"];
+		/**
+		 * Global ray intensity. Lower values dim and tighten rays, higher values brighten them.
+		 * @default 1.0
+		 */
+		intensity?: SceneProps["intensity"];
 		[key: string]: unknown;
 	}
 
@@ -101,6 +106,7 @@
 		saturation = 1.0,
 		noiseAmount = 0.0,
 		distortion = 0.0,
+		intensity = 1.0,
 		...rest
 	}: Props = $props();
 
@@ -125,6 +131,7 @@
 				{saturation}
 				{noiseAmount}
 				{distortion}
+				{intensity}
 			/>
 		</Canvas>
 	</div>
