@@ -4,6 +4,12 @@ All notable changes to **Motion Core CLI** will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- Returned non-zero exit codes for fatal CLI command outcomes (`add` without config and `init` with unsupported Svelte), so automation and CI can fail correctly.
+
 ## [0.5.2] - 2026-02-22
 
 ### Fixed

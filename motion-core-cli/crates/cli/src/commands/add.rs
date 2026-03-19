@@ -51,12 +51,12 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> Com
                 "no motion-core.json found at {}",
                 path.display()
             ));
-            return Ok(CommandOutcome::NoOp);
+            return Ok(CommandOutcome::Failed);
         }
         Err(core_add::AddError::ComponentNotFound(slug)) => {
             spinner.finish_and_clear();
             reporter.error(format_args!("component `{slug}` not found in registry"));
-            return Ok(CommandOutcome::NoOp);
+            return Ok(CommandOutcome::Failed);
         }
         Err(err) => {
             spinner.finish_and_clear();
@@ -478,6 +478,25 @@ mod tests {
         };
         let outcome = run(&ctx, &reporter, &args).unwrap();
         assert_eq!(outcome, CommandOutcome::Completed);
+    }
+
+    #[test]
+    fn add_returns_failed_when_config_is_missing() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let registry = Registry {
+            name: "Motion Core".into(),
+            version: "0.1.0".into(),
+            ..Default::default()
+        };
+        let ctx = build_context(&temp, registry);
+        let reporter = ConsoleReporter::new();
+        let args = AddArgs {
+            components: vec!["glass-pane".into()],
+            dry_run: false,
+            assume_yes: true,
+        };
+        let outcome = run(&ctx, &reporter, &args).expect("run result");
+        assert_eq!(outcome, CommandOutcome::Failed);
     }
 
     #[test]

@@ -42,7 +42,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
             reporter.error(format_args!(
                 "failed to read package.json (required for detection): {err}"
             ));
-            return Ok(CommandOutcome::NoOp);
+            return Ok(CommandOutcome::Failed);
         }
         Err(InitError::UnsupportedSvelte { found }) => {
             spinner.finish_and_clear();
@@ -50,7 +50,7 @@ pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &InitArgs) -> Co
             reporter.error(format_args!(
                 "Svelte >=5 is required. Found {version}. Please upgrade and rerun `motion-core init`."
             ));
-            return Ok(CommandOutcome::NoOp);
+            return Ok(CommandOutcome::Failed);
         }
         Err(InitError::Workspace(err @ WorkspaceError::HelperDownload { .. })) => {
             spinner.finish_and_clear();
@@ -259,8 +259,8 @@ mod tests {
     };
     use serde_json::json;
     use std::collections::HashMap;
-    use std::fs;
     use std::fmt::Arguments;
+    use std::fs;
     use tempfile;
 
     #[test]
@@ -328,6 +328,33 @@ mod tests {
         assert!(!ctx.config_path().exists());
         assert!(!temp.path().join("src/lib/motion-core/utils/cn.ts").exists());
         assert!(!temp.path().join("src/lib/motion-core/assets").exists());
+    }
+
+    #[test]
+    fn init_returns_failed_for_unsupported_svelte() {
+        let registry = RegistryClient::with_registry(Default::default());
+        let temp = tempfile::tempdir().expect("tempdir");
+        let cache = CacheStore::from_path(temp.path().join("cache"));
+        let package = json!({
+            "dependencies": {
+                "svelte": "^4.0.0",
+                "@sveltejs/kit": "latest"
+            },
+            "devDependencies": {
+                "tailwindcss": "4.1.0"
+            }
+        });
+        fs::write(temp.path().join("package.json"), package.to_string()).expect("write package");
+        let ctx = CommandContext::new(
+            temp.path(),
+            temp.path().join(CONFIG_FILE_NAME),
+            registry,
+            cache,
+        );
+
+        let reporter = ConsoleReporter::new();
+        let outcome = run(&ctx, &reporter, &InitArgs::default()).expect("run result");
+        assert_eq!(outcome, CommandOutcome::Failed);
     }
 
     #[test]
@@ -443,7 +470,9 @@ export function cn(...inputs: ClassValue[]) {
         handle_warnings(
             &reporter,
             &[
-                InitWarning::TailwindUnsupported { detected: Some("3.0.0".into()) },
+                InitWarning::TailwindUnsupported {
+                    detected: Some("3.0.0".into()),
+                },
                 InitWarning::RegistryMetadataUnavailable("Registry error".into()),
             ],
         );
@@ -456,19 +485,51 @@ export function cn(...inputs: ClassValue[]) {
     fn handle_token_status_logs_correctly() {
         let reporter = RecordingReporter::default();
         handle_token_status(&reporter, &TailwindSyncStatus::MissingConfig);
-        handle_token_status(&reporter, &TailwindSyncStatus::MissingFile("style.css".into()));
-        handle_token_status(&reporter, &TailwindSyncStatus::AlreadyPresent("style.css".into()));
-        handle_token_status(&reporter, &TailwindSyncStatus::DryRun { target: "style.css".into() });
-        handle_token_status(&reporter, &TailwindSyncStatus::Updated { target: "style.css".into() });
+        handle_token_status(
+            &reporter,
+            &TailwindSyncStatus::MissingFile("style.css".into()),
+        );
+        handle_token_status(
+            &reporter,
+            &TailwindSyncStatus::AlreadyPresent("style.css".into()),
+        );
+        handle_token_status(
+            &reporter,
+            &TailwindSyncStatus::DryRun {
+                target: "style.css".into(),
+            },
+        );
+        handle_token_status(
+            &reporter,
+            &TailwindSyncStatus::Updated {
+                target: "style.css".into(),
+            },
+        );
 
         let warns = reporter.warns.lock().unwrap();
         let infos = reporter.infos.lock().unwrap();
 
-        assert!(warns.iter().any(|s| s.contains("missing from motion-core.json")));
+        assert!(
+            warns
+                .iter()
+                .any(|s| s.contains("missing from motion-core.json"))
+        );
         assert!(warns.iter().any(|s| s.contains("style.css not found")));
-        assert!(infos.iter().any(|s| s.contains("already present in style.css")));
-        assert!(infos.iter().any(|s| s.contains("Would inject Motion Core tokens into style.css")));
-        assert!(infos.iter().any(|s| s.contains("Motion Core tokens synced at style.css")));
+        assert!(
+            infos
+                .iter()
+                .any(|s| s.contains("already present in style.css"))
+        );
+        assert!(
+            infos
+                .iter()
+                .any(|s| s.contains("Would inject Motion Core tokens into style.css"))
+        );
+        assert!(
+            infos
+                .iter()
+                .any(|s| s.contains("Motion Core tokens synced at style.css"))
+        );
     }
 
     #[derive(Default)]

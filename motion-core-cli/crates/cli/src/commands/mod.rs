@@ -9,6 +9,7 @@ use anyhow::Result;
 pub enum CommandOutcome {
     Completed,
     NoOp,
+    Failed,
 }
 
 pub type CommandResult = Result<CommandOutcome>;

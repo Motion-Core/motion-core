@@ -62,8 +62,14 @@ fn main() -> Result<()> {
         Commands::Cache(args) => run_cache(&ctx, &reporter, &args),
     }?;
 
-    if outcome == CommandOutcome::NoOp {
-        tracing::debug!("command completed without changes");
+    match outcome {
+        CommandOutcome::NoOp => {
+            tracing::debug!("command completed without changes");
+        }
+        CommandOutcome::Failed => {
+            std::process::exit(1);
+        }
+        CommandOutcome::Completed => {}
     }
 
     Ok(())
