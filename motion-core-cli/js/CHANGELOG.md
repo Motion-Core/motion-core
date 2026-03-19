@@ -12,6 +12,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - Stopped implicit conflict overwrites in non-interactive `add`; conflicting files now require explicit `--yes` approval (or `MOTION_CORE_CLI_ASSUME_YES`).
 - Removed duplicate package installation attempts when the same dependency was required in both runtime and dev scopes during `motion-core add`.
 - Hardened Tailwind CSS discovery in `init` to skip unreadable/binary `.css` files instead of aborting workspace setup.
+- Guarded package-manager execution against `Unknown` backend to prevent fallback commands from reporting false-positive success.
 
 ## [0.5.2] - 2026-02-22
 

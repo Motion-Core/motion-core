@@ -53,6 +53,9 @@ impl InstallPlan {
         if self.packages.is_empty() {
             return Ok(());
         }
+        if matches!(self.manager, PackageManagerKind::Unknown) {
+            return Err(PackageManagerError::Unsupported(self.manager));
+        }
 
         let mut cmd = self.build_command();
         cmd.current_dir(cwd);
@@ -183,5 +186,17 @@ mod tests {
         assert!(args.contains(&std::ffi::OsStr::new("add")));
         assert!(args.contains(&std::ffi::OsStr::new("-D")));
         assert!(args.contains(&std::ffi::OsStr::new("pkg-b")));
+    }
+
+    #[test]
+    fn run_returns_unsupported_for_unknown_manager() {
+        let mut plan = InstallPlan::new(PackageManagerKind::Unknown);
+        plan.add_packages(vec!["pkg-a"]);
+        let temp = tempfile::tempdir().expect("tempdir");
+        let result = plan.run(temp.path());
+        assert!(matches!(
+            result,
+            Err(PackageManagerError::Unsupported(PackageManagerKind::Unknown))
+        ));
     }
 }
