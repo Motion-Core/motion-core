@@ -13,6 +13,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - Removed duplicate package installation attempts when the same dependency was required in both runtime and dev scopes during `motion-core add`.
 - Hardened Tailwind CSS discovery in `init` to skip unreadable/binary `.css` files instead of aborting workspace setup.
 - Guarded package-manager execution against `Unknown` backend to prevent fallback commands from reporting false-positive success.
+- Replaced panic-prone config serialization in `save_config` with explicit error propagation (`ConfigError::Serialize`).
 
 ## [0.5.2] - 2026-02-22
 

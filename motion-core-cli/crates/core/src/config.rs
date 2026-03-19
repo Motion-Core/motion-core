@@ -166,6 +166,11 @@ pub enum ConfigError {
         path: PathBuf,
         source: serde_json::Error,
     },
+    #[error("failed to serialize config at {path:?}: {source}")]
+    Serialize {
+        path: PathBuf,
+        source: serde_json::Error,
+    },
     #[error("failed to write config at {path:?}: {source}")]
     Write {
         path: PathBuf,
@@ -197,7 +202,10 @@ pub fn try_load_config(path: impl AsRef<Path>) -> Result<Option<Config>, ConfigE
 
 pub fn save_config(path: impl AsRef<Path>, config: &Config) -> Result<(), ConfigError> {
     let path = path.as_ref();
-    let json = serde_json::to_string_pretty(config).expect("serialization cannot fail");
+    let json = serde_json::to_string_pretty(config).map_err(|source| ConfigError::Serialize {
+        path: path.to_path_buf(),
+        source,
+    })?;
     fs::write(path, json).map_err(|source| ConfigError::Write {
         path: path.to_path_buf(),
         source,
