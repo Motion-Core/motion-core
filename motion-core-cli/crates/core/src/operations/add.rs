@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, BTreeSet, HashMap};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -129,8 +129,7 @@ pub fn plan(ctx: &CommandContext, options: &AddOptions) -> Result<AddPlan, AddEr
 
     let workspace_root = ctx.workspace_root().to_path_buf();
     let package_manager = crate::detect_package_manager(&workspace_root);
-    let package_snapshot =
-        PackageSnapshot::load(&workspace_root).map_err(AddError::Other)?;
+    let package_snapshot = PackageSnapshot::load(&workspace_root).map_err(AddError::Other)?;
 
     let mut runtime_requirements = BTreeMap::new();
     let mut dev_requirements = BTreeMap::new();
@@ -196,9 +195,10 @@ pub fn plan(ctx: &CommandContext, options: &AddOptions) -> Result<AddPlan, AddEr
         }
 
         if entry_paths.is_empty()
-            && let Some(entry) = fallback_entry.take() {
-                entry_paths.push(entry);
-            }
+            && let Some(entry) = fallback_entry.take()
+        {
+            entry_paths.push(entry);
+        }
 
         if entry_paths.is_empty() {
             missing_entry_components.push(record.name.clone());
@@ -286,16 +286,20 @@ pub fn apply(
         }
     }
 
+    let runtime_installs = diff_dependencies(&plan.runtime_requirements, &plan.package_snapshot);
+    let dev_installs = dedupe_dev_dependencies(
+        &runtime_installs,
+        diff_dependencies(&plan.dev_requirements, &plan.package_snapshot),
+    );
+
     let runtime = handle_dependencies(
-        &plan.runtime_requirements,
-        &plan.package_snapshot,
+        runtime_installs,
         plan.package_manager,
         &plan.workspace_root,
         options.dry_run,
     )?;
     let dev = handle_dependencies(
-        &plan.dev_requirements,
-        &plan.package_snapshot,
+        dev_installs,
         plan.package_manager,
         &plan.workspace_root,
         options.dry_run,
@@ -310,13 +314,11 @@ pub fn apply(
 }
 
 fn handle_dependencies(
-    requirements: &BTreeMap<String, String>,
-    snapshot: &PackageSnapshot,
+    installs: Vec<String>,
     package_manager: PackageManagerKind,
     workspace_root: &Path,
     dry_run: bool,
 ) -> Result<DependencyAction, AddError> {
-    let installs = diff_dependencies(requirements, snapshot);
     if installs.is_empty() {
         return Ok(DependencyAction::AlreadyInstalled);
     }
@@ -348,13 +350,14 @@ fn resolve_install_order(
             return Err(anyhow!("component `{slug}` not found in registry"));
         }
         if resolved.insert(slug.clone())
-            && let Some(record) = components.get(&slug) {
-                for dep in &record.internal_dependencies {
-                    if !resolved.contains(dep) {
-                        queue.push(dep.clone());
-                    }
+            && let Some(record) = components.get(&slug)
+        {
+            for dep in &record.internal_dependencies {
+                if !resolved.contains(dep) {
+                    queue.push(dep.clone());
                 }
             }
+        }
     }
 
     Ok(resolved.into_iter().collect())
@@ -366,12 +369,13 @@ fn write_component_file(
     dry_run: bool,
 ) -> Result<FileStatus, AddError> {
     if let Some(parent) = path.parent()
-        && !dry_run {
-            fs::create_dir_all(parent).map_err(|source| AddError::Io {
-                path: parent.to_path_buf(),
-                source,
-            })?;
-        }
+        && !dry_run
+    {
+        fs::create_dir_all(parent).map_err(|source| AddError::Io {
+            path: parent.to_path_buf(),
+            source,
+        })?;
+    }
 
     let existed = path.exists();
     if dry_run {
@@ -420,6 +424,20 @@ fn diff_dependencies(
         .filter(|(name, version)| !spec_satisfies(snapshot.spec(name), version))
         .map(|(name, version)| format!("{name}@{version}"))
         .collect()
+}
+
+fn dedupe_dev_dependencies(runtime: &[String], dev: Vec<String>) -> Vec<String> {
+    let runtime_names: HashSet<&str> = runtime.iter().map(|spec| package_name(spec)).collect();
+    dev.into_iter()
+        .filter(|spec| !runtime_names.contains(package_name(spec)))
+        .collect()
+}
+
+fn package_name(spec: &str) -> &str {
+    match spec.rsplit_once('@') {
+        Some((name, _)) if !name.is_empty() => name,
+        _ => spec,
+    }
 }
 
 fn is_entry_file(file: &ComponentFileRecord) -> bool {
@@ -537,6 +555,19 @@ mod tests {
         let diff = diff_dependencies(&requirements, &snapshot);
         assert_eq!(diff.len(), 1);
         assert_eq!(diff[0], "vue@^3.0.0");
+    }
+
+    #[test]
+    fn dedupe_dev_dependencies_removes_runtime_overlap() {
+        let runtime = vec!["clsx@^2.1.1".into(), "@types/node@^20.0.0".into()];
+        let dev = vec![
+            "clsx@^2.1.1".into(),
+            "vitest@^1.0.0".into(),
+            "@types/node@^20.0.0".into(),
+        ];
+
+        let filtered = dedupe_dev_dependencies(&runtime, dev);
+        assert_eq!(filtered, vec!["vitest@^1.0.0"]);
     }
 
     #[test]
