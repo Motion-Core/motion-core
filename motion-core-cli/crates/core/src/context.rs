@@ -27,6 +27,11 @@ impl CommandContext {
         }
     }
 
+    /// Discovers workspace root/config by walking up from the current directory.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when obtaining the current working directory fails.
     pub fn discover(registry: RegistryClient, cache: CacheStore) -> Result<Self> {
         let current_dir = std::env::current_dir()?;
         let (workspace_root, config_path) = locate_config(&current_dir);
@@ -37,7 +42,7 @@ impl CommandContext {
         &self.workspace_root
     }
 
-    pub fn registry(&self) -> &RegistryClient {
+    pub const fn registry(&self) -> &RegistryClient {
         &self.registry
     }
 
@@ -45,10 +50,15 @@ impl CommandContext {
         self.config_path.clone()
     }
 
-    pub fn cache_store(&self) -> &CacheStore {
+    pub const fn cache_store(&self) -> &CacheStore {
         &self.cache
     }
 
+    /// Loads `motion-core.json` from the discovered configuration path.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`MotionCliError`] when reading or parsing configuration fails.
     pub fn load_config(&self) -> Result<Option<Config>, MotionCliError> {
         let config = try_load_config(self.config_path())?;
         Ok(config)
@@ -119,13 +129,19 @@ mod tests {
         let root = temp.path();
         let config_path = root.join(CONFIG_FILE_NAME);
         std::fs::write(&config_path, "{}").expect("write");
-        
+
         let nested = root.join("apps/web/src");
         std::fs::create_dir_all(&nested).expect("mkdir");
-        
+
         let (found_root, found_config) = locate_config(&nested);
-        assert_eq!(found_root.canonicalize().unwrap(), root.canonicalize().unwrap());
-        assert_eq!(found_config.canonicalize().unwrap(), config_path.canonicalize().unwrap());
+        assert_eq!(
+            found_root.canonicalize().unwrap(),
+            root.canonicalize().unwrap()
+        );
+        assert_eq!(
+            found_config.canonicalize().unwrap(),
+            config_path.canonicalize().unwrap()
+        );
     }
 
     #[test]
@@ -134,16 +150,19 @@ mod tests {
         let root = temp.path();
         let config_path = root.join(CONFIG_FILE_NAME);
         std::fs::write(&config_path, "{}").expect("write");
-        
+
         let original_dir = std::env::current_dir().expect("cwd");
         std::env::set_current_dir(root).expect("chdir");
-        
+
         let registry = RegistryClient::with_registry(crate::Registry::default());
         let cache = CacheStore::from_path(root.join("cache"));
-        
+
         let ctx = CommandContext::discover(registry, cache).expect("discover");
-        assert_eq!(ctx.workspace_root().canonicalize().unwrap(), root.canonicalize().unwrap());
-        
+        assert_eq!(
+            ctx.workspace_root().canonicalize().unwrap(),
+            root.canonicalize().unwrap()
+        );
+
         std::env::set_current_dir(original_dir).expect("restore chdir");
     }
 }

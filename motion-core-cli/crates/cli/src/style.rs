@@ -29,14 +29,15 @@ pub fn danger(text: impl AsRef<str>) -> String {
 }
 
 pub fn create_spinner(message: impl Into<String>) -> ProgressBar {
+    const SPINNER_TEMPLATE: &str = "{spinner} {msg}";
     let frames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏", "✔"];
     let tinted: Vec<String> = frames
         .iter()
-        .map(|frame| format!("\x1b[38;2;255;105;0m{}\x1b[0m", frame))
+        .map(|frame| format!("\x1b[38;2;255;105;0m{frame}\x1b[0m"))
         .collect();
-    let tinted_refs: Vec<&str> = tinted.iter().map(|s| s.as_str()).collect();
+    let tinted_refs: Vec<&str> = tinted.iter().map(std::string::String::as_str).collect();
 
-    let style = ProgressStyle::with_template("{spinner} {msg}")
+    let style = ProgressStyle::with_template(SPINNER_TEMPLATE)
         .unwrap_or_else(|_| ProgressStyle::default_spinner())
         .tick_strings(&tinted_refs);
 

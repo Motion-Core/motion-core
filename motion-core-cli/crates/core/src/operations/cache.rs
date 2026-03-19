@@ -21,6 +21,12 @@ pub enum CacheError {
     ClearFailed(String),
 }
 
+/// Returns cache metadata and optionally clears cache files.
+///
+/// # Errors
+///
+/// Returns [`CacheError::ConfirmationRequired`] when `clear` is requested
+/// without `force`, and [`CacheError::ClearFailed`] when deletion fails.
 pub fn run(ctx: &CommandContext, options: CacheOptions) -> Result<CacheResult, CacheError> {
     let info = ctx.cache_store().info();
     if options.clear {
@@ -91,7 +97,7 @@ mod tests {
     #[test]
     fn derived_traits_work() {
         let opts = CacheOptions::default();
-        let _ = format!("{:?}", opts);
+        let _ = format!("{opts:?}");
         let res = CacheResult {
             info: crate::CacheInfo {
                 path: ".".into(),
@@ -100,6 +106,6 @@ mod tests {
             },
             cleared: false,
         };
-        let _ = format!("{:?}", res);
+        let _ = format!("{res:?}");
     }
 }

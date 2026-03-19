@@ -15,6 +15,7 @@ pub enum PackageManagerKind {
     Unknown,
 }
 
+#[must_use]
 pub fn detect_package_manager(root: &Path) -> PackageManagerKind {
     let mut current = root;
     loop {
@@ -81,6 +82,11 @@ impl PackageJson {
     }
 }
 
+/// Detects framework/runtime versions from `package.json`.
+///
+/// # Errors
+///
+/// Returns [`ProjectError`] when `package.json` cannot be read or parsed.
 pub fn detect_framework(root: &Path) -> Result<FrameworkDetection, ProjectError> {
     let package_path = root.join("package.json");
     let raw = fs::read_to_string(&package_path)
@@ -104,15 +110,13 @@ pub fn detect_framework(root: &Path) -> Result<FrameworkDetection, ProjectError>
     let svelte_ok = svelte_version
         .as_deref()
         .and_then(parse_major)
-        .map(|major| major >= 5)
-        .unwrap_or(false);
+        .is_some_and(|major| major >= 5);
 
     let tailwind_version = package.get("tailwindcss").cloned();
     let tailwind_ok = tailwind_version
         .as_deref()
         .and_then(parse_major)
-        .map(|major| major >= 4)
-        .unwrap_or(false);
+        .is_some_and(|major| major >= 4);
 
     Ok(FrameworkDetection {
         framework,
@@ -139,22 +143,19 @@ fn parse_major(version: &str) -> Option<u64> {
         .unwrap_or(v.len());
     let mut clean_version = v[..end].to_string();
 
-    let numeric_part = clean_version
-        .split(['-', '+'])
-        .next()
-        .unwrap_or("");
+    let numeric_part = clean_version.split(['-', '+']).next().unwrap_or("");
     let dots = numeric_part.chars().filter(|&c| c == '.').count();
     if dots == 0 {
         if clean_version.contains(['-', '+']) {
             let (num, rest) = clean_version.split_once(['-', '+']).unwrap();
-            clean_version = format!("{}.0.0-{}", num, rest);
+            clean_version = format!("{num}.0.0-{rest}");
         } else {
             clean_version.push_str(".0.0");
         }
     } else if dots == 1 {
         if clean_version.contains(['-', '+']) {
             let (num, rest) = clean_version.split_once(['-', '+']).unwrap();
-            clean_version = format!("{}.0-{}", num, rest);
+            clean_version = format!("{num}.0-{rest}");
         } else {
             clean_version.push_str(".0");
         }

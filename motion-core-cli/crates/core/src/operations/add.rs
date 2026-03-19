@@ -114,6 +114,16 @@ pub enum AddError {
     Other(#[from] anyhow::Error),
 }
 
+/// Creates an add plan from requested component slugs and workspace state.
+///
+/// # Errors
+///
+/// Returns [`AddError`] when config loading, registry reads, file reads, or
+/// dependency/package analysis fails.
+#[expect(
+    clippy::too_many_lines,
+    reason = "plan assembly keeps add flow linear and explicit"
+)]
 pub fn plan(ctx: &CommandContext, options: &AddOptions) -> Result<AddPlan, AddError> {
     let config = ctx
         .load_config()?
@@ -139,7 +149,7 @@ pub fn plan(ctx: &CommandContext, options: &AddOptions) -> Result<AddPlan, AddEr
 
     let mut missing_entry_components = Vec::new();
 
-    for slug in install_order.iter() {
+    for slug in &install_order {
         let record = component_map
             .get(slug)
             .ok_or_else(|| AddError::ComponentNotFound(slug.clone()))?;
@@ -243,6 +253,12 @@ pub fn plan(ctx: &CommandContext, options: &AddOptions) -> Result<AddPlan, AddEr
     })
 }
 
+/// Applies a previously prepared add plan to the workspace.
+///
+/// # Errors
+///
+/// Returns [`AddError`] when writing files, updating exports, or installing
+/// dependencies fails.
 pub fn apply(
     _ctx: &CommandContext,
     plan: &mut AddPlan,
@@ -250,11 +266,11 @@ pub fn apply(
 ) -> Result<ApplyOutcome, AddError> {
     let mut files = Vec::new();
 
-    for file in plan.planned_files.iter() {
-        let status = if !file.apply {
-            FileStatus::Skipped
-        } else {
+    for file in &plan.planned_files {
+        let status = if file.apply {
             write_component_file(&file.destination, &file.contents, options.dry_run)?
+        } else {
+            FileStatus::Skipped
         };
         files.push(FileApplyReport {
             destination: file.destination.clone(),
@@ -386,12 +402,10 @@ fn write_component_file(
             })?;
             if existing == contents {
                 return Ok(FileStatus::Unchanged);
-            } else {
-                return Ok(FileStatus::Updated);
             }
-        } else {
-            return Ok(FileStatus::Created);
+            return Ok(FileStatus::Updated);
         }
+        return Ok(FileStatus::Created);
     }
 
     if existed {
@@ -448,8 +462,7 @@ fn is_svelte_file(file: &ComponentFileRecord) -> bool {
     file.path
         .rsplit('/')
         .next()
-        .map(|name| name.ends_with(".svelte"))
-        .unwrap_or(false)
+        .is_some_and(|name| name.ends_with(".svelte"))
 }
 
 fn entry_export_name(slug: &str, entry_path: &Path, index: usize) -> String {
@@ -457,10 +470,10 @@ fn entry_export_name(slug: &str, entry_path: &Path, index: usize) -> String {
         return format_export_name(slug);
     }
 
-    entry_path
-        .file_stem()
-        .map(|stem| format_export_name(&stem.to_string_lossy()))
-        .unwrap_or_else(|| format_export_name(&format!("{slug}_{index}")))
+    entry_path.file_stem().map_or_else(
+        || format_export_name(&format!("{slug}_{index}")),
+        |stem| format_export_name(&stem.to_string_lossy()),
+    )
 }
 
 fn format_export_name(identifier: &str) -> String {
@@ -469,10 +482,9 @@ fn format_export_name(identifier: &str) -> String {
         .filter(|segment| !segment.is_empty())
         .map(|segment| {
             let mut chars = segment.chars();
-            match chars.next() {
-                Some(first) => first.to_ascii_uppercase().to_string() + chars.as_str(),
-                None => String::new(),
-            }
+            chars.next().map_or_else(String::new, |first| {
+                first.to_ascii_uppercase().to_string() + chars.as_str()
+            })
         })
         .collect()
 }
@@ -499,7 +511,7 @@ impl PackageSnapshot {
         self.dependencies
             .get(name)
             .or_else(|| self.dev_dependencies.get(name))
-            .map(|value| value.as_str())
+            .map(std::string::String::as_str)
     }
 }
 
@@ -641,7 +653,7 @@ mod tests {
         let barrel_path = root.join("src/lib/motion-core/index.ts");
 
         let mut plan = AddPlan {
-            config: config.clone(),
+            config,
             config_path: root.join("motion-core.json"),
             workspace_root: root.to_path_buf(),
             requested_components: vec![],
@@ -664,7 +676,7 @@ mod tests {
             runtime_requirements: BTreeMap::new(),
             dev_requirements: BTreeMap::new(),
             barrel_path: barrel_path.clone(),
-            existing_barrel: "".into(),
+            existing_barrel: String::new(),
             package_manager: PackageManagerKind::Unknown,
             package_snapshot: PackageSnapshot::default(),
             missing_entry_components: vec![],

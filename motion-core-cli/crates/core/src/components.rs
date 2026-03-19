@@ -23,6 +23,7 @@ pub struct TypeExportSpec {
     pub entry_path: PathBuf,
 }
 
+#[must_use]
 pub fn resolve_component_destination(
     workspace_root: &Path,
     config: &Config,
@@ -31,9 +32,9 @@ pub fn resolve_component_destination(
     let relative = strip_category(&file.path);
     let sanitized = sanitize_relative_path(relative);
     let base = match file.target.as_deref() {
-        Some("helper") | Some("helpers") => &config.aliases.helpers.filesystem,
+        Some("helper" | "helpers") => &config.aliases.helpers.filesystem,
         Some("utils") => &config.aliases.utils.filesystem,
-        Some("asset") | Some("assets") => &config.aliases.assets.filesystem,
+        Some("asset" | "assets") => &config.aliases.assets.filesystem,
         Some("root") => "",
         _ => &config.aliases.components.filesystem,
     };
@@ -42,6 +43,7 @@ pub fn resolve_component_destination(
     base_path.join(&sanitized)
 }
 
+#[must_use]
 pub fn render_component_barrel(
     workspace_root: &Path,
     config: &Config,
@@ -96,7 +98,7 @@ pub fn render_component_barrel(
                 .iter()
                 .filter(|name| !name.is_empty())
             {
-                let line = format!("export type {{ {} }} from \"{}\";", name, import);
+                let line = format!("export type {{ {name} }} from \"{import}\";");
                 match export_map.types.entry(name.clone()) {
                     std::collections::btree_map::Entry::Vacant(entry) => {
                         entry.insert(line);
@@ -149,7 +151,7 @@ fn compute_import_path(
         if path_str.starts_with('.') {
             path_str
         } else {
-            format!("./{}", path_str)
+            format!("./{path_str}")
         }
     })
 }
@@ -206,22 +208,19 @@ fn parse_export_map(contents: &str) -> BarrelExports {
                 );
             }
         } else if let Some(rest) = trimmed.strip_prefix("export type {")
-            && let Some((names, remainder)) = rest.split_once("} from ") {
-                let cleaned = remainder
-                    .trim()
-                    .trim_start_matches('"')
-                    .trim_end_matches("\";");
-                for name in names
-                    .split(',')
-                    .map(|value| value.trim())
-                    .filter(|v| !v.is_empty())
-                {
-                    map.types.insert(
-                        name.to_string(),
-                        format!("export type {{ {} }} from \"{}\";", name, cleaned),
-                    );
-                }
+            && let Some((names, remainder)) = rest.split_once("} from ")
+        {
+            let cleaned = remainder
+                .trim()
+                .trim_start_matches('"')
+                .trim_end_matches("\";");
+            for name in names.split(',').map(str::trim).filter(|v| !v.is_empty()) {
+                map.types.insert(
+                    name.to_string(),
+                    format!("export type {{ {name} }} from \"{cleaned}\";"),
+                );
             }
+        }
     }
     map
 }

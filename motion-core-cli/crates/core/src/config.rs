@@ -78,6 +78,7 @@ impl Default for Aliases {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct AliasEntry {
     #[serde(default)]
     pub filesystem: String,
@@ -90,15 +91,6 @@ impl AliasEntry {
         Self {
             filesystem: filesystem.into(),
             import: import.into(),
-        }
-    }
-}
-
-impl Default for AliasEntry {
-    fn default() -> Self {
-        Self {
-            filesystem: "".into(),
-            import: "".into(),
         }
     }
 }
@@ -126,7 +118,6 @@ pub struct Exports {
     pub components: ExportEntry,
 }
 
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct ExportEntry {
@@ -153,7 +144,6 @@ pub enum ExportStrategy {
     Named,
 }
 
-
 #[derive(Debug, Error)]
 pub enum ConfigError {
     #[error("failed to read config at {path:?}: {source}")]
@@ -178,6 +168,12 @@ pub enum ConfigError {
     },
 }
 
+/// Loads and parses the Motion Core configuration from disk.
+///
+/// # Errors
+///
+/// Returns [`ConfigError::Read`] when the file cannot be read and
+/// [`ConfigError::Parse`] when JSON parsing fails.
 pub fn load_config(path: impl AsRef<Path>) -> Result<Config, ConfigError> {
     let path = path.as_ref();
     let contents = fs::read_to_string(path).map_err(|source| ConfigError::Read {
@@ -191,6 +187,12 @@ pub fn load_config(path: impl AsRef<Path>) -> Result<Config, ConfigError> {
     })
 }
 
+/// Attempts to load the Motion Core configuration if it exists.
+///
+/// # Errors
+///
+/// Returns the same read/parse errors as [`load_config`] when the file exists
+/// but cannot be loaded.
 pub fn try_load_config(path: impl AsRef<Path>) -> Result<Option<Config>, ConfigError> {
     let path = path.as_ref();
     if !path.exists() {
@@ -200,6 +202,12 @@ pub fn try_load_config(path: impl AsRef<Path>) -> Result<Option<Config>, ConfigE
     load_config(path).map(Some)
 }
 
+/// Serializes and saves the Motion Core configuration to disk.
+///
+/// # Errors
+///
+/// Returns [`ConfigError::Serialize`] when JSON serialization fails and
+/// [`ConfigError::Write`] when writing the file fails.
 pub fn save_config(path: impl AsRef<Path>, config: &Config) -> Result<(), ConfigError> {
     let path = path.as_ref();
     let json = serde_json::to_string_pretty(config).map_err(|source| ConfigError::Serialize {

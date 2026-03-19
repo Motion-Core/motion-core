@@ -1,5 +1,6 @@
 use semver::{BuildMetadata, Comparator, Op, Version, VersionReq};
 
+#[must_use]
 pub fn spec_satisfies(installed: Option<&str>, required: &str) -> bool {
     let installed = match installed {
         Some(value) => value.trim(),
@@ -12,14 +13,10 @@ pub fn spec_satisfies(installed: Option<&str>, required: &str) -> bool {
     if installed == required {
         return true;
     }
-    let installed_req = match VersionReq::parse(installed) {
-        Ok(req) => req,
-        Err(_) => return false,
+    let Ok(installed_req) = VersionReq::parse(installed) else {
+        return false;
     };
-    match minimal_version(required) {
-        Some(version) => installed_req.matches(&version),
-        None => false,
-    }
+    minimal_version(required).is_some_and(|version| installed_req.matches(&version))
 }
 
 fn minimal_version(spec: &str) -> Option<Version> {
@@ -37,8 +34,7 @@ fn minimal_version(spec: &str) -> Option<Version> {
                 increment_patch(&mut version);
                 return Some(version);
             }
-            Op::Less | Op::LessEq => continue,
-            _ => continue,
+            _ => {}
         }
     }
     None
@@ -54,7 +50,7 @@ fn version_from_comparator(comparator: &Comparator) -> Version {
     }
 }
 
-fn increment_patch(version: &mut Version) {
+const fn increment_patch(version: &mut Version) {
     version.patch = version.patch.saturating_add(1);
 }
 

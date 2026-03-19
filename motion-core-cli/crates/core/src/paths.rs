@@ -1,20 +1,21 @@
 use std::path::{Component, Path, PathBuf};
 
-pub(crate) fn sanitize_relative_path(path: &str) -> PathBuf {
+pub fn sanitize_relative_path(path: &str) -> PathBuf {
     let mut sanitized = PathBuf::new();
     for component in Path::new(path).components() {
         match component {
             Component::Normal(segment) => sanitized.push(segment),
-            Component::CurDir => continue,
-            Component::ParentDir => continue,
-            Component::RootDir | Component::Prefix(_) => continue,
+            Component::CurDir
+            | Component::ParentDir
+            | Component::RootDir
+            | Component::Prefix(_) => {}
         }
     }
 
     sanitized
 }
 
-pub(crate) fn workspace_path(workspace_root: &Path, configured: &str) -> PathBuf {
+pub fn workspace_path(workspace_root: &Path, configured: &str) -> PathBuf {
     let relative = sanitize_relative_path(configured);
     if relative.as_os_str().is_empty() {
         workspace_root.to_path_buf()

@@ -31,7 +31,8 @@ pub struct InitResult {
 }
 
 impl InitResult {
-    pub fn has_changes(&self) -> bool {
+    #[must_use]
+    pub const fn has_changes(&self) -> bool {
         if self.options.dry_run {
             false
         } else {
@@ -73,8 +74,9 @@ pub enum ConfigState {
 }
 
 impl ConfigState {
-    pub fn changed(&self) -> bool {
-        matches!(self, ConfigState::Created(_))
+    #[must_use]
+    pub const fn changed(&self) -> bool {
+        matches!(self, Self::Created(_))
     }
 }
 
@@ -88,8 +90,9 @@ pub enum DependencyReport {
 }
 
 impl DependencyReport {
-    pub fn changed(&self) -> bool {
-        matches!(self, DependencyReport::Installed(_))
+    #[must_use]
+    pub const fn changed(&self) -> bool {
+        matches!(self, Self::Installed(_))
     }
 }
 
@@ -100,18 +103,25 @@ pub struct BaseDependencyReport {
 }
 
 impl BaseDependencyReport {
-    pub fn changed(&self) -> bool {
+    #[must_use]
+    pub const fn changed(&self) -> bool {
         self.runtime.changed() || self.dev.changed()
     }
 }
 
+/// Initializes Motion Core workspace files, config, tokens and base deps.
+///
+/// # Errors
+///
+/// Returns [`InitError`] when framework detection, config IO, workspace sync,
+/// or dependency installation fails.
 pub fn run(ctx: &CommandContext, options: InitOptions) -> Result<InitResult, InitError> {
     let mut warnings = Vec::new();
 
     let framework = detect_framework(ctx.workspace_root())?;
     if !framework.is_svelte_supported {
         return Err(InitError::UnsupportedSvelte {
-            found: framework.svelte_version.clone(),
+            found: framework.svelte_version,
         });
     }
     if !framework.tailwind_supported {
@@ -315,7 +325,7 @@ impl PackageSnapshot {
         self.dependencies
             .get(name)
             .or_else(|| self.dev_dependencies.get(name))
-            .map(|value| value.as_str())
+            .map(std::string::String::as_str)
     }
 }
 

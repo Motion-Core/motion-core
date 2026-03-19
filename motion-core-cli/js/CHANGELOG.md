@@ -14,6 +14,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - Hardened Tailwind CSS discovery in `init` to skip unreadable/binary `.css` files instead of aborting workspace setup.
 - Guarded package-manager execution against `Unknown` backend to prevent fallback commands from reporting false-positive success.
 - Replaced panic-prone config serialization in `save_config` with explicit error propagation (`ConfigError::Serialize`).
+- Cleared strict Rust linting debt across CLI and core (`pedantic`, `nursery`, `perf`) with targeted refactors and API docs, keeping `cargo clippy` clean under `-D warnings`.
 
 ## [0.5.2] - 2026-02-22
 

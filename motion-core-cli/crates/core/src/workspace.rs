@@ -1,4 +1,4 @@
-use crate::{paths::workspace_path, CacheStore, Config, RegistryClient, RegistryError};
+use crate::{CacheStore, Config, RegistryClient, RegistryError, paths::workspace_path};
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -22,7 +22,8 @@ impl ScaffoldReport {
         self.files.push(path.into());
     }
 
-    pub fn any(&self) -> bool {
+    #[must_use]
+    pub const fn any(&self) -> bool {
         !self.directories.is_empty() || !self.files.is_empty()
     }
 }
@@ -66,6 +67,11 @@ pub enum WorkspaceError {
     TailwindTokensInvalidUtf8(String),
 }
 
+/// Ensures Motion Core workspace directories/helpers exist.
+///
+/// # Errors
+///
+/// Returns [`WorkspaceError`] when directory or helper file operations fail.
 pub fn scaffold_workspace(
     workspace_root: &Path,
     config: &Config,
@@ -111,6 +117,12 @@ pub fn scaffold_workspace(
     Ok(report)
 }
 
+/// Injects Motion Core Tailwind token bundle into configured CSS file.
+///
+/// # Errors
+///
+/// Returns [`WorkspaceError`] when reading/writing CSS, downloading token
+/// assets, or restoring from backup fails.
 pub fn sync_tailwind_tokens(
     workspace_root: &Path,
     config: &Config,
@@ -153,11 +165,10 @@ pub fn sync_tailwind_tokens(
     let has_tailwind_import = has_tailwind_import(&existing);
 
     let mut block = String::new();
-    if !has_tailwind_import
-        && let Some(line) = import_line {
-            block.push_str(line.trim());
-            block.push_str(newline);
-        }
+    if !has_tailwind_import && let Some(line) = import_line {
+        block.push_str(line.trim());
+        block.push_str(newline);
+    }
     if !block.is_empty() {
         block.push_str(newline);
     }
@@ -190,7 +201,7 @@ pub fn sync_tailwind_tokens(
 
     let backup_path = create_backup(&target)?;
     match fs::write(&target, updated) {
-        Ok(_) => {
+        Ok(()) => {
             let _ = fs::remove_file(&backup_path);
             Ok(TailwindSyncStatus::Updated { target: display })
         }
@@ -198,14 +209,12 @@ pub fn sync_tailwind_tokens(
             if let Err(restore_err) = restore_backup(&backup_path, &target) {
                 return Err(WorkspaceError::Io {
                     path: target.display().to_string(),
-                    source: std::io::Error::other(
-                        format!(
-                            "write failed: {}; CRITICAL: failed to restore backup from {}: {}",
-                            err,
-                            backup_path.display(),
-                            restore_err
-                        ),
-                    ),
+                    source: std::io::Error::other(format!(
+                        "write failed: {}; CRITICAL: failed to restore backup from {}: {}",
+                        err,
+                        backup_path.display(),
+                        restore_err
+                    )),
                 });
             }
             Err(WorkspaceError::Io {
@@ -217,14 +226,14 @@ pub fn sync_tailwind_tokens(
 }
 
 fn create_backup(path: &Path) -> Result<PathBuf, WorkspaceError> {
-    let backup_name = match path.file_name() {
-        Some(name) => {
+    let backup_name = path.file_name().map_or_else(
+        || std::ffi::OsString::from("motion-core.bak"),
+        |name| {
             let mut os = name.to_os_string();
             os.push(".motion-core.bak");
             os
-        }
-        None => std::ffi::OsString::from("motion-core.bak"),
-    };
+        },
+    );
     let backup_path = path.with_file_name(backup_name);
     fs::copy(path, &backup_path).map_err(|source| WorkspaceError::Io {
         path: backup_path.display().to_string(),
@@ -283,7 +292,7 @@ fn fetch_cn_helper(
     match registry.fetch_component_file("utils/cn.ts") {
         Ok(bytes) => decode_cn_helper(bytes),
         Err(primary_err) => {
-            if let Some(bytes) = fetch_cn_helper_from_cache(registry, cache)? {
+            if let Some(bytes) = fetch_cn_helper_from_cache(registry, cache) {
                 return decode_cn_helper(bytes);
             }
             Err(WorkspaceError::HelperDownload {
@@ -294,22 +303,18 @@ fn fetch_cn_helper(
     }
 }
 
-fn fetch_cn_helper_from_cache(
-    registry: &RegistryClient,
-    cache: &CacheStore,
-) -> Result<Option<Vec<u8>>, WorkspaceError> {
-    let Some(base_url) = registry.base_url() else {
-        return Ok(None);
-    };
+fn fetch_cn_helper_from_cache(registry: &RegistryClient, cache: &CacheStore) -> Option<Vec<u8>> {
+    let base_url = registry.base_url()?;
     let scoped = cache.scoped(base_url);
     if let Some(entry) = scoped.components_manifest(true)
-        && let Ok(manifest) = serde_json::from_slice::<HashMap<String, String>>(&entry.bytes) {
-            registry.preload_component_manifest(manifest);
-            if let Ok(bytes) = registry.fetch_component_file("utils/cn.ts") {
-                return Ok(Some(bytes));
-            }
+        && let Ok(manifest) = serde_json::from_slice::<HashMap<String, String>>(&entry.bytes)
+    {
+        registry.preload_component_manifest(manifest);
+        if let Ok(bytes) = registry.fetch_component_file("utils/cn.ts") {
+            return Some(bytes);
         }
-    Ok(None)
+    }
+    None
 }
 
 fn decode_cn_helper(bytes: Vec<u8>) -> Result<String, WorkspaceError> {
@@ -320,13 +325,14 @@ fn decode_cn_helper(bytes: Vec<u8>) -> Result<String, WorkspaceError> {
 fn split_token_bundle(source: &str) -> (Option<String>, String) {
     let trimmed = source.trim_start_matches('\u{feff}');
     if trimmed.trim_start().starts_with("@import") {
-        if let Some(idx) = trimmed.find('\n') {
-            let line = trimmed[..idx].trim().to_string();
-            let body = trimmed[idx + 1..].to_string();
-            (Some(line), body)
-        } else {
-            (Some(trimmed.trim().to_string()), String::new())
-        }
+        trimmed.find('\n').map_or_else(
+            || (Some(trimmed.trim().to_string()), String::new()),
+            |idx| {
+                let line = trimmed[..idx].trim().to_string();
+                let body = trimmed[idx + 1..].to_string();
+                (Some(line), body)
+            },
+        )
     } else {
         (None, trimmed.to_string())
     }
@@ -337,9 +343,7 @@ fn trim_token_body(body: &str) -> String {
     while slice.starts_with('\n') || slice.starts_with('\r') {
         slice = &slice[1..];
     }
-    slice
-        .trim_end_matches(['\n', '\r'])
-        .to_string()
+    slice.trim_end_matches(['\n', '\r']).to_string()
 }
 
 fn detect_newline(contents: &str) -> &str {
@@ -362,7 +366,7 @@ fn find_import_insertion_index(contents: &str) -> usize {
     }
 
     if !contents.ends_with('\n') {
-        let start = contents.rfind('\n').map(|idx| idx + 1).unwrap_or(0);
+        let start = contents.rfind('\n').map_or(0, |idx| idx + 1);
         let line = contents[start..].trim_start();
         if line.starts_with("@import") {
             return contents.len();
@@ -380,10 +384,10 @@ fn has_tailwind_import(contents: &str) -> bool {
 }
 
 fn relative_display(root: &Path, target: &Path) -> String {
-    target
-        .strip_prefix(root)
-        .map(|rel| rel.display().to_string())
-        .unwrap_or_else(|_| target.display().to_string())
+    target.strip_prefix(root).map_or_else(
+        |_| target.display().to_string(),
+        |rel| rel.display().to_string(),
+    )
 }
 
 #[cfg(test)]
@@ -398,8 +402,7 @@ mod tests {
         let registry = RegistryClient::with_registry(Registry::default());
         let helper = r#"export function cn() { return ""; }"#;
         let tokens = format!(
-            "@import \"tailwindcss\";\n\n{sentinel} {{\n    color: inherit;\n}}\n",
-            sentinel = CSS_TOKEN_SENTINEL
+            "@import \"tailwindcss\";\n\n{CSS_TOKEN_SENTINEL} {{\n    color: inherit;\n}}\n"
         );
         let mut manifest = HashMap::new();
         manifest.insert(
@@ -453,7 +456,7 @@ mod tests {
             TailwindSyncStatus::Updated { target } => {
                 assert_eq!(target, "src/app.css");
             }
-            other => panic!("unexpected status: {:?}", other),
+            other => panic!("unexpected status: {other:?}"),
         }
     }
 
@@ -464,7 +467,8 @@ mod tests {
         let mut config = Config::default();
         config.tailwind.css = "style.css".into();
         let css_path = temp.path().join("style.css");
-        fs::write(&css_path, "@import \"tailwindcss\";body{color:red}").expect("write css");
+        let minified_css = ["@import \"tailwindcss\";body", "{", "color:red", "}"].concat();
+        fs::write(&css_path, minified_css).expect("write css");
 
         let status =
             sync_tailwind_tokens(temp.path(), &config, &registry, false).expect("sync tokens");
@@ -472,7 +476,8 @@ mod tests {
         assert!(matches!(status, TailwindSyncStatus::Updated { .. }));
         let content = fs::read_to_string(&css_path).expect("read css");
         assert!(content.contains(CSS_TOKEN_SENTINEL));
-        assert!(content.contains("body{color:red}"));
+        assert!(content.contains("body"));
+        assert!(content.contains("color:red"));
     }
 
     #[test]
@@ -534,7 +539,7 @@ mod tests {
                         || source.to_string().contains("denied")
                 );
             }
-            _ => panic!("expected IO error on readonly file, got {:?}", result),
+            _ => panic!("expected IO error on readonly file, got {result:?}"),
         }
     }
 

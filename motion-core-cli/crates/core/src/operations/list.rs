@@ -9,6 +9,11 @@ pub struct ListResult {
     pub components: Vec<RegistryComponent>,
 }
 
+/// Loads registry summary and component list for CLI presentation.
+///
+/// # Errors
+///
+/// Returns [`RegistryError`] when registry data cannot be fetched or parsed.
 pub fn run(ctx: &CommandContext, _options: ListOptions) -> Result<ListResult, RegistryError> {
     let summary = ctx.registry().summary()?;
     let mut components = ctx.registry().list_components()?;
@@ -22,7 +27,7 @@ pub fn run(ctx: &CommandContext, _options: ListOptions) -> Result<ListResult, Re
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{CommandContext, Registry, RegistryClient, CacheStore};
+    use crate::{CacheStore, CommandContext, Registry, RegistryClient};
     use std::collections::HashMap;
     use tempfile::TempDir;
 
@@ -42,7 +47,7 @@ mod tests {
             RegistryClient::with_registry(registry),
             cache,
         );
-        
+
         let result = run(&ctx, ListOptions).expect("run");
         assert_eq!(result.summary.name, "Test Registry");
         assert_eq!(result.summary.version, "1.0.0");
@@ -52,7 +57,7 @@ mod tests {
     #[test]
     fn derived_traits_work() {
         let opts = ListOptions;
-        let _ = format!("{:?}", opts);
+        let _ = format!("{opts:?}");
         let res = ListResult {
             summary: crate::RegistrySummary {
                 name: "test".into(),
@@ -62,6 +67,6 @@ mod tests {
             },
             components: vec![],
         };
-        let _ = format!("{:?}", res);
+        let _ = format!("{res:?}");
     }
 }

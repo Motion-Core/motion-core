@@ -86,12 +86,10 @@ fn handle_warnings(reporter: &dyn Reporter, warnings: &[InitWarning]) {
             InitWarning::TailwindUnsupported { detected } => reporter.warn(format_args!(
                 "Tailwind CSS v4 not detected{} Install or upgrade Tailwind before using Motion Core components.",
                 detected
-                    .as_deref()
-                    .map(|version| format!(" (found {version}) -"))
-                    .unwrap_or_else(String::new)
+                    .as_deref().map_or_else(String::new, |version| format!(" (found {version}) -"))
             )),
             InitWarning::RegistryMetadataUnavailable(message) => {
-                reporter.warn(format_args!("{}", message))
+                reporter.warn(format_args!("{message}"));
             }
         }
     }
@@ -103,8 +101,7 @@ fn handle_token_status(reporter: &dyn Reporter, status: &TailwindSyncStatus) {
             "tailwind.css path missing from motion-core.json; skipping token sync"
         )),
         TailwindSyncStatus::MissingFile(path) => reporter.warn(format_args!(
-            "Tailwind CSS file {} not found; skipping token sync",
-            path
+            "Tailwind CSS file {path} not found; skipping token sync"
         )),
         TailwindSyncStatus::AlreadyPresent(path) => reporter.info(format_args!(
             "{}",
@@ -140,12 +137,12 @@ fn print_init_summary(reporter: &dyn Reporter, args: &InitArgs, result: &InitRes
 
     let config_message = match &result.config_state {
         ConfigState::AlreadyExists(path) => {
-            muted(format!("Using existing configuration at {}", path))
+            muted(format!("Using existing configuration at {path}"))
         }
-        ConfigState::Created(path) => success(format!("Created configuration at {}", path)),
-        ConfigState::WouldCreate(path) => brand(format!("Would create configuration at {}", path)),
+        ConfigState::Created(path) => success(format!("Created configuration at {path}")),
+        ConfigState::WouldCreate(path) => brand(format!("Would create configuration at {path}")),
     };
-    reporter.info(format_args!("{}", config_message));
+    reporter.info(format_args!("{config_message}"));
 
     if result.scaffold.any() {
         reporter.blank();
@@ -193,7 +190,7 @@ fn print_init_summary(reporter: &dyn Reporter, args: &InitArgs, result: &InitRes
     ));
 }
 
-fn describe_framework(kind: FrameworkKind) -> &'static str {
+const fn describe_framework(kind: FrameworkKind) -> &'static str {
     match kind {
         FrameworkKind::SvelteKit => "SvelteKit",
         FrameworkKind::ViteSvelte => "Vite + Svelte",
@@ -201,7 +198,7 @@ fn describe_framework(kind: FrameworkKind) -> &'static str {
     }
 }
 
-fn describe_package_manager(kind: PackageManagerKind) -> &'static str {
+const fn describe_package_manager(kind: PackageManagerKind) -> &'static str {
     match kind {
         PackageManagerKind::Npm => "npm",
         PackageManagerKind::Pnpm => "pnpm",
@@ -243,7 +240,7 @@ fn print_dependency_scope(
             values.join(", ")
         )),
         DependencyReport::Skipped(reason) => {
-            reporter.warn(format_args!("{label} dependencies: {reason}"))
+            reporter.warn(format_args!("{label} dependencies: {reason}"));
         }
     }
 }
@@ -255,7 +252,7 @@ mod tests {
     use base64::{Engine as _, engine::general_purpose};
     use motion_core_cli_core::{
         CONFIG_FILE_NAME, CSS_TOKEN_REGISTRY_PATH, CSS_TOKEN_SENTINEL, CacheStore, CommandContext,
-        Config, RegistryClient,
+        Config, Registry, RegistryClient,
     };
     use serde_json::json;
     use std::collections::HashMap;
@@ -265,7 +262,7 @@ mod tests {
 
     #[test]
     fn init_returns_noop_when_already_configured() {
-        let registry = RegistryClient::with_registry(Default::default());
+        let registry = RegistryClient::with_registry(Registry::default());
         let temp = tempfile::tempdir().expect("tempdir");
         let cache_dir = tempfile::tempdir().expect("cache");
         let cache = CacheStore::from_path(cache_dir.path().join("cache"));
@@ -300,7 +297,7 @@ mod tests {
 
     #[test]
     fn init_supports_dry_run() {
-        let registry = RegistryClient::with_registry(Default::default());
+        let registry = RegistryClient::with_registry(Registry::default());
         let temp = tempfile::tempdir().expect("tempdir");
         let cache_dir = tempfile::tempdir().expect("cache");
         let cache = CacheStore::from_path(cache_dir.path().join("cache"));
@@ -332,7 +329,7 @@ mod tests {
 
     #[test]
     fn init_returns_failed_for_unsupported_svelte() {
-        let registry = RegistryClient::with_registry(Default::default());
+        let registry = RegistryClient::with_registry(Registry::default());
         let temp = tempfile::tempdir().expect("tempdir");
         let cache = CacheStore::from_path(temp.path().join("cache"));
         let package = json!({
@@ -359,7 +356,7 @@ mod tests {
 
     #[test]
     fn handles_token_sync_status_messages() {
-        let registry = RegistryClient::with_registry(Default::default());
+        let registry = RegistryClient::with_registry(Registry::default());
         let temp = tempfile::tempdir().expect("tempdir");
         let cache = CacheStore::from_path(temp.path().join("cache"));
         let ctx = CommandContext::new(
@@ -401,8 +398,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 "#;
         let tokens = format!(
-            "@import \"tailwindcss\";\n\n{sentinel} {{\n    color: inherit;\n}}\n",
-            sentinel = CSS_TOKEN_SENTINEL
+            "@import \"tailwindcss\";\n\n{CSS_TOKEN_SENTINEL} {{\n    color: inherit;\n}}\n"
         );
         let mut manifest = HashMap::new();
         manifest.insert(
@@ -425,7 +421,7 @@ export function cn(...inputs: ClassValue[]) {
             &DependencyReport::Manual(vec!["clsx@^2.0.0".into()]),
             PackageManagerKind::Unknown,
         );
-        let warns = reporter.warns.lock().unwrap();
+        let warns = reporter.warns.lock().unwrap().clone();
         assert!(
             warns
                 .iter()
@@ -449,7 +445,7 @@ export function cn(...inputs: ClassValue[]) {
             &DependencyReport::DryRun(vec!["vitest@^1.0.0".into()]),
             PackageManagerKind::Yarn,
         );
-        let infos = reporter.infos.lock().unwrap();
+        let infos = reporter.infos.lock().unwrap().clone();
         assert!(
             infos
                 .iter()
@@ -476,7 +472,7 @@ export function cn(...inputs: ClassValue[]) {
                 InitWarning::RegistryMetadataUnavailable("Registry error".into()),
             ],
         );
-        let warns = reporter.warns.lock().unwrap();
+        let warns = reporter.warns.lock().unwrap().clone();
         assert!(warns.iter().any(|s| s.contains("found 3.0.0")));
         assert!(warns.iter().any(|s| s.contains("Registry error")));
     }
@@ -506,8 +502,8 @@ export function cn(...inputs: ClassValue[]) {
             },
         );
 
-        let warns = reporter.warns.lock().unwrap();
-        let infos = reporter.infos.lock().unwrap();
+        let warns = reporter.warns.lock().unwrap().clone();
+        let infos = reporter.infos.lock().unwrap().clone();
 
         assert!(
             warns

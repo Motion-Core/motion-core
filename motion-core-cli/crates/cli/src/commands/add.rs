@@ -32,6 +32,10 @@ pub struct AddArgs {
     pub assume_yes: bool,
 }
 
+#[expect(
+    clippy::too_many_lines,
+    reason = "CLI flow intentionally keeps add orchestration linear"
+)]
 pub fn run(ctx: &CommandContext, reporter: &dyn Reporter, args: &AddArgs) -> CommandResult {
     reporter.info(format_args!("{}", heading("Motion Core component install")));
     let spinner = create_spinner("Loading registry catalog...");
@@ -239,7 +243,7 @@ fn report_dependency_action(
                 values.join(", ")
             ))
         )),
-        DependencyAction::Skipped(reason) => reporter.warn(format_args!("{}", reason)),
+        DependencyAction::Skipped(reason) => reporter.warn(format_args!("{reason}")),
     }
 }
 
@@ -297,7 +301,7 @@ fn resolve_file_conflicts(
     let mut auto_message_printed = false;
 
     let mut non_interactive_conflict = false;
-    for plan in conflicts.iter_mut() {
+    for plan in &mut conflicts {
         reporter.info(format_args!("{}", heading(display_path(&plan.destination))));
         reporter.info(format_args!(
             "{}",
@@ -378,11 +382,11 @@ fn display_file_diff(reporter: &dyn Reporter, plan: &PlannedFile) {
     reporter.blank();
     for change in diff.iter_all_changes() {
         match change.tag() {
-            ChangeTag::Delete => reporter.info(format_args!("{}", danger(format!("-{}", change)))),
-            ChangeTag::Insert => reporter.info(format_args!("{}", success(format!("+{}", change)))),
+            ChangeTag::Delete => reporter.info(format_args!("{}", danger(format!("-{change}")))),
+            ChangeTag::Insert => reporter.info(format_args!("{}", success(format!("+{change}")))),
             ChangeTag::Equal => {
                 for line in change.to_string().lines() {
-                    reporter.info(format_args!(" {}", line));
+                    reporter.info(format_args!(" {line}"));
                 }
             }
         }
@@ -473,11 +477,10 @@ mod tests {
         };
         let ctx = build_context(&temp, registry);
         ctx.registry().preload_component_manifest(
-            [(
+            std::iter::once((
                 "components/glass-pane/GlassPane.svelte".into(),
                 general_purpose::STANDARD.encode("<script></script>"),
-            )]
-            .into_iter()
+            ))
             .collect(),
         );
 
@@ -525,7 +528,7 @@ mod tests {
         resolve_file_conflicts(&reporter, &mut files, true, ConfirmationMode::Prompt, false)
             .expect("conflicts resolve");
 
-        let infos = reporter.infos.lock().unwrap();
+        let infos = reporter.infos.lock().unwrap().clone();
         let has_message = infos
             .iter()
             .any(|line| line.contains("Dry run: would prompt before overwriting this file."));
@@ -583,7 +586,7 @@ mod tests {
             &DependencyAction::Installed(vec!["a".into()]),
             "runtime",
         );
-        let infos = reporter.infos.lock().unwrap();
+        let infos = reporter.infos.lock().unwrap().clone();
         assert!(
             infos
                 .iter()

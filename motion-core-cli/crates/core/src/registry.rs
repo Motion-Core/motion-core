@@ -116,12 +116,17 @@ pub enum RegistryError {
 }
 
 impl RegistryClient {
+    /// Creates a remote registry client without persistent cache.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`RegistryError`] when HTTP client construction fails.
     pub fn new(base_url: impl Into<String>) -> Result<Self, RegistryError> {
         let cache = None;
         let client = Client::builder()
             .timeout(Duration::from_secs(15))
             .build()
-            .map_err(|e| RegistryError::Network(format!("failed to create client: {}", e)))?;
+            .map_err(|e| RegistryError::Network(format!("failed to create client: {e}")))?;
         Ok(Self {
             backend: RegistryBackend::Remote {
                 client,
@@ -132,6 +137,11 @@ impl RegistryClient {
         })
     }
 
+    /// Creates a remote registry client with scoped persistent cache.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`RegistryError`] when HTTP client construction fails.
     pub fn with_cache(
         base_url: impl Into<String>,
         cache: RegistryCache,
@@ -139,7 +149,7 @@ impl RegistryClient {
         let client = Client::builder()
             .timeout(Duration::from_secs(15))
             .build()
-            .map_err(|e| RegistryError::Network(format!("failed to create client: {}", e)))?;
+            .map_err(|e| RegistryError::Network(format!("failed to create client: {e}")))?;
         Ok(Self {
             backend: RegistryBackend::Remote {
                 client,
@@ -150,7 +160,8 @@ impl RegistryClient {
         })
     }
 
-    pub fn with_registry(registry: Registry) -> Self {
+    #[must_use]
+    pub const fn with_registry(registry: Registry) -> Self {
         Self {
             backend: RegistryBackend::Static { registry },
             component_manifest: RefCell::new(None),
@@ -172,9 +183,10 @@ impl RegistryClient {
             RegistryBackend::Remote { client, base_url } => {
                 if let Some(cache) = &self.cache
                     && let Some(entry) = cache.registry_manifest(false)
-                        && let Ok(registry) = parse_registry_entry(entry) {
-                            return Ok(registry);
-                        }
+                    && let Ok(registry) = parse_registry_entry(&entry)
+                {
+                    return Ok(registry);
+                }
 
                 let url = Self::manifest_url(base_url);
                 match fetch_remote_json(client, &url) {
@@ -188,10 +200,8 @@ impl RegistryClient {
                     Ok(None) => self.load_registry_from_cache_with_fallback(),
                     Err(err) => {
                         tracing::warn!("registry request error {url}: {err}");
-                        match self.load_registry_from_cache_with_fallback() {
-                            Ok(registry) => Ok(registry),
-                            Err(_) => Err(err),
-                        }
+                        self.load_registry_from_cache_with_fallback()
+                            .map_or(Err(err), Ok)
                     }
                 }
             }
@@ -200,10 +210,11 @@ impl RegistryClient {
 
     fn load_registry_from_cache_with_fallback(&self) -> Result<Registry, RegistryError> {
         if let Some(cache) = &self.cache
-            && let Some(entry) = cache.registry_manifest(true) {
-                tracing::warn!("registry request failed; falling back to cached manifest");
-                return parse_registry_entry(entry);
-            }
+            && let Some(entry) = cache.registry_manifest(true)
+        {
+            tracing::warn!("registry request failed; falling back to cached manifest");
+            return parse_registry_entry(&entry);
+        }
         Err(RegistryError::Network(
             "failed to fetch registry manifest".into(),
         ))
@@ -219,10 +230,11 @@ impl RegistryClient {
             RegistryBackend::Remote { client, base_url } => {
                 if let Some(cache) = &self.cache
                     && let Some(entry) = cache.components_manifest(false)
-                        && let Ok(map) = parse_component_manifest(entry) {
-                            self.component_manifest.replace(Some(map.clone()));
-                            return Ok(map);
-                        }
+                    && let Ok(map) = parse_component_manifest(&entry)
+                {
+                    self.component_manifest.replace(Some(map.clone()));
+                    return Ok(map);
+                }
 
                 let url = Self::components_url(base_url);
                 match fetch_remote_json(client, &url) {
@@ -255,15 +267,21 @@ impl RegistryClient {
         &self,
     ) -> Result<HashMap<String, String>, RegistryError> {
         if let Some(cache) = &self.cache
-            && let Some(entry) = cache.components_manifest(true) {
-                tracing::warn!("component manifest request failed; using cached entries");
-                return parse_component_manifest(entry);
-            }
+            && let Some(entry) = cache.components_manifest(true)
+        {
+            tracing::warn!("component manifest request failed; using cached entries");
+            return parse_component_manifest(&entry);
+        }
         Err(RegistryError::Network(
             "failed to fetch component manifest".into(),
         ))
     }
 
+    /// Returns registry components sorted by slug.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`RegistryError`] when registry manifest cannot be loaded.
     pub fn list_components(&self) -> Result<Vec<RegistryComponent>, RegistryError> {
         let registry = self.load_registry()?;
         let mut components: Vec<_> = registry
@@ -275,6 +293,11 @@ impl RegistryClient {
         Ok(components)
     }
 
+    /// Returns registry metadata summary.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`RegistryError`] when registry manifest cannot be loaded.
     pub fn summary(&self) -> Result<RegistrySummary, RegistryError> {
         let registry = self.load_registry()?;
         Ok(RegistrySummary {
@@ -285,6 +308,11 @@ impl RegistryClient {
         })
     }
 
+    /// Returns runtime/dev base dependencies advertised by registry.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`RegistryError`] when registry manifest cannot be loaded.
     pub fn base_dependencies(&self) -> Result<RegistryBaseDependencies, RegistryError> {
         let registry = self.load_registry()?;
         Ok(RegistryBaseDependencies {
@@ -300,6 +328,12 @@ impl RegistryClient {
         }
     }
 
+    /// Fetches and decodes a component file payload by manifest path.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`RegistryError`] when manifest lookup, network fetch, or
+    /// base64 decoding fails.
     pub fn fetch_component_file(&self, path: &str) -> Result<Vec<u8>, RegistryError> {
         let manifest = self.load_component_manifest()?;
         let encoded = manifest
@@ -338,12 +372,12 @@ fn fetch_remote_json(client: &Client, url: &str) -> Result<Option<Vec<u8>>, Regi
     }
 }
 
-fn parse_registry_entry(entry: CachedData) -> Result<Registry, RegistryError> {
+fn parse_registry_entry(entry: &CachedData) -> Result<Registry, RegistryError> {
     serde_json::from_slice::<Registry>(&entry.bytes)
         .map_err(|err| RegistryError::Parse(err.to_string()))
 }
 
-fn parse_component_manifest(entry: CachedData) -> Result<HashMap<String, String>, RegistryError> {
+fn parse_component_manifest(entry: &CachedData) -> Result<HashMap<String, String>, RegistryError> {
     serde_json::from_slice::<HashMap<String, String>>(&entry.bytes)
         .map_err(|err| RegistryError::Parse(err.to_string()))
 }

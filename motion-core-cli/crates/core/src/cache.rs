@@ -68,6 +68,7 @@ impl CacheStore {
         store
     }
 
+    #[must_use]
     pub fn info(&self) -> CacheInfo {
         CacheInfo {
             path: self.root.clone(),
@@ -76,6 +77,7 @@ impl CacheStore {
         }
     }
 
+    #[must_use]
     pub fn scoped(&self, namespace: &str) -> RegistryCache {
         let safe = sanitize_namespace(namespace);
         let root = self.root.join(safe);
@@ -86,6 +88,11 @@ impl CacheStore {
         }
     }
 
+    /// Clears all cached registry and asset files and recreates the cache root.
+    ///
+    /// # Errors
+    ///
+    /// Returns an I/O error if removing or recreating the cache directory fails.
     pub fn clear(&self) -> std::io::Result<()> {
         if self.root.exists() {
             fs::remove_dir_all(&self.root)?;
@@ -106,8 +113,9 @@ impl CacheStore {
 }
 
 impl RegistryCache {
+    #[must_use]
     pub fn registry_manifest(&self, allow_stale: bool) -> Option<CachedData> {
-        self.read_file(
+        Self::read_file(
             &self.root.join("registry.json"),
             self.registry_ttl,
             allow_stale,
@@ -115,13 +123,14 @@ impl RegistryCache {
     }
 
     pub fn write_registry_manifest(&self, bytes: &[u8]) {
-        if let Err(err) = self.write_file(&self.root.join("registry.json"), bytes) {
+        if let Err(err) = Self::write_file(&self.root.join("registry.json"), bytes) {
             tracing::warn!("failed to persist registry manifest: {err}");
         }
     }
 
+    #[must_use]
     pub fn components_manifest(&self, allow_stale: bool) -> Option<CachedData> {
-        self.read_file(
+        Self::read_file(
             &self.root.join("components.json"),
             self.asset_ttl,
             allow_stale,
@@ -129,12 +138,12 @@ impl RegistryCache {
     }
 
     pub fn write_components_manifest(&self, bytes: &[u8]) {
-        if let Err(err) = self.write_file(&self.root.join("components.json"), bytes) {
+        if let Err(err) = Self::write_file(&self.root.join("components.json"), bytes) {
             tracing::warn!("failed to persist components manifest: {err}");
         }
     }
 
-    fn read_file(&self, path: &Path, ttl: Duration, allow_stale: bool) -> Option<CachedData> {
+    fn read_file(path: &Path, ttl: Duration, allow_stale: bool) -> Option<CachedData> {
         let metadata = fs::metadata(path).ok()?;
         let modified = metadata.modified().ok()?;
         let now = SystemTime::now();
@@ -157,7 +166,7 @@ impl RegistryCache {
         None
     }
 
-    fn write_file(&self, path: &Path, bytes: &[u8]) -> std::io::Result<()> {
+    fn write_file(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
         if let Some(parent) = path.parent() {
             fs::create_dir_all(parent)?;
         }
@@ -167,15 +176,14 @@ impl RegistryCache {
 
 fn sanitize_namespace(value: &str) -> String {
     let encoded = URL_SAFE_NO_PAD.encode(value);
-    format!("registry-{}", encoded)
+    format!("registry-{encoded}")
 }
 
 fn read_duration(var: &str, default_ms: u64) -> Duration {
     env::var(var)
         .ok()
         .and_then(|raw| raw.parse::<u64>().ok())
-        .map(Duration::from_millis)
-        .unwrap_or_else(|| Duration::from_millis(default_ms))
+        .map_or_else(|| Duration::from_millis(default_ms), Duration::from_millis)
 }
 
 #[cfg(test)]

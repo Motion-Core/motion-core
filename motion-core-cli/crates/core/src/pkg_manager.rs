@@ -22,7 +22,8 @@ pub enum PackageManagerError {
 }
 
 impl InstallPlan {
-    pub fn new(manager: PackageManagerKind) -> Self {
+    #[must_use]
+    pub const fn new(manager: PackageManagerKind) -> Self {
         Self {
             manager,
             packages: Vec::new(),
@@ -40,15 +41,23 @@ impl InstallPlan {
         }
     }
 
-    pub fn dev(mut self, value: bool) -> Self {
+    #[must_use]
+    pub const fn dev(mut self, value: bool) -> Self {
         self.dev = value;
         self
     }
 
-    pub fn is_empty(&self) -> bool {
+    #[must_use]
+    pub const fn is_empty(&self) -> bool {
         self.packages.is_empty()
     }
 
+    /// Runs the package manager installation command in the given directory.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`PackageManagerError::Unsupported`] when manager is unknown,
+    /// or [`PackageManagerError::Execution`] when process execution fails.
     pub fn run(&self, cwd: &Path) -> Result<(), PackageManagerError> {
         if self.packages.is_empty() {
             return Ok(());
@@ -72,6 +81,7 @@ impl InstallPlan {
         }
     }
 
+    #[must_use]
     pub fn build_command(&self) -> Command {
         let mut cmd = match self.manager {
             PackageManagerKind::Npm => {
@@ -196,7 +206,9 @@ mod tests {
         let result = plan.run(temp.path());
         assert!(matches!(
             result,
-            Err(PackageManagerError::Unsupported(PackageManagerKind::Unknown))
+            Err(PackageManagerError::Unsupported(
+                PackageManagerKind::Unknown
+            ))
         ));
     }
 }
