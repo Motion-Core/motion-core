@@ -54,16 +54,16 @@
 >
 	<a
 		href="/"
-		class="inline-flex items-center gap-1 px-2 py-2 text-sm tracking-tight text-foreground transition-colors duration-150 ease-out hover:text-foreground"
+		class="inline-flex items-center gap-1 py-2 text-sm tracking-tight text-foreground transition-colors duration-150 ease-out hover:text-foreground"
 	>
 		<span
-			class="inline-flex shrink-0 items-center text-accent [&>svg]:size-4 [&>svg]:fill-current"
+			class="[&>svg:w-auto inline-flex shrink-0 items-center text-accent [&>svg]:h-4 [&>svg]:fill-current"
 			aria-hidden="true"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html brandingConfig.logoRaw}
 		</span>
-		<span class="font-medium tracking-tight text-foreground"
+		<span class="pt-0.5 text-base font-medium tracking-tight text-foreground"
 			>{brandingConfig.name}</span
 		>
 	</a>

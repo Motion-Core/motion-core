@@ -138,9 +138,11 @@
 {#if isHomeRoute}
 	<FloatingMenu
 		classes={{
-			root: "bg-background-inset/40 dark:bg-background-inset/80 backdrop-blur-xl card border-none",
-			groupMuted: "bg-foreground/5 dark:bg-background-muted/40",
-			secondaryButton: "hover:bg-foreground/10 dark:hover:bg-foreground/5",
+			root: "bg-background-inset/40 dark:bg-background-inset/80 backdrop-blur-xl card border-none rounded-sm",
+			groupMuted: "bg-foreground/5 dark:bg-background-muted/40 rounded-xd",
+			secondaryButton:
+				"hover:bg-foreground/10 dark:hover:bg-foreground/5 rounded-xs",
+			primaryButton: "rounded-xs",
 			divider: "border-foreground/5",
 			menuWrapper: "border-foreground/5",
 		}}
@@ -154,7 +156,7 @@
 		{#snippet logo()}
 			<a href="/" class="flex items-center">
 				<span
-					class="inline-flex shrink-0 items-center text-accent [&>svg]:h-3 [&>svg]:w-8 [&>svg]:fill-current"
+					class="inline-flex shrink-0 items-center text-accent [&>svg]:h-6 [&>svg]:w-auto [&>svg]:fill-current"
 					aria-hidden="true"
 				>
 					{@html brandingConfig.logoRaw}

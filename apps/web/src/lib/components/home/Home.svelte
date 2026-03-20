@@ -69,7 +69,7 @@
 		class="relative z-10 flex h-full w-full flex-col items-center justify-center gap-4"
 	>
 		<span
-			class="mb-4 inline-flex shrink-0 items-center text-accent [&>svg]:h-auto [&>svg]:w-24 [&>svg]:fill-current"
+			class="mb-4 inline-flex shrink-0 items-center text-accent [&>svg]:h-auto [&>svg]:w-32 [&>svg]:fill-current"
 			aria-hidden="true"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->

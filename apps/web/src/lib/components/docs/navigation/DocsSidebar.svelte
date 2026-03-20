@@ -46,12 +46,12 @@
 	<div class="flex flex-col gap-8 p-4">
 		<a href="/" class="flex items-center gap-2">
 			<span
-				class="inline-flex shrink-0 items-center text-accent [&>svg]:size-6 [&>svg]:fill-current"
+				class="[&>svg:w-auto inline-flex shrink-0 items-center text-accent [&>svg]:h-6 [&>svg]:fill-current"
 				aria-hidden="true"
 			>
 				{@html brandingConfig.logoRaw}
 			</span>
-			<span class="text-xl font-medium tracking-tight text-foreground"
+			<span class="pt-0.5 text-xl font-medium tracking-tight text-foreground"
 				>{brandingConfig.name}</span
 			>
 		</a>
