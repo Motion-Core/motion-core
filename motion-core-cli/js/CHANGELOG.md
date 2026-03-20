@@ -6,6 +6,8 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-03-20
+
 ### Fixed
 
 - Returned non-zero exit codes for fatal CLI command outcomes (`add` without config and `init` with unsupported Svelte), so automation and CI can fail correctly.
