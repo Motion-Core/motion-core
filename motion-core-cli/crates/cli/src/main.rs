@@ -79,3 +79,39 @@ fn init_logging() {
     let filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info"));
     let _ = tracing_subscriber::fmt().with_env_filter(filter).try_init();
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use clap::error::ErrorKind;
+
+    #[test]
+    fn cli_rejects_cache_force_without_clear() {
+        let err =
+            Cli::try_parse_from(["motion-core", "cache", "--force"]).expect_err("expected error");
+        assert_eq!(err.kind(), ErrorKind::MissingRequiredArgument);
+    }
+
+    #[test]
+    fn cli_rejects_add_without_components() {
+        let err = Cli::try_parse_from(["motion-core", "add"]).expect_err("expected error");
+        assert_eq!(err.kind(), ErrorKind::MissingRequiredArgument);
+    }
+
+    #[test]
+    fn cli_parses_registry_override_for_list() {
+        let cli = Cli::try_parse_from([
+            "motion-core",
+            "--registry-url",
+            "https://example.com/registry",
+            "list",
+        ])
+        .expect("parse");
+
+        assert_eq!(
+            cli.registry_url.as_deref(),
+            Some("https://example.com/registry")
+        );
+        assert!(matches!(cli.command, Commands::List(_)));
+    }
+}

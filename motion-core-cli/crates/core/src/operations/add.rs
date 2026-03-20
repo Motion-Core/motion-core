@@ -134,8 +134,7 @@ pub fn plan(ctx: &CommandContext, options: &AddOptions) -> Result<AddPlan, AddEr
         .into_iter()
         .map(|entry| (entry.slug.clone(), entry.component))
         .collect();
-    let install_order =
-        resolve_install_order(&options.components, &component_map).map_err(AddError::Other)?;
+    let install_order = resolve_install_order(&options.components, &component_map)?;
 
     let workspace_root = ctx.workspace_root().to_path_buf();
     let package_manager = crate::detect_package_manager(&workspace_root);
@@ -357,13 +356,13 @@ fn handle_dependencies(
 fn resolve_install_order(
     requested: &[String],
     components: &HashMap<String, ComponentRecord>,
-) -> Result<Vec<String>, anyhow::Error> {
+) -> Result<Vec<String>, AddError> {
     let mut resolved = BTreeSet::new();
     let mut queue: Vec<String> = requested.to_vec();
 
     while let Some(slug) = queue.pop() {
         if !components.contains_key(&slug) {
-            return Err(anyhow!("component `{slug}` not found in registry"));
+            return Err(AddError::ComponentNotFound(slug));
         }
         if resolved.insert(slug.clone())
             && let Some(record) = components.get(&slug)

@@ -514,6 +514,37 @@ mod tests {
     }
 
     #[test]
+    fn add_returns_failed_when_component_is_missing_from_registry() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let config_path = temp.path().join(CONFIG_FILE_NAME);
+        let json = serde_json::to_string(&Config::default()).expect("serialize config");
+        if let Some(parent) = config_path.parent() {
+            fs::create_dir_all(parent).expect("config dir");
+        }
+        fs::write(&config_path, json).expect("write config");
+        fs::write(
+            temp.path().join("package.json"),
+            r#"{"dependencies":{"svelte":"^5.0.0"},"devDependencies":{"tailwindcss":"4.1.0"}}"#,
+        )
+        .expect("package json");
+
+        let registry = Registry {
+            name: "Motion Core".into(),
+            version: "0.1.0".into(),
+            ..Default::default()
+        };
+        let ctx = build_context(&temp, registry);
+        let reporter = ConsoleReporter::new();
+        let args = AddArgs {
+            components: vec!["missing-component".into()],
+            dry_run: false,
+            assume_yes: true,
+        };
+        let outcome = run(&ctx, &reporter, &args).expect("run result");
+        assert_eq!(outcome, CommandOutcome::Failed);
+    }
+
+    #[test]
     fn resolve_conflicts_reports_dry_run_message() {
         let reporter = MemoryReporter::default();
         let mut files = vec![PlannedFile {

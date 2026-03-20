@@ -143,6 +143,28 @@ mod tests {
     }
 
     #[test]
+    fn list_json_output_has_expected_contract() {
+        let registry = sample_registry();
+        let temp = TempDir::new().expect("temp");
+        let cache = CacheStore::from_path(temp.path().join("cache"));
+        let ctx = CommandContext::new(
+            temp.path(),
+            temp.path().join("motion-core.json"),
+            RegistryClient::with_registry(registry),
+            cache,
+        );
+        let reporter = MemoryReporter::default();
+        let outcome = run(&ctx, &reporter, &ListArgs { json: true }).expect("run");
+        assert_eq!(outcome, CommandOutcome::NoOp);
+
+        let payload = reporter.infos.lock().unwrap().join("\n");
+        let parsed: serde_json::Value = serde_json::from_str(&payload).expect("valid json");
+        assert_eq!(parsed["registry"]["name"], "Motion Core");
+        assert_eq!(parsed["registry"]["components"], 1);
+        assert_eq!(parsed["components"][0]["slug"], "glass-pane");
+    }
+
+    #[test]
     fn list_displays_formatted_output() {
         let registry = sample_registry();
         let temp = TempDir::new().expect("temp");
