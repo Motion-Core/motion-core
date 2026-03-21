@@ -3,10 +3,6 @@
 	"slug": "dithered-image",
 	"description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
 	"category": "canvas",
-	"preview": {
-		"video": "https://videos.motion-core.dev/dithered-image/preview.mp4",
-		"poster": "https://videos.motion-core.dev/dithered-image/poster.webp"
-	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
 		"@threlte/extras": "^9.7.1",

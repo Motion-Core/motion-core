@@ -14,8 +14,6 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "ascii-renderer",
 		name: "ASCII Renderer",
 		category: "canvas",
-		video: "https://videos.motion-core.dev/ascii-renderer/preview.mp4",
-		poster: "https://videos.motion-core.dev/ascii-renderer/poster.webp",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			"@threlte/extras": "^9.7.1",
@@ -45,8 +43,6 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "dithered-image",
 		name: "Dithered Image",
 		category: "canvas",
-		video: "https://videos.motion-core.dev/dithered-image/preview.mp4",
-		poster: "https://videos.motion-core.dev/dithered-image/poster.webp",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			"@threlte/extras": "^9.7.1",
@@ -112,8 +108,6 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "globe",
 		name: "Globe",
 		category: "canvas",
-		video: "https://videos.motion-core.dev/globe/preview.mp4",
-		poster: "https://videos.motion-core.dev/globe/poster.webp",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			"@threlte/extras": "^9.7.1",
@@ -145,8 +139,6 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "image-trail",
 		name: "Image Trail",
 		category: "pointer",
-		video: "https://videos.motion-core.dev/image-trail/preview.mp4",
-		poster: "https://videos.motion-core.dev/image-trail/poster.webp",
 		dependencies: {
 			gsap: "^3.14.2",
 		},
@@ -200,8 +192,6 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "magnetic",
 		name: "Magnetic",
 		category: "pointer",
-		video: "https://videos.motion-core.dev/magnetic/preview.mp4",
-		poster: "https://videos.motion-core.dev/magnetic/poster.webp",
 		dependencies: {
 			gsap: "^3.14.2",
 		},
@@ -262,8 +252,6 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "rubiks-cube",
 		name: "Rubiks Cube",
 		category: "canvas",
-		video: "https://videos.motion-core.dev/rubiks-cube/preview.mp4",
-		poster: "https://videos.motion-core.dev/rubiks-cube/poster.webp",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			"@threlte/extras": "^9.7.1",
@@ -308,8 +296,6 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "text-loop",
 		name: "Text Loop",
 		category: "typography",
-		video: "https://videos.motion-core.dev/text-loop/preview.mp4",
-		poster: "https://videos.motion-core.dev/text-loop/poster.webp",
 		dependencies: {
 			gsap: "^3.14.2",
 		},
@@ -334,8 +320,6 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "water-ripple",
 		name: "Water Ripple",
 		category: "canvas",
-		video: "https://videos.motion-core.dev/water-ripple/preview.mp4",
-		poster: "https://videos.motion-core.dev/water-ripple/poster.webp",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			"@threlte/extras": "^9.7.1",

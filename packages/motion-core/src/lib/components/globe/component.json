@@ -3,10 +3,6 @@
 	"slug": "globe",
 	"description": "A Fresnel-lit globe with rim glow, haloed atmosphere, land mesh detail, and marker layers for data storytelling.",
 	"category": "canvas",
-	"preview": {
-		"video": "https://videos.motion-core.dev/globe/preview.mp4",
-		"poster": "https://videos.motion-core.dev/globe/poster.webp"
-	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
 		"@threlte/extras": "^9.7.1",

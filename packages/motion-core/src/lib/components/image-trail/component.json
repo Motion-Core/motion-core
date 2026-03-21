@@ -3,10 +3,6 @@
 	"slug": "image-trail",
 	"description": "An interactive effect that spawns a trail of images following the cursor with scaling and rotation.",
 	"category": "pointer",
-	"preview": {
-		"video": "https://videos.motion-core.dev/image-trail/preview.mp4",
-		"poster": "https://videos.motion-core.dev/image-trail/poster.webp"
-	},
 	"dependencies": {
 		"gsap": "^3.14.2"
 	},

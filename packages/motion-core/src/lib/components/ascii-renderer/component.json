@@ -3,10 +3,6 @@
 	"slug": "ascii-renderer",
 	"description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
 	"category": "canvas",
-	"preview": {
-		"video": "https://videos.motion-core.dev/ascii-renderer/preview.mp4",
-		"poster": "https://videos.motion-core.dev/ascii-renderer/poster.webp"
-	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
 		"@threlte/extras": "^9.7.1",

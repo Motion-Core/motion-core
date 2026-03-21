@@ -3,10 +3,6 @@
 	"slug": "rubiks-cube",
 	"description": "A dynamic Rubik's Cube that continuously rotates while a Fresnel rim glow traces each edge.",
 	"category": "canvas",
-	"preview": {
-		"video": "https://videos.motion-core.dev/rubiks-cube/preview.mp4",
-		"poster": "https://videos.motion-core.dev/rubiks-cube/poster.webp"
-	},
 	"dependencies": {
 		"@threlte/core": "^8.3.1",
 		"@threlte/extras": "^9.7.1",

@@ -3,10 +3,6 @@
 	"slug": "magnetic",
 	"description": "A wrapper that applies spring physics to elements, making them stick to the cursor on hover.",
 	"category": "pointer",
-	"preview": {
-		"video": "https://videos.motion-core.dev/magnetic/preview.mp4",
-		"poster": "https://videos.motion-core.dev/magnetic/poster.webp"
-	},
 	"dependencies": {
 		"gsap": "^3.14.2"
 	},
