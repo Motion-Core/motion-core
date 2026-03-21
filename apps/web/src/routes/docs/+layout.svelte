@@ -263,7 +263,7 @@
 							</h1>
 							{#if metadata.description}
 								<p
-									class="max-w-4xl text-base font-normal tracking-normal text-foreground-muted"
+									class="max-w-4xl text-base font-normal tracking-normal text-pretty text-foreground-muted"
 								>
 									{metadata.description}
 								</p>
