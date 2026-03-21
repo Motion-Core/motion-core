@@ -345,6 +345,7 @@
       "name": "God Rays",
       "description": "High-performance procedural god rays (crepuscular rays) effect with customizable colors, pulsating intensity, and distortion.",
       "category": "canvas",
+      "introducedAt": "2026-03-18",
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "three": "^0.182.0"
@@ -372,6 +373,7 @@
       "name": "Halo",
       "description": "Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation.",
       "category": "canvas",
+      "introducedAt": "2026-03-18",
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "three": "^0.182.0"
@@ -782,6 +784,7 @@
       "name": "Specular Band",
       "description": "Procedural specular light bands with hue-shifting color palettes and dynamic lens distortion.",
       "category": "canvas",
+      "introducedAt": "2026-03-18",
       "dependencies": {
         "@threlte/core": "^8.3.1",
         "three": "^0.182.0"

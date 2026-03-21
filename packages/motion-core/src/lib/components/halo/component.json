@@ -1,4 +1,5 @@
 {
+	"introducedAt": "2026-03-18",
 	"name": "Halo",
 	"slug": "halo",
 	"description": "Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation.",

@@ -16,6 +16,8 @@ type ComponentMetadata = {
 	slug?: string;
 	description: string;
 	category: string;
+	introducedAt?: string;
+	newUntil?: string;
 	preview?: {
 		video?: string;
 		poster?: string;
@@ -150,6 +152,8 @@ async function main() {
 			name: metadata.name,
 			description: metadata.description,
 			category: metadata.category,
+			introducedAt: metadata.introducedAt,
+			newUntil: metadata.newUntil,
 			preview: metadata.preview,
 			dependencies: metadata.dependencies ?? {},
 			devDependencies: metadata.devDependencies ?? {},
@@ -386,20 +390,34 @@ async function writeGeneratedDocsManifest(
 	components: Record<string, RegistryComponent>,
 ) {
 	const manifestEntries = Object.values(components)
-		.map(({ slug, name, category, preview, dependencies }) => ({
-			slug,
-			name,
-			category,
-			video: preview?.video,
-			poster: preview?.poster,
-			dependencies,
-		}))
+		.map(
+			({
+				slug,
+				name,
+				category,
+				preview,
+				dependencies,
+				introducedAt,
+				newUntil,
+			}) => ({
+				slug,
+				name,
+				category,
+				introducedAt,
+				newUntil,
+				video: preview?.video,
+				poster: preview?.poster,
+				dependencies,
+			}),
+		)
 		.sort((a, b) => a.name.localeCompare(b.name));
 
 	const source = `type ComponentInfo = {
   slug: string;
   name: string;
   category?: string;
+  introducedAt?: string;
+  newUntil?: string;
   video?: string;
   poster?: string;
   dependencies?: Record<string, string>;

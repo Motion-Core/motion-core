@@ -5,6 +5,7 @@
 	import { brandingConfig } from "$lib/config/branding";
 	import { docsUiConfig } from "$lib/config/docs-ui";
 	import { siteConfig } from "$lib/config/site";
+	import { isNewComponentDoc } from "$lib/docs/new-badges";
 	import { cn } from "$lib/utils/cn";
 	import SearchTrigger from "../search/SearchTrigger.svelte";
 	import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
@@ -100,16 +101,28 @@
 							{#each doc.items as item (item.slug)}
 								{@const href = docHref(item.slug)}
 								{@const isActive = currentPath === href}
+								{@const isNew = isNewComponentDoc(item.slug)}
 								<a
 									{href}
 									class={cn(
-										"block rounded-sm px-3 py-1.5 text-sm font-medium tracking-normal transition-all duration-150 ease-out",
+										"flex items-center justify-between gap-2 rounded-sm px-3 py-1.5 text-sm font-medium tracking-normal transition-all duration-150 ease-out",
 										isActive
 											? "bg-accent/10 text-accent"
 											: "text-foreground-muted hover:bg-background-muted hover:text-foreground",
 									)}
 								>
-									{item.name}
+									<span>{item.name}</span>
+									{#if isNew}
+										<div
+											class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 text-[10px] font-medium whitespace-nowrap text-foreground"
+										>
+											<span
+												class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"
+											>
+												{docsUiConfig.sidebar.newBadge.label}
+											</span>
+										</div>
+									{/if}
 								</a>
 							{/each}
 						</div>
@@ -117,16 +130,28 @@
 				{:else}
 					{@const href = docHref(doc.slug)}
 					{@const isActive = currentPath === href}
+					{@const isNew = isNewComponentDoc(doc.slug)}
 					<a
 						{href}
 						class={cn(
-							"block rounded-sm px-3 py-1.5 text-sm tracking-normal transition-all duration-150 ease-out",
+							"flex items-center justify-between gap-2 rounded-sm px-3 py-1.5 text-sm tracking-normal transition-all duration-150 ease-out",
 							isActive
 								? "bg-accent/10 text-accent"
 								: "text-foreground-muted hover:bg-background-muted hover:text-foreground",
 						)}
 					>
-						{doc.name}
+						<span>{doc.name}</span>
+						{#if isNew}
+							<div
+								class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 text-[10px] font-medium whitespace-nowrap text-foreground"
+							>
+								<span
+									class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"
+								>
+									{docsUiConfig.sidebar.newBadge.label}
+								</span>
+							</div>
+						{/if}
 					</a>
 				{/if}
 			{/each}

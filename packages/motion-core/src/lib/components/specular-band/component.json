@@ -1,4 +1,5 @@
 {
+	"introducedAt": "2026-03-18",
 	"name": "Specular Band",
 	"slug": "specular-band",
 	"description": "Procedural specular light bands with hue-shifting color palettes and dynamic lens distortion.",

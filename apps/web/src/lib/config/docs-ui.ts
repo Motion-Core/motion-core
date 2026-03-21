@@ -33,6 +33,11 @@ export type DocsUiConfig = {
 		showThemeToggle: boolean;
 		showRepositoryLink: boolean;
 		repositoryAriaLabel: string;
+		newBadge: {
+			enabled: boolean;
+			label: string;
+			activeDays: number;
+		};
 	};
 	toc: {
 		enabled: boolean;
@@ -113,6 +118,11 @@ export const docsUiConfig: DocsUiConfig = {
 		showThemeToggle: true,
 		showRepositoryLink: true,
 		repositoryAriaLabel: "Open project repository",
+		newBadge: {
+			enabled: true,
+			label: "NEW",
+			activeDays: 60,
+		},
 	},
 	toc: {
 		enabled: true,

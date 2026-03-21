@@ -2,6 +2,8 @@ type ComponentInfo = {
 	slug: string;
 	name: string;
 	category?: string;
+	introducedAt?: string;
+	newUntil?: string;
 	video?: string;
 	poster?: string;
 	dependencies?: Record<string, string>;
@@ -123,6 +125,7 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "god-rays",
 		name: "God Rays",
 		category: "canvas",
+		introducedAt: "2026-03-18",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			three: "^0.182.0",
@@ -132,6 +135,7 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "halo",
 		name: "Halo",
 		category: "canvas",
+		introducedAt: "2026-03-18",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			three: "^0.182.0",
@@ -278,6 +282,7 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "specular-band",
 		name: "Specular Band",
 		category: "canvas",
+		introducedAt: "2026-03-18",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			three: "^0.182.0",
