@@ -19,6 +19,19 @@
 			: page.url.pathname,
 	);
 	const githubUrl = siteConfig.links.github;
+	const docsSectionSlugs = new Set(["getting-started", "resources"]);
+	const navigationGroups = $derived(
+		[
+			{
+				label: docsUiConfig.sidebar.navigationLabel,
+				items: docsNavigation.filter((doc) => docsSectionSlugs.has(doc.slug)),
+			},
+			{
+				label: "Components",
+				items: docsNavigation.filter((doc) => !docsSectionSlugs.has(doc.slug)),
+			},
+		].filter((group) => group.items.length > 0),
+	);
 
 	let expandedGroups = $state<Record<string, boolean>>({});
 
@@ -68,92 +81,97 @@
 		viewportStyle="mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 16px, black calc(100% - 16px), transparent);"
 	>
 		<nav class="flex flex-col space-y-1">
-			<h4
-				class="mb-2 ml-2 text-xs font-medium tracking-wide text-foreground-muted/70 uppercase"
-			>
-				{docsUiConfig.sidebar.navigationLabel}
-			</h4>
-			{#each docsNavigation as doc (doc.slug)}
-				{#if doc.items?.length}
-					{@const isGroupActive =
-						expandedGroups[doc.slug] ??
-						doc.items.some((item) => docHref(item.slug) === currentPath)}
-					<button
-						onclick={() => toggleGroup(doc.slug)}
-						class={cn(
-							"flex w-full items-center justify-between rounded-sm px-3 py-1.5 text-sm font-medium tracking-normal transition-all duration-150 ease-out hover:bg-background-muted hover:text-foreground",
-							isGroupActive ? "text-foreground" : "text-foreground-muted",
-						)}
-					>
-						<span>{doc.name}</span>
-						<ChevronRight
+			{#each navigationGroups as group, groupIndex (group.label)}
+				<h4
+					class={cn(
+						"mb-2 ml-2 text-xs font-medium tracking-wide text-foreground-muted/70 uppercase",
+						groupIndex > 0 && "mt-8",
+					)}
+				>
+					{group.label}
+				</h4>
+				{#each group.items as doc (doc.slug)}
+					{#if doc.items?.length}
+						{@const isGroupActive =
+							expandedGroups[doc.slug] ??
+							doc.items.some((item) => docHref(item.slug) === currentPath)}
+						<button
+							onclick={() => toggleGroup(doc.slug)}
 							class={cn(
-								"size-4 transition-transform duration-150",
-								isGroupActive && "rotate-90",
+								"flex w-full items-center justify-between rounded-sm px-3 py-1.5 text-sm font-medium tracking-normal transition-all duration-150 ease-out hover:bg-background-muted hover:text-foreground",
+								isGroupActive ? "text-foreground" : "text-foreground-muted",
 							)}
-						/>
-					</button>
-					{#if isGroupActive}
-						<div
-							transition:slide={{ duration: 220 }}
-							class="relative flex flex-col gap-1 overflow-hidden pl-5 before:absolute before:top-1 before:bottom-1 before:left-3 before:w-px before:bg-border"
 						>
-							{#each doc.items as item (item.slug)}
-								{@const href = docHref(item.slug)}
-								{@const isActive = currentPath === href}
-								{@const isNew = isNewComponentDoc(item.slug)}
-								<a
-									{href}
-									class={cn(
-										"flex items-center justify-between gap-2 rounded-sm px-3 py-1.5 text-sm font-medium tracking-normal transition-all duration-150 ease-out",
-										isActive
-											? "bg-accent/10 text-accent"
-											: "text-foreground-muted hover:bg-background-muted hover:text-foreground",
-									)}
-								>
-									<span>{item.name}</span>
-									{#if isNew}
-										<div
-											class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 text-[10px] font-medium whitespace-nowrap text-foreground"
-										>
-											<span
-												class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"
-											>
-												{docsUiConfig.sidebar.newBadge.label}
-											</span>
-										</div>
-									{/if}
-								</a>
-							{/each}
-						</div>
-					{/if}
-				{:else}
-					{@const href = docHref(doc.slug)}
-					{@const isActive = currentPath === href}
-					{@const isNew = isNewComponentDoc(doc.slug)}
-					<a
-						{href}
-						class={cn(
-							"flex items-center justify-between gap-2 rounded-sm px-3 py-1.5 text-sm tracking-normal transition-all duration-150 ease-out",
-							isActive
-								? "bg-accent/10 text-accent"
-								: "text-foreground-muted hover:bg-background-muted hover:text-foreground",
-						)}
-					>
-						<span>{doc.name}</span>
-						{#if isNew}
+							<span>{doc.name}</span>
+							<ChevronRight
+								class={cn(
+									"size-4 transition-transform duration-150",
+									isGroupActive && "rotate-90",
+								)}
+							/>
+						</button>
+						{#if isGroupActive}
 							<div
-								class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 text-[10px] font-medium whitespace-nowrap text-foreground"
+								transition:slide={{ duration: 220 }}
+								class="relative flex flex-col gap-1 overflow-hidden pl-5 before:absolute before:top-1 before:bottom-1 before:left-3 before:w-px before:bg-border"
 							>
-								<span
-									class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"
-								>
-									{docsUiConfig.sidebar.newBadge.label}
-								</span>
+								{#each doc.items as item (item.slug)}
+									{@const href = docHref(item.slug)}
+									{@const isActive = currentPath === href}
+									{@const isNew = isNewComponentDoc(item.slug)}
+									<a
+										{href}
+										class={cn(
+											"flex items-center justify-between gap-2 rounded-sm px-3 py-1.5 text-sm font-medium tracking-normal transition-all duration-150 ease-out",
+											isActive
+												? "bg-accent/10 text-accent"
+												: "text-foreground-muted hover:bg-background-muted hover:text-foreground",
+										)}
+									>
+										<span>{item.name}</span>
+										{#if isNew}
+											<div
+												class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 text-[10px] font-medium whitespace-nowrap text-foreground"
+											>
+												<span
+													class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"
+												>
+													{docsUiConfig.sidebar.newBadge.label}
+												</span>
+											</div>
+										{/if}
+									</a>
+								{/each}
 							</div>
 						{/if}
-					</a>
-				{/if}
+					{:else}
+						{@const href = docHref(doc.slug)}
+						{@const isActive = currentPath === href}
+						{@const isNew = isNewComponentDoc(doc.slug)}
+						<a
+							{href}
+							class={cn(
+								"flex items-center justify-between gap-2 rounded-sm px-3 py-1.5 text-sm tracking-normal transition-all duration-150 ease-out",
+								isActive
+									? "bg-accent/10 text-accent"
+									: "text-foreground-muted hover:bg-background-muted hover:text-foreground",
+							)}
+						>
+							<span>{doc.name}</span>
+							{#if isNew}
+								<div
+									class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 text-[10px] font-medium whitespace-nowrap text-foreground"
+								>
+									<span
+										class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"
+									>
+										{docsUiConfig.sidebar.newBadge.label}
+									</span>
+								</div>
+							{/if}
+						</a>
+					{/if}
+				{/each}
 			{/each}
 		</nav>
 	</ScrollArea>
