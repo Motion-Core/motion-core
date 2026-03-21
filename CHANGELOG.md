@@ -8,7 +8,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- **2 components**:
+- **3 components**:
   - **Canvas**: God Rays.
   - **Canvas**: Specular Band.
   - **Canvas**: Halo.
