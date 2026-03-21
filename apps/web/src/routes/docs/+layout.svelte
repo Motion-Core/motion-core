@@ -40,6 +40,9 @@
 	);
 	const metadata = $derived(props.data.metadata);
 	const renderChildren = $derived(props.children);
+	const componentDependencies = $derived(
+		props.data.componentDependencies ?? [],
+	);
 	const docSlug = $derived(metadata?.slug);
 	const currentDoc = $derived(docsManifest.find((d) => d.slug === docSlug));
 	const siteOrigin = new URL(siteConfig.url).origin;
@@ -264,6 +267,25 @@
 								>
 									{metadata.description}
 								</p>
+							{/if}
+							{#if componentDependencies.length > 0}
+								<div class="flex flex-wrap items-center gap-2">
+									{#each componentDependencies as dependency (dependency.name)}
+										<a
+											href={dependency.href}
+											target="_blank"
+											rel="noreferrer"
+											aria-label={`Open ${dependency.name} on npm`}
+											class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 font-mono text-sm font-medium whitespace-nowrap text-foreground"
+										>
+											<code
+												class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5 transition-colors duration-150 ease-out hover:bg-background-muted"
+											>
+												{dependency.label}
+											</code>
+										</a>
+									{/each}
+								</div>
 							{/if}
 
 							{#if showDocActions}
