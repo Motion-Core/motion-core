@@ -6,9 +6,7 @@
 
 <button
 	bind:this={hoverTarget}
-	class="h-8 w-26 gap-1.5 rounded border border-border bg-background px-3 text-xs font-medium tracking-wide text-foreground uppercase shadow-md"
+	class="card h-8 gap-1.5 rounded-sm bg-background-muted px-3 text-xs font-medium tracking-wide text-foreground uppercase"
 >
-	<TextScramble cycles={3} scrambleDuration={0.15} {hoverTarget}
-		>Hover Me</TextScramble
-	>
+	<TextScramble class="font-mono" {hoverTarget}>Hover Me</TextScramble>
 </button>
