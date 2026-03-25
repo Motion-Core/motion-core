@@ -169,6 +169,7 @@
 	const initialCameraPosition = { x: 0, y: 0, z: 8 };
 	let globeGroup = $state<THREE.Group>();
 	let controls = $state<OrbitControlsType>();
+	let focusTween: gsap.core.Tween | null = null;
 
 	const { camera } = useThrelte();
 
@@ -345,23 +346,34 @@
 	});
 
 	$effect(() => {
-		if (focusOn && $camera && controls) {
-			const [lat, lon] = focusOn;
-			const cameraDistance = initialCameraPosition.z;
-
-			const { x, y, z } = lonLatToCartesian(lon, lat, cameraDistance);
-
-			gsap.to($camera.position, {
-				x,
-				y,
-				z,
-				duration: 1.5,
-				ease: "power2.inOut",
-				onUpdate: () => {
-					controls?.update();
-				},
-			});
+		if (!focusOn || !$camera || !controls) {
+			focusTween?.kill();
+			focusTween = null;
+			return;
 		}
+
+		const [lat, lon] = focusOn;
+		const cameraDistance = initialCameraPosition.z;
+
+		const { x, y, z } = lonLatToCartesian(lon, lat, cameraDistance);
+
+		focusTween?.kill();
+		focusTween = gsap.to($camera.position, {
+			x,
+			y,
+			z,
+			duration: 1.5,
+			ease: "power2.inOut",
+			onUpdate: () => {
+				controls?.update();
+			},
+			overwrite: true,
+		});
+
+		return () => {
+			focusTween?.kill();
+			focusTween = null;
+		};
 	});
 
 	function updateMeshMatrices(
