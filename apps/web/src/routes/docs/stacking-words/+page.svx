@@ -1,0 +1,98 @@
+---
+name: Stacking Words
+description: A scroll-synced SplitText reveal where words in each line travel in from the right.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import stackingWordsSource from "motion-core/components/stacking-words/StackingWords.svelte?raw";
+	import StackingWordsDemo from "./StackingWordsDemo.svelte";
+	import stackingWordsDemoSource from "./StackingWordsDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="stacking-words" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { StackingWords } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	class="max-h-150"
+	sources={[
+		{ name: "Example", code: stackingWordsDemoSource, language: "svelte" },
+		{ name: "StackingWords.svelte", code: stackingWordsSource, language: "svelte" },
+	]}
+>
+	<StackingWordsDemo />
+</ComponentPreview>
+
+## Props
+
+### StackingWords
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the wrapper.",
+		},
+		{
+			prop: "start",
+			type: "string",
+			default: '"top 90%"',
+			description: "ScrollTrigger start position for each line animation.",
+		},
+		{
+			prop: "end",
+			type: "string",
+			default: '"top 30%"',
+			description: "ScrollTrigger end position for each line animation.",
+		},
+		{
+			prop: "scrub",
+			type: "boolean | number",
+			default: "1.234",
+			description: "ScrollTrigger scrub amount.",
+		},
+		{
+			prop: "stagger",
+			type: "number",
+			default: "0.21",
+			description: "Stagger applied to words in each line.",
+		},
+		{
+			prop: "ease",
+			type: "string",
+			default: '"power3.out"',
+			description: "GSAP ease used for the word translation.",
+		},
+		{
+			prop: "scrollElement",
+			type: "string | HTMLElement | null",
+			default: "undefined",
+			description:
+				"Optional selector or element for custom scroll containers.",
+		},
+	]}
+/>

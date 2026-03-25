@@ -222,6 +222,10 @@ export const docsNavigation: DocItem[] = [
 				name: "Split Reveal",
 			},
 			{
+				slug: "stacking-words",
+				name: "Stacking Words",
+			},
+			{
 				slug: "text-loop",
 				name: "Text Loop",
 			},

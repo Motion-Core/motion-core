@@ -853,6 +853,29 @@
         }
       ]
     },
+    "stacking-words": {
+      "slug": "stacking-words",
+      "name": "Stacking Words",
+      "description": "A scroll-synced SplitText reveal where words in each line travel in from the right.",
+      "category": "typography",
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/stacking-words/StackingWords.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "text-loop": {
       "slug": "text-loop",
       "name": "Text Loop",

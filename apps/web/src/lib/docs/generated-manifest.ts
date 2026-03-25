@@ -293,6 +293,14 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "stacking-words",
+		name: "Stacking Words",
+		category: "typography",
+		dependencies: {
+			gsap: "^3.14.2",
+		},
+	},
+	{
 		slug: "text-loop",
 		name: "Text Loop",
 		category: "typography",
