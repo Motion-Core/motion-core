@@ -92,20 +92,13 @@ html {
 	--color-accent-secondary: var(--accent-secondary);
 	--color-border: var(--border);
 
-	--font-weight-light: 300;
+	--font-weight-light: 250;
 	--font-weight-normal: 350;
-	--font-weight-medium: 400;
-	--font-weight-semibold: 450;
-	--font-weight-bold: 500;
-	--font-weight-extrabold: 550;
-	--font-weight-black: 600;
-
-	--tracking-tighter: -0.0675em;
-	--tracking-tight: -0.0375em;
-	--tracking-normal: -0.0125em;
-	--tracking-wide: 0.0125em;
-	--tracking-wider: 0.0375em;
-	--tracking-widest: 0.625em;
+	--font-weight-medium: 450;
+	--font-weight-semibold: 550;
+	--font-weight-bold: 650;
+	--font-weight-extrabold: 750;
+	--font-weight-black: 850;
 
 	--radius-xs: calc(var(--radius-base) * 1);
 	--radius-sm: calc(var(--radius-base) * 2);
