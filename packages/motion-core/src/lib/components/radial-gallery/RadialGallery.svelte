@@ -1,7 +1,7 @@
 <script lang="ts" generics="T">
 	import { onMount, onDestroy } from "svelte";
 	import type { Snippet } from "svelte";
-	import gsap from "gsap";
+	import { gsap } from "gsap/dist/gsap";
 	import { cn } from "../../utils/cn";
 
 	interface Props<T> {
