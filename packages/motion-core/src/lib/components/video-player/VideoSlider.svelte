@@ -144,6 +144,8 @@
 	);
 
 	$effect(() => {
+		if (!sliderRef || !thumbRef || !hoverTimeRef) return;
+
 		if (isHovered || isDragging) {
 			gsap.to(sliderRef, {
 				height: 28,
@@ -177,6 +179,10 @@
 				duration: 0.2,
 			});
 		}
+
+		return () => {
+			gsap.killTweensOf([sliderRef, thumbRef, hoverTimeRef]);
+		};
 	});
 </script>
 
