@@ -4,6 +4,16 @@ All notable changes to **Motion Core** will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.1] - 2026-03-25
+
+### Fixed
+
+- **GSAP imports**: Standardized runtime GSAP imports to `gsap/dist/gsap` in:
+  - **Layout**: Flip Grid.
+  - **Canvas**: Globe.
+  - **Showcase**: Marquee.
+  - **Showcase**: Radial Gallery.
+
 ## [0.5.0] - 2026-03-18
 
 ### Added
