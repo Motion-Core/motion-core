@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import gsap from "gsap";
+	import { gsap } from "gsap/dist/gsap";
 	import { Flip } from "gsap/dist/Flip";
 	import { cn } from "../../utils/cn";
 
