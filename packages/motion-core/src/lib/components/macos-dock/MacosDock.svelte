@@ -50,6 +50,13 @@
 	let maxWidth = $derived(baseWidth * magnification);
 
 	$effect(() => {
+		const itemElements = dockItems.filter(
+			(el): el is HTMLLIElement => el !== null,
+		);
+		const tooltipElements = dockTooltips.filter(
+			(el): el is HTMLDivElement => el !== null,
+		);
+
 		dockItems.forEach((el, index) => {
 			if (!el) return;
 
@@ -95,6 +102,15 @@
 				});
 			}
 		});
+
+		return () => {
+			if (itemElements.length) {
+				gsap.killTweensOf(itemElements);
+			}
+			if (tooltipElements.length) {
+				gsap.killTweensOf(tooltipElements);
+			}
+		};
 	});
 </script>
 
