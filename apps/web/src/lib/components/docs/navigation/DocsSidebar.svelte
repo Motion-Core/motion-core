@@ -131,7 +131,7 @@
 										<span>{item.name}</span>
 										{#if isNew}
 											<div
-												class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 text-[10px] font-medium whitespace-nowrap text-foreground"
+												class="inset-shadow relative inline-flex rounded-sm bg-background-inset p-0.75 text-[10px] font-medium text-foreground"
 											>
 												<span
 													class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"

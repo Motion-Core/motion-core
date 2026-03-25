@@ -1,4 +1,5 @@
 {
+	"introducedAt": "2026-03-25",
 	"name": "Stacking Words",
 	"slug": "stacking-words",
 	"description": "A scroll-synced SplitText reveal where words in each line travel in from the right.",

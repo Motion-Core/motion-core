@@ -36,7 +36,7 @@
 	</code>
 {:else}
 	<span
-		class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 font-mono text-sm font-medium whitespace-nowrap text-foreground"
+		class="inset-shadow relative inline-flex w-fit rounded-sm bg-background-inset p-0.75 font-mono text-sm font-medium whitespace-nowrap text-foreground"
 	>
 		<code
 			{...restProps}

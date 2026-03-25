@@ -296,6 +296,7 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "stacking-words",
 		name: "Stacking Words",
 		category: "typography",
+		introducedAt: "2026-03-25",
 		dependencies: {
 			gsap: "^3.14.2",
 		},

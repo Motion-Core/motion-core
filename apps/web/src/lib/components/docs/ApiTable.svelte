@@ -60,7 +60,7 @@
 							{:else}
 								<code
 									class={cn(
-										"inset-shadow relative inline-flex rounded-sm bg-background-inset px-0.75 py-1 text-sm font-medium text-foreground",
+										"inset-shadow relative inline-flex rounded-sm bg-background-inset p-0.75 text-sm font-medium text-foreground",
 									)}
 								>
 									<span
