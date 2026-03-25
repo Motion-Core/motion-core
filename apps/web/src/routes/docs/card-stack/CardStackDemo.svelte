@@ -11,7 +11,7 @@
 	let scrollElement = $state<HTMLElement | null>(null);
 
 	onMount(() => {
-		scrollElement = document.getElementById("preview-scroll-area");
+		scrollElement = document.getElementById("component-preview-live");
 	});
 </script>
 
