@@ -62,6 +62,7 @@
 	let wrapperRef: HTMLElement | null = null;
 	let splitInstance: SplitText | null = null;
 	let lineTweens: gsap.core.Tween[] = [];
+	const OFFSCREEN_MARGIN_PX = 8;
 
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
@@ -112,8 +113,13 @@
 
 					const words = (self.words ?? []) as HTMLElement[];
 					words.forEach((word) => {
+						const rect = word.getBoundingClientRect();
 						gsap.set(word, {
-							x: window.innerWidth - word.getBoundingClientRect().left,
+							x:
+								window.innerWidth -
+								rect.left +
+								rect.width +
+								OFFSCREEN_MARGIN_PX,
 						});
 					});
 
