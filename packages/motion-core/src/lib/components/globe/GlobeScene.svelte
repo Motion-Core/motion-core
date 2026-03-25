@@ -3,7 +3,7 @@
 	import { OrbitControls, interactivity } from "@threlte/extras";
 	import * as THREE from "three";
 	import type { OrbitControls as OrbitControlsType } from "three/examples/jsm/controls/OrbitControls.js";
-	import gsap from "gsap";
+	import { gsap } from "gsap/dist/gsap";
 	import landGeoJsonRaw from "../../assets/ne_110m_land.geojson?raw";
 	import type { GlobeMarker } from "./types";
 	import GlobeMarkerItem from "./GlobeMarkerItem.svelte";
