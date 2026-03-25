@@ -4,6 +4,9 @@ All notable changes to **Motion Core** will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.2] - 2026-03-25
+
+### Fixed
 ## [0.5.1] - 2026-03-25
 
 ### Fixed
@@ -13,6 +16,14 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
   - **Canvas**: Globe.
   - **Showcase**: Marquee.
   - **Showcase**: Radial Gallery.
+
+- **Lifecycle**: Proper cleanups/kills in:
+  - **Transition / Preloader**: Kills GSAP timeline on component destroy.
+  - **Canvas / Globe**: Cancels previous camera focus tween and cleans up tween lifecycle.
+  - **Pointer / MacOS Dock**: Cleans up GSAP tweens on effect rerun and component destroy.
+  - **Showcase / Slideshow**: Cleans up active GSAP timeline on destroy.
+  - **Showcase / Video Player Slider**: Guards refs and cleans up GSAP tweens on effect cleanup.
+
 
 ## [0.5.0] - 2026-03-18
 
