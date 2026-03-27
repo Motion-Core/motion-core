@@ -3,14 +3,7 @@ import satoriStandalone, { init as initSatoriWasm } from "satori/standalone";
 import { html } from "satori-html";
 import { Resvg, initWasm } from "@resvg/resvg-wasm";
 import type { RequestHandler } from "./$types";
-import {
-	brandLogoRaw,
-	getDocBySlug,
-	getDocMetadata,
-	fkGroteskNeueRegularDataUri,
-	fkGroteskNeueSemiBoldDataUri,
-	siteConfig,
-} from "$lib";
+import { brandLogoRaw, getDocBySlug, getDocMetadata, siteConfig } from "$lib";
 
 const OG_WIDTH = 1200;
 const OG_HEIGHT = 630;
@@ -24,29 +17,32 @@ const clampText = (value: string, maxLength: number) => {
 	return `${text.slice(0, maxLength - 1).trimEnd()}…`;
 };
 
-const dataUriToArrayBuffer = (dataUri: string) => {
-	const base64 = dataUri.slice(dataUri.indexOf(",") + 1);
+const fontDataByOrigin = new Map<string, Promise<[ArrayBuffer, ArrayBuffer]>>();
 
-	if (typeof Buffer !== "undefined") {
-		const bytes = Buffer.from(base64, "base64");
-		return bytes.buffer.slice(
-			bytes.byteOffset,
-			bytes.byteOffset + bytes.byteLength,
-		);
+const fetchFontArrayBuffer = async (origin: string, path: string) => {
+	const response = await fetch(new URL(path, origin));
+	if (!response.ok) {
+		throw new Error(`Failed to load font ${path}: ${response.status}`);
 	}
-
-	const binary = atob(base64);
-	const bytes = new Uint8Array(binary.length);
-	for (let index = 0; index < binary.length; index += 1) {
-		bytes[index] = binary.charCodeAt(index);
-	}
-	return bytes.buffer;
+	return response.arrayBuffer();
 };
 
-const fontDataPromise = Promise.all([
-	Promise.resolve(dataUriToArrayBuffer(fkGroteskNeueRegularDataUri)),
-	Promise.resolve(dataUriToArrayBuffer(fkGroteskNeueSemiBoldDataUri)),
-]);
+const getFontData = (origin: string) => {
+	const cached = fontDataByOrigin.get(origin);
+	if (cached) {
+		return cached;
+	}
+
+	const promise = Promise.all([
+		fetchFontArrayBuffer(origin, "/fonts/APK-Galeria-Regular.woff"),
+		fetchFontArrayBuffer(origin, "/fonts/APK-Galeria-Medium.woff"),
+	]).catch((error: unknown) => {
+		fontDataByOrigin.delete(origin);
+		throw error;
+	});
+	fontDataByOrigin.set(origin, promise);
+	return promise;
+};
 
 type ResvgWasmState = {
 	promise?: Promise<void>;
@@ -68,6 +64,7 @@ const ogWasmState = globalThis as typeof globalThis & {
 	__docsOgSatoriWasmState?: SatoriWasmState;
 	__docsOgYogaWasmModule?: WebAssembly.Module;
 };
+
 if (!ogWasmState.__docsOgResvgWasmState) {
 	ogWasmState.__docsOgResvgWasmState = {};
 }
@@ -199,7 +196,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		MAX_DESCRIPTION_LENGTH,
 	);
 	const pageUrl = new URL(`/docs/${metadata.slug}`, canonicalOrigin).href;
-	const [fkGroteskNeueRegular, fkGroteskNeueSemiBold] = await fontDataPromise;
+	const [apkGaleriaRegular, apkGaleriaMedium] = await getFontData(url.origin);
 	await ensureResvgWasm(url.origin);
 	const useStandaloneSatori = Boolean(ogWasmState.__docsOgYogaWasmModule);
 	if (useStandaloneSatori) {
@@ -241,22 +238,25 @@ export const GET: RequestHandler = async ({ params, url }) => {
 			</div>
 		</div>
 	`;
+	const satoriMarkup = markup as unknown as Parameters<
+		typeof satoriStandalone
+	>[0];
 
 	const renderSatori = async () => {
 		if (useStandaloneSatori) {
-			return satoriStandalone(markup, {
+			return satoriStandalone(satoriMarkup, {
 				width: OG_WIDTH,
 				height: OG_HEIGHT,
 				fonts: [
 					{
-						name: "FK Grotesk Neue",
-						data: fkGroteskNeueRegular,
+						name: "APK Galeria Regular",
+						data: apkGaleriaRegular,
 						weight: 400,
 						style: "normal",
 					},
 					{
-						name: "FK Grotesk Neue",
-						data: fkGroteskNeueSemiBold,
+						name: "APK Galeria Medium",
+						data: apkGaleriaMedium,
 						weight: 600,
 						style: "normal",
 					},
@@ -268,19 +268,19 @@ export const GET: RequestHandler = async ({ params, url }) => {
 			defaultSatoriPromise = import("satori").then((module) => module.default);
 		}
 		const defaultSatori = await defaultSatoriPromise;
-		return defaultSatori(markup, {
+		return defaultSatori(satoriMarkup, {
 			width: OG_WIDTH,
 			height: OG_HEIGHT,
 			fonts: [
 				{
-					name: "FK Grotesk Neue",
-					data: fkGroteskNeueRegular,
+					name: "APK Galeria Regular",
+					data: apkGaleriaRegular,
 					weight: 400,
 					style: "normal",
 				},
 				{
-					name: "FK Grotesk Neue",
-					data: fkGroteskNeueSemiBold,
+					name: "APK Galeria Medium",
+					data: apkGaleriaMedium,
 					weight: 600,
 					style: "normal",
 				},

@@ -30,6 +30,4 @@ export {
 } from "./docs/manifest";
 export { getDocMetadata, type DocMetadata } from "./docs/metadata";
 
-export { default as fkGroteskNeueRegularDataUri } from "$lib/assets/fonts/fkgroteskneue-satori-400.ttf?inline";
-export { default as fkGroteskNeueSemiBoldDataUri } from "$lib/assets/fonts/fkgroteskneue-satori-600.ttf?inline";
 export { default as brandLogoRaw } from "./assets/motion-core-logo.svg?raw";
