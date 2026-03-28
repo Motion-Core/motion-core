@@ -134,6 +134,29 @@
         }
       ]
     },
+    "flip-card-stack": {
+      "slug": "flip-card-stack",
+      "name": "Flip Card Stack",
+      "description": "A draggable stack where the top card snaps to the back after a threshold drag, with GSAP-driven transforms.",
+      "category": "pointer",
+      "dependencies": {
+        "gsap": "^3.14.2"
+      },
+      "devDependencies": {
+        "@types/gsap": "^3.0.0"
+      },
+      "internalDependencies": [],
+      "files": [
+        {
+          "path": "components/flip-card-stack/FlipCardStack.svelte",
+          "kind": "entry"
+        },
+        {
+          "path": "utils/cn.ts",
+          "target": "utils"
+        }
+      ]
+    },
     "flip-grid": {
       "slug": "flip-grid",
       "name": "Flip Grid",
