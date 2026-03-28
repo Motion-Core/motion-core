@@ -36,11 +36,38 @@
 		ensureMotionCoreEase();
 	});
 
-	let wrapperRef: HTMLSpanElement;
-	let originalSpan: HTMLSpanElement;
-	let cloneSpan: HTMLSpanElement;
+	let wrapperRef: HTMLSpanElement | undefined;
+	let originalSpan: HTMLSpanElement | undefined;
+	let cloneSpan: HTMLSpanElement | undefined;
 	let originalSplit: SplitText | null = null;
 	let cloneSplit: SplitText | null = null;
+
+	const attachWrapperRef = (node: HTMLSpanElement) => {
+		wrapperRef = node;
+		return () => {
+			if (wrapperRef === node) {
+				wrapperRef = undefined;
+			}
+		};
+	};
+
+	const attachOriginalSpan = (node: HTMLSpanElement) => {
+		originalSpan = node;
+		return () => {
+			if (originalSpan === node) {
+				originalSpan = undefined;
+			}
+		};
+	};
+
+	const attachCloneSpan = (node: HTMLSpanElement) => {
+		cloneSpan = node;
+		return () => {
+			if (cloneSpan === node) {
+				cloneSpan = undefined;
+			}
+		};
+	};
 
 	$effect(() => {
 		if (typeof window === "undefined") return;
@@ -54,8 +81,11 @@
 			type: "chars",
 			charsClass: "inline-block",
 			onSplit: (self) => {
+				const cloneNode = cloneSpan;
+				if (!cloneNode) return;
+
 				if (cloneSplit) cloneSplit.revert();
-				cloneSplit = SplitText.create(cloneSpan, {
+				cloneSplit = SplitText.create(cloneNode, {
 					type: "chars",
 					charsClass: "inline-block",
 				});
@@ -113,13 +143,13 @@
 		"font-inherit relative inline-flex overflow-hidden align-baseline leading-none text-inherit",
 		className,
 	)}
-	bind:this={wrapperRef}
+	{@attach attachWrapperRef}
 >
-	<span bind:this={originalSpan}>
+	<span {@attach attachOriginalSpan}>
 		{@render children?.()}
 	</span>
 	<span
-		bind:this={cloneSpan}
+		{@attach attachCloneSpan}
 		class="pointer-events-none absolute inset-0"
 		aria-hidden="true"
 	>
