@@ -57,9 +57,18 @@
 		registerPluginOnce(SplitText);
 	});
 
-	let wrapperRef: HTMLSpanElement;
+	let wrapperRef: HTMLSpanElement | undefined;
 	let splitInstance: SplitText | null = null;
 	let hoverTimeline: gsap.core.Timeline | null = null;
+
+	const attachWrapperRef = (node: HTMLSpanElement) => {
+		wrapperRef = node;
+		return () => {
+			if (wrapperRef === node) {
+				wrapperRef = undefined;
+			}
+		};
+	};
 
 	const getRandomChar = (pool: string) => {
 		if (!pool.length) return "";
@@ -107,15 +116,16 @@
 	$effect(() => {
 		if (typeof window === "undefined") return;
 		if (!wrapperRef) return;
+		const node = wrapperRef;
 
-		const target = hoverTarget ?? wrapperRef;
+		const target = hoverTarget ?? node;
 		if (!target) return;
 
 		hoverTimeline?.kill();
 		hoverTimeline = null;
 		splitInstance?.revert();
 
-		splitInstance = SplitText.create(wrapperRef, {
+		splitInstance = SplitText.create(node, {
 			type: "chars",
 			reduceWhiteSpace: false,
 			charsClass: "inline-block",
@@ -164,7 +174,7 @@
 <span
 	{...restProps}
 	class={cn("font-inherit inline-block align-baseline text-inherit", className)}
-	bind:this={wrapperRef}
+	{@attach attachWrapperRef}
 >
 	{@render children?.()}
 </span>
