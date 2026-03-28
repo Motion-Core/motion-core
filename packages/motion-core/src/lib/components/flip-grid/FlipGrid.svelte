@@ -53,8 +53,17 @@
 		...props
 	}: Props = $props();
 
-	let container: HTMLElement;
+	let container: HTMLElement | undefined;
 	let state: Flip.FlipState | null = null;
+
+	const attachContainer = (node: HTMLElement) => {
+		container = node;
+		return () => {
+			if (container === node) {
+				container = undefined;
+			}
+		};
+	};
 
 	let computedStyle = $derived.by(() => {
 		const baseStyle = style || "";
@@ -112,7 +121,7 @@
 </script>
 
 <div
-	bind:this={container}
+	{@attach attachContainer}
 	class={cn("relative grid", className)}
 	style={computedStyle}
 	{...props}
