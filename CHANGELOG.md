@@ -26,6 +26,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **Pointer / MacOS Dock**: Replaced `bind:this` with `{@attach ...}` for dock item and tooltip refs.
 - **Showcase / Video Player**: Replaced `bind:this` with `{@attach ...}` for player/control/icon refs.
 - **Transition / Preloader**: Replaced `bind:this` with `{@attach ...}` for container and staged image refs.
+- **Navigation / Floating Menu**: Replaced `bind:this` with `{@attach ...}` for overlay/container/toggle refs.
 
 ## [0.6.0] - 2026-03-28
 

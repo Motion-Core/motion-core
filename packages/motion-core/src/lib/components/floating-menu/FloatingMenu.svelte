@@ -123,6 +123,26 @@
 	let line2Ref: HTMLElement;
 	let overlayRef: HTMLElement;
 
+	const attachContainerRef = (node: HTMLElement) => {
+		containerRef = node;
+	};
+
+	const attachMenuWrapperRef = (node: HTMLElement) => {
+		menuWrapperRef = node;
+	};
+
+	const attachLine1Ref = (node: HTMLElement) => {
+		line1Ref = node;
+	};
+
+	const attachLine2Ref = (node: HTMLElement) => {
+		line2Ref = node;
+	};
+
+	const attachOverlayRef = (node: HTMLElement) => {
+		overlayRef = node;
+	};
+
 	function toggle() {
 		if (!timeline) return;
 		isOpen = !isOpen;
@@ -236,7 +256,7 @@
 
 <div
 	use:portal={portalTarget}
-	bind:this={overlayRef}
+	{@attach attachOverlayRef}
 	data-slot="overlay"
 	class={cn(
 		"pointer-events-none fixed inset-0 z-40 bg-background-inset/80 opacity-0 data-[open=true]:pointer-events-auto",
@@ -257,7 +277,7 @@
 
 <div
 	use:portal={portalTarget}
-	bind:this={containerRef}
+	{@attach attachContainerRef}
 	data-slot="root"
 	class={cn(
 		"fixed top-2 left-1/2 z-50 w-full max-w-[95vw] -translate-x-1/2 rounded-md border border-border bg-background text-foreground shadow-md md:top-4 md:max-w-[70vw] lg:max-w-[50vw]",
@@ -283,7 +303,7 @@
 		>
 			<div class="relative flex h-10 w-10 items-center justify-center">
 				<span
-					bind:this={line1Ref}
+					{@attach attachLine1Ref}
 					data-slot="toggle-line"
 					class={cn(
 						"absolute h-px w-6 bg-foreground transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:bg-accent",
@@ -292,7 +312,7 @@
 					style="transform: translateY(4px)"
 				></span>
 				<span
-					bind:this={line2Ref}
+					{@attach attachLine2Ref}
 					data-slot="toggle-line"
 					class={cn(
 						"absolute h-px w-6 bg-foreground transition-[background-color] duration-400 ease-[cubic-bezier(0.625,0.05,0,1)] group-hover:bg-accent",
@@ -354,7 +374,7 @@
 	</div>
 
 	<div
-		bind:this={menuWrapperRef}
+		{@attach attachMenuWrapperRef}
 		data-slot="menu-wrapper"
 		class={cn(
 			"h-0 w-full overflow-hidden border-t border-border opacity-0",
