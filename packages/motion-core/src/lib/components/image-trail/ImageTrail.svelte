@@ -112,6 +112,15 @@
 
 	let containerRef: HTMLDivElement | null = null;
 
+	const attachContainerRef = (node: HTMLDivElement) => {
+		containerRef = node;
+		return () => {
+			if (containerRef === node) {
+				containerRef = null;
+			}
+		};
+	};
+
 	type TrailItem = {
 		el: HTMLImageElement;
 		rotation: number;
@@ -386,5 +395,5 @@
 <div
 	{...restProps}
 	class={cn("relative h-full w-full overflow-hidden", className)}
-	bind:this={containerRef}
+	{@attach attachContainerRef}
 ></div>
