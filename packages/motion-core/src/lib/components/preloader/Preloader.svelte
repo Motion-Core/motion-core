@@ -36,6 +36,23 @@
 	let isScaleUpRef: HTMLElement[] = $state([]);
 	let secondLoopImagesRef: HTMLImageElement[] = $state([]);
 
+	const attachContainerRef = (node: HTMLElement) => {
+		containerRef = node;
+	};
+
+	const attachRevealImageRef = (index: number) => (node: HTMLElement) => {
+		revealImagesRef[index] = node;
+	};
+
+	const attachScaleUpRef = (index: number) => (node: HTMLElement) => {
+		isScaleUpRef[index] = node;
+	};
+
+	const attachSecondLoopImageRef =
+		(index: number) => (node: HTMLImageElement) => {
+			secondLoopImagesRef[index] = node;
+		};
+
 	onMount(() => {
 		const middleIndex = Math.floor(images.length / 2);
 		const radiusTarget = isScaleUpRef[images.length + middleIndex];
@@ -111,7 +128,7 @@
 </script>
 
 <div
-	bind:this={containerRef}
+	{@attach attachContainerRef}
 	class={cn(
 		"fixed inset-0 z-999 flex items-center justify-center overflow-hidden",
 		className,
@@ -125,9 +142,9 @@
 		<div class="relative overflow-hidden">
 			<div class="absolute flex items-center justify-center rounded-[0.5em]">
 				{#each images as image, i (image.src)}
-					<div bind:this={revealImagesRef[i]} class="relative px-[1em]">
+					<div {@attach attachRevealImageRef(i)} class="relative px-[1em]">
 						<div
-							bind:this={isScaleUpRef[i]}
+							{@attach attachScaleUpRef(i)}
 							class="relative flex h-[10em] w-[10em] items-center justify-center rounded-[0.5em]"
 						>
 							<img
@@ -147,11 +164,11 @@
 				{#each images as image, i (image.src)}
 					{@const isMiddle = i === Math.floor(images.length / 2)}
 					<div
-						bind:this={revealImagesRef[images.length + i]}
+						{@attach attachRevealImageRef(images.length + i)}
 						class="relative px-[1em]"
 					>
 						<div
-							bind:this={isScaleUpRef[images.length + i]}
+							{@attach attachScaleUpRef(images.length + i)}
 							class:is--radius={isMiddle}
 							style={isMiddle
 								? "transition: border-radius 0.5s cubic-bezier(1, 0, 0, 1);"
@@ -161,7 +178,7 @@
 								: ''}"
 						>
 							<img
-								bind:this={secondLoopImagesRef[i]}
+								{@attach attachSecondLoopImageRef(i)}
 								loading="eager"
 								src={image.src}
 								alt={image.alt ?? ""}
