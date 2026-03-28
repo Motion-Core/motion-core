@@ -6,6 +6,8 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-03-28
+
 ### Changed
 
 - **Showcase / Card Stack**: Replaced `bind:this` with `{@attach ...}` for container ref management.
