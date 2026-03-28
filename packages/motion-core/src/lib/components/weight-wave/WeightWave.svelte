@@ -65,20 +65,30 @@
 		registerPluginOnce(SplitText);
 	});
 
-	let wrapperRef: HTMLSpanElement;
+	let wrapperRef: HTMLSpanElement | undefined;
 	let splitInstance: SplitText | null = null;
 	let charNodes: HTMLElement[] = [];
 	let charPositions: { x: number; width: number }[] = [];
 
+	const attachWrapperRef = (node: HTMLSpanElement) => {
+		wrapperRef = node;
+		return () => {
+			if (wrapperRef === node) {
+				wrapperRef = undefined;
+			}
+		};
+	};
+
 	$effect(() => {
 		if (typeof window === "undefined") return;
 		if (!wrapperRef) return;
+		const node = wrapperRef;
 
 		if (splitInstance) {
 			splitInstance.revert();
 		}
 
-		splitInstance = new SplitText(wrapperRef, {
+		splitInstance = new SplitText(node, {
 			type: "chars",
 			reduceWhiteSpace: false,
 		});
@@ -154,12 +164,12 @@
 			animateWeights(null);
 		};
 
-		wrapperRef.addEventListener("pointermove", handleMove);
-		wrapperRef.addEventListener("pointerleave", handleLeave);
+		node.addEventListener("pointermove", handleMove);
+		node.addEventListener("pointerleave", handleLeave);
 
 		return () => {
-			wrapperRef.removeEventListener("pointermove", handleMove);
-			wrapperRef.removeEventListener("pointerleave", handleLeave);
+			node.removeEventListener("pointermove", handleMove);
+			node.removeEventListener("pointerleave", handleLeave);
 			splitInstance?.revert();
 			splitInstance = null;
 			charNodes = [];
@@ -171,7 +181,7 @@
 <span
 	{...restProps}
 	class={cn("font-inherit inline-block align-baseline text-inherit", className)}
-	bind:this={wrapperRef}
+	{@attach attachWrapperRef}
 >
 	{@render children?.()}
 </span>

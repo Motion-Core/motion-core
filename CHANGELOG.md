@@ -15,6 +15,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **Canvas / Interactive Grid**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
 - **Showcase / Radial Gallery**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
 - **Typography / Split Reveal**: Replaced `bind:this` with `{@attach ...}` for wrapper ref lifecycle.
+- **Typography / Weight Wave**: Replaced `bind:this` with `{@attach ...}` for wrapper ref lifecycle.
 
 ## [0.6.0] - 2026-03-28
 
