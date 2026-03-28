@@ -21,6 +21,10 @@
 		{
 			"path": "../../utils/cn.ts",
 			"target": "utils"
+		},
+		{
+			"path": "../../helpers/gsap.ts",
+			"target": "helpers"
 		}
 	]
 }
