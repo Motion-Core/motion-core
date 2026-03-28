@@ -42,6 +42,18 @@
 	let thumbRef: HTMLElement;
 	let hoverTimeRef: HTMLElement;
 
+	const attachSliderRef = (node: HTMLElement) => {
+		sliderRef = node;
+	};
+
+	const attachThumbRef = (node: HTMLElement) => {
+		thumbRef = node;
+	};
+
+	const attachHoverTimeRef = (node: HTMLElement) => {
+		hoverTimeRef = node;
+	};
+
 	let isHovered = $state(false);
 	let isDragging = $state(false);
 	let hoverTime = $state(0);
@@ -207,7 +219,7 @@
 	onkeydown={handleKeyDown}
 >
 	<div
-		bind:this={sliderRef}
+		{@attach attachSliderRef}
 		class="relative h-1.5 w-full overflow-hidden rounded-lg bg-fixed-light/10 backdrop-blur-md transition-[height]"
 	>
 		<div
@@ -217,12 +229,12 @@
 	</div>
 
 	<div
-		bind:this={thumbRef}
+		{@attach attachThumbRef}
 		class="pointer-events-none absolute top-0 bottom-0 left-0 h-full w-px bg-accent opacity-0"
 	></div>
 
 	<div
-		bind:this={hoverTimeRef}
+		{@attach attachHoverTimeRef}
 		class="pointer-events-none absolute -top-8 left-0 -translate-x-1/2 rounded bg-fixed-light/10 px-1.5 py-0.5 font-mono text-[10px] leading-none text-fixed-light opacity-0 shadow-sm backdrop-blur-md"
 	>
 		{formatTime(hoverTime)}

@@ -22,6 +22,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **Pointer / Card3D Face Tracker**: Replaced `bind:this` with `{@attach ...}` for video ref lifecycle.
 - **Typography / Split Hover**: Replaced `bind:this` with `{@attach ...}` for wrapper/span ref lifecycle.
 - **Showcase / Slideshow**: Replaced `bind:this` with `{@attach ...}` for slide/image refs.
+- **Showcase / Video Slider**: Replaced `bind:this` with `{@attach ...}` for slider ref lifecycle.
 
 ## [0.6.0] - 2026-03-28
 
