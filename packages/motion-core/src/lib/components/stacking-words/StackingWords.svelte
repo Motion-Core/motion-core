@@ -65,6 +65,15 @@
 	let lineTweens: gsap.core.Tween[] = [];
 	const OFFSCREEN_MARGIN_PX = 8;
 
+	const attachWrapperRef = (node: HTMLElement) => {
+		wrapperRef = node;
+		return () => {
+			if (wrapperRef === node) {
+				wrapperRef = null;
+			}
+		};
+	};
+
 	onMount(() => {
 		registerPluginOnce(ScrollTrigger, SplitText);
 	});
@@ -174,7 +183,7 @@
 <div
 	{...restProps}
 	class={cn("stacking-words", className)}
-	bind:this={wrapperRef}
+	{@attach attachWrapperRef}
 >
 	{@render children?.()}
 </div>
