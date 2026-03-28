@@ -64,6 +64,15 @@
 	let container = $state<HTMLDivElement>();
 	let tween: gsap.core.Tween;
 
+	const attachContainer = (node: HTMLDivElement) => {
+		container = node;
+		return () => {
+			if (container === node) {
+				container = undefined;
+			}
+		};
+	};
+
 	let displayItems = $derived.by(() => {
 		const circumference = 2 * Math.PI * radius;
 		const spacePerItem = elementSize + gap;
@@ -104,7 +113,7 @@
 	)}
 >
 	<div
-		bind:this={container}
+		{@attach attachContainer}
 		class="absolute flex items-center justify-center"
 		style:width="{radius * 2}px"
 		style:height="{radius * 2}px"
