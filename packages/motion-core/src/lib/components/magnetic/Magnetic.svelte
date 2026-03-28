@@ -31,19 +31,30 @@
 		class: className = "",
 	}: Props = $props();
 
-	let element: HTMLElement;
+	let element: HTMLElement | undefined;
 	let xTo: gsap.QuickToFunc;
 	let yTo: gsap.QuickToFunc;
 
+	const attachElement = (node: HTMLElement) => {
+		element = node;
+		return () => {
+			if (element === node) {
+				element = undefined;
+			}
+		};
+	};
+
 	onMount(() => {
 		if (!element) return;
+		const currentElement = element;
 
-		xTo = gsap.quickTo(element, "x", { duration, ease });
-		yTo = gsap.quickTo(element, "y", { duration, ease });
+		xTo = gsap.quickTo(currentElement, "x", { duration, ease });
+		yTo = gsap.quickTo(currentElement, "y", { duration, ease });
 
 		const mouseMove = (e: MouseEvent) => {
 			const { clientX, clientY } = e;
-			const { height, width, left, top } = element.getBoundingClientRect();
+			const { height, width, left, top } =
+				currentElement.getBoundingClientRect();
 			const x = clientX - (left + width / 2);
 			const y = clientY - (top + height / 2);
 			xTo(x);
@@ -55,16 +66,16 @@
 			yTo(0);
 		};
 
-		element.addEventListener("mousemove", mouseMove);
-		element.addEventListener("mouseleave", mouseLeave);
+		currentElement.addEventListener("mousemove", mouseMove);
+		currentElement.addEventListener("mouseleave", mouseLeave);
 
 		return () => {
-			element.removeEventListener("mousemove", mouseMove);
-			element.removeEventListener("mouseleave", mouseLeave);
+			currentElement.removeEventListener("mousemove", mouseMove);
+			currentElement.removeEventListener("mouseleave", mouseLeave);
 		};
 	});
 </script>
 
-<div bind:this={element} class={className} role="presentation">
+<div {@attach attachElement} class={className} role="presentation">
 	{@render children?.()}
 </div>
