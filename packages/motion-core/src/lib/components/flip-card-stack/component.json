@@ -1,4 +1,5 @@
 {
+	"introducedAt": "2026-03-28",
 	"name": "Flip Card Stack",
 	"slug": "flip-card-stack",
 	"description": "A draggable stack where the top card snaps to the back after a threshold drag, with GSAP-driven transforms.",

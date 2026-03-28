@@ -143,6 +143,7 @@
       "name": "Flip Card Stack",
       "description": "A draggable stack where the top card snaps to the back after a threshold drag, with GSAP-driven transforms.",
       "category": "pointer",
+      "introducedAt": "2026-03-28",
       "dependencies": {
         "gsap": "^3.14.2"
       },

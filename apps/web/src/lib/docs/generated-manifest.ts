@@ -53,6 +53,7 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "flip-card-stack",
 		name: "Flip Card Stack",
 		category: "pointer",
+		introducedAt: "2026-03-28",
 		dependencies: {
 			gsap: "^3.14.2",
 		},
