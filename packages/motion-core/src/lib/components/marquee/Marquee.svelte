@@ -64,6 +64,14 @@
 
 		const parts = container?.querySelectorAll(".marquee-part");
 		if (!parts?.length) return;
+		const resolvedScroller =
+			typeof scrollElement === "string"
+				? document.querySelector<HTMLElement>(scrollElement)
+				: scrollElement instanceof HTMLElement
+					? scrollElement
+					: null;
+		const scroller =
+			resolvedScroller instanceof HTMLElement ? resolvedScroller : window;
 
 		let direction = reversed ? -1 : 1;
 
@@ -86,7 +94,7 @@
 		}
 
 		const trigger = ScrollTrigger.create({
-			scroller: scrollElement,
+			scroller,
 			onUpdate(self) {
 				const currentScrollDir = self.direction;
 				const targetDir = reversed ? -currentScrollDir : currentScrollDir;

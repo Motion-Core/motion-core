@@ -62,17 +62,19 @@
 
 		const ctx = gsap.context(() => {
 			const lastCard = cards[cards.length - 1];
-			const scroller =
+			const resolvedScroller =
 				typeof scrollElement === "string"
-					? document.querySelector(scrollElement)
+					? document.querySelector<HTMLElement>(scrollElement)
 					: scrollElement instanceof HTMLElement
 						? scrollElement
-						: window;
+						: null;
+			const scroller =
+				resolvedScroller instanceof HTMLElement ? resolvedScroller : window;
 
 			const scrollerHeight =
-				scroller === window
-					? window.innerHeight
-					: (scroller as HTMLElement).clientHeight;
+				scroller instanceof HTMLElement
+					? scroller.clientHeight
+					: window.innerHeight;
 
 			const lastCardHeight = lastCard.offsetHeight;
 			const targetPos = topOffset + (cards.length - 1) * offset;
@@ -102,7 +104,7 @@
 						endTrigger: container,
 						end: "bottom bottom",
 						scrub: true,
-						scroller: scrollElement || window,
+						scroller,
 						invalidateOnRefresh: true,
 					},
 				});

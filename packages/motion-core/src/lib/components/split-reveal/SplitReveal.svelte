@@ -100,6 +100,14 @@
 
 		const node = wrapperRef;
 		if (!node) return;
+		const resolvedScroller =
+			typeof scrollElement === "string"
+				? document.querySelector<HTMLElement>(scrollElement)
+				: scrollElement instanceof HTMLElement
+					? scrollElement
+					: null;
+		const scroller =
+			resolvedScroller instanceof HTMLElement ? resolvedScroller : window;
 
 		const split = SplitText.create(node, {
 			type: "lines, words, chars",
@@ -131,7 +139,7 @@
 			scrollTrigger: triggerOnScroll
 				? {
 						trigger: node,
-						scroller: scrollElement,
+						scroller,
 						start: "top 85%",
 					}
 				: undefined,

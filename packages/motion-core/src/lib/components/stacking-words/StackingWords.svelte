@@ -93,7 +93,14 @@
 		const triggerScrub = scrub;
 		const wordStagger = stagger;
 		const wordEase = ease;
-		const triggerScroller = scrollElement || window;
+		const resolvedScroller =
+			typeof scrollElement === "string"
+				? document.querySelector<HTMLElement>(scrollElement)
+				: scrollElement instanceof HTMLElement
+					? scrollElement
+					: null;
+		const triggerScroller =
+			resolvedScroller instanceof HTMLElement ? resolvedScroller : window;
 
 		let cancelled = false;
 
