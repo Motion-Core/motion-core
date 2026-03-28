@@ -47,10 +47,8 @@
 	let time = 0;
 	const { size, renderer } = useThrelte();
 
-	let canvasWidth = $state(1);
-	let canvasHeight = $state(1);
-	let imageWidth = $state(1);
-	let imageHeight = $state(1);
+	let canvasWidth = $derived(Math.max(1, $size.width));
+	let canvasHeight = $derived(Math.max(1, $size.height));
 
 	const coverScaleUniform = new Vector2(1, 1);
 	const coverOffsetUniform = new Vector2(0, 0);
@@ -86,14 +84,6 @@
 		coverScaleUniform.set(scaleX, scaleY);
 		coverOffsetUniform.set(offsetX, offsetY);
 	};
-
-	$effect(() => {
-		const nextWidth = $size.width;
-		const nextHeight = $size.height;
-		canvasWidth = nextWidth;
-		canvasHeight = nextHeight;
-		updateCoverUniforms();
-	});
 
 	$effect(() => {
 		colorUniform.set(color);
@@ -212,13 +202,11 @@
 		}),
 	);
 
+	let imageWidth = $derived($texture?.image?.width ?? 1);
+	let imageHeight = $derived($texture?.image?.height ?? 1);
+
 	$effect(() => {
-		const tex = $texture;
-		if (tex && tex.image) {
-			imageWidth = tex.image.width;
-			imageHeight = tex.image.height;
-			updateCoverUniforms();
-		}
+		updateCoverUniforms();
 	});
 
 	let material = $state<ShaderMaterial>();
