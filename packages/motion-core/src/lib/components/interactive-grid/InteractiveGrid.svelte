@@ -50,6 +50,15 @@
 	let mouseX = $state(0);
 	let mouseY = $state(0);
 
+	const attachContainer = (node: HTMLElement) => {
+		container = node;
+		return () => {
+			if (container === node) {
+				container = undefined;
+			}
+		};
+	};
+
 	function handleMouseMove(e: MouseEvent) {
 		if (!container) return;
 		const rect = container.getBoundingClientRect();
@@ -59,7 +68,7 @@
 </script>
 
 <div
-	bind:this={container}
+	{@attach attachContainer}
 	class={cn("relative h-full w-full overflow-hidden", className)}
 	onmousemove={handleMouseMove}
 	{...rest}
