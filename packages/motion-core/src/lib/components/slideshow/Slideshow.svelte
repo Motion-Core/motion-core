@@ -27,13 +27,20 @@
 	onMount(() => {
 		ensureMotionCoreEase();
 	});
-	let containerRef: HTMLElement;
 	let slidesRef: HTMLElement[] = $state([]);
 	let innersRef: HTMLElement[] = $state([]);
 	let currentIndex = $state(0);
 	let isAnimating = false;
 	let activeTimeline: gsap.core.Timeline | null = null;
 	const animationDuration = 1.5;
+
+	const attachSlide = (index: number) => (node: HTMLElement) => {
+		slidesRef[index] = node;
+	};
+
+	const attachInner = (index: number) => (node: HTMLImageElement) => {
+		innersRef[index] = node;
+	};
 	function navigate(targetIndex: number) {
 		if (isAnimating || targetIndex === currentIndex) return;
 		isAnimating = true;
@@ -77,17 +84,16 @@
 </script>
 
 <div
-	bind:this={containerRef}
 	class={cn("relative h-full w-full overflow-hidden", className)}
 	{...restProps}
 >
 	{#each images as image, i (image.src)}
 		<div
-			bind:this={slidesRef[i]}
+			{@attach attachSlide(i)}
 			class="pointer-events-none absolute inset-0 z-0 overflow-hidden will-change-[transform,opacity]"
 		>
 			<img
-				bind:this={innersRef[i]}
+				{@attach attachInner(i)}
 				src={image.src}
 				alt={image.alt ?? ""}
 				class="absolute h-full w-full object-cover will-change-transform"
