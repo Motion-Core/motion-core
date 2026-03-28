@@ -95,6 +95,15 @@
 
 	let wrapperRef: HTMLSpanElement | null = null;
 
+	const attachWrapperRef = (node: HTMLSpanElement) => {
+		wrapperRef = node;
+		return () => {
+			if (wrapperRef === node) {
+				wrapperRef = null;
+			}
+		};
+	};
+
 	$effect(() => {
 		if (typeof window === "undefined") return;
 
@@ -155,7 +164,7 @@
 <span
 	{...restProps}
 	class={cn("font-inherit relative align-baseline text-inherit", className)}
-	bind:this={wrapperRef}
+	{@attach attachWrapperRef}
 >
 	{@render children?.()}
 </span>
