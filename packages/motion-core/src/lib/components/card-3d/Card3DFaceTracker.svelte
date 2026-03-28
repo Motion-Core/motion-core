@@ -37,6 +37,15 @@
 	let isRunning = $state(false);
 	let error = $state<string | null>(null);
 
+	const attachVideo = (node: HTMLVideoElement) => {
+		video = node;
+		return () => {
+			if (video === node) {
+				video = undefined;
+			}
+		};
+	};
+
 	onMount(async () => {
 		try {
 			const filesetResolver = await FilesetResolver.forVisionTasks(
@@ -124,7 +133,7 @@
 {#if showPreview}
 	<div use:portal class="fixed right-4 bottom-4 z-50 rounded-lg {className}">
 		<video
-			bind:this={video}
+			{@attach attachVideo}
 			playsinline
 			muted
 			class="h-30 w-40 -scale-x-100 rounded-lg"
@@ -145,5 +154,5 @@
 		{/if}
 	</div>
 {:else}
-	<video bind:this={video} playsinline muted class="hidden"></video>
+	<video {@attach attachVideo} playsinline muted class="hidden"></video>
 {/if}

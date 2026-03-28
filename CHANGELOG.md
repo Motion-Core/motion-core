@@ -19,6 +19,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **Typography / Text Scramble**: Replaced `bind:this` with `{@attach ...}` for wrapper ref lifecycle.
 - **Typography / Stacking Words**: Replaced `bind:this` with `{@attach ...}` for wrapper ref lifecycle.
 - **Pointer / Image Trail**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
+- **Pointer / Card3D Face Tracker**: Replaced `bind:this` with `{@attach ...}` for video ref lifecycle.
 
 ## [0.6.0] - 2026-03-28
 
