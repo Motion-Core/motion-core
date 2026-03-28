@@ -47,6 +47,14 @@
 	let dockItems: (HTMLLIElement | null)[] = $state([]);
 	let dockTooltips: (HTMLDivElement | null)[] = $state([]);
 
+	const attachDockItem = (index: number) => (node: HTMLLIElement) => {
+		dockItems[index] = node;
+	};
+
+	const attachDockTooltip = (index: number) => (node: HTMLDivElement) => {
+		dockTooltips[index] = node;
+	};
+
 	let maxWidth = $derived(baseWidth * magnification);
 
 	$effect(() => {
@@ -121,7 +129,7 @@
 	>
 		{#each items as item, index (index)}
 			<li
-				bind:this={dockItems[index]}
+				{@attach attachDockItem(index)}
 				class="relative flex items-center justify-center"
 				style="width: {baseWidth}em;"
 				onmouseenter={() => (hoveredIndex = index)}
@@ -140,7 +148,7 @@
 
 				{#if item.label}
 					<div
-						bind:this={dockTooltips[index]}
+						{@attach attachDockTooltip(index)}
 						class="pointer-events-none absolute top-0 left-1/2 z-0 rounded border border-border bg-fixed-light px-2 py-1 text-sm whitespace-nowrap text-black opacity-0 shadow-md"
 					>
 						{item.label}

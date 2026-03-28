@@ -23,6 +23,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **Typography / Split Hover**: Replaced `bind:this` with `{@attach ...}` for wrapper/span ref lifecycle.
 - **Showcase / Slideshow**: Replaced `bind:this` with `{@attach ...}` for slide/image refs.
 - **Showcase / Video Slider**: Replaced `bind:this` with `{@attach ...}` for slider ref lifecycle.
+- **Pointer / MacOS Dock**: Replaced `bind:this` with `{@attach ...}` for dock item and tooltip refs.
 
 ## [0.6.0] - 2026-03-28
 
