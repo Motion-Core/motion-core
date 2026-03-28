@@ -2,8 +2,8 @@
 	import { Canvas } from "@threlte/core";
 	import Scene from "./GlobeScene.svelte";
 	import { cn } from "../../utils/cn";
-	import type { ComponentProps } from "svelte";
-	import type { GlobeMarker } from "./types";
+	import type { ComponentProps, Snippet } from "svelte";
+	import type { GlobeMarker, GlobeMarkerTooltipContext } from "./types";
 	import { NoToneMapping } from "three";
 
 	type SceneProps = ComponentProps<typeof Scene>;
@@ -57,6 +57,11 @@
 		 */
 		markers?: GlobeMarker[];
 		/**
+		 * Optional custom tooltip renderer for markers.
+		 * Receives marker data and visibility context.
+		 */
+		markerTooltip?: Snippet<[GlobeMarkerTooltipContext]>;
+		/**
 		 * Coordinates [lat, lon] to focus the camera on.
 		 * When set, auto-rotation will be disabled temporarily.
 		 */
@@ -76,6 +81,7 @@
 		autoRotate = true,
 		lockedPolarAngle = true,
 		markers = [],
+		markerTooltip,
 		focusOn = null,
 		...rest
 	}: Props = $props();
@@ -96,6 +102,7 @@
 				{autoRotate}
 				{lockedPolarAngle}
 				{markers}
+				{markerTooltip}
 				{focusOn}
 			/>
 		</Canvas>

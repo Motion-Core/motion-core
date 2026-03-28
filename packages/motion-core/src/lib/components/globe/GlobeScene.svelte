@@ -4,8 +4,9 @@
 	import * as THREE from "three";
 	import type { OrbitControls as OrbitControlsType } from "three/examples/jsm/controls/OrbitControls.js";
 	import { gsap } from "gsap/dist/gsap";
+	import type { Snippet } from "svelte";
 	import landGeoJsonRaw from "../../assets/ne_110m_land.geojson?raw";
-	import type { GlobeMarker } from "./types";
+	import type { GlobeMarker, GlobeMarkerTooltipContext } from "./types";
 	import GlobeMarkerItem from "./GlobeMarkerItem.svelte";
 
 	interactivity();
@@ -24,7 +25,7 @@
 		/**
 		 * Controls how tight the Fresnel rim hug is.
 		 * Higher values yield a thinner outline.
-		 * @default 3
+		 * @default 6
 		 */
 		rimPower?: number;
 		/**
@@ -58,7 +59,7 @@
 		coefficient?: number;
 		/**
 		 * Global intensity multiplier.
-		 * @default 1.0
+		 * @default 2.0
 		 */
 		intensity?: number;
 	}
@@ -89,7 +90,7 @@
 		pointSize?: number;
 		/**
 		 * Color applied to points representing land.
-		 * @default "#FF6900"
+		 * @default "#f77114"
 		 */
 		landPointColor?: THREE.ColorRepresentation;
 		/**
@@ -106,6 +107,10 @@
 		 * Markers to display on the globe.
 		 */
 		markers?: GlobeMarker[];
+		/**
+		 * Optional custom tooltip renderer for markers.
+		 */
+		markerTooltip?: Snippet<[GlobeMarkerTooltipContext]>;
 		/**
 		 * Coordinates [lat, lon] to focus on.
 		 */
@@ -163,6 +168,7 @@
 		autoRotate = true,
 		lockedPolarAngle = true,
 		markers = [],
+		markerTooltip,
 		focusOn = null,
 	}: Props = $props();
 
@@ -594,6 +600,7 @@
 					side={THREE.DoubleSide}
 					blending={THREE.AdditiveBlending}
 					transparent
+					depthWrite={false}
 					toneMapped={false}
 				/>
 			</T.InstancedMesh>
@@ -604,8 +611,13 @@
 		{@const pos = lonLatToCartesian(
 			marker.location[1],
 			marker.location[0],
-			radius * 1.002,
+			radius,
 		)}
-		<GlobeMarkerItem {marker} {radius} position={[pos.x, pos.y, pos.z]} />
+		<GlobeMarkerItem
+			{marker}
+			index={i}
+			position={[pos.x, pos.y, pos.z]}
+			tooltip={markerTooltip}
+		/>
 	{/each}
 </T.Group>

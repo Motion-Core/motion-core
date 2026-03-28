@@ -26,7 +26,7 @@
 		},
 		{
 			"path": "types.ts",
-			"typeExports": ["GlobeMarker"]
+			"typeExports": ["GlobeMarker", "GlobeMarkerTooltipContext"]
 		},
 		{
 			"path": "../../utils/cn.ts",

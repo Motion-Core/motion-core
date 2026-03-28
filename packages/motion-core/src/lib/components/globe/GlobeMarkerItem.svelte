@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { T, useTask } from "@threlte/core";
+	import { T, useTask, useThrelte } from "@threlte/core";
 	import { HTML } from "@threlte/extras";
 	import * as THREE from "three";
-	import type { GlobeMarker } from "./types";
+	import type { Snippet } from "svelte";
+	import type { GlobeMarker, GlobeMarkerTooltipContext } from "./types";
 
 	interface Props {
 		/**
@@ -10,60 +11,103 @@
 		 */
 		marker: GlobeMarker;
 		/**
-		 * The radius of the globe sphere. Used to calculate surface projection.
-		 */
-		radius: number;
-		/**
 		 * The 3D world position of the marker [x, y, z].
 		 */
 		position: [number, number, number] | { x: number; y: number; z: number };
 		/**
-		 * Callback when the pointer enters the marker area.
+		 * Marker index in the markers array.
 		 */
-		onpointerenter?: () => void;
+		index: number;
 		/**
-		 * Callback when the pointer leaves the marker area.
+		 * Optional custom tooltip snippet.
 		 */
-		onpointerleave?: () => void;
+		tooltip?: Snippet<[GlobeMarkerTooltipContext]>;
 	}
 
-	let { marker, position, onpointerenter, onpointerleave }: Props = $props();
+	let { marker, index, position, tooltip }: Props = $props();
 
-	let isHovered = $state(false);
-
-	function handlePointerEnter() {
-		isHovered = true;
-		onpointerenter?.();
-	}
-
-	function handlePointerLeave() {
-		isHovered = false;
-		onpointerleave?.();
-	}
-
-	let pinHeight = $derived(marker.pinHeight ?? 0.75);
-	let headRadius = $derived(marker.headRadius ?? 0.1);
+	let tooltipVisibility = $state(1);
+	let tooltipBlur = $state(0);
 
 	let group = $state<THREE.Group>();
-	let pulseMesh = $state<THREE.Mesh>();
-	let pulseMaterial = $state<THREE.MeshBasicMaterial>();
 
-	let pulseTimer = 0;
+	const { camera } = useThrelte();
+	const markerDirection = new THREE.Vector3();
+	const cameraDirection = new THREE.Vector3();
+	const worldPosition = new THREE.Vector3();
+	const origin = new THREE.Vector3(0, 0, 0);
 
-	useTask((delta) => {
-		if (pulseMesh && pulseMaterial) {
-			pulseTimer += delta * 1.5;
-			const t = pulseTimer % 1;
+	const MAX_TOOLTIP_BLUR = 8;
+	const VISIBILITY_MIN_DOT = 0.24;
+	const VISIBILITY_MAX_DOT = 0.48;
 
-			const scale = 1.0 + t * 1.5;
-			pulseMesh.scale.setScalar(scale);
+	function cubicBezierAt(
+		t: number,
+		p0: number,
+		p1: number,
+		p2: number,
+		p3: number,
+	): number {
+		const u = 1 - t;
+		return (
+			u * u * u * p0 + 3 * u * u * t * p1 + 3 * u * t * t * p2 + t * t * t * p3
+		);
+	}
 
-			pulseMaterial.opacity = Math.max(0, 0.8 * (1.0 - t));
+	function cubicBezierDerivativeAt(
+		t: number,
+		p0: number,
+		p1: number,
+		p2: number,
+		p3: number,
+	): number {
+		const u = 1 - t;
+		return (
+			3 * u * u * (p1 - p0) + 6 * u * t * (p2 - p1) + 3 * t * t * (p3 - p2)
+		);
+	}
+
+	function dynamicEase(value: number): number {
+		const clamped = THREE.MathUtils.clamp(value, 0, 1);
+		let t = clamped;
+		for (let i = 0; i < 5; i++) {
+			const x = cubicBezierAt(t, 0, 0.625, 0, 1);
+			const dx = cubicBezierDerivativeAt(t, 0, 0.625, 0, 1);
+			if (Math.abs(dx) < 1e-6) break;
+			t = THREE.MathUtils.clamp(t - (x - clamped) / dx, 0, 1);
+		}
+		return cubicBezierAt(t, 0, 0.05, 1, 1);
+	}
+
+	useTask(() => {
+		if (group && $camera) {
+			group.getWorldPosition(worldPosition);
+			markerDirection.copy(worldPosition).normalize();
+			cameraDirection.copy($camera.position).normalize();
+
+			const frontDot = markerDirection.dot(cameraDirection);
+			const rawVisibility = THREE.MathUtils.smoothstep(
+				frontDot,
+				VISIBILITY_MIN_DOT,
+				VISIBILITY_MAX_DOT,
+			);
+			const visibility = dynamicEase(rawVisibility);
+
+			tooltipVisibility = visibility;
+			tooltipBlur = (1 - visibility) * MAX_TOOLTIP_BLUR;
 		}
 	});
 
 	let color = $derived(new THREE.Color(marker.color || "#ffffff"));
-	let scale = $derived((marker.size || 0.1) * 3);
+	let pointRadius = $derived(
+		Math.max(0.001, marker.size ?? marker.headRadius ?? 0.05),
+	);
+	let tooltipContext = $derived<GlobeMarkerTooltipContext>({
+		marker,
+		index,
+		visibility: tooltipVisibility,
+	});
+	let markerOpacity = $derived(tooltipVisibility);
 	let normalizedPosition = $derived(
 		Array.isArray(position)
 			? position
@@ -71,53 +115,41 @@
 	);
 
 	$effect(() => {
-		if (group) {
-			group.lookAt(new THREE.Vector3(0, 0, 0));
-		}
+		if (!group || !normalizedPosition) return;
+		group.lookAt(origin);
 	});
 </script>
 
-<T.Group
-	bind:ref={group}
-	position={normalizedPosition}
-	scale={[scale, scale, scale]}
->
-	<T.Mesh position.z={-pinHeight / 2} rotation.x={Math.PI / 2}>
-		<T.CylinderGeometry args={[0.02, 0.02, pinHeight, 8]} />
-		<T.MeshBasicMaterial {color} />
-	</T.Mesh>
-
-	<T.Mesh
-		position.z={-pinHeight}
-		onpointerenter={handlePointerEnter}
-		onpointerleave={handlePointerLeave}
-	>
-		<T.SphereGeometry args={[headRadius, 16, 16]} />
-		<T.MeshBasicMaterial {color} />
-	</T.Mesh>
-
-	<T.Mesh bind:ref={pulseMesh} position.z={-pinHeight}>
-		<T.SphereGeometry args={[headRadius, 16, 16]} />
+<T.Group bind:ref={group} position={normalizedPosition}>
+	<T.Mesh renderOrder={10}>
+		<T.CircleGeometry args={[pointRadius, 24]} />
 		<T.MeshBasicMaterial
-			bind:ref={pulseMaterial}
 			{color}
+			side={THREE.DoubleSide}
 			transparent
+			opacity={markerOpacity}
+			depthTest={false}
 			depthWrite={false}
+			toneMapped={false}
 		/>
 	</T.Mesh>
 
-	{#if marker.label}
-		<HTML
-			position={[0, 0, -pinHeight - headRadius * 2]}
-			center
-			pointerEvents="none"
-		>
+	{#if tooltip || marker.label}
+		<HTML position={[0, 0, 0]} center>
 			<div
-				class="bg-fixed-dark/80 pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded px-2 py-1 text-xs whitespace-nowrap text-fixed-light backdrop-blur-sm transition-opacity duration-200"
-				class:opacity-100={isHovered}
-				class:opacity-0={!isHovered}
+				class="pointer-events-none inline-flex -translate-y-6 flex-col items-center transition-[opacity,filter] duration-200 ease-out"
+				style:opacity={tooltipVisibility}
+				style:filter={`blur(${tooltipBlur}px)`}
 			>
-				{marker.label}
+				{#if tooltip}
+					{@render tooltip(tooltipContext)}
+				{:else}
+					<div
+						class="bg-fixed-dark/80 rounded-xs px-2 py-1 text-xs whitespace-nowrap text-fixed-light backdrop-blur-sm"
+					>
+						{marker.label}
+					</div>
+				{/if}
 			</div>
 		</HTML>
 	{/if}

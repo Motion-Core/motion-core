@@ -29,6 +29,10 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **Navigation / Floating Menu**: Replaced `bind:this` with `{@attach ...}` for overlay/container/toggle refs.
 - **Canvas / ASCII Renderer**: Replaced effect-driven metric assignments with `$derived` values for canvas/image sizing.
 - **Canvas / Globe**: Replaced effect-driven derived state (`filteredPositions`, atmosphere scale/config) with `$derived` computations.
+- **Canvas / Globe**: Reworked markers from pin meshes to surface-aligned point markers (no pulse animation) with updated default marker size.
+- **Canvas / Globe**: Added `markerTooltip` snippet API and exported `GlobeMarkerTooltipContext` for custom tooltip rendering.
+- **Canvas / Globe**: Moved tooltip hide/show behavior fully inside the component (occlusion-driven opacity/blur with custom easing and earlier hide threshold).
+- **Canvas / Globe**: Adjusted depth/render ordering so marker color is not washed out by additive land dots.
 
 ## [0.6.0] - 2026-03-28
 
