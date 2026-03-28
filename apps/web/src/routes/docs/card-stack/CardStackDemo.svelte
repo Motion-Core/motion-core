@@ -28,11 +28,9 @@
 >
 	{#each items as item (item)}
 		<CardStackItem
-			class="mx-auto flex h-96 w-80 flex-col rounded-lg border border-border bg-background-inset p-2 shadow-md md:w-120 md:group-data-[fullscreen=true]/preview:h-dvh md:group-data-[fullscreen=true]/preview:w-7xl"
+			class="inset-shadow mx-auto flex h-96 w-80 flex-col rounded-lg bg-background-inset p-1.5 md:w-120 md:group-data-[fullscreen=true]/preview:h-dvh md:group-data-[fullscreen=true]/preview:w-7xl"
 		>
-			<div
-				class="relative flex-1 overflow-hidden rounded-md border border-border"
-			>
+			<div class="card relative flex-1 overflow-hidden rounded-md">
 				<img
 					src={item}
 					alt="Sample"

@@ -24,11 +24,9 @@
 >
 	{#snippet children(item)}
 		<div
-			class="relative h-48 w-48 rounded-lg border border-border bg-background-inset shadow-md group-data-[fullscreen=true]/preview:h-96 group-data-[fullscreen=true]/preview:w-96"
+			class="inset-shadow relative h-48 w-48 rounded-lg bg-background-inset p-1.5 group-data-[fullscreen=true]/preview:h-96 group-data-[fullscreen=true]/preview:w-96"
 		>
-			<div
-				class="absolute inset-1 overflow-hidden rounded-md border border-border bg-background"
-			>
+			<div class="card h-full overflow-hidden rounded-md bg-background">
 				<img src={item} class="h-full w-full object-cover" alt="Gallery item" />
 			</div>
 		</div>
