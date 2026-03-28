@@ -74,6 +74,34 @@
 	let durationStr = $derived(formatTime(duration));
 	let rafId: number;
 
+	const attachVideoRef = (node: HTMLVideoElement) => {
+		videoRef = node;
+	};
+
+	const attachContainerRef = (node: HTMLElement) => {
+		containerRef = node;
+	};
+
+	const attachControlsRef = (node: HTMLElement) => {
+		controlsRef = node;
+	};
+
+	const attachBgRef = (node: HTMLElement) => {
+		bgRef = node;
+	};
+
+	const attachPathRef = (node: SVGPathElement) => {
+		pathRef = node;
+	};
+
+	const attachPlayPathRef = (node: SVGPathElement) => {
+		playPathRef = node;
+	};
+
+	const attachMutePathRef = (node: SVGPathElement) => {
+		mutePathRef = node;
+	};
+
 	const enterPath = "M15 3h6v6 M9 21H3v-6 M21 3l-7 7 M3 21l7-7";
 	const exitPath =
 		"M8 3v3a2 2 0 0 1-2 2H3 M21 8h-3a2 2 0 0 1-2-2V3 M3 16h3a2 2 0 0 1 2 2v3 M16 21v-3a2 2 0 0 1 2-2h3";
@@ -337,7 +365,7 @@
 </script>
 
 <div
-	bind:this={containerRef}
+	{@attach attachContainerRef}
 	onmouseenter={() => (isHovered = true)}
 	onmouseleave={() => (isHovered = false)}
 	role="region"
@@ -352,7 +380,7 @@
 >
 	<!-- svelte-ignore a11y_media_has_caption -->
 	<video
-		bind:this={videoRef}
+		{@attach attachVideoRef}
 		{src}
 		{poster}
 		{autoplay}
@@ -368,7 +396,7 @@
 	></video>
 
 	<div
-		bind:this={bgRef}
+		{@attach attachBgRef}
 		class={cn(
 			"pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-32 bg-linear-to-t from-black/70 via-black/45 to-transparent opacity-0",
 			hideControls && "hidden",
@@ -376,7 +404,7 @@
 	></div>
 
 	<div
-		bind:this={controlsRef}
+		{@attach attachControlsRef}
 		class={cn(
 			"pointer-events-none absolute right-0 bottom-0 left-0 z-20 flex items-center gap-3 px-4 pt-10 pb-4",
 			hideControls && "hidden",
@@ -394,7 +422,7 @@
 				fill="currentColor"
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<path bind:this={playPathRef} d={iconPlay} />
+				<path {@attach attachPlayPathRef} d={iconPlay} />
 			</svg>
 		</button>
 
@@ -428,7 +456,7 @@
 				fill="currentColor"
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<path bind:this={mutePathRef} d={iconVolume} />
+				<path {@attach attachMutePathRef} d={iconVolume} />
 			</svg>
 		</button>
 
@@ -447,7 +475,7 @@
 				stroke-linecap="round"
 				stroke-linejoin="round"
 			>
-				<path bind:this={pathRef} d={enterPath} />
+				<path {@attach attachPathRef} d={enterPath} />
 			</svg>
 		</button>
 	</div>
