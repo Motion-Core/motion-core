@@ -10,6 +10,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 - **Showcase / Card Stack**: Replaced `bind:this` with `{@attach ...}` for container ref management.
 - **Pointer / Magnetic**: Replaced `bind:this` with `{@attach ...}` for element ref lifecycle.
+- **Showcase / Marquee**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
 
 ## [0.6.0] - 2026-03-28
 

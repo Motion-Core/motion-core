@@ -59,6 +59,15 @@
 
 	let container = $state<HTMLElement>();
 
+	const attachContainer = (node: HTMLElement) => {
+		container = node;
+		return () => {
+			if (container === node) {
+				container = undefined;
+			}
+		};
+	};
+
 	onMount(() => {
 		registerPluginOnce(ScrollTrigger);
 
@@ -126,7 +135,7 @@
 	});
 </script>
 
-<div bind:this={container} class={cn("flex h-full w-full", className)}>
+<div {@attach attachContainer} class={cn("flex h-full w-full", className)}>
 	{#each Array(repeat) as _, i (i)}
 		<div
 			class="marquee-part flex shrink-0"
