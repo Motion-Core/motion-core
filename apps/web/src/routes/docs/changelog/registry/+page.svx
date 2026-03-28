@@ -3,6 +3,56 @@ title: Registry Changelog
 description: All notable changes to Motion Core Component Registry.
 ---
 
+## [Unreleased]
+
+## [0.7.0] - 2026-03-28
+
+### Changed
+
+- **Showcase / Card Stack**: Replaced `bind:this` with `{@attach ...}` for container ref management.
+- **Pointer / Magnetic**: Replaced `bind:this` with `{@attach ...}` for element ref lifecycle.
+- **Showcase / Marquee**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
+- **Layout / Flip Grid**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
+- **Canvas / Interactive Grid**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
+- **Showcase / Radial Gallery**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
+- **Typography / Split Reveal**: Replaced `bind:this` with `{@attach ...}` for wrapper ref lifecycle.
+- **Typography / Weight Wave**: Replaced `bind:this` with `{@attach ...}` for wrapper ref lifecycle.
+- **Typography / Text Scramble**: Replaced `bind:this` with `{@attach ...}` for wrapper ref lifecycle.
+- **Typography / Stacking Words**: Replaced `bind:this` with `{@attach ...}` for wrapper ref lifecycle.
+- **Pointer / Image Trail**: Replaced `bind:this` with `{@attach ...}` for container ref lifecycle.
+- **Pointer / Card3D Face Tracker**: Replaced `bind:this` with `{@attach ...}` for video ref lifecycle.
+- **Typography / Split Hover**: Replaced `bind:this` with `{@attach ...}` for wrapper/span ref lifecycle.
+- **Showcase / Slideshow**: Replaced `bind:this` with `{@attach ...}` for slide/image refs.
+- **Showcase / Video Slider**: Replaced `bind:this` with `{@attach ...}` for slider ref lifecycle.
+- **Pointer / MacOS Dock**: Replaced `bind:this` with `{@attach ...}` for dock item and tooltip refs.
+- **Showcase / Video Player**: Replaced `bind:this` with `{@attach ...}` for player/control/icon refs.
+- **Transition / Preloader**: Replaced `bind:this` with `{@attach ...}` for container and staged image refs.
+- **Navigation / Floating Menu**: Replaced `bind:this` with `{@attach ...}` for overlay/container/toggle refs.
+- **Canvas / ASCII Renderer**: Replaced effect-driven metric assignments with `$derived` values for canvas/image sizing.
+- **Canvas / Globe**: Replaced effect-driven derived state (`filteredPositions`, atmosphere scale/config) with `$derived` computations.
+- **Canvas / Globe**: Reworked markers from pin meshes to surface-aligned point markers (no pulse animation) with updated default marker size.
+- **Canvas / Globe**: Added `markerTooltip` snippet API and exported `GlobeMarkerTooltipContext` for custom tooltip rendering.
+- **Canvas / Globe**: Moved tooltip hide/show behavior fully inside the component (occlusion-driven opacity/blur with custom easing and earlier hide threshold).
+- **Canvas / Globe**: Adjusted depth/render ordering so marker color is not washed out by additive land dots.
+
+## [0.6.0] - 2026-03-28
+
+### Added
+
+- **1 component**:
+  - **Pointer**: Flip Card Stack.
+
+- **GSAP helpers**:
+  - Added `registerPluginOnce`.
+  - Added `ensureMotionCoreEase`.
+  - Included helper manifests for GSAP-based components.
+
+### Changed
+
+- **Scroll behavior**: Normalized `scrollElement` scroller resolution in:
+  - **Showcase**: Card Stack, Marquee.
+  - **Typography**: Split Reveal, Stacking Words.
+
 ## [0.5.1] - 2026-03-25
 
 ### Added
@@ -25,7 +75,6 @@ description: All notable changes to Motion Core Component Registry.
   - **Showcase / Slideshow**: Cleans up active GSAP timeline on destroy.
   - **Showcase / Video Player Slider**: Guards refs and cleans up GSAP tweens on effect cleanup.
 
-
 ## [0.5.0] - 2026-03-18
 
 ### Added
@@ -34,7 +83,6 @@ description: All notable changes to Motion Core Component Registry.
   - **Canvas**: God Rays.
   - **Canvas**: Specular Band.
   - **Canvas**: Halo.
-
 
 ## [0.4.1] - 2026-03-15
 
