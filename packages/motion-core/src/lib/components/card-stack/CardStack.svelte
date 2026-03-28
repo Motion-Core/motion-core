@@ -45,7 +45,16 @@
 		scrollElement,
 	}: Props = $props();
 
-	let container: HTMLElement;
+	let container: HTMLElement | undefined;
+
+	const attachContainer = (node: HTMLElement) => {
+		container = node;
+		return () => {
+			if (container === node) {
+				container = undefined;
+			}
+		};
+	};
 
 	onMount(() => {
 		registerPluginOnce(ScrollTrigger);
@@ -53,9 +62,10 @@
 
 	$effect(() => {
 		if (!container) return;
+		const containerElement = container;
 
 		const cards = Array.from(
-			container.querySelectorAll(".card-stack-item"),
+			containerElement.querySelectorAll(".card-stack-item"),
 		) as HTMLElement[];
 
 		if (cards.length === 0) return;
@@ -84,7 +94,7 @@
 			);
 
 			if (extraPadding > 0) {
-				gsap.set(container, { paddingBottom: extraPadding });
+				gsap.set(containerElement, { paddingBottom: extraPadding });
 			}
 
 			cards.forEach((card, index) => {
@@ -101,7 +111,7 @@
 					scrollTrigger: {
 						trigger: card,
 						start: `top top+=${cardTop}`,
-						endTrigger: container,
+						endTrigger: containerElement,
 						end: "bottom bottom",
 						scrub: true,
 						scroller,
@@ -118,7 +128,7 @@
 					});
 				}
 			});
-		}, container);
+		}, containerElement);
 
 		return () => {
 			ctx.revert();
@@ -126,6 +136,6 @@
 	});
 </script>
 
-<div bind:this={container} class={cn("relative w-full", className)}>
+<div {@attach attachContainer} class={cn("relative w-full", className)}>
 	{@render children?.()}
 </div>

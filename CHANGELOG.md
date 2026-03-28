@@ -4,6 +4,12 @@ All notable changes to **Motion Core** will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- **Showcase / Card Stack**: Replaced `bind:this` with `{@attach ...}` for container ref management.
+
 ## [0.6.0] - 2026-03-28
 
 ### Added
@@ -44,7 +50,6 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
   - **Showcase / Slideshow**: Cleans up active GSAP timeline on destroy.
   - **Showcase / Video Player Slider**: Guards refs and cleans up GSAP tweens on effect cleanup.
 
-
 ## [0.5.0] - 2026-03-18
 
 ### Added
@@ -53,7 +58,6 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
   - **Canvas**: God Rays.
   - **Canvas**: Specular Band.
   - **Canvas**: Halo.
-
 
 ## [0.4.1] - 2026-03-15
 
