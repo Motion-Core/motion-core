@@ -50,6 +50,14 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "flip-card-stack",
+		name: "Flip Card Stack",
+		category: "pointer",
+		dependencies: {
+			gsap: "^3.14.2",
+		},
+	},
+	{
 		slug: "flip-grid",
 		name: "Flip Grid",
 		category: "layout",

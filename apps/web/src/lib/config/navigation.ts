@@ -156,6 +156,10 @@ export const docsNavigation: DocItem[] = [
 		name: "Pointer",
 		items: [
 			{
+				slug: "flip-card-stack",
+				name: "Flip Card Stack",
+			},
+			{
 				slug: "image-trail",
 				name: "Image Trail",
 			},

@@ -1,0 +1,106 @@
+---
+name: Flip Card Stack
+description: A draggable stack where the top card snaps to the back after a threshold drag, with GSAP-driven transforms.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import flipCardStackSource from "motion-core/components/flip-card-stack/FlipCardStack.svelte?raw";
+	import FlipCardStackDemo from "./FlipCardStackDemo.svelte";
+	import flipCardStackDemoSource from "./FlipCardStackDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="flip-card-stack" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { FlipCardStack } from "motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: flipCardStackDemoSource, language: "svelte" },
+		{
+			name: "FlipCardStack.svelte",
+			code: flipCardStackSource,
+			language: "svelte",
+		},
+	]}
+>
+	<FlipCardStackDemo />
+</ComponentPreview>
+
+## Props
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "items",
+			type: "T[]",
+			default: "—",
+			description: "Array of items rendered as stack cards.",
+		},
+		{
+			prop: "children",
+			type: "Snippet<[T, number]>",
+			default: "—",
+			description: "Snippet used to render each card content.",
+		},
+		{
+			prop: "stackOffset",
+			type: "number",
+			default: "8",
+			description: "Vertical spacing between cards in the stack.",
+		},
+		{
+			prop: "stackRotation",
+			type: "number",
+			default: "-10",
+			description: "Rotation step (deg) for cards below the top card.",
+		},
+		{
+			prop: "dragThreshold",
+			type: "number",
+			default: "80",
+			description:
+				"Minimum drag distance required to move the top card to the back.",
+		},
+		{
+			prop: "duration",
+			type: "number",
+			default: "0.3",
+			description: "Animation duration in seconds.",
+		},
+		{
+			prop: "ease",
+			type: "string",
+			default: '"power2.out"',
+			description: "GSAP ease string.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the root container.",
+		},
+	]}
+/>
