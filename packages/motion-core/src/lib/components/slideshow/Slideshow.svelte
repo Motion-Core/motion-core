@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { gsap } from "gsap/dist/gsap";
-	import { CustomEase } from "gsap/dist/CustomEase";
 	import { onDestroy, onMount } from "svelte";
+	import { ensureMotionCoreEase } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
 	interface Image {
 		src: string;
@@ -25,8 +25,7 @@
 		...restProps
 	}: ComponentProps = $props();
 	onMount(() => {
-		gsap.registerPlugin(CustomEase);
-		CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
+		ensureMotionCoreEase();
 	});
 	let containerRef: HTMLElement;
 	let slidesRef: HTMLElement[] = $state([]);

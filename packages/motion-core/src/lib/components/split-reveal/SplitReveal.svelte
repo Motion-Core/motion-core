@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { gsap } from "gsap/dist/gsap";
-	import { CustomEase } from "gsap/dist/CustomEase";
 	import { SplitText } from "gsap/dist/SplitText";
 	import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 	import type { Snippet } from "svelte";
 	import { onMount } from "svelte";
+	import { ensureMotionCoreEase, registerPluginOnce } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
 
 	type SplitMode = "lines" | "words" | "chars";
@@ -68,10 +68,8 @@
 	};
 
 	onMount(() => {
-		gsap.registerPlugin(SplitText);
-		gsap.registerPlugin(CustomEase);
-		gsap.registerPlugin(ScrollTrigger);
-		CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
+		registerPluginOnce(SplitText, ScrollTrigger);
+		ensureMotionCoreEase();
 	});
 
 	let {

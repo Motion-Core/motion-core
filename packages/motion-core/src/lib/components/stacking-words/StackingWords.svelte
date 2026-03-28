@@ -4,6 +4,7 @@
 	import { SplitText } from "gsap/dist/SplitText";
 	import { onMount } from "svelte";
 	import type { Snippet } from "svelte";
+	import { registerPluginOnce } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
 
 	interface Props {
@@ -65,8 +66,7 @@
 	const OFFSCREEN_MARGIN_PX = 8;
 
 	onMount(() => {
-		gsap.registerPlugin(ScrollTrigger);
-		gsap.registerPlugin(SplitText);
+		registerPluginOnce(ScrollTrigger, SplitText);
 	});
 
 	function killLineTweens() {

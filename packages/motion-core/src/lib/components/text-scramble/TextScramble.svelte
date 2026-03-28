@@ -3,6 +3,7 @@
 	import { SplitText } from "gsap/dist/SplitText";
 	import { onMount } from "svelte";
 	import type { Snippet } from "svelte";
+	import { registerPluginOnce } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
 
 	interface ComponentProps {
@@ -53,7 +54,7 @@
 	}: ComponentProps = $props();
 
 	onMount(() => {
-		gsap.registerPlugin(SplitText);
+		registerPluginOnce(SplitText);
 	});
 
 	let wrapperRef: HTMLSpanElement;

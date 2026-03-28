@@ -2,11 +2,11 @@
 	import { untrack } from "svelte";
 	import { gsap } from "gsap/dist/gsap";
 	import { SplitText } from "gsap/dist/SplitText";
-	import { CustomEase } from "gsap/dist/CustomEase";
 	import { onMount } from "svelte";
 	import type { ClassValue } from "clsx";
 
 	import type { Snippet } from "svelte";
+	import { ensureMotionCoreEase, registerPluginOnce } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
 	import { portal } from "../../utils/use-portal";
 
@@ -134,9 +134,8 @@
 	}
 
 	onMount(() => {
-		gsap.registerPlugin(SplitText);
-		gsap.registerPlugin(CustomEase);
-		CustomEase.create("motion-core-ease", "0.625, 0.05, 0, 1");
+		registerPluginOnce(SplitText);
+		ensureMotionCoreEase();
 	});
 
 	$effect(() => {

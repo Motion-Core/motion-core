@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import { gsap } from "gsap/dist/gsap";
 	import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+	import { registerPluginOnce } from "../../helpers/gsap";
 	import type { Snippet } from "svelte";
 	import { cn } from "../../utils/cn";
 
@@ -59,7 +60,7 @@
 	let container = $state<HTMLElement>();
 
 	onMount(() => {
-		gsap.registerPlugin(ScrollTrigger);
+		registerPluginOnce(ScrollTrigger);
 
 		const parts = container?.querySelectorAll(".marquee-part");
 		if (!parts?.length) return;
