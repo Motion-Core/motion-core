@@ -28,6 +28,14 @@
 	font-display: swap;
 }
 
+@font-face {
+	font-family: "FK Grotesk Neue";
+	src: url("/fonts/FKGroteskNeue.woff2") format("woff2");
+	font-weight: 200 900;
+	font-style: normal;
+	font-display: swap;
+}
+
 html {
 	scroll-behavior: smooth;
 }
@@ -88,6 +96,7 @@ html {
 
 @theme inline {
 	--font-sans: "APK Galeria";
+	--font-variable: "FK Grotesk Neue";
 	--font-mono: "Berkeley Mono";
 
 	--color-background-inset: var(--background-inset);
