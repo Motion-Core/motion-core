@@ -4,6 +4,24 @@ All notable changes to **Motion Core** will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.6.0] - 2026-03-28
+
+### Added
+
+- **1 component**:
+  - **Pointer**: Flip Card Stack.
+
+- **GSAP helpers**:
+  - Added `registerPluginOnce`.
+  - Added `ensureMotionCoreEase`.
+  - Included helper manifests for GSAP-based components.
+
+### Changed
+
+- **Scroll behavior**: Normalized `scrollElement` scroller resolution in:
+  - **Showcase**: Card Stack, Marquee.
+  - **Typography**: Split Reveal, Stacking Words.
+
 ## [0.5.1] - 2026-03-25
 
 ### Added
