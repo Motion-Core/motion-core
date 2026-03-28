@@ -23,6 +23,7 @@ export { default as NeuralNoise } from "./neural-noise/NeuralNoise.svelte";
 export { default as RadialGallery } from "./radial-gallery/RadialGallery.svelte";
 export { default as FlipGrid } from "./flip-grid/FlipGrid.svelte";
 export { default as FlipGridItem } from "./flip-grid/FlipGridItem.svelte";
+export { default as FlipCardStack } from "./flip-card-stack/FlipCardStack.svelte";
 export { default as RubiksCube } from "./rubiks-cube/RubiksCube.svelte";
 export { default as DitheredImage } from "./dithered-image/DitheredImage.svelte";
 export { default as PlasmaGrid } from "./plasma-grid/PlasmaGrid.svelte";
