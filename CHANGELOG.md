@@ -28,6 +28,7 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **Transition / Preloader**: Replaced `bind:this` with `{@attach ...}` for container and staged image refs.
 - **Navigation / Floating Menu**: Replaced `bind:this` with `{@attach ...}` for overlay/container/toggle refs.
 - **Canvas / ASCII Renderer**: Replaced effect-driven metric assignments with `$derived` values for canvas/image sizing.
+- **Canvas / Globe**: Replaced effect-driven derived state (`filteredPositions`, atmosphere scale/config) with `$derived` computations.
 
 ## [0.6.0] - 2026-03-28
 

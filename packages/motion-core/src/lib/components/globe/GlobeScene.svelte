@@ -256,6 +256,15 @@
 		intensity: 2.0,
 	};
 
+	const resolvedFresnelConfig = $derived({
+		...defaultFresnelConfig,
+		...fresnelConfig,
+	});
+	const resolvedAtmosphereConfig = $derived({
+		...defaultAtmosphereConfig,
+		...atmosphereConfig,
+	});
+
 	const material = new THREE.ShaderMaterial({
 		vertexShader,
 		fragmentShader,
@@ -284,40 +293,26 @@
 	});
 
 	$effect(() => {
-		const config = {
-			...defaultFresnelConfig,
-			...fresnelConfig,
-		};
-
-		material.uniforms.color.value.set(config.color);
-		material.uniforms.rimColor.value.set(config.rimColor);
-		material.uniforms.rimPower.value = config.rimPower;
-		material.uniforms.rimIntensity.value = config.rimIntensity;
+		material.uniforms.color.value.set(resolvedFresnelConfig.color);
+		material.uniforms.rimColor.value.set(resolvedFresnelConfig.rimColor);
+		material.uniforms.rimPower.value = resolvedFresnelConfig.rimPower;
+		material.uniforms.rimIntensity.value = resolvedFresnelConfig.rimIntensity;
 		material.needsUpdate = true;
 	});
 
-	let currentAtmosphereScale = $state(defaultAtmosphereConfig.scale);
+	let currentAtmosphereScale = $derived(resolvedAtmosphereConfig.scale);
 
 	$effect(() => {
-		const config = {
-			...defaultAtmosphereConfig,
-			...atmosphereConfig,
-		};
-
-		atmosphereMaterial.uniforms.color.value.set(config.color);
-		atmosphereMaterial.uniforms.power.value = config.power;
-		atmosphereMaterial.uniforms.coefficient.value = config.coefficient;
-		atmosphereMaterial.uniforms.intensity.value = config.intensity;
-		currentAtmosphereScale = config.scale;
+		atmosphereMaterial.uniforms.color.value.set(resolvedAtmosphereConfig.color);
+		atmosphereMaterial.uniforms.power.value = resolvedAtmosphereConfig.power;
+		atmosphereMaterial.uniforms.coefficient.value =
+			resolvedAtmosphereConfig.coefficient;
+		atmosphereMaterial.uniforms.intensity.value =
+			resolvedAtmosphereConfig.intensity;
 		atmosphereMaterial.needsUpdate = true;
 	});
 
-	let filteredPositions = $state<Float32Array | null>(null);
-	let meshCount = $derived(
-		filteredPositions ? filteredPositions.length / 3 : 0,
-	);
-
-	$effect(() => {
+	let filteredPositions = $derived.by(() => {
 		const count = Math.max(1, Math.floor(pointCount));
 		const tempPositions: number[] = [];
 		const goldenAngle = Math.PI * (3 - Math.sqrt(5));
@@ -342,8 +337,11 @@
 			}
 		}
 
-		filteredPositions = new Float32Array(tempPositions);
+		return new Float32Array(tempPositions);
 	});
+	let meshCount = $derived(
+		filteredPositions ? filteredPositions.length / 3 : 0,
+	);
 
 	$effect(() => {
 		if (!focusOn || !$camera || !controls) {
