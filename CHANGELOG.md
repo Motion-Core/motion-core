@@ -6,6 +6,12 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-03-29
+
+### Fixed
+
+- **Canvas / Globe**: Simplified `GlobeMarker` API by removing redundant `headRadius` and using `size` as the single marker size field (including docs/registry updates).
+
 ## [0.7.0] - 2026-03-28
 
 ### Changed

@@ -17,11 +17,6 @@ export interface GlobeMarker {
 	 * Optional fallback tooltip text (used when no custom tooltip renderer is provided).
 	 */
 	label?: string;
-	/**
-	 * Radius of the marker core point in world units.
-	 * @default 0.05
-	 */
-	headRadius?: number;
 }
 
 export interface GlobeMarkerTooltipContext {

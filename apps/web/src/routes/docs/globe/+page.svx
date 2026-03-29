@@ -268,11 +268,5 @@ import { Globe } from "$lib/motion-core";
 			default: "undefined",
 			description: "Fallback tooltip text when no custom renderer is passed.",
 		},
-		{
-			key: "headRadius",
-			type: "number",
-			default: "0.05",
-			description: "Radius of the marker core point.",
-		},
 	]}
 />

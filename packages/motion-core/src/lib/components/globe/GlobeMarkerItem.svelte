@@ -99,9 +99,7 @@
 	});
 
 	let color = $derived(new THREE.Color(marker.color || "#ffffff"));
-	let pointRadius = $derived(
-		Math.max(0.001, marker.size ?? marker.headRadius ?? 0.05),
-	);
+	let pointRadius = $derived(Math.max(0.001, marker.size ?? 0.05));
 	let tooltipContext = $derived<GlobeMarkerTooltipContext>({
 		marker,
 		index,
