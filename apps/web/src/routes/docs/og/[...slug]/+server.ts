@@ -21,15 +21,6 @@ const clampText = (value: string, maxLength: number) => {
 
 const dataUriToArrayBuffer = (dataUri: string) => {
 	const base64 = dataUri.slice(dataUri.indexOf(",") + 1);
-
-	if (typeof Buffer !== "undefined") {
-		const bytes = Buffer.from(base64, "base64");
-		return bytes.buffer.slice(
-			bytes.byteOffset,
-			bytes.byteOffset + bytes.byteLength,
-		);
-	}
-
 	const binary = atob(base64);
 	const bytes = new Uint8Array(binary.length);
 	for (let index = 0; index < binary.length; index += 1) {
