@@ -6,7 +6,7 @@
 
 @font-face {
 	font-family: "APK Galeria";
-	src: url("/fonts/APK-Galeria-Regular.woff") format("woff");
+	src: url("../lib/assets/fonts/APK-Galeria-Regular.woff") format("woff");
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
@@ -14,7 +14,7 @@
 
 @font-face {
 	font-family: "APK Galeria";
-	src: url("/fonts/APK-Galeria-Medium.woff") format("woff");
+	src: url("../lib/assets/fonts/APK-Galeria-Medium.woff") format("woff");
 	font-weight: 500;
 	font-style: normal;
 	font-display: swap;
