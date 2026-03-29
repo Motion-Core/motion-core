@@ -1,1077 +1,1074 @@
 {
-  "name": "Motion Core Registry",
-  "description": "Curated Motion Core Svelte components",
-  "version": "0.7.0",
-  "requirements": {
-    "svelte": "^5.0.0",
-    "tailwindcss": "^4.1.0"
-  },
-  "baseDependencies": {
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^3.4.0"
-  },
-  "baseDevDependencies": {
-    "@types/gsap": "^3.0.0",
-    "@types/three": "^0.182.0"
-  },
-  "components": {
-    "ascii-renderer": {
-      "slug": "ascii-renderer",
-      "name": "ASCII Renderer",
-      "description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/ascii-renderer/AsciiRenderer.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/ascii-renderer/AsciiRendererScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "card-3d": {
-      "slug": "card-3d",
-      "name": "Card 3D",
-      "description": "A 3D card with rounded corners that displays an image and responds to head tracking for a parallax effect.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.0.0",
-        "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/card-3d/Card3D.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/card-3d/Card3DScene.svelte"
-        },
-        {
-          "path": "components/card-3d/Card3DFaceTracker.svelte"
-        },
-        {
-          "path": "utils/use-portal.ts",
-          "target": "utils"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "card-stack": {
-      "slug": "card-stack",
-      "name": "Card Stack",
-      "description": "A stack of cards that stick to the top and scale down as you scroll.",
-      "category": "showcase",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/card-stack/CardStack.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/card-stack/CardStackItem.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "dithered-image": {
-      "slug": "dithered-image",
-      "name": "Dithered Image",
-      "description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/dithered-image/DitheredImage.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/dithered-image/DitheredImageScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "flip-card-stack": {
-      "slug": "flip-card-stack",
-      "name": "Flip Card Stack",
-      "description": "A draggable stack where the top card snaps to the back after a threshold drag, with GSAP-driven transforms.",
-      "category": "pointer",
-      "introducedAt": "2026-03-28",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/flip-card-stack/FlipCardStack.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "flip-grid": {
-      "slug": "flip-grid",
-      "name": "Flip Grid",
-      "description": "A layout component that smoothly animates its children when the grid structure changes.",
-      "category": "layout",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/flip-grid/FlipGrid.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/flip-grid/FlipGridItem.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "floating-menu": {
-      "slug": "floating-menu",
-      "name": "Floating Menu",
-      "description": "A floating interaction menu with a GSAP timeline animation, featuring a cross-trigger and staggered split-text reveals.",
-      "category": "navigation",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/floating-menu/FloatingMenu.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/use-portal.ts",
-          "target": "utils"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "fluid-simulation": {
-      "slug": "fluid-simulation",
-      "name": "Fluid Simulation",
-      "description": "A physics-based fluid simulation with pointer interaction.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/fluid-simulation/FluidSimulation.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/fluid-simulation/FluidSimulationScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "glass-pane": {
-      "slug": "glass-pane",
-      "name": "Glass Pane",
-      "description": "A refractive view simulating moving glass rods that distort the underlying texture with chromatic aberration.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/glass-pane/GlassPane.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/glass-pane/GlassPaneScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "glass-slideshow": {
-      "slug": "glass-slideshow",
-      "name": "Glass Slideshow",
-      "description": "A slideshow component featuring organic glass bubble transitions with refraction and chromatic aberration.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "gsap": "^3.14.2",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/glass-slideshow/GlassSlideshow.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/glass-slideshow/GlassSlideshowScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "glitter-cloth": {
-      "slug": "glitter-cloth",
-      "name": "Glitter Cloth",
-      "description": "Animated silk-like cloth shader with fine glitter noise and subtle vignette depth shading.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/glitter-cloth/GlitterCloth.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/glitter-cloth/GlitterClothScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "globe": {
-      "slug": "globe",
-      "name": "Globe",
-      "description": "A Fresnel-lit globe with rim glow, haloed atmosphere, land mesh detail, and marker layers for data storytelling.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "gsap": "^3.14.2",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/globe/Globe.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/globe/GlobeScene.svelte"
-        },
-        {
-          "path": "components/globe/GlobeMarkerItem.svelte"
-        },
-        {
-          "path": "components/globe/types.ts",
-          "typeExports": [
-            "GlobeMarker",
-            "GlobeMarkerTooltipContext"
-          ]
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "assets/ne_110m_land.geojson",
-          "target": "assets"
-        }
-      ]
-    },
-    "god-rays": {
-      "slug": "god-rays",
-      "name": "God Rays",
-      "description": "High-performance procedural god rays (crepuscular rays) effect with customizable colors, pulsating intensity, and distortion.",
-      "category": "canvas",
-      "introducedAt": "2026-03-18",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/god-rays/GodRays.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/god-rays/GodRaysScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "halo": {
-      "slug": "halo",
-      "name": "Halo",
-      "description": "Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation.",
-      "category": "canvas",
-      "introducedAt": "2026-03-18",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/halo/Halo.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/halo/HaloScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "image-trail": {
-      "slug": "image-trail",
-      "name": "Image Trail",
-      "description": "An interactive effect that spawns a trail of images following the cursor with scaling and rotation.",
-      "category": "pointer",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/image-trail/ImageTrail.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "infinite-gallery": {
-      "slug": "infinite-gallery",
-      "name": "Infinite Gallery",
-      "description": "A 3D gallery that endlessly scrolls through textured planes with cloth-like distortion and scroll-driven transitions.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/infinite-gallery/InfiniteGallery.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/infinite-gallery/InfiniteGalleryScene.svelte"
-        },
-        {
-          "path": "components/infinite-gallery/ImagePlane.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "interactive-grid": {
-      "slug": "interactive-grid",
-      "name": "Interactive Grid",
-      "description": "A physics-based grid simulation that distorts an image in response to cursor movement.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/interactive-grid/InteractiveGrid.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/interactive-grid/InteractiveGridScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "lava-lamp": {
-      "slug": "lava-lamp",
-      "name": "Lava Lamp",
-      "description": "A smooth and organic lava lamp effect using raymarching shaders and SDFs.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/lava-lamp/LavaLamp.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/lava-lamp/LavaLampScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "logo-carousel": {
-      "slug": "logo-carousel",
-      "name": "Logo Carousel",
-      "description": "A multi-column display that shuffles brand logos infinitely with vertical motion and fade transitions.",
-      "category": "showcase",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/logo-carousel/LogoCarousel.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/logo-carousel/LogoColumn.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "macos-dock": {
-      "slug": "macos-dock",
-      "name": "MacOS Dock",
-      "description": "A navigation bar that simulates magnification physics and smooth easing on hover.",
-      "category": "pointer",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/macos-dock/MacosDock.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "magnetic": {
-      "slug": "magnetic",
-      "name": "Magnetic",
-      "description": "A wrapper that applies spring physics to elements, making them stick to the cursor on hover.",
-      "category": "pointer",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/magnetic/Magnetic.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "marquee": {
-      "slug": "marquee",
-      "name": "Marquee",
-      "description": "A scrolling content loop that accelerates, reverses, or syncs with scroll position.",
-      "category": "showcase",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/marquee/Marquee.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "neural-noise": {
-      "slug": "neural-noise",
-      "name": "Neural Noise",
-      "description": "A generative organic pattern using Compositional Pattern Producing Networks (CPPN).",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/neural-noise/NeuralNoise.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/neural-noise/NeuralNoiseScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "pixelated-image": {
-      "slug": "pixelated-image",
-      "name": "Pixelated Image",
-      "description": "A media revealer that animates blocky pixel grids which progressively sharpen to full resolution.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/pixelated-image/PixelatedImage.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/pixelated-image/PixelatedImageScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "plasma-grid": {
-      "slug": "plasma-grid",
-      "name": "Plasma Grid",
-      "description": "A fluid, pixelated noise pattern useful for backgrounds.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/plasma-grid/PlasmaGrid.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/plasma-grid/PlasmaGridScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "preloader": {
-      "slug": "preloader",
-      "name": "Preloader",
-      "description": "A kinetic loading sequence that decelerates an image strip before scaling the hero asset to full screen.",
-      "category": "transition",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/preloader/Preloader.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "radial-gallery": {
-      "slug": "radial-gallery",
-      "name": "Radial Gallery",
-      "description": "A rotating circular gallery that creates an arch/rainbow layout, perfect for hero sections.",
-      "category": "showcase",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/radial-gallery/RadialGallery.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "rubiks-cube": {
-      "slug": "rubiks-cube",
-      "name": "Rubiks Cube",
-      "description": "A dynamic Rubik's Cube that continuously rotates while a Fresnel rim glow traces each edge.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/rubiks-cube/RubiksCube.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/rubiks-cube/RubiksCubeScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "slideshow": {
-      "slug": "slideshow",
-      "name": "Slideshow",
-      "description": "A full-bleed gallery featuring parallax transitions and a synchronized thumbnail navigator.",
-      "category": "showcase",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/slideshow/Slideshow.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "specular-band": {
-      "slug": "specular-band",
-      "name": "Specular Band",
-      "description": "Procedural specular light bands with hue-shifting color palettes and dynamic lens distortion.",
-      "category": "canvas",
-      "introducedAt": "2026-03-18",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/specular-band/SpecularBand.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/specular-band/SpecularBandScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "split-hover": {
-      "slug": "split-hover",
-      "name": "Split Hover",
-      "description": "A text effect that splits characters and animates stacked layers on hover for a seamless swap.",
-      "category": "typography",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/split-hover/SplitHover.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "split-reveal": {
-      "slug": "split-reveal",
-      "name": "Split Reveal",
-      "description": "A text animation component that masks content and reveals lines, words, or characters upon mounting.",
-      "category": "typography",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/split-reveal/SplitReveal.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "stacking-words": {
-      "slug": "stacking-words",
-      "name": "Stacking Words",
-      "description": "A scroll-synced SplitText reveal where words in each line travel in from the right.",
-      "category": "typography",
-      "introducedAt": "2026-03-25",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/stacking-words/StackingWords.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "text-loop": {
-      "slug": "text-loop",
-      "name": "Text Loop",
-      "description": "A text animator that cycles through phrases with blurred vertical transitions, suitable for headlines.",
-      "category": "typography",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/text-loop/TextLoop.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        }
-      ]
-    },
-    "text-scramble": {
-      "slug": "text-scramble",
-      "name": "Text Scramble",
-      "description": "A hover-triggered SplitText effect that scrambles characters before revealing the original string.",
-      "category": "typography",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/text-scramble/TextScramble.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "video-player": {
-      "slug": "video-player",
-      "name": "Video Player",
-      "description": "A refined video player component with a progress slider and smooth GSAP-powered interactions.",
-      "category": "showcase",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/video-player/VideoPlayer.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/video-player/VideoSlider.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    },
-    "water-ripple": {
-      "slug": "water-ripple",
-      "name": "Water Ripple",
-      "description": "A fluid distortion effect simulating water ripples triggered by interaction.",
-      "category": "canvas",
-      "dependencies": {
-        "@threlte/core": "^8.3.1",
-        "@threlte/extras": "^9.7.1",
-        "three": "^0.182.0"
-      },
-      "devDependencies": {
-        "@types/three": "^0.182.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/water-ripple/WaterRipple.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "components/water-ripple/WaterRippleScene.svelte"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "assets/water-ripple-brush.png",
-          "target": "assets"
-        }
-      ]
-    },
-    "weight-wave": {
-      "slug": "weight-wave",
-      "name": "Weight Wave",
-      "description": "A hover-reactive text effect that smoothly increases glyph weight with a falloff across neighboring characters.",
-      "category": "typography",
-      "dependencies": {
-        "gsap": "^3.14.2"
-      },
-      "devDependencies": {
-        "@types/gsap": "^3.0.0"
-      },
-      "internalDependencies": [],
-      "files": [
-        {
-          "path": "components/weight-wave/WeightWave.svelte",
-          "kind": "entry"
-        },
-        {
-          "path": "utils/cn.ts",
-          "target": "utils"
-        },
-        {
-          "path": "helpers/gsap.ts",
-          "target": "helpers"
-        }
-      ]
-    }
-  }
+	"name": "Motion Core Registry",
+	"description": "Curated Motion Core Svelte components",
+	"version": "0.7.0",
+	"requirements": {
+		"svelte": "^5.0.0",
+		"tailwindcss": "^4.1.0"
+	},
+	"baseDependencies": {
+		"clsx": "^2.1.1",
+		"tailwind-merge": "^3.4.0"
+	},
+	"baseDevDependencies": {
+		"@types/gsap": "^3.0.0",
+		"@types/three": "^0.182.0"
+	},
+	"components": {
+		"ascii-renderer": {
+			"slug": "ascii-renderer",
+			"name": "ASCII Renderer",
+			"description": "A retro-styled renderer that converts images into character-based visuals with configurable scanlines.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/ascii-renderer/AsciiRenderer.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/ascii-renderer/AsciiRendererScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"card-3d": {
+			"slug": "card-3d",
+			"name": "Card 3D",
+			"description": "A 3D card with rounded corners that displays an image and responds to head tracking for a parallax effect.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.0.0",
+				"@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/card-3d/Card3D.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/card-3d/Card3DScene.svelte"
+				},
+				{
+					"path": "components/card-3d/Card3DFaceTracker.svelte"
+				},
+				{
+					"path": "utils/use-portal.ts",
+					"target": "utils"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"card-stack": {
+			"slug": "card-stack",
+			"name": "Card Stack",
+			"description": "A stack of cards that stick to the top and scale down as you scroll.",
+			"category": "showcase",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/card-stack/CardStack.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/card-stack/CardStackItem.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"dithered-image": {
+			"slug": "dithered-image",
+			"name": "Dithered Image",
+			"description": "An image display component that applies various ordered dithering algorithms (Bayer, Halftone, Void & Cluster).",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/dithered-image/DitheredImage.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/dithered-image/DitheredImageScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"flip-card-stack": {
+			"slug": "flip-card-stack",
+			"name": "Flip Card Stack",
+			"description": "A draggable stack where the top card snaps to the back after a threshold drag, with GSAP-driven transforms.",
+			"category": "pointer",
+			"introducedAt": "2026-03-28",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/flip-card-stack/FlipCardStack.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"flip-grid": {
+			"slug": "flip-grid",
+			"name": "Flip Grid",
+			"description": "A layout component that smoothly animates its children when the grid structure changes.",
+			"category": "layout",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/flip-grid/FlipGrid.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/flip-grid/FlipGridItem.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"floating-menu": {
+			"slug": "floating-menu",
+			"name": "Floating Menu",
+			"description": "A floating interaction menu with a GSAP timeline animation, featuring a cross-trigger and staggered split-text reveals.",
+			"category": "navigation",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/floating-menu/FloatingMenu.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/use-portal.ts",
+					"target": "utils"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"fluid-simulation": {
+			"slug": "fluid-simulation",
+			"name": "Fluid Simulation",
+			"description": "A physics-based fluid simulation with pointer interaction.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/fluid-simulation/FluidSimulation.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/fluid-simulation/FluidSimulationScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"glass-pane": {
+			"slug": "glass-pane",
+			"name": "Glass Pane",
+			"description": "A refractive view simulating moving glass rods that distort the underlying texture with chromatic aberration.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/glass-pane/GlassPane.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/glass-pane/GlassPaneScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"glass-slideshow": {
+			"slug": "glass-slideshow",
+			"name": "Glass Slideshow",
+			"description": "A slideshow component featuring organic glass bubble transitions with refraction and chromatic aberration.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"gsap": "^3.14.2",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/glass-slideshow/GlassSlideshow.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/glass-slideshow/GlassSlideshowScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"glitter-cloth": {
+			"slug": "glitter-cloth",
+			"name": "Glitter Cloth",
+			"description": "Animated silk-like cloth shader with fine glitter noise and subtle vignette depth shading.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/glitter-cloth/GlitterCloth.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/glitter-cloth/GlitterClothScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"globe": {
+			"slug": "globe",
+			"name": "Globe",
+			"description": "A Fresnel-lit globe with rim glow, haloed atmosphere, land mesh detail, and marker layers for data storytelling.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"gsap": "^3.14.2",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/globe/Globe.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/globe/GlobeScene.svelte"
+				},
+				{
+					"path": "components/globe/GlobeMarkerItem.svelte"
+				},
+				{
+					"path": "components/globe/types.ts",
+					"typeExports": ["GlobeMarker", "GlobeMarkerTooltipContext"]
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "assets/ne_110m_land.geojson",
+					"target": "assets"
+				}
+			]
+		},
+		"god-rays": {
+			"slug": "god-rays",
+			"name": "God Rays",
+			"description": "High-performance procedural god rays (crepuscular rays) effect with customizable colors, pulsating intensity, and distortion.",
+			"category": "canvas",
+			"introducedAt": "2026-03-18",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/god-rays/GodRays.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/god-rays/GodRaysScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"halo": {
+			"slug": "halo",
+			"name": "Halo",
+			"description": "Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation.",
+			"category": "canvas",
+			"introducedAt": "2026-03-18",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/halo/Halo.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/halo/HaloScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"image-trail": {
+			"slug": "image-trail",
+			"name": "Image Trail",
+			"description": "An interactive effect that spawns a trail of images following the cursor with scaling and rotation.",
+			"category": "pointer",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/image-trail/ImageTrail.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"infinite-gallery": {
+			"slug": "infinite-gallery",
+			"name": "Infinite Gallery",
+			"description": "A 3D gallery that endlessly scrolls through textured planes with cloth-like distortion and scroll-driven transitions.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/infinite-gallery/InfiniteGallery.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/infinite-gallery/InfiniteGalleryScene.svelte"
+				},
+				{
+					"path": "components/infinite-gallery/ImagePlane.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"interactive-grid": {
+			"slug": "interactive-grid",
+			"name": "Interactive Grid",
+			"description": "A physics-based grid simulation that distorts an image in response to cursor movement.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/interactive-grid/InteractiveGrid.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/interactive-grid/InteractiveGridScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"lava-lamp": {
+			"slug": "lava-lamp",
+			"name": "Lava Lamp",
+			"description": "A smooth and organic lava lamp effect using raymarching shaders and SDFs.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/lava-lamp/LavaLamp.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/lava-lamp/LavaLampScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"logo-carousel": {
+			"slug": "logo-carousel",
+			"name": "Logo Carousel",
+			"description": "A multi-column display that shuffles brand logos infinitely with vertical motion and fade transitions.",
+			"category": "showcase",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/logo-carousel/LogoCarousel.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/logo-carousel/LogoColumn.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"macos-dock": {
+			"slug": "macos-dock",
+			"name": "MacOS Dock",
+			"description": "A navigation bar that simulates magnification physics and smooth easing on hover.",
+			"category": "pointer",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/macos-dock/MacosDock.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"magnetic": {
+			"slug": "magnetic",
+			"name": "Magnetic",
+			"description": "A wrapper that applies spring physics to elements, making them stick to the cursor on hover.",
+			"category": "pointer",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/magnetic/Magnetic.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"marquee": {
+			"slug": "marquee",
+			"name": "Marquee",
+			"description": "A scrolling content loop that accelerates, reverses, or syncs with scroll position.",
+			"category": "showcase",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/marquee/Marquee.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"neural-noise": {
+			"slug": "neural-noise",
+			"name": "Neural Noise",
+			"description": "A generative organic pattern using Compositional Pattern Producing Networks (CPPN).",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/neural-noise/NeuralNoise.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/neural-noise/NeuralNoiseScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"pixelated-image": {
+			"slug": "pixelated-image",
+			"name": "Pixelated Image",
+			"description": "A media revealer that animates blocky pixel grids which progressively sharpen to full resolution.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/pixelated-image/PixelatedImage.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/pixelated-image/PixelatedImageScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"plasma-grid": {
+			"slug": "plasma-grid",
+			"name": "Plasma Grid",
+			"description": "A fluid, pixelated noise pattern useful for backgrounds.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/plasma-grid/PlasmaGrid.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/plasma-grid/PlasmaGridScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"preloader": {
+			"slug": "preloader",
+			"name": "Preloader",
+			"description": "A kinetic loading sequence that decelerates an image strip before scaling the hero asset to full screen.",
+			"category": "transition",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/preloader/Preloader.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"radial-gallery": {
+			"slug": "radial-gallery",
+			"name": "Radial Gallery",
+			"description": "A rotating circular gallery that creates an arch/rainbow layout, perfect for hero sections.",
+			"category": "showcase",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/radial-gallery/RadialGallery.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"rubiks-cube": {
+			"slug": "rubiks-cube",
+			"name": "Rubiks Cube",
+			"description": "A dynamic Rubik's Cube that continuously rotates while a Fresnel rim glow traces each edge.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/rubiks-cube/RubiksCube.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/rubiks-cube/RubiksCubeScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"slideshow": {
+			"slug": "slideshow",
+			"name": "Slideshow",
+			"description": "A full-bleed gallery featuring parallax transitions and a synchronized thumbnail navigator.",
+			"category": "showcase",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/slideshow/Slideshow.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"specular-band": {
+			"slug": "specular-band",
+			"name": "Specular Band",
+			"description": "Procedural specular light bands with hue-shifting color palettes and dynamic lens distortion.",
+			"category": "canvas",
+			"introducedAt": "2026-03-18",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/specular-band/SpecularBand.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/specular-band/SpecularBandScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"split-hover": {
+			"slug": "split-hover",
+			"name": "Split Hover",
+			"description": "A text effect that splits characters and animates stacked layers on hover for a seamless swap.",
+			"category": "typography",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/split-hover/SplitHover.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"split-reveal": {
+			"slug": "split-reveal",
+			"name": "Split Reveal",
+			"description": "A text animation component that masks content and reveals lines, words, or characters upon mounting.",
+			"category": "typography",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/split-reveal/SplitReveal.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"stacking-words": {
+			"slug": "stacking-words",
+			"name": "Stacking Words",
+			"description": "A scroll-synced SplitText reveal where words in each line travel in from the right.",
+			"category": "typography",
+			"introducedAt": "2026-03-25",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/stacking-words/StackingWords.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"text-loop": {
+			"slug": "text-loop",
+			"name": "Text Loop",
+			"description": "A text animator that cycles through phrases with blurred vertical transitions, suitable for headlines.",
+			"category": "typography",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/text-loop/TextLoop.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
+		"text-scramble": {
+			"slug": "text-scramble",
+			"name": "Text Scramble",
+			"description": "A hover-triggered SplitText effect that scrambles characters before revealing the original string.",
+			"category": "typography",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/text-scramble/TextScramble.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"video-player": {
+			"slug": "video-player",
+			"name": "Video Player",
+			"description": "A refined video player component with a progress slider and smooth GSAP-powered interactions.",
+			"category": "showcase",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/video-player/VideoPlayer.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/video-player/VideoSlider.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		},
+		"water-ripple": {
+			"slug": "water-ripple",
+			"name": "Water Ripple",
+			"description": "A fluid distortion effect simulating water ripples triggered by interaction.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/water-ripple/WaterRipple.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/water-ripple/WaterRippleScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "assets/water-ripple-brush.png",
+					"target": "assets"
+				}
+			]
+		},
+		"weight-wave": {
+			"slug": "weight-wave",
+			"name": "Weight Wave",
+			"description": "A hover-reactive text effect that smoothly increases glyph weight with a falloff across neighboring characters.",
+			"category": "typography",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/weight-wave/WeightWave.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				},
+				{
+					"path": "helpers/gsap.ts",
+					"target": "helpers"
+				}
+			]
+		}
+	}
 }

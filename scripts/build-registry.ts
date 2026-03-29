@@ -3,6 +3,7 @@
 import { mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { format as formatWithPrettier, resolveConfig } from "prettier";
 
 type ComponentFileEntry = {
 	path: string;
@@ -188,7 +189,7 @@ async function main() {
 	};
 
 	const registryPath = path.join(registryOutputDir, "registry.json");
-	await writeFile(registryPath, stringify(registry));
+	await writeFile(registryPath, await stringifyForFile(registry, registryPath));
 
 	const componentsEncoded: Record<string, string> = {};
 	for (const [filePath, buffer] of assetPayload.entries()) {
@@ -201,7 +202,10 @@ async function main() {
 	await writeFile(componentsManifestPath, stringify(componentsEncoded));
 
 	const schemaPath = path.join(schemaOutputDir, "config-schema.json");
-	await writeFile(schemaPath, stringify(buildConfigSchema()));
+	await writeFile(
+		schemaPath,
+		await stringifyForFile(buildConfigSchema(), schemaPath),
+	);
 
 	await writeGeneratedDocsManifest(components);
 
@@ -254,7 +258,15 @@ async function collectCssFiles(dir: string): Promise<string[]> {
 }
 
 function stringify(value: unknown) {
-	return `${JSON.stringify(value, null, 2)}\n`;
+	return `${JSON.stringify(value, null, "\t")}\n`;
+}
+
+async function stringifyForFile(value: unknown, filePath: string) {
+	const prettierConfig = (await resolveConfig(filePath)) ?? {};
+	return formatWithPrettier(stringify(value), {
+		...prettierConfig,
+		filepath: filePath,
+	});
 }
 
 function toPosix(value: string) {
@@ -426,7 +438,7 @@ async function writeGeneratedDocsManifest(
 export const docsManifest: ComponentInfo[] = ${JSON.stringify(
 		manifestEntries,
 		null,
-		2,
+		"\t",
 	)};
 
 export const getAdjacentDocs = (slug: string) => {
@@ -439,8 +451,12 @@ export const getAdjacentDocs = (slug: string) => {
   return { previous, next };
 };
 `;
-
-	await writeFile(generatedDocsManifestPath, source);
+	const prettierConfig = (await resolveConfig(generatedDocsManifestPath)) ?? {};
+	const formattedSource = await formatWithPrettier(source, {
+		...prettierConfig,
+		filepath: generatedDocsManifestPath,
+	});
+	await writeFile(generatedDocsManifestPath, formattedSource);
 }
 
 await main().catch((error) => {
