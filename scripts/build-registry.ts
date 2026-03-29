@@ -123,7 +123,7 @@ async function main() {
 		) as ComponentMetadata;
 
 		const slug = metadata.slug ?? dir;
-		const files = await Promise.all(
+		const resolvedFiles = await Promise.all(
 			metadata.files.map(async (entry) => {
 				const relativePath = entry.path
 					.replace(/\\/g, "/")
@@ -137,16 +137,22 @@ async function main() {
 					registryPath,
 					contents,
 				);
-				assetPayload.set(registryPath, transformedContents);
-
 				return {
-					path: registryPath,
-					kind: entry.kind,
-					target: entry.target,
-					typeExports: entry.typeExports,
+					registryPath,
+					transformedContents,
+					manifestEntry: {
+						path: registryPath,
+						kind: entry.kind,
+						target: entry.target,
+						typeExports: entry.typeExports,
+					},
 				};
 			}),
 		);
+		for (const { registryPath, transformedContents } of resolvedFiles) {
+			assetPayload.set(registryPath, transformedContents);
+		}
+		const files = resolvedFiles.map(({ manifestEntry }) => manifestEntry);
 
 		components[slug] = {
 			slug,
@@ -239,7 +245,9 @@ async function appendCssTokens(assetPayload: Map<string, Buffer>) {
 }
 
 async function collectCssFiles(dir: string): Promise<string[]> {
-	const entries = await readdir(dir, { withFileTypes: true });
+	const entries = (await readdir(dir, { withFileTypes: true })).sort((a, b) =>
+		a.name.localeCompare(b.name),
+	);
 	const files: string[] = [];
 
 	for (const entry of entries) {
