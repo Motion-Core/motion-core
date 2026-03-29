@@ -19,23 +19,23 @@ const clampText = (value: string, maxLength: number) => {
 
 const fontDataByOrigin = new Map<string, Promise<[ArrayBuffer, ArrayBuffer]>>();
 
-const fetchFontArrayBuffer = async (origin: string, path: string) => {
-	const response = await fetch(new URL(path, origin));
+const fetchFontArrayBuffer = async (fetcher: typeof fetch, path: string) => {
+	const response = await fetcher(path);
 	if (!response.ok) {
 		throw new Error(`Failed to load font ${path}: ${response.status}`);
 	}
 	return response.arrayBuffer();
 };
 
-const getFontData = (origin: string) => {
+const getFontData = (origin: string, fetcher: typeof fetch) => {
 	const cached = fontDataByOrigin.get(origin);
 	if (cached) {
 		return cached;
 	}
 
 	const promise = Promise.all([
-		fetchFontArrayBuffer(origin, "/fonts/APK-Galeria-Regular.woff"),
-		fetchFontArrayBuffer(origin, "/fonts/APK-Galeria-Medium.woff"),
+		fetchFontArrayBuffer(fetcher, "/fonts/APK-Galeria-Regular.woff"),
+		fetchFontArrayBuffer(fetcher, "/fonts/APK-Galeria-Medium.woff"),
 	]).catch((error: unknown) => {
 		fontDataByOrigin.delete(origin);
 		throw error;
@@ -73,7 +73,7 @@ if (!ogWasmState.__docsOgSatoriWasmState) {
 	ogWasmState.__docsOgSatoriWasmState = {};
 }
 
-const ensureResvgWasm = (origin: string) => {
+const ensureResvgWasm = (origin: string, fetcher: typeof fetch) => {
 	const state = ogWasmState.__docsOgResvgWasmState as ResvgWasmState;
 	if (state.initialized) {
 		return Promise.resolve();
@@ -83,7 +83,7 @@ const ensureResvgWasm = (origin: string) => {
 		const precompiledWasmModule = ogWasmState.__docsOgResvgWasmModule;
 		const loadWasm = precompiledWasmModule
 			? Promise.resolve(precompiledWasmModule)
-			: fetch(new URL("/resvg-index_bg.wasm", origin)).then((response) => {
+			: fetcher("/resvg-index_bg.wasm").then((response) => {
 					if (!response.ok) {
 						throw new Error(`Failed to load resvg wasm: ${response.status}`);
 					}
@@ -179,7 +179,7 @@ const logoDisplayWidth = Math.round(
 	LOGO_DISPLAY_HEIGHT * extractLogoAspectRatio(brandLogoRaw),
 );
 
-export const GET: RequestHandler = async ({ params, url }) => {
+export const GET: RequestHandler = async ({ params, url, fetch }) => {
 	const rawSlug = (params.slug ?? "").replace(/^\/+|\/+$/g, "");
 	const slug =
 		rawSlug === "" || rawSlug === "index" || rawSlug === "docs" ? "" : rawSlug;
@@ -196,8 +196,11 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		MAX_DESCRIPTION_LENGTH,
 	);
 	const pageUrl = new URL(`/docs/${metadata.slug}`, canonicalOrigin).href;
-	const [apkGaleriaRegular, apkGaleriaMedium] = await getFontData(url.origin);
-	await ensureResvgWasm(url.origin);
+	const [apkGaleriaRegular, apkGaleriaMedium] = await getFontData(
+		url.origin,
+		fetch,
+	);
+	await ensureResvgWasm(url.origin, fetch);
 	const useStandaloneSatori = Boolean(ogWasmState.__docsOgYogaWasmModule);
 	if (useStandaloneSatori) {
 		await ensureSatoriWasm();
