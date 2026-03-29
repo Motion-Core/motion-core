@@ -3,6 +3,8 @@ import satoriStandalone, { init as initSatoriWasm } from "satori/standalone";
 import { html } from "satori-html";
 import { Resvg, initWasm } from "@resvg/resvg-wasm";
 import type { RequestHandler } from "./$types";
+import apkGaleriaRegularDataUri from "$lib/assets/fonts/APK-Galeria-Regular.woff?inline";
+import apkGaleriaMediumDataUri from "$lib/assets/fonts/APK-Galeria-Medium.woff?inline";
 import { brandLogoRaw, getDocBySlug, getDocMetadata, siteConfig } from "$lib";
 
 const OG_WIDTH = 1200;
@@ -17,32 +19,28 @@ const clampText = (value: string, maxLength: number) => {
 	return `${text.slice(0, maxLength - 1).trimEnd()}…`;
 };
 
-const fontDataByOrigin = new Map<string, Promise<[ArrayBuffer, ArrayBuffer]>>();
+const dataUriToArrayBuffer = (dataUri: string) => {
+	const base64 = dataUri.slice(dataUri.indexOf(",") + 1);
 
-const fetchFontArrayBuffer = async (fetcher: typeof fetch, path: string) => {
-	const response = await fetcher(path);
-	if (!response.ok) {
-		throw new Error(`Failed to load font ${path}: ${response.status}`);
-	}
-	return response.arrayBuffer();
-};
-
-const getFontData = (origin: string, fetcher: typeof fetch) => {
-	const cached = fontDataByOrigin.get(origin);
-	if (cached) {
-		return cached;
+	if (typeof Buffer !== "undefined") {
+		const bytes = Buffer.from(base64, "base64");
+		return bytes.buffer.slice(
+			bytes.byteOffset,
+			bytes.byteOffset + bytes.byteLength,
+		);
 	}
 
-	const promise = Promise.all([
-		fetchFontArrayBuffer(fetcher, "/fonts/APK-Galeria-Regular.woff"),
-		fetchFontArrayBuffer(fetcher, "/fonts/APK-Galeria-Medium.woff"),
-	]).catch((error: unknown) => {
-		fontDataByOrigin.delete(origin);
-		throw error;
-	});
-	fontDataByOrigin.set(origin, promise);
-	return promise;
+	const binary = atob(base64);
+	const bytes = new Uint8Array(binary.length);
+	for (let index = 0; index < binary.length; index += 1) {
+		bytes[index] = binary.charCodeAt(index);
+	}
+	return bytes.buffer;
 };
+const fontDataPromise = Promise.all([
+	Promise.resolve(dataUriToArrayBuffer(apkGaleriaRegularDataUri)),
+	Promise.resolve(dataUriToArrayBuffer(apkGaleriaMediumDataUri)),
+]);
 
 type ResvgWasmState = {
 	promise?: Promise<void>;
@@ -196,10 +194,7 @@ export const GET: RequestHandler = async ({ params, url, fetch }) => {
 		MAX_DESCRIPTION_LENGTH,
 	);
 	const pageUrl = new URL(`/docs/${metadata.slug}`, canonicalOrigin).href;
-	const [apkGaleriaRegular, apkGaleriaMedium] = await getFontData(
-		url.origin,
-		fetch,
-	);
+	const [apkGaleriaRegular, apkGaleriaMedium] = await fontDataPromise;
 	await ensureResvgWasm(url.origin, fetch);
 	const useStandaloneSatori = Boolean(ogWasmState.__docsOgYogaWasmModule);
 	if (useStandaloneSatori) {
