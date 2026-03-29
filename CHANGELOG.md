@@ -6,6 +6,13 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-03-29
+
+### Added
+
+- **1 component**:
+  - **Showcase**: Infinite Physics Gallery.
+
 ## [0.7.1] - 2026-03-29
 
 ### Fixed

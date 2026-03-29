@@ -484,6 +484,34 @@
 				}
 			]
 		},
+		"infinite-physics-gallery": {
+			"slug": "infinite-physics-gallery",
+			"name": "Infinite Physics Gallery",
+			"description": "A bidirectional infinite gallery with drag inertia, wheel momentum, and edge auto-scroll for image/video media.",
+			"category": "showcase",
+			"introducedAt": "2026-03-29",
+			"dependencies": {
+				"gsap": "^3.14.2"
+			},
+			"devDependencies": {
+				"@types/gsap": "^3.0.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/infinite-physics-gallery/InfinitePhysicsGallery.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/infinite-physics-gallery/types.ts",
+					"typeExports": ["InfinitePhysicsGalleryItem"]
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
 		"interactive-grid": {
 			"slug": "interactive-grid",
 			"name": "Interactive Grid",

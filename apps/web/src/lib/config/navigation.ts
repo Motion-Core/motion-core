@@ -182,6 +182,10 @@ export const docsNavigation: DocItem[] = [
 				name: "Card Stack",
 			},
 			{
+				slug: "infinite-physics-gallery",
+				name: "Infinite Physics Gallery",
+			},
+			{
 				slug: "logo-carousel",
 				name: "Logo Carousel",
 			},

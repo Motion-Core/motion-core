@@ -163,6 +163,15 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "infinite-physics-gallery",
+		name: "Infinite Physics Gallery",
+		category: "showcase",
+		introducedAt: "2026-03-29",
+		dependencies: {
+			gsap: "^3.14.2",
+		},
+	},
+	{
 		slug: "interactive-grid",
 		name: "Interactive Grid",
 		category: "canvas",

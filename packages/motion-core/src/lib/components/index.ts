@@ -8,6 +8,8 @@ export { default as GlassPane } from "./glass-pane/GlassPane.svelte";
 export { default as Slideshow } from "./slideshow/Slideshow.svelte";
 export { default as Preloader } from "./preloader/Preloader.svelte";
 export { default as InfiniteGallery } from "./infinite-gallery/InfiniteGallery.svelte";
+export { default as InfinitePhysicsGallery } from "./infinite-physics-gallery/InfinitePhysicsGallery.svelte";
+export type { InfinitePhysicsGalleryItem } from "./infinite-physics-gallery/types";
 export { default as LogoCarousel } from "./logo-carousel/LogoCarousel.svelte";
 export { default as Globe } from "./globe/Globe.svelte";
 export type { GlobeMarker, GlobeMarkerTooltipContext } from "./globe/types";

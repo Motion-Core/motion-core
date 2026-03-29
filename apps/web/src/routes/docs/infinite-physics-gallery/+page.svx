@@ -1,0 +1,189 @@
+---
+name: Infinite Physics Gallery
+description: A bidirectional infinite gallery with drag inertia, wheel momentum, and edge auto-scroll for image/video media.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import infinitePhysicsGallerySource from "motion-core/components/infinite-physics-gallery/InfinitePhysicsGallery.svelte?raw";
+	import infinitePhysicsGalleryTypesSource from "motion-core/components/infinite-physics-gallery/types.ts?raw";
+	import InfinitePhysicsGalleryDemo from "./InfinitePhysicsGalleryDemo.svelte";
+	import infinitePhysicsGalleryDemoSource from "./InfinitePhysicsGalleryDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="infinite-physics-gallery" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { InfinitePhysicsGallery } from "motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	class="max-h-175"
+	sources={[
+		{ name: "Example", code: infinitePhysicsGalleryDemoSource, language: "svelte" },
+		{
+			name: "InfinitePhysicsGallery.svelte",
+			code: infinitePhysicsGallerySource,
+			language: "svelte",
+		},
+		{
+			name: "types.ts",
+			code: infinitePhysicsGalleryTypesSource,
+			language: "typescript",
+		},
+	]}
+>
+	<InfinitePhysicsGalleryDemo />
+</ComponentPreview>
+
+## Props
+
+### InfinitePhysicsGallery
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "items",
+			type: "InfinitePhysicsGalleryItem[]",
+			default: "[]",
+			description:
+				"Media dataset for the infinite grid. Supports images and videos.",
+		},
+		{
+			prop: "cellWidth",
+			type: "number",
+			default: "320",
+			description: "Base cell width in pixels.",
+		},
+		{
+			prop: "cellHeight",
+			type: "number",
+			default: "400",
+			description: "Base cell height in pixels.",
+		},
+		{
+			prop: "gap",
+			type: "number",
+			default: "24",
+			description: "Gap between cells in pixels.",
+		},
+		{
+			prop: "friction",
+			type: "number",
+			default: "0.95",
+			description: "Global drag inertia decay factor.",
+		},
+		{
+			prop: "cellClass",
+			type: "string",
+			default: '""',
+			description:
+				"Additional CSS classes applied to each media card (for example Tailwind classes).",
+		},
+		{
+			prop: "scrollSettings",
+			type: "ScrollSettings",
+			default: "Default Scroll Settings",
+			description: "Wheel speed, edge auto-scroll, and extra friction behavior.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description:
+				"Additional CSS classes for the root container (for example background color classes).",
+		},
+	]}
+/>
+
+### ScrollSettings
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "wheelSpeed",
+			type: "number",
+			default: "2",
+			description: "Wheel delta multiplier.",
+		},
+		{
+			key: "friction",
+			type: "number",
+			default: "0.95",
+			description: "Extra inertia decay factor applied in the physics loop.",
+		},
+		{
+			key: "edgeThreshold",
+			type: "number",
+			default: "100",
+			description: "Distance from viewport edges where auto-scroll starts.",
+		},
+		{
+			key: "edgeScrollSpeed",
+			type: "number",
+			default: "2",
+			description: "Auto-scroll acceleration when pointer is near an edge.",
+		},
+	]}
+/>
+
+### InfinitePhysicsGalleryItem
+
+<ApiTable
+	headers={["Key", "Type", "Default"]}
+	keys={["key", "type", "default"]}
+	data={[
+		{
+			key: "id",
+			type: "string | number",
+			default: "undefined",
+			description: "Optional stable item identifier.",
+		},
+		{
+			key: "type",
+			type: '"image" | "video"',
+			default: "—",
+			description: "Media type rendered in the card.",
+		},
+		{
+			key: "image.src",
+			type: "string",
+			default: "required for image items",
+			description: "Image source when type is image.",
+		},
+		{
+			key: "image.alt",
+			type: "string",
+			default: "undefined",
+			description: "Optional image alt text for image items.",
+		},
+		{
+			key: "video.src",
+			type: "string",
+			default: "required for video items",
+			description: "Video source when type is video.",
+		},
+	]}
+/>
