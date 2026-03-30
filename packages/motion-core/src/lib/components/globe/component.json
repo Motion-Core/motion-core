@@ -33,7 +33,7 @@
 			"target": "utils"
 		},
 		{
-			"path": "../../assets/ne_110m_land.geojson",
+			"path": "../../assets/land-texture.png",
 			"target": "assets"
 		}
 	]

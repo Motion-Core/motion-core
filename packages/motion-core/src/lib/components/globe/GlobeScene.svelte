@@ -5,7 +5,7 @@
 	import type { OrbitControls as OrbitControlsType } from "three/examples/jsm/controls/OrbitControls.js";
 	import { gsap } from "gsap/dist/gsap";
 	import type { Snippet } from "svelte";
-	import landGeoJsonRaw from "../../assets/ne_110m_land.geojson?raw";
+	import landTextureUrl from "../../assets/land-texture.png";
 	import type { GlobeMarker, GlobeMarkerTooltipContext } from "./types";
 	import GlobeMarkerItem from "./GlobeMarkerItem.svelte";
 
@@ -117,46 +117,15 @@
 		focusOn?: [number, number] | null;
 	}
 
-	type GeoJSONPolygon = {
-		type: "Polygon";
-		coordinates: number[][][];
-	};
-
-	type GeoJSONMultiPolygon = {
-		type: "MultiPolygon";
-		coordinates: number[][][][];
-	};
-
-	type GeoJSONGeometry = GeoJSONPolygon | GeoJSONMultiPolygon;
-
-	type GeoJSONFeature = {
-		type: "Feature";
-		geometry: GeoJSONGeometry | null;
-	};
-
-	type GeoJSONFeatureCollection = {
-		type: "FeatureCollection";
-		features: GeoJSONFeature[];
-	};
-
-	type SphericalPoint = [lon: number, lat: number];
-
-	interface BoundingBox {
-		minLon: number;
-		maxLon: number;
-		minLat: number;
-		maxLat: number;
-	}
-
-	interface ParsedPolygon {
-		rings: SphericalPoint[][];
-		bbox: BoundingBox;
+	interface LandMaskData {
+		width: number;
+		height: number;
+		data: Uint8ClampedArray;
 	}
 
 	const DEG2RAD = Math.PI / 180;
 	const EPSILON = 1e-9;
-
-	const landPolygons = parseLandPolygons(landGeoJsonRaw);
+	const LAND_MASK_THRESHOLD = 0.5;
 
 	let {
 		radius,
@@ -176,6 +145,7 @@
 	let globeGroup = $state<THREE.Group>();
 	let controls = $state<OrbitControlsType>();
 	let focusTween: gsap.core.Tween | null = null;
+	let landMask = $state<LandMaskData | null>(null);
 
 	const { camera } = useThrelte();
 
@@ -299,6 +269,19 @@
 	});
 
 	$effect(() => {
+		let cancelled = false;
+		void loadLandMask(landTextureUrl).then((mask) => {
+			if (!cancelled) {
+				landMask = mask;
+			}
+		});
+
+		return () => {
+			cancelled = true;
+		};
+	});
+
+	$effect(() => {
 		material.uniforms.color.value.set(resolvedFresnelConfig.color);
 		material.uniforms.rimColor.value.set(resolvedFresnelConfig.rimColor);
 		material.uniforms.rimPower.value = resolvedFresnelConfig.rimPower;
@@ -319,6 +302,10 @@
 	});
 
 	let filteredPositions = $derived.by(() => {
+		if (!landMask) {
+			return new Float32Array();
+		}
+
 		const count = Math.max(1, Math.floor(pointCount));
 		const tempPositions: number[] = [];
 		const goldenAngle = Math.PI * (3 - Math.sqrt(5));
@@ -336,9 +323,7 @@
 			const pY = y * surfaceRadius;
 			const pZ = z * surfaceRadius;
 
-			const { lon, lat } = cartesianToLonLat(pX, pY, pZ);
-
-			if (isPointOnLand(lon, lat)) {
+			if (isPointOnLand(pX, pY, pZ, landMask)) {
 				tempPositions.push(pX, pY, pZ);
 			}
 		}
@@ -398,91 +383,81 @@
 		mesh.instanceMatrix.needsUpdate = true;
 	}
 
-	function parseLandPolygons(raw: string): ParsedPolygon[] {
-		try {
-			const collection = JSON.parse(raw) as GeoJSONFeatureCollection;
-			return extractPolygons(collection);
-		} catch (error) {
-			console.warn("GlobeScene: failed to parse land GeoJSON", error);
-			return [];
-		}
-	}
-
-	function extractPolygons(
-		collection: GeoJSONFeatureCollection,
-	): ParsedPolygon[] {
-		const polygons: ParsedPolygon[] = [];
-		for (const feature of collection.features ?? []) {
-			const geometry = feature.geometry;
-			if (!geometry) continue;
-			if (geometry.type === "Polygon") {
-				const polygon = convertPolygon(geometry.coordinates);
-				if (polygon) {
-					polygons.push(polygon);
+	function loadLandMask(url: string): Promise<LandMaskData | null> {
+		return new Promise((resolve) => {
+			const image = new Image();
+			image.onload = () => {
+				const canvas = document.createElement("canvas");
+				canvas.width = image.width;
+				canvas.height = image.height;
+				const context = canvas.getContext("2d", { willReadFrequently: true });
+				if (!context) {
+					resolve(null);
+					return;
 				}
-				continue;
-			}
-			if (geometry.type === "MultiPolygon") {
-				for (const coords of geometry.coordinates) {
-					const polygon = convertPolygon(coords);
-					if (polygon) {
-						polygons.push(polygon);
-					}
-				}
-			}
-		}
-		return polygons;
+
+				context.drawImage(image, 0, 0);
+				const imageData = context.getImageData(0, 0, image.width, image.height);
+				resolve({
+					width: image.width,
+					height: image.height,
+					data: imageData.data,
+				});
+			};
+			image.onerror = (error) => {
+				console.warn("GlobeScene: failed to load land mask texture", error);
+				resolve(null);
+			};
+			image.src = url;
+		});
 	}
 
-	function convertPolygon(rings: number[][][]): ParsedPolygon | null {
-		const converted = rings
-			.map((ring) =>
-				ring.map(
-					([lon, lat]) => [lon * DEG2RAD, lat * DEG2RAD] as SphericalPoint,
-				),
-			)
-			.filter((ring) => ring.length >= 3);
-
-		if (!converted.length) {
-			return null;
-		}
-
-		return {
-			rings: converted,
-			bbox: computeBoundingBox(converted[0]),
-		};
+	function fract(value: number): number {
+		return value - Math.floor(value);
 	}
 
-	function computeBoundingBox(ring: SphericalPoint[]): BoundingBox {
-		const bbox: BoundingBox = {
-			minLon: Infinity,
-			maxLon: -Infinity,
-			minLat: Infinity,
-			maxLat: -Infinity,
-		};
-
-		for (const [lon, lat] of ring) {
-			bbox.minLon = Math.min(bbox.minLon, lon);
-			bbox.maxLon = Math.max(bbox.maxLon, lon);
-			bbox.minLat = Math.min(bbox.minLat, lat);
-			bbox.maxLat = Math.max(bbox.maxLat, lat);
-		}
-
-		return bbox;
-	}
-
-	function cartesianToLonLat(
+	function pointToMaskUV(
 		x: number,
 		y: number,
 		z: number,
-	): { lon: number; lat: number } {
-		const radius = Math.sqrt(x * x + y * y + z * z);
-		if (radius === 0) {
-			return { lon: 0, lat: 0 };
+	): { u: number; v: number } {
+		const length = Math.sqrt(x * x + y * y + z * z);
+		if (length === 0) {
+			return { u: 0, v: 0 };
 		}
-		const lat = Math.asin(Math.min(1, Math.max(-1, y / radius)));
-		const lon = Math.atan2(x, z);
-		return { lon, lat };
+
+		// Match COBE's globe-space convention before UV mapping:
+		// our axes [x,y,z] -> cobe axes [z,y,-x]
+		const nx = z / length;
+		const ny = y / length;
+		const nz = -x / length;
+
+		const gPhi = Math.asin(THREE.MathUtils.clamp(ny, -1, 1));
+		const cosPhi = Math.cos(gPhi);
+
+		let gTheta = 0;
+		if (Math.abs(cosPhi) > EPSILON) {
+			const thetaInput = THREE.MathUtils.clamp(-nx / cosPhi, -1, 1);
+			gTheta = Math.acos(thetaInput);
+			if (nz < 0) {
+				gTheta = -gTheta;
+			}
+		}
+
+		return {
+			u: fract((gTheta * 0.5) / Math.PI),
+			v: fract(-(gPhi / Math.PI + 0.5)),
+		};
+	}
+
+	function sampleLandMask(mask: LandMaskData, u: number, v: number): number {
+		const x = Math.min(mask.width - 1, Math.max(0, Math.floor(u * mask.width)));
+		const y = Math.min(
+			mask.height - 1,
+			Math.max(0, Math.floor(v * mask.height)),
+		);
+		const i = (y * mask.width + x) * 4;
+		return mask.data[i] / 255;
 	}
 
 	function lonLatToCartesian(lon: number, lat: number, r: number) {
@@ -497,64 +472,14 @@
 		return { x, y, z };
 	}
 
-	function isPointOnLand(lon: number, lat: number): boolean {
-		for (const polygon of landPolygons) {
-			if (!isWithinBounds(lon, lat, polygon.bbox)) continue;
-			if (isPointInsidePolygon(lon, lat, polygon.rings)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function isWithinBounds(
-		lon: number,
-		lat: number,
-		bbox: BoundingBox,
+	function isPointOnLand(
+		x: number,
+		y: number,
+		z: number,
+		mask: LandMaskData,
 	): boolean {
-		return (
-			lon >= bbox.minLon - EPSILON &&
-			lon <= bbox.maxLon + EPSILON &&
-			lat >= bbox.minLat - EPSILON &&
-			lat <= bbox.maxLat + EPSILON
-		);
-	}
-
-	function isPointInsidePolygon(
-		lon: number,
-		lat: number,
-		rings: SphericalPoint[][],
-	): boolean {
-		if (!rings.length) return false;
-		if (!isPointInRing(lon, lat, rings[0])) return false;
-		for (let i = 1; i < rings.length; i++) {
-			if (isPointInRing(lon, lat, rings[i])) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	function isPointInRing(
-		lon: number,
-		lat: number,
-		ring: SphericalPoint[],
-	): boolean {
-		let inside = false;
-		for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-			const xi = ring[i][0];
-			const yi = ring[i][1];
-			const xj = ring[j][0];
-			const yj = ring[j][1];
-			const denom = yj - yi;
-			if (Math.abs(denom) < EPSILON) {
-				continue;
-			}
-			const intersects =
-				yi > lat !== yj > lat && lon < ((xj - xi) * (lat - yi)) / denom + xi;
-			if (intersects) inside = !inside;
-		}
-		return inside;
+		const { u, v } = pointToMaskUV(x, y, z);
+		return sampleLandMask(mask, u, v) >= LAND_MASK_THRESHOLD;
 	}
 </script>
 
