@@ -46,6 +46,7 @@
 	pointCount={25000}
 	class="h-full min-h-96 w-full"
 	markers={locations}
+	pointSize={0.035}
 	{markerTooltip}
 	{focusOn}
 	autoRotate={!focusOn}
