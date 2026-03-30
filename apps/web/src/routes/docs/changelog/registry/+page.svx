@@ -5,6 +5,12 @@ description: All notable changes to Motion Core Component Registry.
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-03-31
+
+### Changed
+
+- **Canvas / Globe**: Switched land/water source of truth from `ne_110m_land.geojson` to COBE-style texture mask sampling (`land-texture.png`) while keeping the existing Three/Threlte instanced-mesh rendering pipeline.
+
 ## [0.8.0] - 2026-03-29
 
 ### Added
