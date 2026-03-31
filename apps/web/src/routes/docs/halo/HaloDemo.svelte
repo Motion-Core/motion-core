@@ -4,6 +4,6 @@
 
 <Halo
 	class="h-full min-h-96 w-full"
-	backgroundColor="#191A1D"
+	backgroundColor="#17181A"
 	intensity={2.2}
 />

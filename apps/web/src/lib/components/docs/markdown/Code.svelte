@@ -36,12 +36,12 @@
 	</code>
 {:else}
 	<span
-		class="inset-shadow relative inline-flex w-fit rounded-sm bg-background-inset p-0.75 font-mono text-sm font-medium whitespace-nowrap text-foreground"
+		class="relative inline-flex w-fit rounded-sm bg-background-inset p-0.75 font-mono text-sm font-medium whitespace-nowrap inset-shadow"
 	>
 		<code
 			{...restProps}
 			class={cn(
-				"card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5",
+				"rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5 text-foreground card",
 				className,
 			)}
 		>

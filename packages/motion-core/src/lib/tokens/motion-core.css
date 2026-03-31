@@ -45,14 +45,14 @@
 }
 
 .dark {
-	--background-inset: oklch(0.1822 0.0044 var(--base-hue));
-	--background: oklch(0.2178 0.0056 var(--base-hue));
-	--background-muted: oklch(0.261 0.007 var(--base-hue));
-	--foreground: oklch(1 0 0);
-	--foreground-muted: oklch(0.6699 0.0081 var(--base-hue));
+	--background-inset: oklch(0.2099 0.0039 var(--base-hue));
+	--background: oklch(0.2574 0.0056 var(--base-hue));
+	--background-muted: oklch(0.283 0.0091 var(--base-hue));
+	--foreground: oklch(0.9674 0.0013 var(--base-hue));
+	--foreground-muted: oklch(0.669 0.0107 var(--base-hue));
 	--accent: oklch(0.6996 0.181959 44.4414);
 	--accent-secondary: oklch(0.5096 0.131959 44.4414);
-	--border: oklch(0.928 0.013 var(--base-hue) / 0.05);
+	--border: oklch(0.999 0.013 var(--base-hue) / 0.05);
 }
 
 @theme {

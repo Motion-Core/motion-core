@@ -8,4 +8,5 @@
 	class="h-full min-h-96 w-full"
 	pixelSize={2}
 	threshold={0.05}
+	backgroundColor="#17181A"
 />
