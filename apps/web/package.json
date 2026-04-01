@@ -35,7 +35,7 @@
 		"predev": "bun ../../scripts/build-registry.ts && bun run docs:sync && bun ../../scripts/validate-navigation.ts",
 		"dev": "vite dev",
 		"prebuild": "bun ../../scripts/build-registry.ts && bun run docs:sync",
-		"build": "vite build && node ./scripts/patch-cloudflare-worker-wasm.mjs",
+		"build": "vite build",
 		"prepreview": "bun ../../scripts/build-registry.ts && bun run docs:sync",
 		"preview": "vite preview",
 		"preview:cf": "bun run build && wrangler dev",
@@ -58,15 +58,13 @@
 		"@threlte/core": "^8.3.1",
 		"@threlte/extras": "^9.7.1",
 		"@fontsource/inter": "^5.2.8",
-		"@resvg/resvg-wasm": "^2.6.2",
 		"carbon-icons-svelte": "^13.9.0",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"gsap": "^3.14.2",
 		"motion-core": "workspace:*",
-		"satori": "^0.25.0",
-		"satori-html": "^0.3.2",
 		"tailwind-merge": "^3.5.0",
-		"three": "^0.182.0"
+		"three": "^0.182.0",
+		"@takumi-rs/image-response": "1.0.0-rc.12"
 	}
 }

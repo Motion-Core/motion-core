@@ -1,7 +1,5 @@
 import { error } from "@sveltejs/kit";
-import satoriStandalone, { init as initSatoriWasm } from "satori/standalone";
-import { html } from "satori-html";
-import { Resvg, initWasm } from "@resvg/resvg-wasm";
+import ImageResponse from "@takumi-rs/image-response";
 import type { RequestHandler } from "./$types";
 import apkGaleriaRegularDataUri from "$lib/assets/fonts/APK-Galeria-Regular.woff?inline";
 import apkGaleriaMediumDataUri from "$lib/assets/fonts/APK-Galeria-Medium.woff?inline";
@@ -12,6 +10,30 @@ const OG_HEIGHT = 630;
 const MAX_TITLE_LENGTH = 88;
 const MAX_DESCRIPTION_LENGTH = 180;
 const canonicalOrigin = new URL(siteConfig.url).origin;
+
+type TakumiElement = {
+	type: string;
+	props: Record<string, unknown>;
+	key: string | null;
+};
+
+type TakumiChild = TakumiElement | string;
+
+const el = (
+	type: string,
+	props: Record<string, unknown> = {},
+	...children: TakumiChild[]
+): TakumiElement => ({
+	type,
+	key: null,
+	props:
+		children.length === 0
+			? props
+			: {
+					...props,
+					children: children.length === 1 ? children[0] : children,
+				},
+});
 
 const clampText = (value: string, maxLength: number) => {
 	const text = value.trim();
@@ -28,99 +50,28 @@ const dataUriToArrayBuffer = (dataUri: string) => {
 	}
 	return bytes.buffer;
 };
+
 const fontDataPromise = Promise.all([
 	Promise.resolve(dataUriToArrayBuffer(apkGaleriaRegularDataUri)),
 	Promise.resolve(dataUriToArrayBuffer(apkGaleriaMediumDataUri)),
 ]);
 
-type ResvgWasmState = {
-	promise?: Promise<void>;
-	initialized?: boolean;
-};
-
-type SatoriWasmState = {
-	promise?: Promise<void>;
-	initialized?: boolean;
-};
-
-let defaultSatoriPromise:
-	| Promise<(typeof import("satori"))["default"]>
-	| undefined;
-
-const ogWasmState = globalThis as typeof globalThis & {
-	__docsOgResvgWasmState?: ResvgWasmState;
-	__docsOgResvgWasmModule?: WebAssembly.Module;
-	__docsOgSatoriWasmState?: SatoriWasmState;
-	__docsOgYogaWasmModule?: WebAssembly.Module;
-};
-
-if (!ogWasmState.__docsOgResvgWasmState) {
-	ogWasmState.__docsOgResvgWasmState = {};
-}
-
-if (!ogWasmState.__docsOgSatoriWasmState) {
-	ogWasmState.__docsOgSatoriWasmState = {};
-}
-
-const ensureResvgWasm = (origin: string, fetcher: typeof fetch) => {
-	const state = ogWasmState.__docsOgResvgWasmState as ResvgWasmState;
-	if (state.initialized) {
-		return Promise.resolve();
-	}
-
-	if (!state.promise) {
-		const precompiledWasmModule = ogWasmState.__docsOgResvgWasmModule;
-		const loadWasm = precompiledWasmModule
-			? Promise.resolve(precompiledWasmModule)
-			: fetcher("/resvg-index_bg.wasm").then((response) => {
-					if (!response.ok) {
-						throw new Error(`Failed to load resvg wasm: ${response.status}`);
-					}
-					return response.arrayBuffer();
-				});
-
-		state.promise = loadWasm
-			.then((wasmSource) => initWasm(wasmSource))
-			.then(() => {
-				state.initialized = true;
-			})
-			.catch((err: unknown) => {
-				const message = err instanceof Error ? err.message : String(err);
-				if (message.includes("Already initialized")) {
-					state.initialized = true;
-					return;
-				}
-				state.promise = undefined;
-				throw err;
-			});
-	}
-	return state.promise;
-};
-
-const ensureSatoriWasm = () => {
-	const state = ogWasmState.__docsOgSatoriWasmState as SatoriWasmState;
-	if (state.initialized || !ogWasmState.__docsOgYogaWasmModule) {
-		return Promise.resolve();
-	}
-
-	if (!state.promise) {
-		state.promise = initSatoriWasm(ogWasmState.__docsOgYogaWasmModule)
-			.then(() => {
-				state.initialized = true;
-			})
-			.catch((err: unknown) => {
-				const message = err instanceof Error ? err.message : String(err);
-				if (message.includes("already initialized")) {
-					state.initialized = true;
-					return;
-				}
-				state.promise = undefined;
-				throw err;
-			});
-	}
-
-	return state.promise;
-};
+const takumiFontLoaders = [
+	{
+		key: "apk-galeria-regular",
+		name: "APK Galeria",
+		weight: 400,
+		style: "normal" as const,
+		data: async () => (await fontDataPromise)[0],
+	},
+	{
+		key: "apk-galeria-medium",
+		name: "APK Galeria",
+		weight: 500,
+		style: "normal" as const,
+		data: async () => (await fontDataPromise)[1],
+	},
+];
 
 const logoDataUri = `data:image/svg+xml,${encodeURIComponent(
 	brandLogoRaw.replaceAll("currentColor", "#ff6900"),
@@ -168,7 +119,7 @@ const logoDisplayWidth = Math.round(
 	LOGO_DISPLAY_HEIGHT * extractLogoAspectRatio(brandLogoRaw),
 );
 
-export const GET: RequestHandler = async ({ params, url, fetch }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const rawSlug = (params.slug ?? "").replace(/^\/+|\/+$/g, "");
 	const slug =
 		rawSlug === "" || rawSlug === "index" || rawSlug === "docs" ? "" : rawSlug;
@@ -185,110 +136,117 @@ export const GET: RequestHandler = async ({ params, url, fetch }) => {
 		MAX_DESCRIPTION_LENGTH,
 	);
 	const pageUrl = new URL(`/docs/${metadata.slug}`, canonicalOrigin).href;
-	const [apkGaleriaRegular, apkGaleriaMedium] = await fontDataPromise;
-	await ensureResvgWasm(url.origin, fetch);
-	const useStandaloneSatori = Boolean(ogWasmState.__docsOgYogaWasmModule);
-	if (useStandaloneSatori) {
-		await ensureSatoriWasm();
-	}
 
-	const markup = html`
-		<div
-			style="display:flex;flex-direction:column;justify-content:space-between;width:100%;height:100%;padding:40px;background:#ffffff;font-family:FK Grotesk Neue,sans-serif;"
-		>
-			<div
-				style="display:flex;align-items:flex-start;justify-content:space-between;"
-			>
-				<img
-					src="${logoDataUri}"
-					alt=""
-					style="display:flex;width:${logoDisplayWidth}px;height:${LOGO_DISPLAY_HEIGHT}px;"
-				/>
-				<div style="display:flex;font-size:24px;color:#8a8f98;font-weight:400;">
-					${pageUrl}
-				</div>
-			</div>
-			<div style="display:flex;flex-direction:column;gap:24px;">
-				<div
-					style="display:flex;font-size:21px;letter-spacing:0.06em;text-transform:uppercase;color:#8a8f98;font-weight:400;"
-				>
-					${category}
-				</div>
-				<div
-					style="display:flex;max-width:1060px;font-size:98px;line-height:0.99;color:#111318;font-weight:500;"
-				>
-					${title}
-				</div>
-				<div
-					style="display:flex;max-width:1020px;font-size:36px;line-height:1.28;color:#5f6672;font-weight:400;"
-				>
-					${description}
-				</div>
-			</div>
-		</div>
-	`;
-	const satoriMarkup = markup as unknown as Parameters<
-		typeof satoriStandalone
-	>[0];
-
-	const renderSatori = async () => {
-		if (useStandaloneSatori) {
-			return satoriStandalone(satoriMarkup, {
-				width: OG_WIDTH,
-				height: OG_HEIGHT,
-				fonts: [
-					{
-						name: "APK Galeria Regular",
-						data: apkGaleriaRegular,
-						weight: 400,
-						style: "normal",
-					},
-					{
-						name: "APK Galeria Medium",
-						data: apkGaleriaMedium,
-						weight: 600,
-						style: "normal",
-					},
-				],
-			});
-		}
-
-		if (!defaultSatoriPromise) {
-			defaultSatoriPromise = import("satori").then((module) => module.default);
-		}
-		const defaultSatori = await defaultSatoriPromise;
-		return defaultSatori(satoriMarkup, {
-			width: OG_WIDTH,
-			height: OG_HEIGHT,
-			fonts: [
-				{
-					name: "APK Galeria Regular",
-					data: apkGaleriaRegular,
-					weight: 400,
-					style: "normal",
+	const component = el(
+		"div",
+		{
+			style: {
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "space-between",
+				width: "100%",
+				height: "100%",
+				padding: 40,
+				background: "#ffffff",
+				fontFamily: "APK Galeria, sans-serif",
+			},
+		},
+		el(
+			"div",
+			{
+				style: {
+					display: "flex",
+					alignItems: "flex-start",
+					justifyContent: "space-between",
 				},
-				{
-					name: "APK Galeria Medium",
-					data: apkGaleriaMedium,
-					weight: 600,
-					style: "normal",
+			},
+			el("img", {
+				src: logoDataUri,
+				alt: "",
+				style: {
+					display: "flex",
+					width: logoDisplayWidth,
+					height: LOGO_DISPLAY_HEIGHT,
 				},
-			],
-		});
-	};
+			}),
+			el(
+				"div",
+				{
+					style: {
+						display: "flex",
+						fontSize: 24,
+						color: "#8a8f98",
+						fontWeight: 400,
+					},
+				},
+				pageUrl,
+			),
+		),
+		el(
+			"div",
+			{
+				style: {
+					display: "flex",
+					flexDirection: "column",
+					gap: 24,
+				},
+			},
+			el(
+				"div",
+				{
+					style: {
+						display: "flex",
+						fontSize: 21,
+						letterSpacing: "0.06em",
+						textTransform: "uppercase",
+						color: "#8a8f98",
+						fontWeight: 400,
+					},
+				},
+				category,
+			),
+			el(
+				"div",
+				{
+					style: {
+						display: "flex",
+						maxWidth: 1060,
+						fontSize: 98,
+						lineHeight: 0.99,
+						color: "#111318",
+						fontWeight: 400,
+					},
+				},
+				title,
+			),
+			el(
+				"div",
+				{
+					style: {
+						display: "flex",
+						maxWidth: 1020,
+						fontSize: 36,
+						lineHeight: 1.28,
+						color: "#5f6672",
+						fontWeight: 400,
+					},
+				},
+				description,
+			),
+		),
+	);
 
-	const svg = await renderSatori();
-	const rendered = new Resvg(svg, {
-		fitTo: { mode: "width", value: OG_WIDTH },
-	}).render();
-	const png = rendered.asPng();
-	const pngBody = new Uint8Array(png.byteLength);
-	pngBody.set(png);
-
-	return new Response(pngBody, {
+	const response = new ImageResponse(component, {
+		width: OG_WIDTH,
+		height: OG_HEIGHT,
+		format: "png",
+		fonts: takumiFontLoaders,
 		headers: {
 			"content-type": "image/png",
 			"cache-control": "public, max-age=3600",
 		},
 	});
+
+	await response.ready;
+	return response;
 };
