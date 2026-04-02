@@ -1,0 +1,120 @@
+---
+name: Fake 3D Image
+description: A depth-map parallax background that reacts to pointer movement.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+
+	import fake3DImageSource from "motion-core/components/fake-3d-image/Fake3DImage.svelte?raw";
+	import fake3DImageSceneSource from "motion-core/components/fake-3d-image/Fake3DImageScene.svelte?raw";
+	import Fake3DImageDemo from "./Fake3DImageDemo.svelte";
+	import fake3DImageDemoSource from "./Fake3DImageDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="fake-3d-image" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { Fake3DImage } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Generate Depth Map
+
+<Steps>
+	<Step title="Choose a source image">
+		Prepare a regular image that has clear depth separation.
+	</Step>
+	<Step title="Open DepthPro Grayscale">
+		Go to
+		<a
+		    class="font-medium tracking-normal text-foreground underline decoration-dotted underline-offset-4 transition-[color] duration-150 ease-out hover:text-foreground-muted"
+			href="https://huggingface.co/spaces/cubuvl/DepthPro-transformers-Grayscale"
+			target="_blank"
+			rel="noreferrer"
+		>
+			DepthPro Transformers Grayscale
+		</a>.
+	</Step>
+	<Step title="Compute and download">
+		Upload your image, generate the depth map, then download the grayscale result.
+	</Step>
+	<Step title="Use both files in component props">
+		Set your image path in `colorSrc` and the generated depth map path in `depthSrc`.
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: fake3DImageDemoSource, language: "svelte" },
+		{
+			name: "Fake3DImage.svelte",
+			code: fake3DImageSource,
+			language: "svelte",
+		},
+		{
+			name: "Fake3DImageScene.svelte",
+			code: fake3DImageSceneSource,
+			language: "svelte",
+		},
+	]}
+>
+	<Fake3DImageDemo />
+</ComponentPreview>
+
+## Props
+
+### Fake3DImage
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "colorSrc",
+			type: "string",
+			default: "—",
+			description: "Path to the original color image.",
+		},
+		{
+			prop: "depthSrc",
+			type: "string",
+			default: "—",
+			description: "Path to the grayscale depth map image.",
+		},
+		{
+			prop: "xThreshold",
+			type: "number",
+			default: "8",
+			description: "Horizontal displacement threshold.",
+		},
+		{
+			prop: "yThreshold",
+			type: "number",
+			default: "8",
+			description: "Vertical displacement threshold.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>

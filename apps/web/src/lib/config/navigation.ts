@@ -66,6 +66,10 @@ export const docsNavigation: DocItem[] = [
 				name: "Dithered Image",
 			},
 			{
+				slug: "fake-3d-image",
+				name: "Fake 3D Image",
+			},
+			{
 				slug: "fluid-simulation",
 				name: "Fluid Simulation",
 			},

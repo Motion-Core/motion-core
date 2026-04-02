@@ -1,0 +1,29 @@
+{
+	"introducedAt": "2026-04-02",
+	"name": "Fake 3D Image",
+	"slug": "fake-3d-image",
+	"description": "A depth-map parallax background that reacts to pointer movement.",
+	"category": "canvas",
+	"dependencies": {
+		"@threlte/core": "^8.3.1",
+		"@threlte/extras": "^9.7.1",
+		"three": "^0.182.0"
+	},
+	"devDependencies": {
+		"@types/three": "^0.182.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "Fake3DImage.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "Fake3DImageScene.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}
