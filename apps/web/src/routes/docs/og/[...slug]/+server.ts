@@ -1,8 +1,8 @@
 import { error } from "@sveltejs/kit";
 import ImageResponse from "@takumi-rs/image-response";
 import type { RequestHandler } from "./$types";
-import apkGaleriaRegularDataUri from "$lib/assets/fonts/APK-Galeria-Regular.woff?inline";
-import apkGaleriaMediumDataUri from "$lib/assets/fonts/APK-Galeria-Medium.woff?inline";
+import apkGaleriaRegularDataUri from "$lib/assets/fonts/APK-Galeria-Regular.woff2?inline";
+import apkGaleriaMediumDataUri from "$lib/assets/fonts/APK-Galeria-Medium.woff2?inline";
 import { brandLogoRaw, getDocBySlug, getDocMetadata, siteConfig } from "$lib";
 
 const OG_WIDTH = 1200;

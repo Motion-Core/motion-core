@@ -53,6 +53,7 @@ export const docsManifest: ComponentInfo[] = [
 		slug: "fake-3d-image",
 		name: "Fake 3D Image",
 		category: "canvas",
+		introducedAt: "2026-04-02",
 		dependencies: {
 			"@threlte/core": "^8.3.1",
 			"@threlte/extras": "^9.7.1",
