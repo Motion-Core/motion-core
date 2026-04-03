@@ -115,7 +115,7 @@ import { Fake3DImage } from "$lib/motion-core";
 			{
 				prop: "sensitivity",
 				type: "number",
-				default: "0.125",
+				default: "0.25",
 				description: "Pointer sensitivity multiplier for parallax motion.",
 			},
 			{

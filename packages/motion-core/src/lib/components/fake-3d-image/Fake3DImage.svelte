@@ -25,7 +25,7 @@
 		yThreshold?: number;
 		/**
 		 * Pointer sensitivity multiplier applied before displacement thresholding.
-		 * @default 0.125
+		 * @default 0.25
 		 */
 		sensitivity?: number;
 		/**
@@ -40,7 +40,7 @@
 		depthSrc,
 		xThreshold = 8,
 		yThreshold = 8,
-		sensitivity = 0.125,
+		sensitivity = 0.25,
 		class: className = "",
 		...rest
 	}: Props = $props();
