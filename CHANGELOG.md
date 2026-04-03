@@ -6,6 +6,13 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-04-03
+
+### Added
+
+- **1 component**:
+  - **Canvas**: Fake 3D Image.
+
 ## [0.8.1] - 2026-03-31
 
 ### Changed
