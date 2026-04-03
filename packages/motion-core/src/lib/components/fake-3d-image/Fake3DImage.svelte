@@ -24,6 +24,11 @@
 		 */
 		yThreshold?: number;
 		/**
+		 * Pointer sensitivity multiplier applied before displacement thresholding.
+		 * @default 0.125
+		 */
+		sensitivity?: number;
+		/**
 		 * Additional CSS classes for the container.
 		 */
 		class?: string;
@@ -35,6 +40,7 @@
 		depthSrc,
 		xThreshold = 8,
 		yThreshold = 8,
+		sensitivity = 0.125,
 		class: className = "",
 		...rest
 	}: Props = $props();
@@ -45,7 +51,7 @@
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
 		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene {colorSrc} {depthSrc} {xThreshold} {yThreshold} />
+			<Scene {colorSrc} {depthSrc} {xThreshold} {yThreshold} {sensitivity} />
 		</Canvas>
 	</div>
 </div>

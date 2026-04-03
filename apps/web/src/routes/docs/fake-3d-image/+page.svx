@@ -16,6 +16,8 @@ description: A depth-map parallax background that reacts to pointer movement.
 	import fake3DImageDemoSource from "./Fake3DImageDemo.svelte?raw";
 </script>
 
+> Warning: Final quality depends heavily on the input image and especially on the generated depth map. Artifacts or wrong depth separation in the map will directly degrade the effect. Different models (for example Apple Depth Pro vs Depth Anything) also produce different depth interpretations, which changes perceived effect intensity.
+
 ## Installation
 
 <Steps>
@@ -104,16 +106,22 @@ import { Fake3DImage } from "$lib/motion-core";
 			default: "8",
 			description: "Horizontal displacement threshold.",
 		},
-		{
-			prop: "yThreshold",
-			type: "number",
-			default: "8",
-			description: "Vertical displacement threshold.",
-		},
-		{
-			prop: "class",
-			type: "string",
-			default: '""',
+			{
+				prop: "yThreshold",
+				type: "number",
+				default: "8",
+				description: "Vertical displacement threshold.",
+			},
+			{
+				prop: "sensitivity",
+				type: "number",
+				default: "0.125",
+				description: "Pointer sensitivity multiplier for parallax motion.",
+			},
+			{
+				prop: "class",
+				type: "string",
+				default: '""',
 			description: "Additional CSS classes for the container.",
 		},
 	]}

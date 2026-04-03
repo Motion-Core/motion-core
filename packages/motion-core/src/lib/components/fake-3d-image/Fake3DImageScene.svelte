@@ -22,9 +22,20 @@
 		 * @default 8
 		 */
 		yThreshold?: number;
+		/**
+		 * Pointer sensitivity multiplier applied before displacement thresholding.
+		 * @default 0.125
+		 */
+		sensitivity?: number;
 	}
 
-	let { colorSrc, depthSrc, xThreshold = 8, yThreshold = 8 }: Props = $props();
+	let {
+		colorSrc,
+		depthSrc,
+		xThreshold = 8,
+		yThreshold = 8,
+		sensitivity = 0.125,
+	}: Props = $props();
 
 	const { size, renderer, camera } = useThrelte();
 
@@ -150,8 +161,6 @@
 
 	useTask((delta) => {
 		if (!meshRef || !materialRef) return;
-
-		const sensitivity = 0.125;
 
 		const targetX = targetPointer.x * sensitivity;
 		const targetY = targetPointer.y * sensitivity;
