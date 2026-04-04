@@ -6,6 +6,14 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+
+## [0.10.0] - 2026-04-04
+
+### Added
+
+- **1 component**:
+  - **Canvas**: Fluid Image Reveal.
+
 ## [0.9.0] - 2026-04-03
 
 ### Added

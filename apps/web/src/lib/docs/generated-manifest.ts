@@ -86,6 +86,17 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "fluid-image-reveal",
+		name: "Fluid Image Reveal",
+		category: "canvas",
+		introducedAt: "2026-04-04",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			"@threlte/extras": "^9.7.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "fluid-simulation",
 		name: "Fluid Simulation",
 		category: "canvas",

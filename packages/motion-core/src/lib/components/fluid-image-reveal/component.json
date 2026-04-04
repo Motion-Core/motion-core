@@ -1,0 +1,29 @@
+{
+	"introducedAt": "2026-04-04",
+	"name": "Fluid Image Reveal",
+	"slug": "fluid-image-reveal",
+	"description": "A fluid simulation mask that reveals a second image through pointer-driven splats.",
+	"category": "canvas",
+	"dependencies": {
+		"@threlte/core": "^8.3.1",
+		"@threlte/extras": "^9.7.1",
+		"three": "^0.182.0"
+	},
+	"devDependencies": {
+		"@types/three": "^0.182.0"
+	},
+	"internalDependencies": [],
+	"files": [
+		{
+			"path": "FluidImageReveal.svelte",
+			"kind": "entry"
+		},
+		{
+			"path": "FluidImageRevealScene.svelte"
+		},
+		{
+			"path": "../../utils/cn.ts",
+			"target": "utils"
+		}
+	]
+}

@@ -1,7 +1,7 @@
 {
 	"name": "Motion Core Registry",
 	"description": "Curated Motion Core Svelte components",
-	"version": "0.9.0",
+	"version": "0.10.0",
 	"requirements": {
 		"svelte": "^5.0.0",
 		"tailwindcss": "^4.1.0"
@@ -249,6 +249,35 @@
 				{
 					"path": "helpers/gsap.ts",
 					"target": "helpers"
+				}
+			]
+		},
+		"fluid-image-reveal": {
+			"slug": "fluid-image-reveal",
+			"name": "Fluid Image Reveal",
+			"description": "A fluid simulation mask that reveals a second image through pointer-driven splats.",
+			"category": "canvas",
+			"introducedAt": "2026-04-04",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"@threlte/extras": "^9.7.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/fluid-image-reveal/FluidImageReveal.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/fluid-image-reveal/FluidImageRevealScene.svelte"
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
 				}
 			]
 		},

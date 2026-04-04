@@ -1,0 +1,117 @@
+---
+name: Fluid Image Reveal
+description: A fluid simulation mask that reveals a second image through pointer-driven splats.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+	import fluidImageRevealSource from "motion-core/components/fluid-image-reveal/FluidImageReveal.svelte?raw";
+	import sceneSource from "motion-core/components/fluid-image-reveal/FluidImageRevealScene.svelte?raw";
+	import FluidImageRevealDemo from "./FluidImageRevealDemo.svelte";
+	import fluidImageRevealDemoSource from "./FluidImageRevealDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="fluid-image-reveal" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { FluidImageReveal } from "$lib/motion-core";
+```
+
+    </Step>
+
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: fluidImageRevealDemoSource, language: "svelte" },
+		{
+			name: "FluidImageReveal.svelte",
+			code: fluidImageRevealSource,
+			language: "svelte",
+		},
+		{
+			name: "FluidImageRevealScene.svelte",
+			code: sceneSource,
+			language: "svelte",
+		},
+	]}
+>
+	<FluidImageRevealDemo />
+</ComponentPreview>
+
+## Props
+
+### FluidImageReveal
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "baseImage",
+			type: "string",
+			default: "—",
+			description: "URL of the base image shown by default.",
+		},
+		{
+			prop: "revealImage",
+			type: "string",
+			default: "—",
+			description: "URL of the image revealed through the fluid mask.",
+		},
+		{
+			prop: "dissipation",
+			type: "number",
+			default: "0.96",
+			description:
+				"Dissipation factor for the reveal mask. Lower values make reveal trails fade faster.",
+		},
+		{
+			prop: "pointerSize",
+			type: "number",
+			default: "0.005",
+			description: "Radius of the pointer influence (splat size).",
+		},
+		{
+			prop: "velocityDissipation",
+			type: "number",
+			default: "0.96",
+			description:
+				"Dissipation factor for fluid velocity. Lower values make motion settle faster.",
+		},
+		{
+			prop: "pressureIterations",
+			type: "number",
+			default: "10",
+			description:
+				"Number of Jacobi iterations for pressure solving. Higher values improve stability at extra cost.",
+		},
+		{
+			prop: "blendSoftness",
+			type: "number",
+			default: "0.22",
+			description:
+				"Softness of the transition between base and reveal image. Higher values make edges smoother.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
