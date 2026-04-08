@@ -43,3 +43,5 @@ export { default as VideoPlayer } from "./video-player/VideoPlayer.svelte";
 export { default as GodRays } from "./god-rays/GodRays.svelte";
 export { default as SpecularBand } from "./specular-band/SpecularBand.svelte";
 export { default as Halo } from "./halo/Halo.svelte";
+export { default as Orb } from "./orb/Orb.svelte";
+export type { OrbState } from "./orb/types";

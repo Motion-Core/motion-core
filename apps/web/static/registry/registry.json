@@ -751,6 +751,43 @@
 				}
 			]
 		},
+		"orb": {
+			"slug": "orb",
+			"name": "Orb",
+			"description": "A 3D animated orb with state-driven flow patterns — idle drift, attune swirl, pulse breathing, surge churn — and smooth palette transitions between states.",
+			"category": "canvas",
+			"dependencies": {
+				"@threlte/core": "^8.3.1",
+				"three": "^0.182.0"
+			},
+			"devDependencies": {
+				"@types/three": "^0.182.0"
+			},
+			"internalDependencies": [],
+			"files": [
+				{
+					"path": "components/orb/Orb.svelte",
+					"kind": "entry"
+				},
+				{
+					"path": "components/orb/OrbScene.svelte"
+				},
+				{
+					"path": "components/orb/orb.glsl.ts"
+				},
+				{
+					"path": "components/orb/noise.glsl.ts"
+				},
+				{
+					"path": "components/orb/types.ts",
+					"typeExports": ["OrbState"]
+				},
+				{
+					"path": "utils/cn.ts",
+					"target": "utils"
+				}
+			]
+		},
 		"pixelated-image": {
 			"slug": "pixelated-image",
 			"name": "Pixelated Image",

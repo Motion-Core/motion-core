@@ -254,6 +254,16 @@ export const docsManifest: ComponentInfo[] = [
 		},
 	},
 	{
+		slug: "orb",
+		name: "Orb",
+		category: "canvas",
+		introducedAt: "2026-04-08",
+		dependencies: {
+			"@threlte/core": "^8.3.1",
+			three: "^0.182.0",
+		},
+	},
+	{
 		slug: "pixelated-image",
 		name: "Pixelated Image",
 		category: "canvas",
