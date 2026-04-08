@@ -118,6 +118,10 @@ export const docsNavigation: DocItem[] = [
 				name: "Neural Noise",
 			},
 			{
+				slug: "orb",
+				name: "Orb",
+			},
+			{
 				slug: "pixelated-image",
 				name: "Pixelated Image",
 			},

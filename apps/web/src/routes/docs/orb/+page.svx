@@ -1,0 +1,99 @@
+---
+name: Orb
+description: A 3D animated orb with state-driven flow patterns — idle drift, attune swirl, pulse breathing, surge churn — and smooth palette transitions between states.
+---
+
+<script lang="ts">
+	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import ApiTable from "$lib/components/docs/ApiTable.svelte";
+	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
+	import Steps from "$lib/components/docs/markdown/Steps.svelte";
+	import Step from "$lib/components/docs/markdown/Step.svelte";
+
+	import orbSource from "motion-core/components/orb/Orb.svelte?raw";
+	import orbSceneSource from "motion-core/components/orb/OrbScene.svelte?raw";
+	import OrbDemo from "./OrbDemo.svelte";
+	import orbDemoSource from "./OrbDemo.svelte?raw";
+</script>
+
+## Installation
+
+<Steps>
+	<Step title="Install the component">
+		Run the following command to install the component and its dependencies:
+		<InstallationTabs component="orb" />
+	</Step>
+	<Step title="Import the component">
+		Import the component into your Svelte file:
+
+```ts
+import { Orb } from "$lib/motion-core";
+```
+
+	</Step>
+</Steps>
+
+## Usage
+
+<ComponentPreview
+	sources={[
+		{ name: "Example", code: orbDemoSource, language: "svelte" },
+		{ name: "Orb.svelte", code: orbSource, language: "svelte" },
+		{ name: "OrbScene.svelte", code: orbSceneSource, language: "svelte" },
+	]}
+>
+	<OrbDemo />
+</ComponentPreview>
+
+## Props
+
+### Orb
+
+<ApiTable
+	headers={["Prop", "Type", "Default"]}
+	keys={["prop", "type", "default"]}
+	data={[
+		{
+			prop: "state",
+			type: '"idle" | "attune" | "pulse" | "surge"',
+			default: '"idle"',
+			description:
+				"Controls the active animation mode. Each state drives a distinct flow pattern and motion dynamic.",
+		},
+		{
+			prop: "amplitude",
+			type: "number",
+			default: "0",
+			description:
+				"Audio amplitude in [0, 1]. Adds a reactive pulse layer on top of the current state animation.",
+		},
+		{
+			prop: "color",
+			type: "string",
+			default: '"#6933ff"',
+			description:
+				"Base color for the orb palette and rim glow. The full 5-color palette is derived from this hue.",
+		},
+		{
+			prop: "speed",
+			type: "number",
+			default: "1",
+			description: "Speed multiplier for the entire animation. 0.5 is half speed, 2 is double.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: '""',
+			description: "Additional CSS classes for the container.",
+		},
+	]}
+/>
+
+### OrbState
+
+| Value | Description |
+|-------|-------------|
+| `idle` | Gentle meandering drift with a deep purple palette. |
+| `attune` | Tangential swirl — colors visibly rotate around the sphere. |
+| `pulse` | Radial breathing — colors expand outward and contract back. |
+| `surge` | Lissajous orbital churn — rapid multi-axis movement. |

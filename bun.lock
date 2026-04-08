@@ -69,7 +69,7 @@
     },
     "packages/motion-core": {
       "name": "motion-core",
-      "version": "0.7.0",
+      "version": "0.10.0",
       "dependencies": {
         "clsx": "^2.1.1",
         "tailwind-merge": "^3.4.0",
