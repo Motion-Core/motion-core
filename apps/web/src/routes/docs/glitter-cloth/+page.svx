@@ -60,7 +60,7 @@ import { GlitterCloth } from "$lib/motion-core";
 	data={[
 		{
 			prop: "color",
-			type: "THREE.ColorRepresentation",
+			type: "string | number | [number, number, number] | { r: number; g: number; b: number }",
 			default: '"#FF6900"',
 			description:
 				"Primary color used for the shader palette. Accent and shadow tones are derived automatically.",

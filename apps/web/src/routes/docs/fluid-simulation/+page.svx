@@ -77,10 +77,10 @@ import { FluidSimulation } from "$lib/motion-core";
 		},
 		{
 			prop: "color",
-			type: "THREE.ColorRepresentation",
+			type: "string | number | [number, number, number] | { r: number; g: number; b: number }",
 			default: '"#ff6900"',
 			description:
-				"Color of the fluid splat. Accepts any valid Three.js color representation.",
+				"Color of the fluid splat. Accepts string, number, RGB tuple, or { r, g, b } object.",
 		},
 		{
 			prop: "velocityDissipation",

@@ -7,6 +7,6 @@
 	ditherMap="bayer8x8"
 	class="h-full min-h-96 w-full"
 	pixelSize={2}
-	threshold={0.05}
+	threshold={0.21}
 	backgroundColor="#17181A"
 />

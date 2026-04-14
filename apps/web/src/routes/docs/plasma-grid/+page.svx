@@ -55,14 +55,14 @@ import { PlasmaGrid } from "$lib/motion-core";
 	data={[
 		{
 			prop: "color",
-			type: "string",
-			default: '"#18181B"',
+			type: 'string | number | [number, number, number] | { r: number; g: number; b: number }',
+			default: '"#111113"',
 			description: "The base background color of the effect.",
 		},
 		{
 			prop: "highlightColor",
-			type: "string",
-			default: '"#572400"',
+			type: 'string | number | [number, number, number] | { r: number; g: number; b: number }',
+			default: '"#FF6900"',
 			description: "The color used for the plasma noise gradients.",
 		},
 		{
