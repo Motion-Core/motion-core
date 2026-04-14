@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Canvas, T } from "@threlte/core";
-	import { NoToneMapping } from "three";
 	import GalleryScene from "./InfiniteGalleryScene.svelte";
 	import { cn } from "../../utils/cn";
 	import type { ComponentProps } from "svelte";
@@ -53,21 +51,16 @@
 		class: className = "",
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<T.PerspectiveCamera makeDefault position={[0, 0, 0]} fov={55} />
-			<GalleryScene
-				{images}
-				{speed}
-				{visibleCount}
-				{fadeSettings}
-				{blurSettings}
-			/>
-		</Canvas>
+		<GalleryScene
+			{images}
+			{speed}
+			{visibleCount}
+			{fadeSettings}
+			{blurSettings}
+		/>
 	</div>
 </div>

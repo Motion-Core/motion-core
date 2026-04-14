@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./GlassSlideshowScene.svelte";
 	import { cn } from "../../utils/cn";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 
 	type SceneProps = ComponentProps<typeof Scene>;
@@ -72,8 +70,6 @@
 		autoplayInterval = 5000,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 
 	let autoplayIndex = $state(0);
 	let hasInitializedAutoplayIndex = false;
@@ -147,16 +143,14 @@
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{images}
-				index={currentIndex}
-				{transitionDuration}
-				{intensity}
-				{distortion}
-				{chromaticAberration}
-				{refraction}
-			/>
-		</Canvas>
+		<Scene
+			{images}
+			index={currentIndex}
+			{transitionDuration}
+			{intensity}
+			{distortion}
+			{chromaticAberration}
+			{refraction}
+		/>
 	</div>
 </div>

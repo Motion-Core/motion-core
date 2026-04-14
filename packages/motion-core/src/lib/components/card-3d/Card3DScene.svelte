@@ -1,7 +1,14 @@
 <script lang="ts">
-	import { T, useTask } from "@threlte/core";
-	import { useTexture } from "@threlte/extras";
-	import * as THREE from "three";
+	import { onMount } from "svelte";
+	import {
+		Box,
+		Camera,
+		Mesh,
+		Program,
+		Renderer,
+		Texture,
+		Transform,
+	} from "ogl";
 
 	interface HeadPosition {
 		x: number;
@@ -49,146 +56,402 @@
 		headPosition = { x: 0, y: 0, z: 0 },
 	}: Props = $props();
 
+	let canvas = $state<HTMLCanvasElement>();
+	let setDimensions =
+		$state<
+			(next: {
+				width: number;
+				height: number;
+				depth: number;
+				radius: number;
+			}) => void
+		>();
+	let setImageSource = $state<(source: string) => void>();
+
 	const initialCameraPosition = { x: 0, y: 0, z: 5 };
-
-	let smoothedRotation = $state({ x: 0, y: 0 });
-
 	const lerpFactor = 0.1;
+	let smoothedRotation = { x: 0, y: 0 };
 
-	useTask(() => {
-		const targetRotationY = -headPosition.x * 0.5;
-		const targetRotationX = headPosition.y * 0.4;
+	const createRoundedCardGeometry = (
+		gl: Renderer["gl"],
+		cardWidth: number,
+		cardHeight: number,
+		cardDepth: number,
+		cardRadius: number,
+	) => {
+		const widthSegments = Math.max(12, Math.round(cardWidth * 10));
+		const heightSegments = Math.max(12, Math.round(cardHeight * 10));
+		const depthSegments = 2;
 
-		smoothedRotation.x += (targetRotationX - smoothedRotation.x) * lerpFactor;
-		smoothedRotation.y += (targetRotationY - smoothedRotation.y) * lerpFactor;
-	});
+		const geometry = new Box(gl, {
+			width: cardWidth,
+			height: cardHeight,
+			depth: cardDepth,
+			widthSegments,
+			heightSegments,
+			depthSegments,
+		});
 
-	function createRoundedRectShape(
-		w: number,
-		h: number,
-		r: number,
-	): THREE.Shape {
-		const shape = new THREE.Shape();
+		const positionAttr = geometry.attributes.position;
+		const normalAttr = geometry.attributes.normal;
+		const positions = positionAttr.data as Float32Array;
+		const normals = normalAttr.data as Float32Array;
 
-		const maxRadius = Math.min(w, h) / 2;
-		const clampedRadius = Math.min(r, maxRadius);
+		const halfW = cardWidth * 0.5;
+		const halfH = cardHeight * 0.5;
+		const rounded = Math.max(0, Math.min(cardRadius, halfW, halfH));
+		const innerW = Math.max(0, halfW - rounded);
+		const innerH = Math.max(0, halfH - rounded);
 
-		const halfW = w / 2;
-		const halfH = h / 2;
+		for (let i = 0; i < positions.length; i += 3) {
+			const x = positions[i];
+			const y = positions[i + 1];
+			const z = positions[i + 2];
 
-		shape.moveTo(-halfW + clampedRadius, -halfH);
-		shape.lineTo(halfW - clampedRadius, -halfH);
-		shape.quadraticCurveTo(halfW, -halfH, halfW, -halfH + clampedRadius);
-		shape.lineTo(halfW, halfH - clampedRadius);
-		shape.quadraticCurveTo(halfW, halfH, halfW - clampedRadius, halfH);
-		shape.lineTo(-halfW + clampedRadius, halfH);
-		shape.quadraticCurveTo(-halfW, halfH, -halfW, halfH - clampedRadius);
-		shape.lineTo(-halfW, -halfH + clampedRadius);
-		shape.quadraticCurveTo(-halfW, -halfH, -halfW + clampedRadius, -halfH);
+			const sx = x < 0 ? -1 : 1;
+			const sy = y < 0 ? -1 : 1;
 
-		return shape;
-	}
+			const ax = Math.abs(x);
+			const ay = Math.abs(y);
 
-	let geometry = $derived.by(() => {
-		const shape = createRoundedRectShape(width, height, radius);
+			const qx = Math.max(ax - innerW, 0);
+			const qy = Math.max(ay - innerH, 0);
+			const qLen = Math.hypot(qx, qy);
 
-		const extrudeSettings: THREE.ExtrudeGeometryOptions = {
-			depth: depth,
-			bevelEnabled: false,
-			curveSegments: 16,
-		};
+			let nxLocal = 0;
+			let nyLocal = 0;
 
-		const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+			if (qLen > 1e-6) {
+				nxLocal = qx / qLen;
+				nyLocal = qy / qLen;
+			} else if (ax >= ay) {
+				nxLocal = 1;
+			} else {
+				nyLocal = 1;
+			}
 
-		// Center the geometry on Z axis
-		geo.translate(0, 0, -depth / 2);
+			positions[i] = sx * innerW + nxLocal * sx * rounded;
+			positions[i + 1] = sy * innerH + nyLocal * sy * rounded;
+			positions[i + 2] = z;
 
-		// UV mapping will be applied after texture loads (to get image aspect ratio)
-		return geo;
-	});
+			if (Math.abs(normals[i + 2]) > 0.9) {
+				normals[i] = 0;
+				normals[i + 1] = 0;
+				normals[i + 2] = normals[i + 2] > 0 ? 1 : -1;
+			} else {
+				normals[i] = nxLocal * sx;
+				normals[i + 1] = nyLocal * sy;
+				normals[i + 2] = 0;
+			}
+		}
 
-	const texture = $derived(
-		useTexture(image, {
-			transform: (tex) => {
-				tex.colorSpace = THREE.SRGBColorSpace;
-				return tex;
-			},
-		}),
-	);
+		positionAttr.needsUpdate = true;
+		normalAttr.needsUpdate = true;
+		return geometry;
+	};
 
-	// Apply object-cover UV mapping when texture is loaded
-	$effect(() => {
-		if (!$texture || !geometry) return;
+	const applyCoverUVMapping = (
+		geometry: Box,
+		cardWidth: number,
+		cardHeight: number,
+		imageWidth: number,
+		imageHeight: number,
+	) => {
+		const uvAttr = geometry.attributes.uv;
+		const posAttr = geometry.attributes.position;
+		const normalAttr = geometry.attributes.normal;
+		if (!uvAttr || !posAttr || !normalAttr) return;
 
-		const imageAspect = $texture.image.width / $texture.image.height;
-		const cardAspect = width / height;
+		const uvs = uvAttr.data as Float32Array;
+		const positions = posAttr.data as Float32Array;
+		const normals = normalAttr.data as Float32Array;
 
-		const uvAttribute = geometry.attributes.uv;
-		const positionAttribute = geometry.attributes.position;
-		const normalAttribute = geometry.attributes.normal;
+		const imageAspect = Math.max(1e-6, imageWidth / imageHeight);
+		const cardAspect = Math.max(1e-6, cardWidth / cardHeight);
 
-		// Calculate scale and offset for "cover" behavior
 		let scaleU = 1;
 		let scaleV = 1;
 		let offsetU = 0;
 		let offsetV = 0;
 
 		if (cardAspect > imageAspect) {
-			// Card is wider than image - crop top/bottom
 			scaleV = imageAspect / cardAspect;
-			offsetV = (1 - scaleV) / 2;
+			offsetV = (1 - scaleV) * 0.5;
 		} else {
-			// Card is taller than image - crop left/right
 			scaleU = cardAspect / imageAspect;
-			offsetU = (1 - scaleU) / 2;
+			offsetU = (1 - scaleU) * 0.5;
 		}
 
-		for (let i = 0; i < uvAttribute.count; i++) {
-			const nz = normalAttribute.getZ(i);
+		const count = positions.length / 3;
+		for (let i = 0; i < count; i++) {
+			const ni = i * 3;
+			const ui = i * 2;
 
-			// Only remap UVs for front face (nz > 0.9) and back face (nz < -0.9)
-			if (Math.abs(nz) > 0.9) {
-				const x = positionAttribute.getX(i);
-				const y = positionAttribute.getY(i);
+			if (Math.abs(normals[ni + 2]) <= 0.9) continue;
 
-				// Map position to 0-1 range
-				let u = (x + width / 2) / width;
-				let v = (y + height / 2) / height;
+			const x = positions[ni];
+			const y = positions[ni + 1];
+			let u = (x + cardWidth * 0.5) / cardWidth;
+			let v = (y + cardHeight * 0.5) / cardHeight;
 
-				// Apply cover scaling and offset
-				u = u * scaleU + offsetU;
-				v = v * scaleV + offsetV;
+			u = u * scaleU + offsetU;
+			v = v * scaleV + offsetV;
 
-				uvAttribute.setXY(i, u, v);
-			}
+			uvs[ui] = u;
+			uvs[ui + 1] = v;
 		}
 
-		uvAttribute.needsUpdate = true;
-	});
-
-	let material = $state<THREE.MeshBasicMaterial | null>(null);
+		uvAttr.needsUpdate = true;
+	};
 
 	$effect(() => {
-		if ($texture) {
-			material = new THREE.MeshBasicMaterial({
-				map: $texture,
+		if (!setDimensions) return;
+		setDimensions({ width, height, depth, radius });
+	});
+
+	$effect(() => {
+		if (!setImageSource) return;
+		setImageSource(image);
+	});
+
+	onMount(() => {
+		const targetCanvas = canvas;
+		if (!targetCanvas) return;
+
+		const renderer = new Renderer({
+			canvas: targetCanvas,
+			alpha: true,
+			antialias: true,
+			dpr: typeof window !== "undefined" ? window.devicePixelRatio : 1,
+		});
+		const gl = renderer.gl;
+		gl.clearColor(0, 0, 0, 0);
+
+		const camera = new Camera(gl, {
+			fov: 50,
+			aspect: 1,
+			near: 0.1,
+			far: 100,
+		});
+		camera.position.set(
+			initialCameraPosition.x,
+			initialCameraPosition.y,
+			initialCameraPosition.z,
+		);
+
+		const scene = new Transform();
+		const group = new Transform();
+		group.setParent(scene);
+
+		const texture = new Texture(gl, {
+			image: new Uint8Array([0, 0, 0, 255]),
+			width: 1,
+			height: 1,
+			format: gl.RGBA,
+			type: gl.UNSIGNED_BYTE,
+			minFilter: gl.LINEAR,
+			magFilter: gl.LINEAR,
+			wrapS: gl.CLAMP_TO_EDGE,
+			wrapT: gl.CLAMP_TO_EDGE,
+			generateMipmaps: false,
+			flipY: true,
+		});
+
+		const vertexShader = `
+			precision highp float;
+
+			attribute vec3 position;
+			attribute vec2 uv;
+
+			uniform mat4 modelViewMatrix;
+			uniform mat4 projectionMatrix;
+
+			varying vec2 vUv;
+
+			void main() {
+				vUv = uv;
+				gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+			}
+		`;
+
+		const fragmentShader = `
+			precision highp float;
+
+			uniform sampler2D uTexture;
+			varying vec2 vUv;
+
+			void main() {
+				gl_FragColor = texture2D(uTexture, vUv);
+			}
+		`;
+
+		const uniforms = {
+			uTexture: { value: texture },
+		};
+
+		const program = new Program(gl, {
+			vertex: vertexShader,
+			fragment: fragmentShader,
+			uniforms,
+			transparent: false,
+			depthTest: true,
+			depthWrite: true,
+		});
+
+		let cardWidth = width;
+		let cardHeight = height;
+		let cardDepth = depth;
+		let cardRadius = radius;
+		let imageWidth = 1;
+		let imageHeight = 1;
+
+		let geometry = createRoundedCardGeometry(
+			gl,
+			Math.max(0.001, cardWidth),
+			Math.max(0.001, cardHeight),
+			Math.max(0.0001, cardDepth),
+			Math.max(0, cardRadius),
+		);
+		applyCoverUVMapping(
+			geometry,
+			cardWidth,
+			cardHeight,
+			imageWidth,
+			imageHeight,
+		);
+
+		const mesh = new Mesh(gl, {
+			geometry,
+			program,
+			frustumCulled: false,
+		});
+		mesh.setParent(group);
+
+		let imageLoadToken = 0;
+		const loadImage = (source: string) => {
+			imageLoadToken += 1;
+			const token = imageLoadToken;
+			const img = new Image();
+			img.crossOrigin = "anonymous";
+			img.decoding = "async";
+			img.onload = () => {
+				if (token !== imageLoadToken) return;
+				texture.image = img;
+				imageWidth = img.naturalWidth || img.width || 1;
+				imageHeight = img.naturalHeight || img.height || 1;
+				applyCoverUVMapping(
+					geometry,
+					cardWidth,
+					cardHeight,
+					imageWidth,
+					imageHeight,
+				);
+			};
+			img.src = source;
+		};
+		setImageSource = loadImage;
+
+		const updateDimensions = (next: {
+			width: number;
+			height: number;
+			depth: number;
+			radius: number;
+		}) => {
+			const nextWidth = Math.max(0.001, next.width);
+			const nextHeight = Math.max(0.001, next.height);
+			const nextDepth = Math.max(0.0001, next.depth);
+			const nextRadius = Math.max(0, next.radius);
+
+			const needsRebuild =
+				nextWidth !== cardWidth ||
+				nextHeight !== cardHeight ||
+				nextDepth !== cardDepth ||
+				nextRadius !== cardRadius;
+
+			cardWidth = nextWidth;
+			cardHeight = nextHeight;
+			cardDepth = nextDepth;
+			cardRadius = nextRadius;
+
+			if (!needsRebuild) return;
+
+			const previousGeometry = geometry;
+			geometry = createRoundedCardGeometry(
+				gl,
+				cardWidth,
+				cardHeight,
+				cardDepth,
+				cardRadius,
+			);
+			applyCoverUVMapping(
+				geometry,
+				cardWidth,
+				cardHeight,
+				imageWidth,
+				imageHeight,
+			);
+			mesh.geometry = geometry;
+			previousGeometry.remove();
+		};
+		setDimensions = updateDimensions;
+		updateDimensions({ width, height, depth, radius });
+		loadImage(image);
+
+		const resize = () => {
+			const host = targetCanvas.parentElement ?? targetCanvas;
+			const { width: hostWidth, height: hostHeight } =
+				host.getBoundingClientRect();
+			const nextWidth = Math.max(1, Math.round(hostWidth));
+			const nextHeight = Math.max(1, Math.round(hostHeight));
+			renderer.setSize(nextWidth, nextHeight);
+			camera.perspective({
+				fov: 50,
+				aspect: nextWidth / Math.max(1, nextHeight),
+				near: 0.1,
+				far: 100,
 			});
-		}
+		};
+
+		resize();
+		const observer = new ResizeObserver(resize);
+		observer.observe(targetCanvas);
+		if (targetCanvas.parentElement)
+			observer.observe(targetCanvas.parentElement);
+
+		let raf = 0;
+		const tick = () => {
+			const targetRotationY = -headPosition.x * 0.5;
+			const targetRotationX = headPosition.y * 0.4;
+
+			smoothedRotation.x += (targetRotationX - smoothedRotation.x) * lerpFactor;
+			smoothedRotation.y += (targetRotationY - smoothedRotation.y) * lerpFactor;
+
+			group.rotation.x = smoothedRotation.x;
+			group.rotation.y = smoothedRotation.y;
+
+			renderer.render({ scene, camera, clear: true });
+			raf = window.requestAnimationFrame(tick);
+		};
+
+		raf = window.requestAnimationFrame(tick);
+
+		return () => {
+			window.cancelAnimationFrame(raf);
+			observer.disconnect();
+			setDimensions = undefined;
+			setImageSource = undefined;
+			imageLoadToken += 1;
+
+			if (texture.texture) gl.deleteTexture(texture.texture);
+			program.remove();
+			geometry.remove();
+		};
 	});
 </script>
 
-<T.PerspectiveCamera
-	makeDefault
-	position={[
-		initialCameraPosition.x,
-		initialCameraPosition.y,
-		initialCameraPosition.z,
-	]}
-	fov={50}
-/>
-
-<T.Group rotation.x={smoothedRotation.x} rotation.y={smoothedRotation.y}>
-	{#if material}
-		<T.Mesh {geometry} {material} />
-	{/if}
-</T.Group>
+<canvas
+	bind:this={canvas}
+	class="absolute inset-0 block h-full w-full"
+	style="width:100%;height:100%;"
+	aria-hidden="true"
+></canvas>
