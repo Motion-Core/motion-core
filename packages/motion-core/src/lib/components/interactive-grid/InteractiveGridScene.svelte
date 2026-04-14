@@ -1,16 +1,15 @@
 <script lang="ts">
-	import { T, useTask, useThrelte } from "@threlte/core";
+	import { onMount } from "svelte";
 	import {
-		Vector2,
-		DataTexture,
-		RGBAFormat,
-		FloatType,
-		NearestFilter,
-		ClampToEdgeWrapping,
-		LinearFilter,
-		ShaderMaterial,
-	} from "three";
-	import { useTexture } from "@threlte/extras";
+		Camera,
+		Mesh,
+		Program,
+		Renderer,
+		Texture,
+		Transform,
+		Triangle,
+		Vec2,
+	} from "ogl";
 
 	interface Props {
 		/**
@@ -46,50 +45,105 @@
 	let { image, grid, mouseSize, strength, relaxation, mouseX, mouseY }: Props =
 		$props();
 
-	const { size } = useThrelte();
+	type GridState = {
+		size: number;
+		data: Float32Array;
+		texture: Texture;
+	};
 
-	let time = 0;
-	let material = $state<ShaderMaterial>();
+	type UniformState = {
+		time: { value: number };
+		uResolution: { value: Vec2 };
+		uTextureSize: { value: Vec2 };
+		uDataTexture: { value: Texture };
+		uTexture: { value: Texture };
+	};
+
+	let canvas = $state<HTMLCanvasElement>();
+	let setImageSource = $state<(source: string) => void>();
+	let setGridSize = $state<(value: number) => void>();
 
 	let currentVX = $state(0);
 	let currentVY = $state(0);
 	let prevX = 0;
 	let prevY = 0;
 
-	const resolutionUniform = new Vector2(1, 1);
-	const textureSizeUniform = new Vector2(1, 1);
+	const normalizeGridSize = (value: number) => Math.max(1, Math.round(value));
 
-	function regenerateGrid(gridSize: number) {
-		const size = gridSize * gridSize;
-		const data = new Float32Array(4 * size);
+	const createGridState = (gl: Renderer["gl"], gridSize: number): GridState => {
+		const size = normalizeGridSize(gridSize);
+		const total = size * size;
+		const data = new Float32Array(4 * total);
 
-		for (let i = 0; i < size; i++) {
+		for (let i = 0; i < total; i++) {
 			const r = Math.random() * 255 - 125;
 			const r1 = Math.random() * 255 - 125;
 			const stride = i * 4;
-
 			data[stride] = r;
 			data[stride + 1] = r1;
 			data[stride + 2] = r;
 			data[stride + 3] = 255;
 		}
 
-		const texture = new DataTexture(
-			data,
-			gridSize,
-			gridSize,
-			RGBAFormat,
-			FloatType,
-		);
-		texture.magFilter = NearestFilter;
-		texture.minFilter = NearestFilter;
-		texture.needsUpdate = true;
-		return texture;
-	}
+		const internalFormat = gl.renderer.isWebgl2
+			? (gl as WebGL2RenderingContext).RGBA32F
+			: gl.RGBA;
 
-	let dataTexture = $derived.by(() => {
-		return regenerateGrid(grid);
-	});
+		const texture = new Texture(gl, {
+			image: data,
+			width: size,
+			height: size,
+			format: gl.RGBA,
+			internalFormat,
+			type: gl.FLOAT,
+			minFilter: gl.NEAREST,
+			magFilter: gl.NEAREST,
+			wrapS: gl.CLAMP_TO_EDGE,
+			wrapT: gl.CLAMP_TO_EDGE,
+			generateMipmaps: false,
+			flipY: false,
+		});
+
+		return { size, data, texture };
+	};
+
+	const vertexShader = `
+		attribute vec2 uv;
+		attribute vec2 position;
+		varying vec2 vUv;
+
+		void main() {
+			vUv = uv;
+			gl_Position = vec4(position, 0.0, 1.0);
+		}
+	`;
+
+	const fragmentShader = `
+		precision highp float;
+
+		uniform float time;
+		uniform vec2 uResolution;
+		uniform vec2 uTextureSize;
+		uniform sampler2D uDataTexture;
+		uniform sampler2D uTexture;
+		varying vec2 vUv;
+
+		vec2 getCoverUV(vec2 uv, vec2 textureSize) {
+			vec2 s = uResolution / textureSize;
+			float scale = max(s.x, s.y);
+			vec2 scaledSize = textureSize * scale;
+			vec2 offset = (uResolution - scaledSize) * 0.5;
+			return (uv * uResolution - offset) / scaledSize;
+		}
+
+		void main() {
+			vec2 coverUv = getCoverUV(vUv, uTextureSize);
+			vec4 data = texture2D(uDataTexture, vUv);
+			vec2 displacedUV = coverUv - 0.02 * data.rg;
+			vec4 color = texture2D(uTexture, displacedUV);
+			gl_FragColor = color;
+		}
+	`;
 
 	$effect(() => {
 		currentVX = mouseX - prevX;
@@ -98,91 +152,150 @@
 		prevY = mouseY;
 	});
 
-	const vertexShader = `
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = vec4(position, 1.0);
-    }
-  `;
-
-	const fragmentShader = `
-    uniform float time;
-    uniform vec2 uResolution;
-    uniform vec2 uTextureSize;
-    uniform sampler2D uDataTexture;
-    uniform sampler2D uTexture;
-    varying vec2 vUv;
-
-    vec2 getCoverUV(vec2 uv, vec2 textureSize) {
-        vec2 s = uResolution / textureSize;
-        float scale = max(s.x, s.y);
-        vec2 scaledSize = textureSize * scale;
-        vec2 offset = (uResolution - scaledSize) * 0.5;
-        return (uv * uResolution - offset) / scaledSize;
-    }
-
-    void main() {
-        vec2 coverUv = getCoverUV(vUv, uTextureSize);
-
-        vec4 data = texture2D(uDataTexture, vUv);
-        vec2 displacedUV = coverUv - 0.02 * data.rg;
-
-        vec4 color = texture2D(uTexture, displacedUV);
-        gl_FragColor = color;
-        #include <colorspace_fragment>
-    }
-  `;
-
-	const texture = $derived(
-		useTexture(image, {
-			transform: (tex) => {
-				tex.wrapS = ClampToEdgeWrapping;
-				tex.wrapT = ClampToEdgeWrapping;
-				tex.minFilter = LinearFilter;
-				tex.magFilter = LinearFilter;
-				return tex;
-			},
-		}),
-	);
-
 	$effect(() => {
-		const tex = $texture;
-		if (tex && tex.image) {
-			textureSizeUniform.set(tex.image.width, tex.image.height);
-		}
+		if (!setImageSource) return;
+		setImageSource(image);
 	});
 
-	useTask((delta) => {
-		time += delta;
-		resolutionUniform.set($size.width, $size.height);
-		if (material && dataTexture) {
-			material.uniforms.time.value = time;
+	$effect(() => {
+		if (!setGridSize) return;
+		setGridSize(grid);
+	});
 
-			const data = dataTexture.image.data;
-			if (!data) return;
-			const sizeSq = grid;
-			const gridMouseX = sizeSq * mouseX;
-			const gridMouseY = sizeSq * (1 - mouseY);
-			const maxDist = sizeSq * mouseSize;
-			const aspect = $size.height / $size.width;
-			const maxDistSq = maxDist ** 2;
+	onMount(() => {
+		const targetCanvas = canvas;
+		if (!targetCanvas) return;
 
-			for (let i = 0; i < sizeSq; i++) {
-				for (let j = 0; j < sizeSq; j++) {
+		const renderer = new Renderer({
+			canvas: targetCanvas,
+			alpha: true,
+			dpr: typeof window !== "undefined" ? window.devicePixelRatio : 1,
+		});
+		const gl = renderer.gl;
+		gl.clearColor(0, 0, 0, 0);
+
+		const camera = new Camera(gl);
+		camera.position.z = 1;
+
+		const scene = new Transform();
+		const geometry = new Triangle(gl);
+
+		const imageTexture = new Texture(gl, {
+			image: new Uint8Array([0, 0, 0, 255]),
+			width: 1,
+			height: 1,
+			format: gl.RGBA,
+			type: gl.UNSIGNED_BYTE,
+			minFilter: gl.LINEAR,
+			magFilter: gl.LINEAR,
+			wrapS: gl.CLAMP_TO_EDGE,
+			wrapT: gl.CLAMP_TO_EDGE,
+			generateMipmaps: false,
+			flipY: true,
+		});
+
+		let localUniforms: UniformState;
+		let imageLoadToken = 0;
+		const loadImage = (source: string) => {
+			imageLoadToken += 1;
+			const token = imageLoadToken;
+			const img = new Image();
+			img.crossOrigin = "anonymous";
+			img.decoding = "async";
+			img.onload = () => {
+				if (token !== imageLoadToken) return;
+				imageTexture.image = img;
+				localUniforms.uTextureSize.value.set(
+					img.naturalWidth || img.width,
+					img.naturalHeight || img.height,
+				);
+			};
+			img.src = source;
+		};
+
+		let gridState = createGridState(gl, grid);
+		const replaceGrid = (value: number) => {
+			const previousTexture = gridState.texture;
+			gridState = createGridState(gl, value);
+			localUniforms.uDataTexture.value = gridState.texture;
+			if (previousTexture.texture) {
+				gl.deleteTexture(previousTexture.texture);
+			}
+		};
+
+		localUniforms = {
+			time: { value: 0 },
+			uResolution: { value: new Vec2(1, 1) },
+			uTextureSize: { value: new Vec2(1, 1) },
+			uDataTexture: { value: gridState.texture },
+			uTexture: { value: imageTexture },
+		};
+		setImageSource = loadImage;
+		setGridSize = replaceGrid;
+
+		const program = new Program(gl, {
+			vertex: vertexShader,
+			fragment: fragmentShader,
+			uniforms: localUniforms,
+			transparent: true,
+			depthTest: false,
+			depthWrite: false,
+		});
+
+		const mesh = new Mesh(gl, { geometry, program });
+		mesh.setParent(scene);
+
+		const resize = () => {
+			const host = targetCanvas.parentElement ?? targetCanvas;
+			const { width: hostWidth, height: hostHeight } =
+				host.getBoundingClientRect();
+			const width = Math.max(1, Math.round(hostWidth));
+			const height = Math.max(1, Math.round(hostHeight));
+			renderer.setSize(width, height);
+			localUniforms.uResolution.value.set(width, height);
+		};
+
+		resize();
+		loadImage(image);
+
+		const observer = new ResizeObserver(resize);
+		observer.observe(targetCanvas);
+		if (targetCanvas.parentElement)
+			observer.observe(targetCanvas.parentElement);
+
+		let raf = 0;
+		let previous = 0;
+		const tick = (now: number) => {
+			const delta = previous ? (now - previous) / 1000 : 0;
+			previous = now;
+			localUniforms.time.value += delta;
+
+			const gridSize = gridState.size;
+			const data = gridState.data;
+			const gridMouseX = gridSize * mouseX;
+			const gridMouseY = gridSize * (1 - mouseY);
+			const maxDist = gridSize * mouseSize;
+			const width = localUniforms.uResolution.value.x;
+			const height = localUniforms.uResolution.value.y;
+			const aspect = width > 0 ? height / width : 1;
+			const maxDistSq = maxDist * maxDist;
+
+			for (let i = 0; i < gridSize; i++) {
+				for (let j = 0; j < gridSize; j++) {
 					const distance =
-						(gridMouseX - i) ** 2 / aspect + (gridMouseY - j) ** 2;
+						((gridMouseX - i) * (gridMouseX - i)) / aspect +
+						(gridMouseY - j) * (gridMouseY - j);
 
 					if (distance < maxDistSq) {
-						const index = 4 * (i + sizeSq * j);
+						const index = 4 * (i + gridSize * j);
 						let power = maxDist / Math.sqrt(distance);
-						if (power > 10) power = 10;
+						if (!Number.isFinite(power) || power > 10) power = 10;
 
 						data[index] += strength * 100 * currentVX * power;
 						data[index + 1] -= strength * 100 * currentVY * power;
 					}
 
-					const idx = 4 * (i + sizeSq * j);
+					const idx = 4 * (i + gridSize * j);
 					data[idx] *= relaxation;
 					data[idx + 1] *= relaxation;
 				}
@@ -190,26 +303,32 @@
 
 			currentVX *= 0.9;
 			currentVY *= 0.9;
-			dataTexture.needsUpdate = true;
-		}
+			gridState.texture.needsUpdate = true;
+
+			renderer.render({ scene, camera });
+			raf = window.requestAnimationFrame(tick);
+		};
+
+		raf = window.requestAnimationFrame(tick);
+
+		return () => {
+			window.cancelAnimationFrame(raf);
+			observer.disconnect();
+			setImageSource = undefined;
+			setGridSize = undefined;
+			if (gridState.texture.texture) {
+				gl.deleteTexture(gridState.texture.texture);
+			}
+			if (imageTexture.texture) {
+				gl.deleteTexture(imageTexture.texture);
+			}
+		};
 	});
 </script>
 
-{#if $texture && dataTexture}
-	<T.Mesh>
-		<T.PlaneGeometry args={[2, 2]} />
-		<T.ShaderMaterial
-			bind:ref={material}
-			{vertexShader}
-			{fragmentShader}
-			transparent
-			uniforms={{
-				time: { value: 0 },
-				uResolution: { value: resolutionUniform },
-				uTextureSize: { value: textureSizeUniform },
-				uTexture: { value: $texture },
-				uDataTexture: { value: dataTexture },
-			}}
-		/>
-	</T.Mesh>
-{/if}
+<canvas
+	bind:this={canvas}
+	class="absolute inset-0 block h-full w-full"
+	style="width:100%;height:100%;"
+	aria-hidden="true"
+></canvas>

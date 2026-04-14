@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 	import Scene from "./GlitterClothScene.svelte";
 	import { cn } from "../../utils/cn";
@@ -70,23 +68,19 @@
 		vignetteOpacity = 1.0,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{color}
-				{speed}
-				{brightness}
-				{blendStrength}
-				{noiseScale}
-				{vignetteStrength}
-				{vignettePower}
-				{vignetteOpacity}
-			/>
-		</Canvas>
+		<Scene
+			{color}
+			{speed}
+			{brightness}
+			{blendStrength}
+			{noiseScale}
+			{vignetteStrength}
+			{vignettePower}
+			{vignetteOpacity}
+		/>
 	</div>
 </div>

@@ -5,12 +5,9 @@
 	"description": "Atmospheric scattering (Rayleigh & Mie) based halo effect with dynamic camera rotation and sun light simulation.",
 	"category": "canvas",
 	"dependencies": {
-		"@threlte/core": "^8.3.1",
-		"three": "^0.182.0"
+		"ogl": "^1.0.11"
 	},
-	"devDependencies": {
-		"@types/three": "^0.182.0"
-	},
+	"devDependencies": {},
 	"internalDependencies": [],
 	"files": [
 		{

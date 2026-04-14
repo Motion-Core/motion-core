@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 	import Scene from "./HaloScene.svelte";
 	import { cn } from "../../utils/cn";
@@ -67,23 +65,19 @@
 		intensity = 1.0,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{rotationSpeed}
-				{backgroundColor}
-				{cameraDistance}
-				{fov}
-				{sunX}
-				{sunY}
-				{sunZ}
-				{intensity}
-			/>
-		</Canvas>
+		<Scene
+			{rotationSpeed}
+			{backgroundColor}
+			{cameraDistance}
+			{fov}
+			{sunX}
+			{sunY}
+			{sunZ}
+			{intensity}
+		/>
 	</div>
 </div>

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./InteractiveGridScene.svelte";
 	import { cn } from "../../utils/cn";
 
@@ -44,8 +43,6 @@
 		relaxation = 0.9,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 	let container = $state<HTMLElement>();
 	let mouseX = $state(0);
 	let mouseY = $state(0);
@@ -74,16 +71,14 @@
 	{...rest}
 >
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr}>
-			<Scene
-				{image}
-				{grid}
-				{mouseSize}
-				{strength}
-				{relaxation}
-				{mouseX}
-				{mouseY}
-			/>
-		</Canvas>
+		<Scene
+			{image}
+			{grid}
+			{mouseSize}
+			{strength}
+			{relaxation}
+			{mouseX}
+			{mouseY}
+		/>
 	</div>
 </div>

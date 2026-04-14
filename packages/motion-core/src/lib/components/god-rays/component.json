@@ -5,12 +5,9 @@
 	"description": "High-performance procedural god rays (crepuscular rays) effect with customizable colors, pulsating intensity, and distortion.",
 	"category": "canvas",
 	"dependencies": {
-		"@threlte/core": "^8.3.1",
-		"three": "^0.182.0"
+		"ogl": "^1.0.11"
 	},
-	"devDependencies": {
-		"@types/three": "^0.182.0"
-	},
+	"devDependencies": {},
 	"internalDependencies": [],
 	"files": [
 		{
