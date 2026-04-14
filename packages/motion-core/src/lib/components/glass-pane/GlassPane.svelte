@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./GlassPaneScene.svelte";
 	import { cn } from "../../utils/cn";
 	import type { ComponentProps } from "svelte";
@@ -59,22 +58,18 @@
 		rods = 5.0,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr}>
-			<Scene
-				{image}
-				{distortion}
-				{chromaticAberration}
-				{speed}
-				{waviness}
-				{frequency}
-				{rods}
-			/>
-		</Canvas>
+		<Scene
+			{image}
+			{distortion}
+			{chromaticAberration}
+			{speed}
+			{waviness}
+			{frequency}
+			{rods}
+		/>
 	</div>
 </div>
