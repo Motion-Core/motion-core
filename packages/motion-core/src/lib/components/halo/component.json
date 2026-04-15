@@ -20,6 +20,10 @@
 		{
 			"path": "../../utils/cn.ts",
 			"target": "utils"
+		},
+		{
+			"path": "../../helpers/color.ts",
+			"target": "helpers"
 		}
 	]
 }

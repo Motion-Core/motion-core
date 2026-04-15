@@ -9,12 +9,8 @@
 		Vec2,
 		Vec3,
 	} from "ogl";
-
-	type ColorRepresentation =
-		| string
-		| number
-		| readonly [number, number, number]
-		| { r: number; g: number; b: number };
+	import { type ColorRepresentation, toLinearRgb } from "../../helpers/color";
+	import { updateFluidPointerState } from "../../helpers/fluid-pointer";
 
 	interface Props {
 		/**
@@ -103,116 +99,6 @@
 	const pointerForceInitialLerp = 0.2;
 	const pointerForceLerp = 0.55;
 
-	const clamp = (value: number, min: number, max: number) =>
-		Math.min(max, Math.max(min, value));
-	const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-	const clamp01 = (value: number) => clamp(value, 0, 1);
-	const srgbToLinear = (value: number) =>
-		value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
-
-	const parseHexColor = (value: string): [number, number, number] | null => {
-		const hex = value.replace("#", "").trim();
-		if (hex.length === 3 || hex.length === 4) {
-			const r = Number.parseInt(hex[0] + hex[0], 16);
-			const g = Number.parseInt(hex[1] + hex[1], 16);
-			const b = Number.parseInt(hex[2] + hex[2], 16);
-			return [r / 255, g / 255, b / 255];
-		}
-		if (hex.length === 6 || hex.length === 8) {
-			const r = Number.parseInt(hex.slice(0, 2), 16);
-			const g = Number.parseInt(hex.slice(2, 4), 16);
-			const b = Number.parseInt(hex.slice(4, 6), 16);
-			return [r / 255, g / 255, b / 255];
-		}
-		return null;
-	};
-
-	let cssColorContext: CanvasRenderingContext2D | null | undefined;
-	const parseCssColor = (value: string): [number, number, number] | null => {
-		if (typeof document === "undefined") return null;
-		if (cssColorContext === undefined) {
-			const parserCanvas = document.createElement("canvas");
-			parserCanvas.width = 1;
-			parserCanvas.height = 1;
-			cssColorContext = parserCanvas.getContext("2d");
-		}
-		if (!cssColorContext) return null;
-
-		cssColorContext.fillStyle = "#000000";
-		cssColorContext.fillStyle = value;
-		const normalized = cssColorContext.fillStyle;
-
-		if (normalized.startsWith("#")) {
-			return parseHexColor(normalized);
-		}
-
-		const match = normalized.match(/rgba?\(([^)]+)\)/i);
-		if (!match) return null;
-		const parts = match[1]
-			.split(",")
-			.map((part) => Number.parseFloat(part.trim()))
-			.filter((part) => Number.isFinite(part));
-		if (parts.length < 3) return null;
-		const scale = Math.max(parts[0], parts[1], parts[2]) > 1 ? 255 : 1;
-		return [
-			clamp01(parts[0] / scale),
-			clamp01(parts[1] / scale),
-			clamp01(parts[2] / scale),
-		];
-	};
-
-	const normalizeTriplet = (
-		r: number,
-		g: number,
-		b: number,
-	): [number, number, number] => {
-		const scale = Math.max(r, g, b) > 1 ? 255 : 1;
-		return [clamp01(r / scale), clamp01(g / scale), clamp01(b / scale)];
-	};
-
-	const toRgb = (
-		value: ColorRepresentation,
-		fallback: [number, number, number],
-	): [number, number, number] => {
-		if (typeof value === "number" && Number.isFinite(value)) {
-			const int = Math.min(0xffffff, Math.max(0, Math.floor(value)));
-			return [
-				((int >> 16) & 255) / 255,
-				((int >> 8) & 255) / 255,
-				(int & 255) / 255,
-			];
-		}
-		if (typeof value === "string") {
-			const trimmed = value.trim();
-			const parsed = trimmed.startsWith("#")
-				? parseHexColor(trimmed)
-				: parseCssColor(trimmed);
-			return parsed ?? fallback;
-		}
-		if (Array.isArray(value) && value.length >= 3) {
-			return normalizeTriplet(value[0], value[1], value[2]);
-		}
-		if (
-			value &&
-			typeof value === "object" &&
-			"r" in value &&
-			"g" in value &&
-			"b" in value
-		) {
-			const rgb = value as { r: number; g: number; b: number };
-			return normalizeTriplet(rgb.r, rgb.g, rgb.b);
-		}
-		return fallback;
-	};
-
-	const toLinearRgb = (
-		value: ColorRepresentation,
-		fallback: [number, number, number],
-	): [number, number, number] => {
-		const [r, g, b] = toRgb(value, fallback);
-		return [srgbToLinear(r), srgbToLinear(g), srgbToLinear(b)];
-	};
-
 	$effect(() => {
 		const [r, g, b] = toLinearRgb(color, [1, 105 / 255, 0]);
 		splatColor.set(r, g, b);
@@ -224,32 +110,17 @@
 		width: number,
 		height: number,
 	) => {
-		const prevX = pointerState.x;
-		const prevY = pointerState.y;
-		const targetDx = clamp(
-			5 * (px - prevX),
-			-pointerForceClamp,
-			pointerForceClamp,
-		);
-		const targetDy = clamp(
-			5 * (py - prevY),
-			-pointerForceClamp,
-			pointerForceClamp,
-		);
-		const lerpFactor = pointerState.initialized
-			? pointerForceLerp
-			: pointerForceInitialLerp;
-
-		pointerState.moved = true;
-		pointerState.dx = lerp(pointerState.dx, targetDx, lerpFactor);
-		pointerState.dy = lerp(pointerState.dy, targetDy, lerpFactor);
-		pointerState.x = px;
-		pointerState.y = py;
-		pointerState.initialized = true;
-
-		if (width > 0 && height > 0) {
-			pointerUv.set(px / width, 1 - py / height);
-		}
+		updateFluidPointerState({
+			state: pointerState,
+			uv: pointerUv,
+			x: px,
+			y: py,
+			width,
+			height,
+			forceClamp: pointerForceClamp,
+			initialLerp: pointerForceInitialLerp,
+			lerp: pointerForceLerp,
+		});
 	};
 
 	const vertexShader = `

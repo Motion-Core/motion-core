@@ -10,6 +10,7 @@
 		Vec2,
 		Vec3,
 	} from "ogl";
+	import { updateFluidPointerState } from "../../helpers/fluid-pointer";
 
 	interface Props {
 		/**
@@ -102,42 +103,23 @@
 	const pointerForceInitialLerp = 0.2;
 	const pointerForceLerp = 0.55;
 
-	const clamp = (value: number, min: number, max: number) =>
-		Math.min(max, Math.max(min, value));
-	const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
 	const updatePointerPosition = (
 		px: number,
 		py: number,
 		width: number,
 		height: number,
 	) => {
-		const prevX = pointerState.x;
-		const prevY = pointerState.y;
-		const targetDx = clamp(
-			5 * (px - prevX),
-			-pointerForceClamp,
-			pointerForceClamp,
-		);
-		const targetDy = clamp(
-			5 * (py - prevY),
-			-pointerForceClamp,
-			pointerForceClamp,
-		);
-		const lerpFactor = pointerState.initialized
-			? pointerForceLerp
-			: pointerForceInitialLerp;
-
-		pointerState.moved = true;
-		pointerState.dx = lerp(pointerState.dx, targetDx, lerpFactor);
-		pointerState.dy = lerp(pointerState.dy, targetDy, lerpFactor);
-		pointerState.x = px;
-		pointerState.y = py;
-		pointerState.initialized = true;
-
-		if (width > 0 && height > 0) {
-			pointerUv.set(px / width, 1 - py / height);
-		}
+		updateFluidPointerState({
+			state: pointerState,
+			uv: pointerUv,
+			x: px,
+			y: py,
+			width,
+			height,
+			forceClamp: pointerForceClamp,
+			initialLerp: pointerForceInitialLerp,
+			lerp: pointerForceLerp,
+		});
 	};
 
 	const vertexShader = `

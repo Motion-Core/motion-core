@@ -20,6 +20,10 @@
 		{
 			"path": "../../utils/cn.ts",
 			"target": "utils"
+		},
+		{
+			"path": "../../helpers/fluid-pointer.ts",
+			"target": "helpers"
 		}
 	]
 }
