@@ -20,7 +20,7 @@
 		color?: ColorRepresentation;
 		/**
 		 * Color of the background.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: ColorRepresentation;
 		/**
@@ -47,7 +47,7 @@
 
 	let {
 		color = "#FF6900",
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		speed = 1.0,
 		distortion = 0.2,
 		hueShift = 30.0,
@@ -181,7 +181,11 @@
 	$effect(() => {
 		if (!uniforms) return;
 		applyColor(uniforms.uColor.value, color, [1, 105 / 255, 0]);
-		applyColor(uniforms.uBackgroundColor.value, backgroundColor, [0, 0, 0]);
+		applyColor(uniforms.uBackgroundColor.value, backgroundColor, [
+			23 / 255,
+			24 / 255,
+			26 / 255,
+		]);
 		uniforms.uSpeed.value = speed;
 		uniforms.uDistortion.value = distortion;
 		uniforms.uHueShift.value = hueShift;
@@ -207,7 +211,11 @@
 		const geometry = new Triangle(gl);
 
 		const initialColor = toLinearRgb(color, [1, 105 / 255, 0]);
-		const initialBackgroundColor = toLinearRgb(backgroundColor, [0, 0, 0]);
+		const initialBackgroundColor = toLinearRgb(backgroundColor, [
+			23 / 255,
+			24 / 255,
+			26 / 255,
+		]);
 		const localUniforms = {
 			uTime: { value: 0 },
 			uResolution: { value: new Vec2(1, 1) },

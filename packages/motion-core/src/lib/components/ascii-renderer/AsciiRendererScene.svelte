@@ -35,7 +35,7 @@
 		color?: string;
 		/**
 		 * Background color.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: string;
 	}
@@ -45,7 +45,7 @@
 		density = 25.0,
 		strength = 25.0,
 		color = "#00ff00",
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 	}: Props = $props();
 
 	type UniformState = {
@@ -68,7 +68,7 @@
 	const coverScaleUniform = new Vec2(1, 1);
 	const coverOffsetUniform = new Vec2(0, 0);
 	const colorUniform = new Vec3(0, 1, 0);
-	const backgroundColorUniform = new Vec3(0, 0, 0);
+	const backgroundColorUniform = new Vec3(23 / 255, 24 / 255, 26 / 255);
 
 	let canvasWidth = 1;
 	let canvasHeight = 1;
@@ -228,7 +228,11 @@
 	});
 
 	$effect(() => {
-		const [r, g, b] = toLinearRgb(backgroundColor, [0, 0, 0]);
+		const [r, g, b] = toLinearRgb(backgroundColor, [
+			23 / 255,
+			24 / 255,
+			26 / 255,
+		]);
 		backgroundColorUniform.set(r, g, b);
 	});
 

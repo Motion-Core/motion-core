@@ -20,7 +20,7 @@
 		rotationSpeed?: number;
 		/**
 		 * Color of the background.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: ColorRepresentation;
 		/**
@@ -57,7 +57,7 @@
 
 	let {
 		rotationSpeed = 0.5,
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		cameraDistance = 3.0,
 		fov = 55.0,
 		sunX = 0.0,
@@ -311,7 +311,11 @@
 		const scene = new Transform();
 		const geometry = new Triangle(gl);
 
-		const initialBackground = toLinearRgb(backgroundColor, [0, 0, 0]);
+		const initialBackground = toLinearRgb(backgroundColor, [
+			23 / 255,
+			24 / 255,
+			26 / 255,
+		]);
 		const initialSun = new Vec3(0, 0, 1);
 		setSunDirection(initialSun, sunX, sunY, sunZ);
 

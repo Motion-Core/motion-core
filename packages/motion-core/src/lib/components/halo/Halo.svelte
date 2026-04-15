@@ -17,7 +17,7 @@
 		rotationSpeed?: SceneProps["rotationSpeed"];
 		/**
 		 * Color of the background.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
 		/**
@@ -56,7 +56,7 @@
 	let {
 		class: className = "",
 		rotationSpeed = 0.5,
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		cameraDistance = 3.0,
 		fov = 55.0,
 		sunX = 0.0,

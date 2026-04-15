@@ -87,12 +87,12 @@ import { DitheredImage } from "$lib/motion-core";
 			default: '"#ff6900"',
 			description: "The primary color of the dithered dots.",
 		},
-		{
-			prop: "backgroundColor",
-			type: "string | number | [number, number, number] | { r: number; g: number; b: number }",
-			default: '"#111113"',
-			description: "The background color of the dithered image.",
-		},
+			{
+				prop: "backgroundColor",
+				type: "string | number | [number, number, number] | { r: number; g: number; b: number }",
+				default: '"#17181A"',
+				description: "The background color of the dithered image.",
+			},
 		{
 			prop: "threshold",
 			type: "number",

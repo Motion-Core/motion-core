@@ -37,7 +37,7 @@
 		color?: ColorRepresentation;
 		/**
 		 * Background color.
-		 * @default "#111113"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: ColorRepresentation;
 		/**
@@ -52,7 +52,7 @@
 		ditherMap = "bayer4x4",
 		pixelSize = 1,
 		color = "#ff6900",
-		backgroundColor = "#111113",
+		backgroundColor = "#17181A",
 		threshold = 0.0,
 	}: Props = $props();
 
@@ -114,7 +114,7 @@
 	const coverScaleUniform = new Vec2(1, 1);
 	const coverOffsetUniform = new Vec2(0, 0);
 	const colorUniform = new Vec3(1, 105 / 255, 0);
-	const backgroundColorUniform = new Vec3(17 / 255, 17 / 255, 19 / 255);
+	const backgroundColorUniform = new Vec3(23 / 255, 24 / 255, 26 / 255);
 
 	const applyColor = (
 		target: Vec3,
@@ -258,9 +258,9 @@
 		uniforms.uThreshold.value = threshold;
 		applyColor(uniforms.uColor.value, color, [1, 105 / 255, 0]);
 		applyColor(uniforms.uBackgroundColor.value, backgroundColor, [
-			17 / 255,
-			17 / 255,
-			19 / 255,
+			23 / 255,
+			24 / 255,
+			26 / 255,
 		]);
 	});
 
@@ -358,9 +358,9 @@
 
 		applyColor(colorUniform, color, [1, 105 / 255, 0]);
 		applyColor(backgroundColorUniform, backgroundColor, [
-			17 / 255,
-			17 / 255,
-			19 / 255,
+			23 / 255,
+			24 / 255,
+			26 / 255,
 		]);
 
 		const program = new Program(gl, {

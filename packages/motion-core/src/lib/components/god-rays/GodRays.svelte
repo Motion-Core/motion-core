@@ -17,7 +17,7 @@
 		color?: SceneProps["color"];
 		/**
 		 * Color of the background.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
 		/**
@@ -91,7 +91,7 @@
 	let {
 		class: className = "",
 		color = "#FFFFFF",
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		anchorX = 0.5,
 		anchorY = 1.2,
 		directionX = 0.0,

@@ -31,7 +31,7 @@
 		color?: SceneProps["color"];
 		/**
 		 * Background color.
-		 * @default "#111113"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
 		/**
@@ -49,7 +49,7 @@
 		ditherMap = "bayer4x4",
 		pixelSize = 1,
 		color = "#ff6900",
-		backgroundColor = "#111113",
+		backgroundColor = "#17181A",
 		threshold = 0.0,
 		...rest
 	}: Props = $props();

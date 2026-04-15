@@ -20,7 +20,7 @@
 		color?: ColorRepresentation;
 		/**
 		 * Color of the background.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: ColorRepresentation;
 		/**
@@ -92,7 +92,7 @@
 
 	let {
 		color = "#FFFFFF",
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		anchorX = 0.5,
 		anchorY = 1.2,
 		directionX = 0.0,
@@ -300,7 +300,11 @@
 	$effect(() => {
 		if (!uniforms) return;
 		applyColor(uniforms.uColor.value, color, [1, 1, 1]);
-		applyColor(uniforms.uBackgroundColor.value, backgroundColor, [0, 0, 0]);
+		applyColor(uniforms.uBackgroundColor.value, backgroundColor, [
+			23 / 255,
+			24 / 255,
+			26 / 255,
+		]);
 		uniforms.uAnchorX.value = anchorX;
 		uniforms.uAnchorY.value = anchorY;
 		uniforms.uRayDir.value.set(directionX, directionY);
@@ -334,7 +338,11 @@
 		const geometry = new Triangle(gl);
 
 		const initialColor = toLinearRgb(color, [1, 1, 1]);
-		const initialBackground = toLinearRgb(backgroundColor, [0, 0, 0]);
+		const initialBackground = toLinearRgb(backgroundColor, [
+			23 / 255,
+			24 / 255,
+			26 / 255,
+		]);
 
 		const localUniforms = {
 			uTime: { value: 0.0 },

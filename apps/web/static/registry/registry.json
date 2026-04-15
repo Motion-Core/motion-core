@@ -36,6 +36,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -123,6 +127,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -258,6 +266,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/fluid-pointer.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -282,6 +294,14 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
+				},
+				{
+					"path": "helpers/fluid-pointer.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -355,6 +375,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -420,6 +444,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -445,6 +473,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -571,6 +603,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -742,6 +778,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -812,6 +852,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},
@@ -864,6 +908,10 @@
 				{
 					"path": "utils/cn.ts",
 					"target": "utils"
+				},
+				{
+					"path": "helpers/color.ts",
+					"target": "helpers"
 				}
 			]
 		},

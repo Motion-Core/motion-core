@@ -87,12 +87,12 @@ import { AsciiRenderer } from "$lib/motion-core";
 			default: '"#00ff00"',
 			description: "Color of the ASCII characters.",
 		},
-		{
-			prop: "backgroundColor",
-			type: 'string | number | [number, number, number] | { r: number; g: number; b: number }',
-			default: '"#000000"',
-			description: "Background color of the canvas.",
-		},
+			{
+				prop: "backgroundColor",
+				type: 'string | number | [number, number, number] | { r: number; g: number; b: number }',
+				default: '"#17181A"',
+				description: "Background color of the canvas.",
+			},
 		{
 			prop: "class",
 			type: "string",

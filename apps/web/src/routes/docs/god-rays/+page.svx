@@ -63,12 +63,12 @@ import { GodRays } from "$lib/motion-core";
 			default: '"#FFFFFF"',
 			description: "Base color of the rays.",
 		},
-		{
-			prop: "backgroundColor",
-			type: 'string | number | [number, number, number] | { r: number; g: number; b: number }',
-			default: '"#000000"',
-			description: "Color of the background behind the rays.",
-		},
+			{
+				prop: "backgroundColor",
+				type: 'string | number | [number, number, number] | { r: number; g: number; b: number }',
+				default: '"#17181A"',
+				description: "Color of the background behind the rays.",
+			},
 		{
 			prop: "anchorX",
 			type: "number",

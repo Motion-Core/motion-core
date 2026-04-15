@@ -31,7 +31,7 @@
 		color?: SceneProps["color"];
 		/**
 		 * Background color.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
 		[key: string]: unknown;
@@ -43,7 +43,7 @@
 		density = 25,
 		strength = 25,
 		color = "#00ff00",
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		...rest
 	}: Props = $props();
 </script>
