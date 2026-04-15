@@ -9,6 +9,5 @@
 	density={25}
 	strength={3.0}
 	color="#00ff00"
-	backgroundColor="#17181A"
 	class="h-full min-h-96 w-full"
 />
