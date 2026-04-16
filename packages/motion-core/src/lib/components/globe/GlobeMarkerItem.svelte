@@ -65,7 +65,7 @@
 
 	{#if tooltip || marker.label}
 		<div
-			class="pointer-events-none absolute top-0 left-1/2 inline-flex -translate-x-1/2 -translate-y-6 flex-col items-center transition-[opacity,filter] duration-200 ease-out"
+			class="pointer-events-none absolute top-0 left-1/2 inline-flex -translate-x-1/2 -translate-y-6 flex-col items-center transition-[opacity,filter] duration-200 ease-out will-change-transform"
 			style:opacity={visibility}
 			style:filter={`blur(${tooltipBlur}px)`}
 		>
