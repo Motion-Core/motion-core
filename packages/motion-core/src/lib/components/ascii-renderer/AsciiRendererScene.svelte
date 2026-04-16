@@ -25,7 +25,7 @@
 		density?: number;
 		/**
 		 * Intensity of the ASCII character generation threshold.
-		 * @default 25.0
+		 * @default 3.0
 		 */
 		strength?: number;
 		/**
@@ -43,7 +43,7 @@
 	let {
 		image,
 		density = 25.0,
-		strength = 25.0,
+		strength = 3.0,
 		color = "#00ff00",
 		backgroundColor = "#17181A",
 	}: Props = $props();

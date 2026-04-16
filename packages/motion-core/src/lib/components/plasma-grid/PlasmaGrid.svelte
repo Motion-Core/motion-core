@@ -8,7 +8,7 @@
 	interface Props {
 		/**
 		 * The base background color of the effect.
-		 * @default "#111113"
+		 * @default "#17181A"
 		 */
 		color?: SceneProps["color"];
 		/**

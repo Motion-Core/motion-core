@@ -18,7 +18,7 @@
 	interface FresnelConfig {
 		/**
 		 * Base body color for each cubelet.
-		 * @default "#111113"
+		 * @default "#17181A"
 		 */
 		color?: ColorRepresentation;
 		/**
@@ -98,7 +98,7 @@
 		t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
 	const defaultFresnelConfig: Required<FresnelConfig> = {
-		color: "#111113",
+		color: "#17181A",
 		rimColor: "#FF6900",
 		rimPower: 6,
 		rimIntensity: 1.5,

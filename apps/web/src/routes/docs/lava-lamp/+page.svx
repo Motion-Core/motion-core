@@ -64,7 +64,7 @@ import { LavaLamp } from "$lib/motion-core";
 		{
 			prop: "color",
 			type: "string",
-			default: '"#18181b"',
+			default: '"#17181A"',
 			description: "Base color of the lava blobs.",
 		},
 		{

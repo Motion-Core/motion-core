@@ -4,8 +4,8 @@
 
 <DitheredImage
 	src="/images/demos/sample-6.jpg"
-	ditherMap="bayer8x8"
+	ditherMap="halftone"
 	class="h-full min-h-96 w-full"
-	pixelSize={2}
-	threshold={0.21}
+	pixelSize={1}
+	threshold={0.2}
 />

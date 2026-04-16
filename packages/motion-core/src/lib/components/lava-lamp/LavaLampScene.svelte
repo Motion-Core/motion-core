@@ -15,7 +15,7 @@
 	interface Props {
 		/**
 		 * Base color of the lava blobs.
-		 * @default "#18181b"
+		 * @default "#17181A"
 		 */
 		color?: string;
 		/**
@@ -46,7 +46,7 @@
 	}
 
 	let {
-		color = "#18181b",
+		color = "#17181A",
 		fresnelColor = "#ff6900",
 		speed = 1.0,
 		fresnelPower = 3.0,

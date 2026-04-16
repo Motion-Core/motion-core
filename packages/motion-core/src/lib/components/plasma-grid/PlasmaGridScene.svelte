@@ -14,7 +14,7 @@
 	interface Props {
 		/**
 		 * The base background color of the effect.
-		 * @default "#111113"
+		 * @default "#17181A"
 		 */
 		color?: ColorRepresentation;
 		/**
@@ -24,7 +24,7 @@
 		highlightColor?: ColorRepresentation;
 	}
 
-	let { color = "#111113", highlightColor = "#FF6900" }: Props = $props();
+	let { color = "#17181A", highlightColor = "#FF6900" }: Props = $props();
 
 	let canvas = $state<HTMLCanvasElement>();
 	let uniforms = $state<{

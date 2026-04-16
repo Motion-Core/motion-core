@@ -78,7 +78,7 @@ import { AsciiRenderer } from "$lib/motion-core";
 		{
 			prop: "strength",
 			type: "number",
-			default: "25.0",
+			default: "3.0",
 			description: "Intensity of the ASCII character generation threshold.",
 		},
 		{

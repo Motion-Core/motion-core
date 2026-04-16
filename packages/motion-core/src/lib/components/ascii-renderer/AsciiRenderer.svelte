@@ -21,7 +21,7 @@
 		density?: SceneProps["density"];
 		/**
 		 * Intensity of the ASCII character generation threshold.
-		 * @default 25
+		 * @default 3
 		 */
 		strength?: SceneProps["strength"];
 		/**
@@ -41,7 +41,7 @@
 		src,
 		class: className = "",
 		density = 25,
-		strength = 25,
+		strength = 3,
 		color = "#00ff00",
 		backgroundColor = "#17181A",
 		...rest

@@ -4,6 +4,7 @@
 
 <GlitterCloth
 	class="h-full min-h-96 w-full"
+	color="#222326"
 	vignettePower={0.5}
 	vignetteStrength={50}
 />
