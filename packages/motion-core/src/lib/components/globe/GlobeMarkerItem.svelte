@@ -24,16 +24,12 @@
 		 */
 		visibility: number;
 		/**
-		 * Marker visual size in pixels.
-		 */
-		sizePx: number;
-		/**
 		 * Optional custom tooltip snippet.
 		 */
 		tooltip?: Snippet<[GlobeMarkerTooltipContext]>;
 	}
 
-	let { marker, index, screenX, screenY, visibility, sizePx, tooltip }: Props =
+	let { marker, index, screenX, screenY, visibility, tooltip }: Props =
 		$props();
 
 	const MAX_TOOLTIP_BLUR = 8;
@@ -44,9 +40,6 @@
 		index,
 		visibility,
 	});
-	let markerColor = $derived(marker.color ?? "#ffffff");
-	let markerOpacity = $derived(visibility);
-	let clampedSizePx = $derived(Math.max(2, sizePx));
 </script>
 
 <div
@@ -55,17 +48,9 @@
 	style:top={`${screenY * 100}%`}
 	style:transform="translate(-50%, -50%)"
 >
-	<div
-		class="rounded-full"
-		style:width={`${clampedSizePx}px`}
-		style:height={`${clampedSizePx}px`}
-		style:background={markerColor}
-		style:opacity={markerOpacity}
-	></div>
-
 	{#if tooltip || marker.label}
 		<div
-			class="pointer-events-none absolute top-0 left-1/2 inline-flex -translate-x-1/2 -translate-y-6 flex-col items-center transition-[opacity,filter] duration-200 ease-out will-change-transform"
+			class="pointer-events-none absolute top-0 left-1/2 inline-flex -translate-x-1/2 -translate-y-8 flex-col items-center transition-[opacity,filter] duration-200 ease-out will-change-transform"
 			style:opacity={visibility}
 			style:filter={`blur(${tooltipBlur}px)`}
 		>

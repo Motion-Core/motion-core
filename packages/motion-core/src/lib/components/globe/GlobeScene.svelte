@@ -130,7 +130,6 @@
 		screenX: number;
 		screenY: number;
 		visibility: number;
-		sizePx: number;
 	}
 
 	interface UniformUpdaterState {
@@ -146,7 +145,6 @@
 	const DEG2RAD = PI / 180;
 	const EPSILON = 1e-6;
 	const COBE_GLOBE_RADIUS = 0.8;
-	const MARKER_ELEVATION = 0.05;
 	const AUTO_ROTATE_SPEED = (2 * PI) / 30;
 	const ROTATE_SENSITIVITY = 0.005;
 	const SMOOTHING_STRENGTH = 14;
@@ -156,6 +154,10 @@
 	const MAX_THETA = PI * 0.5 - 0.001;
 	const VISIBILITY_MIN_DOT = 0.24;
 	const VISIBILITY_MAX_DOT = 0.48;
+	const MAX_SHADER_MARKERS = 128;
+	const SHADER_MARKER_SIZE_SCALE = 0.5;
+	const MIN_SHADER_MARKER_SIZE = 0.003;
+	const MAX_SHADER_MARKER_SIZE = 0.06;
 
 	const defaultFresnelConfig: Required<FresnelConfig> = {
 		color: "#17181A",
@@ -354,6 +356,8 @@
 		const globeScene = new Transform();
 		const atmosphereScene = new Transform();
 		const geometry = new Triangle(gl);
+		const markerData = new Array<number>(MAX_SHADER_MARKERS * 4).fill(0);
+		const markerColorData = new Array<number>(MAX_SHADER_MARKERS * 3).fill(0);
 		const landTexture = new Texture(gl, {
 			image: new Uint8Array([0, 0, 0, 255]),
 			width: 1,
@@ -384,6 +388,9 @@
 			uAtmosphereIntensity: { value: resolvedAtmosphereConfig.intensity },
 			uLandPointColor: { value: new Vec3(0, 0, 0) },
 			uLandTexture: { value: landTexture },
+			uMarkerCount: { value: 0 },
+			uMarkerData: { value: markerData },
+			uMarkerColor: { value: markerColorData },
 		};
 
 		const vertexShader = `
@@ -413,12 +420,16 @@
 			uniform float uRimIntensity;
 			uniform vec3 uLandPointColor;
 			uniform sampler2D uLandTexture;
+			uniform float uMarkerCount;
+			uniform vec4 uMarkerData[${MAX_SHADER_MARKERS}];
+			uniform vec3 uMarkerColor[${MAX_SHADER_MARKERS}];
 
 			const float kPi = 3.141592653589793;
 			const float kTau = 6.283185307179586;
 			const float kPhi = 1.618033988749895;
 			const float kSqrt5 = 2.23606797749979;
 			const float kSphereRadius = 0.8;
+			const int kMaxMarkers = ${MAX_SHADER_MARKERS};
 
 			float byDots;
 
@@ -544,7 +555,8 @@
 					float dis;
 					vec3 p = normalize(vec3(uv, sqrt(max(0.0, globeR2 - l))));
 					mat3 rot = rotate(uRotation.y, uRotation.x);
-					vec3 samplePoint = nearestFibonacciLattice(p * rot, dis);
+					vec3 globePoint = p * rot;
+					vec3 samplePoint = nearestFibonacciLattice(globePoint, dis);
 					vec2 mapUv = pointToMaskUV(samplePoint);
 					float land = texture2D(uLandTexture, mapUv).r;
 
@@ -557,9 +569,33 @@
 					float dotFade = smoothstep(0.04, 0.28, dotNV);
 					landDots *= dotFade;
 
+					vec3 markerColor = vec3(0.0);
+					float markerMask = 0.0;
+					float markerWeightSum = 0.0;
+					for (int i = 0; i < kMaxMarkers; i++) {
+						if (float(i) >= uMarkerCount) {
+							break;
+						}
+
+						vec4 marker = uMarkerData[i];
+						float markerDist = length(globePoint - marker.xyz);
+						float markerDot = smoothstep(marker.w, marker.w * 0.62, markerDist);
+						markerMask = max(markerMask, markerDot);
+						markerWeightSum += markerDot;
+						markerColor += uMarkerColor[i] * markerDot;
+					}
+
+					if (markerWeightSum > 0.0) {
+						markerColor /= markerWeightSum;
+					}
+
 					vec3 surface = uBaseColor;
 					surface += uRimColor * rim;
-					surface += uLandPointColor * landDots;
+					surface += uLandPointColor * (landDots * (1.0 - markerMask));
+
+					// Keep marker color clean and dominant over land dots.
+					vec3 boostedMarker = markerColor * (1.0 + 0.25 * markerMask);
+					surface = mix(surface, boostedMarker, markerMask);
 
 					color += surface;
 					alpha = 1.0;
@@ -758,10 +794,16 @@
 			currentTheta: number,
 			currentScaleValue: number,
 		) => {
-			const markerRadius = COBE_GLOBE_RADIUS + MARKER_ELEVATION;
+			const markerRadius = COBE_GLOBE_RADIUS;
 			const aspect = width / Math.max(1, height);
+			const markerCount = Math.min(markers.length, MAX_SHADER_MARKERS);
+			markerData.fill(0);
+			markerColorData.fill(0);
+			uniforms.uMarkerCount.value = markerCount;
 
-			const nextMarkers: ProjectedMarker[] = markers.map((marker, index) => {
+			const nextMarkers: ProjectedMarker[] = [];
+			for (let index = 0; index < markers.length; index++) {
+				const marker = markers[index];
 				const pos = lonLatToCartesian(
 					marker.location[1],
 					marker.location[0],
@@ -788,15 +830,37 @@
 				);
 				const visibility = dynamicEase(rawVisibility);
 
-				return {
+				nextMarkers.push({
 					marker,
 					index,
 					screenX,
 					screenY,
 					visibility,
-					sizePx: Math.max(2, (marker.size ?? 0.05) * 160 * currentScaleValue),
-				};
-			});
+				});
+
+				if (index >= markerCount) continue;
+
+				const unitPos = lonLatToCartesian(
+					marker.location[1],
+					marker.location[0],
+					1,
+				);
+				const markerDataOffset = index * 4;
+				markerData[markerDataOffset] = unitPos.x;
+				markerData[markerDataOffset + 1] = unitPos.y;
+				markerData[markerDataOffset + 2] = unitPos.z;
+				markerData[markerDataOffset + 3] = clamp(
+					(marker.size ?? 0.05) * SHADER_MARKER_SIZE_SCALE,
+					MIN_SHADER_MARKER_SIZE,
+					MAX_SHADER_MARKER_SIZE,
+				);
+
+				const [r, g, b] = toLinearRgb(marker.color ?? "#ffffff", [1, 1, 1]);
+				const markerColorOffset = index * 3;
+				markerColorData[markerColorOffset] = r;
+				markerColorData[markerColorOffset + 1] = g;
+				markerColorData[markerColorOffset + 2] = b;
+			}
 
 			projectedMarkers = nextMarkers;
 		};
@@ -952,7 +1016,6 @@
 			screenX={projected.screenX}
 			screenY={projected.screenY}
 			visibility={projected.visibility}
-			sizePx={projected.sizePx}
 			tooltip={markerTooltip}
 		/>
 	{/each}
