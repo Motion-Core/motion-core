@@ -158,7 +158,7 @@
 	const VISIBILITY_MAX_DOT = 0.48;
 
 	const defaultFresnelConfig: Required<FresnelConfig> = {
-		color: "#111113",
+		color: "#17181A",
 		rimColor: "#FF6900",
 		rimPower: 6,
 		rimIntensity: 1.5,
