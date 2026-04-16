@@ -5,7 +5,6 @@
 		Mesh,
 		Plane,
 		Program,
-		Raycast,
 		Renderer,
 		Texture,
 		Transform,
@@ -76,8 +75,6 @@
 		opacity: { value: number };
 		blurAmount: { value: number };
 		scrollForce: { value: number };
-		time: { value: number };
-		isHovered: { value: number };
 		uTextureSize: { value: Vec2 };
 	};
 
@@ -124,8 +121,6 @@
 		uniform mat4 modelViewMatrix;
 		uniform mat4 projectionMatrix;
 		uniform float scrollForce;
-		uniform float time;
-		uniform float isHovered;
 
 		varying vec2 vUv;
 		varying vec3 vNormal;
@@ -144,18 +139,7 @@
 			float ripple2 = sin(pos.y * 2.5 + scrollForce * 2.0) * 0.015;
 			float clothEffect = (ripple1 + ripple2) * abs(curveIntensity) * 2.0;
 
-			float flagWave = 0.0;
-			if (isHovered > 0.5) {
-				float wavePhase = pos.x * 3.0 + time * 8.0;
-				float waveAmplitude = sin(wavePhase) * 0.1;
-				float dampening = smoothstep(-0.5, 0.5, pos.x);
-				flagWave = waveAmplitude * dampening;
-
-				float secondaryWave = sin(pos.x * 5.0 + time * 12.0) * 0.03 * dampening;
-				flagWave += secondaryWave;
-			}
-
-			pos.z -= (curve + clothEffect + flagWave);
+			pos.z -= (curve + clothEffect);
 
 			gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 		}
@@ -318,8 +302,6 @@
 				opacity: { value: 1 },
 				blurAmount: { value: 0 },
 				scrollForce: { value: 0 },
-				time: { value: 0 },
-				isHovered: { value: 0 },
 				uTextureSize: { value: new Vec2(1, 1) },
 			};
 
@@ -345,7 +327,6 @@
 		let scrollVelocity = 0;
 		let autoPlay = true;
 		let lastInteraction = Date.now();
-		let elapsedTime = 0;
 
 		const handleWheel = (event: WheelEvent) => {
 			event.preventDefault();
@@ -374,36 +355,6 @@
 				autoPlay = true;
 			}
 		}, 1000);
-
-		const raycast = new Raycast();
-		const pointer = new Vec2(0, 0);
-		let pointerActive = false;
-		let hoveredIndex = -1;
-		const meshIdToIndex: Record<number, number> = {};
-		planes.forEach((plane, index) => {
-			meshIdToIndex[plane.mesh.id] = index;
-		});
-
-		const handlePointerMove = (event: PointerEvent) => {
-			const rect = targetCanvas.getBoundingClientRect();
-			if (rect.width <= 0 || rect.height <= 0) return;
-			pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-			pointer.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
-			pointerActive = true;
-		};
-
-		const handlePointerLeave = () => {
-			pointerActive = false;
-			if (hoveredIndex !== -1) {
-				hoveredIndex = -1;
-				for (let i = 0; i < planes.length; i++) {
-					planes[i].uniforms.isHovered.value = 0;
-				}
-			}
-		};
-
-		targetCanvas.addEventListener("pointermove", handlePointerMove);
-		targetCanvas.addEventListener("pointerleave", handlePointerLeave);
 
 		const resize = () => {
 			const host = targetCanvas.parentElement ?? targetCanvas;
@@ -436,8 +387,6 @@
 		const tick = (now: number) => {
 			const delta = previous ? (now - previous) / 1000 : 0;
 			previous = now;
-			elapsedTime += delta;
-
 			if (autoPlay) {
 				scrollVelocity += 0.3 * delta;
 			}
@@ -452,7 +401,6 @@
 				const planeData = planesData[i];
 				const plane = planes[i];
 
-				plane.uniforms.time.value = elapsedTime;
 				plane.uniforms.scrollForce.value = scrollVelocity;
 
 				let newZ = planeData.z + scrollVelocity * delta * 10;
@@ -565,23 +513,6 @@
 				plane.mesh.position.set(planeData.x, planeData.y, worldZ);
 			}
 
-			if (pointerActive) {
-				raycast.castMouse(camera, [pointer.x, pointer.y]);
-				const hits = raycast.intersectMeshes(
-					planes.map((plane) => plane.mesh),
-					{ includeUV: false, includeNormal: false },
-				);
-				const nextHover =
-					hits.length > 0 ? (meshIdToIndex[hits[0].id] ?? -1) : -1;
-
-				if (nextHover !== hoveredIndex) {
-					hoveredIndex = nextHover;
-					for (let i = 0; i < planes.length; i++) {
-						planes[i].uniforms.isHovered.value = i === hoveredIndex ? 1 : 0;
-					}
-				}
-			}
-
 			renderer.render({ scene, camera, clear: true });
 			raf = window.requestAnimationFrame(tick);
 		};
@@ -596,8 +527,6 @@
 			observer.disconnect();
 			targetCanvas.removeEventListener("wheel", handleWheel);
 			window.removeEventListener("keydown", handleKeyDown);
-			targetCanvas.removeEventListener("pointermove", handlePointerMove);
-			targetCanvas.removeEventListener("pointerleave", handlePointerLeave);
 			setImageItems = undefined;
 
 			for (let i = 0; i < planes.length; i++) {
