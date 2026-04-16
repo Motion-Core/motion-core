@@ -269,8 +269,6 @@
 		targetCanvas.addEventListener("pointerleave", handlePointerLeave);
 
 		resize();
-		loadColor(colorSrc);
-		loadDepth(depthSrc);
 
 		const observer = new ResizeObserver(resize);
 		observer.observe(targetCanvas);

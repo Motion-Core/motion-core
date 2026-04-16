@@ -605,8 +605,6 @@
 		};
 
 		resizeSimulation();
-		loadBaseImage(baseImage);
-		loadRevealImage(revealImage);
 
 		const resizeObserver = new ResizeObserver(resizeSimulation);
 		resizeObserver.observe(targetCanvas);

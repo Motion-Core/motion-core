@@ -41,7 +41,7 @@
 
 	let canvas = $state<HTMLCanvasElement>();
 
-	let progress = $state({ value: 0 });
+	const progress = { value: 0 };
 	let currentIndex = $state(0);
 	let nextIndex = $state(0);
 	let isTransitioning = $state(false);
@@ -367,7 +367,6 @@
 			);
 		};
 		setImageSources = replaceTextures;
-		replaceTextures(images);
 
 		const getTextureSize = (texture: Texture): [number, number] => {
 			const image = texture.image as
@@ -409,12 +408,6 @@
 			localUniforms.uGlassChromaticAberration.value = next.chromaticAberration;
 			localUniforms.uGlassRefractionStrength.value = next.refraction;
 		};
-		setUniformParams({
-			intensity,
-			distortion,
-			chromaticAberration,
-			refraction,
-		});
 
 		const program = new Program(gl, {
 			vertex: vertexShader,

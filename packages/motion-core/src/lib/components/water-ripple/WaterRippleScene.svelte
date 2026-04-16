@@ -358,7 +358,6 @@
 		};
 
 		resize();
-		loadImage(image);
 		loadBrush(brushUrl);
 
 		const observer = new ResizeObserver(resize);

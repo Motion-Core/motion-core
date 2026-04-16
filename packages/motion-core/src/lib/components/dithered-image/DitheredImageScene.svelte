@@ -331,13 +331,20 @@
 		};
 
 		let thresholdState = createThresholdTexture(gl, ditherMap);
+		let currentDitherMap = ditherMap;
 		const setThresholdMapTexture = (map: DitherMap) => {
+			if (map === currentDitherMap) return;
+			const previousTexture = thresholdState.texture;
 			thresholdState = createThresholdTexture(gl, map);
+			currentDitherMap = map;
 			if (uniforms) {
 				uniforms.uThresholdMap.value = thresholdState.texture;
 				uniforms.uMapSize.value.set(thresholdState.size, thresholdState.size);
 			}
 			mapSizeUniform.set(thresholdState.size, thresholdState.size);
+			if (previousTexture.texture) {
+				gl.deleteTexture(previousTexture.texture);
+			}
 		};
 
 		const localUniforms: UniformState = {
@@ -392,7 +399,6 @@
 		};
 
 		resize();
-		loadImage(image);
 
 		const observer = new ResizeObserver(resize);
 		observer.observe(targetCanvas);

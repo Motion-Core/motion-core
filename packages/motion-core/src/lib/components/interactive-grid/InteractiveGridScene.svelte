@@ -63,8 +63,8 @@
 	let setImageSource = $state<(source: string) => void>();
 	let setGridSize = $state<(value: number) => void>();
 
-	let currentVX = $state(0);
-	let currentVY = $state(0);
+	let currentVX = 0;
+	let currentVY = 0;
 	let prevX = 0;
 	let prevY = 0;
 
@@ -215,8 +215,10 @@
 
 		let gridState = createGridState(gl, grid);
 		const replaceGrid = (value: number) => {
+			const nextSize = normalizeGridSize(value);
+			if (nextSize === gridState.size) return;
 			const previousTexture = gridState.texture;
-			gridState = createGridState(gl, value);
+			gridState = createGridState(gl, nextSize);
 			localUniforms.uDataTexture.value = gridState.texture;
 			if (previousTexture.texture) {
 				gl.deleteTexture(previousTexture.texture);
@@ -256,7 +258,6 @@
 		};
 
 		resize();
-		loadImage(image);
 
 		const observer = new ResizeObserver(resize);
 		observer.observe(targetCanvas);

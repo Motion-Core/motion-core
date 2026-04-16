@@ -303,7 +303,6 @@
 			}
 		};
 		setImageItems = setTexturesFromImages;
-		setTexturesFromImages(images);
 
 		const planesData: PlaneData[] = Array.from({ length: count }, (_, i) => ({
 			index: i,

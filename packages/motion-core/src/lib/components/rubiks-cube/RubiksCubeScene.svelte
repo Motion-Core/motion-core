@@ -445,7 +445,6 @@
 			uniforms.rimIntensity.value = next.rimIntensity;
 		};
 		setFresnelUniforms = applyFresnelConfig;
-		applyFresnelConfig(fresnelConfig ?? {});
 
 		const applyDimensions = (next: {
 			size: number;
@@ -477,7 +476,6 @@
 			}
 		};
 		setDimensions = applyDimensions;
-		applyDimensions({ size, gap, radius });
 
 		const resize = () => {
 			const host = targetCanvas.parentElement ?? targetCanvas;

@@ -262,7 +262,6 @@
 		};
 
 		resize();
-		loadImage(image);
 
 		const observer = new ResizeObserver(resize);
 		observer.observe(targetCanvas);

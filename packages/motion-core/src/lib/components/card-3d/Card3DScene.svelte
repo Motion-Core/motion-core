@@ -394,8 +394,6 @@
 			previousGeometry.remove();
 		};
 		setDimensions = updateDimensions;
-		updateDimensions({ width, height, depth, radius });
-		loadImage(image);
 
 		const resize = () => {
 			const host = targetCanvas.parentElement ?? targetCanvas;
