@@ -87,7 +87,7 @@ import { Globe } from "$lib/motion-core";
 		},
 		{
 			prop: "landPointColor",
-			type: "THREE.ColorRepresentation",
+			type: "string | number | readonly [number, number, number] | { r: number; g: number; b: number }",
 			default: '"#f77114"',
 			description: "Color of the dots representing land.",
 		},
@@ -172,13 +172,13 @@ import { Globe } from "$lib/motion-core";
 	data={[
 		{
 			key: "color",
-			type: "THREE.ColorRepresentation",
+			type: "string | number | readonly [number, number, number] | { r: number; g: number; b: number }",
 			default: '"#111113"',
 			description: "Base color before the rim glow is applied.",
 		},
 		{
 			key: "rimColor",
-			type: "THREE.ColorRepresentation",
+			type: "string | number | readonly [number, number, number] | { r: number; g: number; b: number }",
 			default: '"#FF6900"',
 			description: "Color tint used for the Fresnel rim.",
 		},
@@ -205,7 +205,7 @@ import { Globe } from "$lib/motion-core";
 	data={[
 		{
 			key: "color",
-			type: "THREE.ColorRepresentation",
+			type: "string | number | readonly [number, number, number] | { r: number; g: number; b: number }",
 			default: '"#FF6900"',
 			description: "Color of the atmosphere glow.",
 		},

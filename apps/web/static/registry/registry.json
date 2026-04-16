@@ -11,8 +11,7 @@
 		"tailwind-merge": "^3.4.0"
 	},
 	"baseDevDependencies": {
-		"@types/gsap": "^3.0.0",
-		"@types/three": "^0.182.0"
+		"@types/gsap": "^3.0.0"
 	},
 	"components": {
 		"ascii-renderer": {
