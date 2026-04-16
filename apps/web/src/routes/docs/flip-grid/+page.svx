@@ -78,14 +78,14 @@ import { FlipGrid, FlipGridItem } from "$lib/motion-core";
 		{
 			prop: "class",
 			type: "string",
-			default: '""',
+			default: "undefined",
 			description:
 				"The CSS class for the grid container. Changes to this trigger the animation.",
 		},
 		{
 			prop: "style",
 			type: "string",
-			default: '""',
+			default: "undefined",
 			description: "Additional inline styles.",
 		},
 		{
@@ -131,7 +131,7 @@ import { FlipGrid, FlipGridItem } from "$lib/motion-core";
 		{
 			prop: "class",
 			type: "string",
-			default: '""',
+			default: "undefined",
 			description: "CSS classes for the item.",
 		},
 	]}

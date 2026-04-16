@@ -80,7 +80,7 @@ import { Marquee } from "$lib/motion-core";
 		{
 			prop: "class",
 			type: "string",
-			default: "''",
+			default: '""',
 			description: "Classes for the outer container.",
 		},
 		{
@@ -99,7 +99,7 @@ import { Marquee } from "$lib/motion-core";
 		{
 			prop: "scrollElement",
 			type: "string | HTMLElement | null",
-			default: "undefined",
+			default: "window",
 			description:
 				"Optional selector or element for the scroll container. Useful when scrolling within a specific div instead of the window.",
 		},

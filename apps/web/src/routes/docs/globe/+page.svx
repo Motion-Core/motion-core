@@ -232,7 +232,7 @@ import { Globe } from "$lib/motion-core";
 		{
 			key: "intensity",
 			type: "number",
-			default: "2.0",
+			default: "1.1",
 			description: "Global intensity multiplier for the glow.",
 		},
 	]}

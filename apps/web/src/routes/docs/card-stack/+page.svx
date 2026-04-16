@@ -116,13 +116,13 @@ import { CardStack, CardStackItem } from "motion-core";
 		{
 			prop: "class",
 			type: "string",
-			default: '""',
+			default: "undefined",
 			description: "Additional CSS classes for the card.",
 		},
 		{
 			prop: "style",
 			type: "string",
-			default: '""',
+			default: "undefined",
 			description: "Additional inline styles.",
 		},
 	]}

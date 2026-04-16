@@ -58,7 +58,7 @@ import { FloatingMenu } from "$lib/motion-core";
 		{
 			prop: "menuGroups",
 			type: "MenuGroup[]",
-			default: "[]",
+			default: "—",
 			description: "Groups of links to display in the expanded menu.",
 		},
 		{
@@ -79,26 +79,26 @@ import { FloatingMenu } from "$lib/motion-core";
 			default: "undefined",
 			description: "Configuration for the secondary button.",
 		},
-			{
-				prop: "portalTarget",
-				type: "HTMLElement | string",
-				default: '"body"',
-				description: "Target element to render the menu into.",
-			},
-			{
-				prop: "class",
-				type: "string",
-				default: '""',
-				description: "Additional CSS classes for the container.",
-			},
-			{
-				prop: "classes",
-				type: "FloatingMenuClasses",
-				default: "{}",
-				description:
-					"Optional class overrides for internal slots (buttons, groups, links, etc.).",
-			},
-		]}
+		{
+			prop: "portalTarget",
+			type: "HTMLElement | string",
+			default: '"body"',
+			description: "Target element to render the menu into.",
+		},
+		{
+			prop: "class",
+			type: "string",
+			default: "undefined",
+			description: "Additional CSS classes for the container.",
+		},
+		{
+			prop: "classes",
+			type: "FloatingMenuClasses",
+			default: "undefined",
+			description:
+				"Optional class overrides for internal slots (buttons, groups, links, etc.).",
+		},
+	]}
 />
 
 ### FloatingMenuClasses
@@ -155,13 +155,13 @@ type FloatingMenuClasses = Partial<{
 		{
 			key: "variant",
 			type: '"default" | "muted"',
-			default: '"default"',
+			default: "undefined",
 			description: "Visual style of the group container.",
 		},
 		{
 			key: "links",
 			type: "MenuLink[]",
-			default: "[]",
+			default: "—",
 			description: "Array of links within this group.",
 		},
 	]}

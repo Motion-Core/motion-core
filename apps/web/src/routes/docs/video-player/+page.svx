@@ -87,9 +87,16 @@ import { VideoPlayer } from "$lib/motion-core";
 				"Whether the video should start over again every time it is finished.",
 		},
 		{
+			prop: "hideControls",
+			type: "boolean",
+			default: "false",
+			description:
+				"Whether to permanently hide controls and disable interaction.",
+		},
+		{
 			prop: "class",
 			type: "string",
-			default: '""',
+			default: "undefined",
 			description: "Additional CSS classes for the container.",
 		},
 	]}
