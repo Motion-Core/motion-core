@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./GlobeScene.svelte";
 	import { cn } from "../../utils/cn";
 	import type { ComponentProps, Snippet } from "svelte";
 	import type { GlobeMarker, GlobeMarkerTooltipContext } from "./types";
-	import { NoToneMapping } from "three";
 
 	type SceneProps = ComponentProps<typeof Scene>;
 
@@ -85,26 +83,22 @@
 		focusOn = null,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{radius}
-				{fresnelConfig}
-				{atmosphereConfig}
-				{pointCount}
-				{landPointColor}
-				{pointSize}
-				{autoRotate}
-				{lockedPolarAngle}
-				{markers}
-				{markerTooltip}
-				{focusOn}
-			/>
-		</Canvas>
+		<Scene
+			{radius}
+			{fresnelConfig}
+			{atmosphereConfig}
+			{pointCount}
+			{landPointColor}
+			{pointSize}
+			{autoRotate}
+			{lockedPolarAngle}
+			{markers}
+			{markerTooltip}
+			{focusOn}
+		/>
 	</div>
 </div>

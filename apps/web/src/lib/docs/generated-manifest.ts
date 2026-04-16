@@ -124,10 +124,8 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Globe",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
 			gsap: "^3.14.2",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
