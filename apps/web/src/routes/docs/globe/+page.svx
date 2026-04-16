@@ -13,8 +13,9 @@ description: A Fresnel-lit globe with rim glow, haloed atmosphere, land mesh det
 	"motion-core/components/globe/GlobeScene.svelte?raw"; import
 	globeMarkerItemSource from
 	"motion-core/components/globe/GlobeMarkerItem.svelte?raw"; import typesSource
-	from "motion-core/components/globe/types.ts?raw"; import GlobeDemo from
-	"./GlobeDemo.svelte"; import globeDemoSource from "./GlobeDemo.svelte?raw";
+	from "motion-core/components/globe/types.ts?raw"; import colorHelperSource from
+	"motion-core/helpers/color.ts?raw"; import GlobeDemo from "./GlobeDemo.svelte";
+	import globeDemoSource from "./GlobeDemo.svelte?raw";
 </script>
 
 ## Installation
@@ -48,6 +49,7 @@ import { Globe } from "$lib/motion-core";
 			language: "svelte",
 		},
 		{ name: "types.ts", code: typesSource, language: "typescript" },
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<GlobeDemo />

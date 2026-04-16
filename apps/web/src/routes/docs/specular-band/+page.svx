@@ -12,6 +12,7 @@ description: Procedural specular light bands with hue-shifting color palettes an
 
 	import specularBandSource from "motion-core/components/specular-band/SpecularBand.svelte?raw";
 	import sceneSource from "motion-core/components/specular-band/SpecularBandScene.svelte?raw";
+	import colorHelperSource from "motion-core/helpers/color.ts?raw";
 	import SpecularBandDemo from "./SpecularBandDemo.svelte";
 	import specularBandDemoSource from "./SpecularBandDemo.svelte?raw";
 </script>
@@ -44,6 +45,7 @@ import { SpecularBand } from "$lib/motion-core";
 			language: "svelte",
 		},
 		{ name: "SpecularBandScene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<SpecularBandDemo />

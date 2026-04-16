@@ -12,6 +12,7 @@ description: A physics-based fluid simulation with pointer interaction.
 	from "motion-core/components/fluid-simulation/FluidSimulation.svelte?raw";
 	import sceneSource from
 	"motion-core/components/fluid-simulation/FluidSimulationScene.svelte?raw";
+	import colorHelperSource from "motion-core/helpers/color.ts?raw";
 	import FluidSimulationDemo from "./FluidSimulationDemo.svelte"; import
 	fluidSimulationDemoSource from "./FluidSimulationDemo.svelte?raw";
 </script>
@@ -49,6 +50,7 @@ import { FluidSimulation } from "$lib/motion-core";
 			code: sceneSource,
 			language: "svelte",
 		},
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<FluidSimulationDemo />

@@ -11,6 +11,7 @@ description: A fluid, pixelated noise pattern useful for backgrounds.
 	from "$lib/components/docs/markdown/Step.svelte"; import plasmaGridSource from
 	"motion-core/components/plasma-grid/PlasmaGrid.svelte?raw"; import sceneSource
 	from "motion-core/components/plasma-grid/PlasmaGridScene.svelte?raw"; import
+	colorHelperSource from "motion-core/helpers/color.ts?raw"; import
 	PlasmaGridDemo from "./PlasmaGridDemo.svelte"; import plasmaGridDemoSource
 	from "./PlasmaGridDemo.svelte?raw";
 </script>
@@ -40,6 +41,7 @@ import { PlasmaGrid } from "$lib/motion-core";
 		{ name: "Example", code: plasmaGridDemoSource, language: "svelte" },
 		{ name: "PlasmaGrid.svelte", code: plasmaGridSource, language: "svelte" },
 		{ name: "PlasmaGridScene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<PlasmaGridDemo />

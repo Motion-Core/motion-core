@@ -12,6 +12,7 @@ description: Animated silk-like cloth shader with fine glitter noise and subtle 
 	from "motion-core/components/glitter-cloth/GlitterCloth.svelte?raw"; import
 	sceneSource from
 	"motion-core/components/glitter-cloth/GlitterClothScene.svelte?raw"; import
+	colorHelperSource from "motion-core/helpers/color.ts?raw"; import
 	GlitterClothDemo from "./GlitterClothDemo.svelte"; import
 	glitterClothDemoSource from "./GlitterClothDemo.svelte?raw";
 </script>
@@ -45,6 +46,7 @@ import { GlitterCloth } from "$lib/motion-core";
 			language: "svelte",
 		},
 		{ name: "GlitterClothScene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<GlitterClothDemo />

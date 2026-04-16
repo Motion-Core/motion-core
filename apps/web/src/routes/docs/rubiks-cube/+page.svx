@@ -11,6 +11,7 @@ description: A dynamic Rubik's Cube that continuously rotates while a Fresnel ri
 	from "$lib/components/docs/markdown/Step.svelte"; import rubiksCubeSource from
 	"motion-core/components/rubiks-cube/RubiksCube.svelte?raw"; import sceneSource
 	from "motion-core/components/rubiks-cube/RubiksCubeScene.svelte?raw"; import
+	colorHelperSource from "motion-core/helpers/color.ts?raw"; import
 	RubiksCubeDemo from "./RubiksCubeDemo.svelte"; import demoSource from
 	"./RubiksCubeDemo.svelte?raw";
 </script>
@@ -40,6 +41,7 @@ import { RubiksCube } from "$lib/motion-core";
 		{ name: "Example", code: demoSource, language: "svelte" },
 		{ name: "RubiksCube.svelte", code: rubiksCubeSource, language: "svelte" },
 		{ name: "RubiksCubeScene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<RubiksCubeDemo />

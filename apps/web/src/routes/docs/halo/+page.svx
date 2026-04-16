@@ -12,6 +12,7 @@ description: Atmospheric scattering (Rayleigh & Mie) based halo effect with dyna
 
 	import haloSource from "motion-core/components/halo/Halo.svelte?raw";
 	import sceneSource from "motion-core/components/halo/HaloScene.svelte?raw";
+	import colorHelperSource from "motion-core/helpers/color.ts?raw";
 	import HaloDemo from "./HaloDemo.svelte";
 	import haloDemoSource from "./HaloDemo.svelte?raw";
 </script>
@@ -44,6 +45,7 @@ import { Halo } from "$lib/motion-core";
 			language: "svelte",
 		},
 		{ name: "HaloScene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<HaloDemo />

@@ -12,6 +12,7 @@ description: High-performance procedural god rays (crepuscular rays) effect with
 
 	import godRaysSource from "motion-core/components/god-rays/GodRays.svelte?raw";
 	import sceneSource from "motion-core/components/god-rays/GodRaysScene.svelte?raw";
+	import colorHelperSource from "motion-core/helpers/color.ts?raw";
 	import GodRaysDemo from "./GodRaysDemo.svelte";
 	import godRaysDemoSource from "./GodRaysDemo.svelte?raw";
 </script>
@@ -44,6 +45,7 @@ import { GodRays } from "$lib/motion-core";
 			language: "svelte",
 		},
 		{ name: "GodRaysScene.svelte", code: sceneSource, language: "svelte" },
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<GodRaysDemo />

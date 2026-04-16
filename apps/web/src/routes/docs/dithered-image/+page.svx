@@ -12,6 +12,7 @@ description: An image display component that applies various ordered dithering a
 	from "motion-core/components/dithered-image/DitheredImage.svelte?raw"; import
 	SceneSource from
 	"motion-core/components/dithered-image/DitheredImageScene.svelte?raw"; import
+	colorHelperSource from "motion-core/helpers/color.ts?raw"; import
 	DitheredImageDemo from "./DitheredImageDemo.svelte"; import
 	ditheredImageDemoSource from "./DitheredImageDemo.svelte?raw";
 </script>
@@ -49,6 +50,7 @@ import { DitheredImage } from "$lib/motion-core";
 			code: SceneSource,
 			language: "svelte",
 		},
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<DitheredImageDemo />

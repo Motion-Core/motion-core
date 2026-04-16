@@ -12,6 +12,7 @@ description: A retro-styled renderer that converts images into character-based v
 	from "motion-core/components/ascii-renderer/AsciiRenderer.svelte?raw"; import
 	sceneSource from
 	"motion-core/components/ascii-renderer/AsciiRendererScene.svelte?raw"; import
+	colorHelperSource from "motion-core/helpers/color.ts?raw"; import
 	AsciiRendererDemo from "./AsciiRendererDemo.svelte"; import
 	asciiRendererDemoSource from "./AsciiRendererDemo.svelte?raw";
 </script>
@@ -49,6 +50,7 @@ import { AsciiRenderer } from "$lib/motion-core";
 			code: sceneSource,
 			language: "svelte",
 		},
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<AsciiRendererDemo />
