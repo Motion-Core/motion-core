@@ -137,17 +137,24 @@ import { GodRays } from "$lib/motion-core";
 			default: "0.0",
 			description: "Amount of grain/noise applied to the rays.",
 		},
-		{
-			prop: "distortion",
-			type: "number",
-			default: "0.0",
-			description: "Amount of wave distortion applied to the rays.",
-		},
-		{
-			prop: "class",
-			type: "string",
-			default: '""',
-			description: "Additional CSS classes for the container.",
+			{
+				prop: "distortion",
+				type: "number",
+				default: "0.0",
+				description: "Amount of wave distortion applied to the rays.",
+			},
+			{
+				prop: "intensity",
+				type: "number",
+				default: "1.0",
+				description:
+					"Global ray intensity. Lower values dim and tighten rays, higher values brighten them.",
+			},
+			{
+				prop: "class",
+				type: "string",
+				default: '""',
+				description: "Additional CSS classes for the container.",
 		},
 	]}
 />
