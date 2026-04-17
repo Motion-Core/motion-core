@@ -340,7 +340,7 @@ mod tests {
     fn registry_with_assets() -> RegistryClient {
         let registry = RegistryClient::with_registry(Registry::default());
         let helper = r#"export function cn() { return ""; }"#;
-        let tokens = "@import \"tailwindcss\";\n\n@utility card-highlight {}\n";
+        let tokens = "@import \"tailwindcss\";\n\n@theme {\n    --color-accent: red;\n}\n";
         let mut manifest = HashMap::new();
         manifest.insert(
             "utils/cn.ts".into(),

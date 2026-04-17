@@ -6,6 +6,8 @@ use thiserror::Error;
 
 pub const CSS_TOKEN_REGISTRY_PATH: &str = "tokens/motion-core.css";
 pub const CSS_TOKEN_SENTINEL: &str = "@utility card-highlight";
+pub const CSS_TOKEN_BLOCK_START: &str = "/* motion-core:tokens:start */";
+pub const CSS_TOKEN_BLOCK_END: &str = "/* motion-core:tokens:end */";
 
 #[derive(Debug, Default, Clone)]
 pub struct ScaffoldReport {
@@ -144,9 +146,7 @@ pub fn sync_tailwind_tokens(
         path: target.display().to_string(),
         source,
     })?;
-    if existing.contains(CSS_TOKEN_SENTINEL) {
-        return Ok(TailwindSyncStatus::AlreadyPresent(display));
-    }
+    let newline = detect_newline(&existing);
 
     let tokens_bytes = registry.fetch_component_file(CSS_TOKEN_REGISTRY_PATH)?;
     let tokens_source = String::from_utf8(tokens_bytes)
@@ -154,46 +154,58 @@ pub fn sync_tailwind_tokens(
 
     let (import_line, mut token_body) = split_token_bundle(&tokens_source);
     token_body = trim_token_body(&token_body);
+    token_body = strip_token_markers(&token_body);
     if token_body.is_empty() {
         return Err(WorkspaceError::TailwindTokensEmpty);
     }
 
-    let newline = detect_newline(&existing);
-    let insertion_index = find_import_insertion_index(&existing);
-    let prefix = &existing[..insertion_index];
-    let suffix = &existing[insertion_index..];
-    let has_tailwind_import = has_tailwind_import(&existing);
+    let token_block = render_token_block(&token_body, newline);
 
-    let mut block = String::new();
-    if !has_tailwind_import && let Some(line) = import_line {
-        block.push_str(line.trim());
-        block.push_str(newline);
-    }
-    if !block.is_empty() {
-        block.push_str(newline);
-    }
-    block.push_str(&token_body);
-    if !block.ends_with(newline) {
-        block.push_str(newline);
-    }
+    let updated = if let Some(range) = marker_block_range(&existing) {
+        replace_range(&existing, range, &token_block)
+    } else if existing.contains(CSS_TOKEN_SENTINEL) {
+        return Ok(TailwindSyncStatus::AlreadyPresent(display));
+    } else if let Some(range) = body_range(&existing, &token_body) {
+        replace_range(&existing, range, &token_block)
+    } else {
+        let insertion_index = find_import_insertion_index(&existing);
+        let prefix = &existing[..insertion_index];
+        let suffix = &existing[insertion_index..];
+        let has_tailwind_import = has_tailwind_import(&existing);
 
-    let blank = format!("{newline}{newline}");
-    let mut updated = String::with_capacity(existing.len() + block.len() + 8);
-    updated.push_str(prefix);
-    if !prefix.is_empty() {
-        if prefix.ends_with(&blank) {
-        } else if prefix.ends_with(newline) {
-            updated.push_str(newline);
-        } else {
-            updated.push_str(newline);
+        let mut block = String::new();
+        if !has_tailwind_import && let Some(line) = import_line {
+            block.push_str(line.trim());
+            block.push_str(newline);
+        }
+        if !block.is_empty() {
+            block.push_str(newline);
+        }
+        block.push_str(&token_block);
+
+        let blank = format!("{newline}{newline}");
+        let mut updated = String::with_capacity(existing.len() + block.len() + 8);
+        updated.push_str(prefix);
+        if !prefix.is_empty() {
+            if prefix.ends_with(&blank) {
+            } else if prefix.ends_with(newline) {
+                updated.push_str(newline);
+            } else {
+                updated.push_str(newline);
+                updated.push_str(newline);
+            }
+        }
+        updated.push_str(&block);
+        if !suffix.is_empty() && !updated.ends_with(newline) {
             updated.push_str(newline);
         }
+        updated.push_str(suffix);
+        updated
+    };
+
+    if updated == existing {
+        return Ok(TailwindSyncStatus::AlreadyPresent(display));
     }
-    updated.push_str(&block);
-    if !suffix.is_empty() && !updated.ends_with(newline) {
-        updated.push_str(newline);
-    }
-    updated.push_str(suffix);
 
     if dry_run {
         return Ok(TailwindSyncStatus::DryRun { target: display });
@@ -240,6 +252,57 @@ fn create_backup(path: &Path) -> Result<PathBuf, WorkspaceError> {
         source,
     })?;
     Ok(backup_path)
+}
+
+fn render_token_block(token_body: &str, newline: &str) -> String {
+    let mut block = String::new();
+    block.push_str(CSS_TOKEN_BLOCK_START);
+    block.push_str(newline);
+    block.push_str(token_body);
+    if !token_body.ends_with(newline) {
+        block.push_str(newline);
+    }
+    block.push_str(CSS_TOKEN_BLOCK_END);
+    block.push_str(newline);
+    block
+}
+
+fn marker_block_range(contents: &str) -> Option<(usize, usize)> {
+    let start = contents.find(CSS_TOKEN_BLOCK_START)?;
+    let end_start = contents.rfind(CSS_TOKEN_BLOCK_END)?;
+    if end_start < start {
+        return None;
+    }
+    let mut end = end_start + CSS_TOKEN_BLOCK_END.len();
+    if contents[end..].starts_with("\r\n") {
+        end += 2;
+    } else if contents[end..].starts_with('\n') {
+        end += 1;
+    }
+    Some((start, end))
+}
+
+fn body_range(contents: &str, token_body: &str) -> Option<(usize, usize)> {
+    let start = contents.find(token_body)?;
+    Some((start, start + token_body.len()))
+}
+
+fn replace_range(contents: &str, range: (usize, usize), replacement: &str) -> String {
+    let (start, end) = range;
+    let mut updated = String::with_capacity(contents.len() + replacement.len());
+    updated.push_str(&contents[..start]);
+    updated.push_str(replacement);
+    updated.push_str(&contents[end..]);
+    updated
+}
+
+fn strip_token_markers(body: &str) -> String {
+    let trimmed = body.trim();
+    if !trimmed.starts_with(CSS_TOKEN_BLOCK_START) || !trimmed.ends_with(CSS_TOKEN_BLOCK_END) {
+        return trimmed.to_string();
+    }
+    let inner = &trimmed[CSS_TOKEN_BLOCK_START.len()..trimmed.len() - CSS_TOKEN_BLOCK_END.len()];
+    trim_token_body(inner)
 }
 
 fn restore_backup(backup: &Path, target: &Path) -> std::io::Result<()> {
@@ -398,12 +461,12 @@ mod tests {
     use std::{collections::HashMap, fs};
     use tempfile::TempDir;
 
-    fn registry_with_assets() -> RegistryClient {
-        let registry = RegistryClient::with_registry(Registry::default());
+    fn sample_tokens(color: &str) -> String {
+        format!("@import \"tailwindcss\";\n\n@theme {{\n    --color-accent: {color};\n}}\n")
+    }
+
+    fn preload_registry_assets(registry: &RegistryClient, tokens: &str) {
         let helper = r#"export function cn() { return ""; }"#;
-        let tokens = format!(
-            "@import \"tailwindcss\";\n\n{CSS_TOKEN_SENTINEL} {{\n    color: inherit;\n}}\n"
-        );
         let mut manifest = HashMap::new();
         manifest.insert(
             "utils/cn.ts".into(),
@@ -414,6 +477,11 @@ mod tests {
             general_purpose::STANDARD.encode(tokens),
         );
         registry.preload_component_manifest(manifest);
+    }
+
+    fn registry_with_assets() -> RegistryClient {
+        let registry = RegistryClient::with_registry(Registry::default());
+        preload_registry_assets(&registry, &sample_tokens("red"));
         registry
     }
 
@@ -458,6 +526,14 @@ mod tests {
             }
             other => panic!("unexpected status: {other:?}"),
         }
+        let content = fs::read_to_string(&css_path).expect("read css");
+        assert!(content.contains(CSS_TOKEN_BLOCK_START));
+        assert!(content.contains(CSS_TOKEN_BLOCK_END));
+        assert!(content.contains("--color-accent: red"));
+
+        let second =
+            sync_tailwind_tokens(temp.path(), &config, &registry, false).expect("second sync");
+        assert!(matches!(second, TailwindSyncStatus::AlreadyPresent(_)));
     }
 
     #[test]
@@ -475,9 +551,57 @@ mod tests {
 
         assert!(matches!(status, TailwindSyncStatus::Updated { .. }));
         let content = fs::read_to_string(&css_path).expect("read css");
-        assert!(content.contains(CSS_TOKEN_SENTINEL));
+        assert!(content.contains(CSS_TOKEN_BLOCK_START));
+        assert!(content.contains(CSS_TOKEN_BLOCK_END));
         assert!(content.contains("body"));
         assert!(content.contains("color:red"));
+    }
+
+    #[test]
+    fn sync_tailwind_tokens_replaces_existing_marker_block() {
+        let registry = registry_with_assets();
+        let temp = TempDir::new().expect("tempdir");
+        let mut config = Config::default();
+        config.tailwind.css = "style.css".into();
+        let css_path = temp.path().join("style.css");
+        fs::write(&css_path, "@import \"tailwindcss\";\n\nbody {}\n").expect("write css");
+
+        let first =
+            sync_tailwind_tokens(temp.path(), &config, &registry, false).expect("first sync");
+        assert!(matches!(first, TailwindSyncStatus::Updated { .. }));
+
+        preload_registry_assets(&registry, &sample_tokens("blue"));
+
+        let second =
+            sync_tailwind_tokens(temp.path(), &config, &registry, false).expect("second sync");
+        assert!(matches!(second, TailwindSyncStatus::Updated { .. }));
+        let content = fs::read_to_string(&css_path).expect("read css");
+        assert!(content.contains("--color-accent: blue"));
+        assert!(!content.contains("--color-accent: red"));
+        assert_eq!(content.matches(CSS_TOKEN_BLOCK_START).count(), 1);
+        assert_eq!(content.matches(CSS_TOKEN_BLOCK_END).count(), 1);
+    }
+
+    #[test]
+    fn sync_tailwind_tokens_wraps_existing_unmarked_block() {
+        let registry = registry_with_assets();
+        let temp = TempDir::new().expect("tempdir");
+        let mut config = Config::default();
+        config.tailwind.css = "style.css".into();
+        let css_path = temp.path().join("style.css");
+        fs::write(
+            &css_path,
+            "@import \"tailwindcss\";\n\n@theme {\n    --color-accent: red;\n}\n\nbody {}\n",
+        )
+        .expect("write css");
+
+        let status =
+            sync_tailwind_tokens(temp.path(), &config, &registry, false).expect("sync tokens");
+        assert!(matches!(status, TailwindSyncStatus::Updated { .. }));
+        let content = fs::read_to_string(&css_path).expect("read css");
+        assert_eq!(content.matches(CSS_TOKEN_BLOCK_START).count(), 1);
+        assert_eq!(content.matches(CSS_TOKEN_BLOCK_END).count(), 1);
+        assert_eq!(content.matches("--color-accent: red").count(), 1);
     }
 
     #[test]
@@ -560,6 +684,13 @@ mod tests {
     fn trim_token_body_removes_newlines() {
         assert_eq!(trim_token_body("\n\ncontent\n"), "content");
         assert_eq!(trim_token_body("pure"), "pure");
+    }
+
+    #[test]
+    fn strip_token_markers_extracts_inner_body() {
+        let wrapped =
+            format!("{CSS_TOKEN_BLOCK_START}\n@theme {{\n    --x: y;\n}}\n{CSS_TOKEN_BLOCK_END}");
+        assert_eq!(strip_token_markers(&wrapped), "@theme {\n    --x: y;\n}");
     }
 
     #[test]
