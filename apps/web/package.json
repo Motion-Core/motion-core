@@ -9,7 +9,6 @@
 		"@tailwindcss/vite": "^4.1.17",
 		"@typescript-eslint/eslint-plugin": "^8.56.1",
 		"@typescript-eslint/parser": "^8.56.1",
-		"@types/three": "^0.182.0",
 		"eslint": "^10.0.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.15.0",
@@ -54,17 +53,15 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
-		"@threlte/core": "^8.3.1",
-		"@threlte/extras": "^9.7.1",
 		"@fontsource/inter": "^5.2.8",
+		"@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
+		"@takumi-rs/image-response": "1.0.0-rc.12",
 		"carbon-icons-svelte": "^13.9.0",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"gsap": "^3.14.2",
 		"motion-core": "workspace:*",
-		"tailwind-merge": "^3.5.0",
-		"three": "^0.182.0",
-		"@takumi-rs/image-response": "1.0.0-rc.12"
+		"ogl": "^1.0.11",
+		"tailwind-merge": "^3.5.0"
 	}
 }

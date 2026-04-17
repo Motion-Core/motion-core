@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./AsciiRendererScene.svelte";
 	import { cn } from "../../utils/cn";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 
 	type SceneProps = ComponentProps<typeof Scene>;
@@ -23,7 +21,7 @@
 		density?: SceneProps["density"];
 		/**
 		 * Intensity of the ASCII character generation threshold.
-		 * @default 25
+		 * @default 3
 		 */
 		strength?: SceneProps["strength"];
 		/**
@@ -33,7 +31,7 @@
 		color?: SceneProps["color"];
 		/**
 		 * Background color.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
 		[key: string]: unknown;
@@ -43,19 +41,15 @@
 		src,
 		class: className = "",
 		density = 25,
-		strength = 25,
+		strength = 3,
 		color = "#00ff00",
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene image={src} {density} {strength} {color} {backgroundColor} />
-		</Canvas>
+		<Scene image={src} {density} {strength} {color} {backgroundColor} />
 	</div>
 </div>

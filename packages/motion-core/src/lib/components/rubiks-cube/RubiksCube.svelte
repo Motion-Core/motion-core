@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./RubiksCubeScene.svelte";
 	import { cn } from "../../utils/cn";
 	import type { ComponentProps } from "svelte";
-	import { NoToneMapping } from "three";
 
 	type SceneProps = ComponentProps<typeof Scene>;
 
@@ -49,14 +47,10 @@
 		fresnelConfig,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene {size} {duration} {gap} {radius} {fresnelConfig} />
-		</Canvas>
+		<Scene {size} {duration} {gap} {radius} {fresnelConfig} />
 	</div>
 </div>

@@ -11,6 +11,7 @@ description: A smooth and organic lava lamp effect using raymarching shaders and
 	from "$lib/components/docs/markdown/Step.svelte"; import lavaLampSource from
 	"motion-core/components/lava-lamp/LavaLamp.svelte?raw"; import sceneSource
 	from "motion-core/components/lava-lamp/LavaLampScene.svelte?raw"; import
+	colorHelperSource from "motion-core/helpers/color.ts?raw"; import
 	LavaLampDemo from "./LavaLampDemo.svelte"; import lavaLampDemoSource from
 	"./LavaLampDemo.svelte?raw";
 </script>
@@ -48,6 +49,7 @@ import { LavaLamp } from "$lib/motion-core";
 			code: sceneSource,
 			language: "svelte",
 		},
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<LavaLampDemo />
@@ -64,7 +66,7 @@ import { LavaLamp } from "$lib/motion-core";
 		{
 			prop: "color",
 			type: "string",
-			default: '"#18181b"',
+			default: '"#17181A"',
 			description: "Base color of the lava blobs.",
 		},
 		{

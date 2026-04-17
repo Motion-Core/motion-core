@@ -1,13 +1,17 @@
 <script lang="ts">
-	import { T, useTask, useThrelte } from "@threlte/core";
+	import { onMount } from "svelte";
 	import {
-		Vector2,
-		ShaderMaterial,
-		MirroredRepeatWrapping,
-		LinearFilter,
-		Color,
-	} from "three";
-	import { useTexture } from "@threlte/extras";
+		Camera,
+		Mesh,
+		Program,
+		Renderer,
+		Texture,
+		Transform,
+		Triangle,
+		Vec2,
+		Vec3,
+	} from "ogl";
+	import { toLinearRgb } from "../../helpers/color";
 
 	interface Props {
 		/**
@@ -21,7 +25,7 @@
 		density?: number;
 		/**
 		 * Intensity of the ASCII character generation threshold.
-		 * @default 25.0
+		 * @default 3.0
 		 */
 		strength?: number;
 		/**
@@ -31,7 +35,7 @@
 		color?: string;
 		/**
 		 * Background color.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: string;
 	}
@@ -39,21 +43,37 @@
 	let {
 		image,
 		density = 25.0,
-		strength = 25.0,
+		strength = 3.0,
 		color = "#00ff00",
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 	}: Props = $props();
 
-	let time = 0;
-	const { size, renderer } = useThrelte();
+	type UniformState = {
+		uTime: { value: number };
+		uResolution: { value: Vec2 };
+		uTexture: { value: Texture };
+		uCoverScale: { value: Vec2 };
+		uCoverOffset: { value: Vec2 };
+		uDensity: { value: number };
+		uStrength: { value: number };
+		uColor: { value: Vec3 };
+		uBackgroundColor: { value: Vec3 };
+	};
 
-	let canvasWidth = $derived(Math.max(1, $size.width));
-	let canvasHeight = $derived(Math.max(1, $size.height));
+	let canvas = $state<HTMLCanvasElement>();
+	let uniforms = $state<UniformState>();
+	let setImageSource = $state<(source: string) => void>();
 
-	const coverScaleUniform = new Vector2(1, 1);
-	const coverOffsetUniform = new Vector2(0, 0);
-	const colorUniform = new Color();
-	const backgroundColorUniform = new Color();
+	const resolutionUniform = new Vec2(1, 1);
+	const coverScaleUniform = new Vec2(1, 1);
+	const coverOffsetUniform = new Vec2(0, 0);
+	const colorUniform = new Vec3(0, 1, 0);
+	const backgroundColorUniform = new Vec3(23 / 255, 24 / 255, 26 / 255);
+
+	let canvasWidth = 1;
+	let canvasHeight = 1;
+	let imageWidth = 1;
+	let imageHeight = 1;
 
 	const updateCoverUniforms = () => {
 		if (
@@ -85,163 +105,267 @@
 		coverOffsetUniform.set(offsetX, offsetY);
 	};
 
-	$effect(() => {
-		colorUniform.set(color);
-		backgroundColorUniform.set(backgroundColor);
-		if (material) {
-			material.uniforms.uColor.value.copy(colorUniform);
-			material.uniforms.uBackgroundColor.value.copy(backgroundColorUniform);
-		}
-	});
-
 	const vertexShader = `
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = vec4(position, 1.0);
-    }
-  `;
+		attribute vec2 uv;
+		attribute vec2 position;
+		varying vec2 vUv;
+
+		void main() {
+			vUv = uv;
+			gl_Position = vec4(position, 0.0, 1.0);
+		}
+	`;
 
 	const fragmentShader = `
-    uniform float uTime;
-    uniform vec2 uResolution;
-    uniform sampler2D uTexture;
-    uniform vec2 uCoverScale;
-    uniform vec2 uCoverOffset;
-    uniform float uDensity;
-    uniform float uStrength;
-    uniform vec3 uColor;
-    uniform vec3 uBackgroundColor;
+		precision highp float;
 
-    varying vec2 vUv;
+		uniform float uTime;
+		uniform vec2 uResolution;
+		uniform sampler2D uTexture;
+		uniform vec2 uCoverScale;
+		uniform vec2 uCoverOffset;
+		uniform float uDensity;
+		uniform float uStrength;
+		uniform vec3 uColor;
+		uniform vec3 uBackgroundColor;
 
-    float digit(vec2 p, float intensity){
-        p = (fract(p) - 0.5) * 1.2 + 0.5;
+		varying vec2 vUv;
 
-        if (p.x < 0.0 || p.x > 1.0 || p.y < 0.0 || p.y > 1.0) return 0.0;
+		vec2 mirrored(vec2 value) {
+			vec2 m = mod(value, 2.0);
+			return mix(m, 2.0 - m, step(1.0, m));
+		}
 
-        float x = fract(p.x * 5.);
-        float y = fract((1. - p.y) * 5.);
-        int i = int(floor((1. - p.y) * 5.));
-        int j = int(floor(p.x * 5.));
-        int n = (i-2)*(i-2)+(j-2)*(j-2);
-        float f = float(n)/16.;
-        float isOn = smoothstep(0.1, 0.2, intensity - f);
-        return isOn * (0.2 + y*4./5.) * (0.75 + x/4.);
-    }
+		float digit(vec2 p, float intensity){
+			p = (fract(p) - 0.5) * 1.2 + 0.5;
 
-    float onOff(float a, float b, float c)
-    {
-        return step(c, sin(uTime + a*cos(uTime*b)));
-    }
+			if (p.x < 0.0 || p.x > 1.0 || p.y < 0.0 || p.y > 1.0) return 0.0;
 
-    float displace(vec2 look)
-    {
-        float y = (look.y-mod(uTime/4.,1.));
-        float window = 1./(1.+50.*y*y);
-        return sin(look.y*20. + uTime)/80.*onOff(4.,2.,.8)*(1.+cos(uTime*60.))*window;
-    }
+			float x = fract(p.x * 5.0);
+			float y = fract((1.0 - p.y) * 5.0);
+			int i = int(floor((1.0 - p.y) * 5.0));
+			int j = int(floor(p.x * 5.0));
+			int n = (i-2)*(i-2)+(j-2)*(j-2);
+			float f = float(n)/16.0;
+			float isOn = smoothstep(0.1, 0.2, intensity - f);
+			return isOn * (0.2 + y*4.0/5.0) * (0.75 + x/4.0);
+		}
 
-    void main() {
-        vec2 p = vUv;
-        float aspect = uResolution.x / uResolution.y;
-        p.x *= aspect;
+		float onOff(float a, float b, float c) {
+			return step(c, sin(uTime + a*cos(uTime*b)));
+		}
 
-        vec2 pDisplaced = p;
-        pDisplaced.x += displace(p) * 0.5;
+		float displace(vec2 look) {
+			float y = (look.y - mod(uTime/4.0, 1.0));
+			float window = 1.0 / (1.0 + 50.0 * y * y);
+			return sin(look.y * 20.0 + uTime)/80.0 * onOff(4.0, 2.0, 0.8) * (1.0 + cos(uTime*60.0)) * window;
+		}
 
-        vec2 grid = vec2(3., 1.) * uDensity;
+		vec3 linearToSrgb(vec3 color) {
+			vec3 safe = max(color, vec3(0.0));
+			vec3 low = safe * 12.92;
+			vec3 high = 1.055 * pow(safe, vec3(1.0 / 2.4)) - 0.055;
+			vec3 cutoff = step(vec3(0.0031308), safe);
+			return mix(low, high, cutoff);
+		}
 
-        vec2 cellIndex = floor(pDisplaced * grid);
-        vec2 cellCenterP = (cellIndex + 0.5) / grid;
+		void main() {
+			vec2 p = vUv;
+			float aspect = uResolution.x / max(uResolution.y, 1.0);
+			p.x *= aspect;
 
-        vec2 cellCenterUV = cellCenterP;
-        cellCenterUV.x /= aspect;
+			vec2 pDisplaced = p;
+			pDisplaced.x += displace(p) * 0.5;
 
-        vec2 cellCenterUVCover = (cellCenterUV * uCoverScale) + uCoverOffset;
+			vec2 grid = vec2(3.0, 1.0) * uDensity;
 
-        vec3 texColor = texture2D(uTexture, cellCenterUVCover).rgb;
+			vec2 cellIndex = floor(pDisplaced * grid);
+			vec2 cellCenterP = (cellIndex + 0.5) / grid;
 
-        float intensity = dot(texColor, vec3(0.299, 0.587, 0.114));
-        intensity = pow(intensity, 2.8);
+			vec2 cellCenterUV = cellCenterP;
+			cellCenterUV.x /= aspect;
 
-        float bar = mod(p.y + uTime*20., 1.) < 0.2 ?  1.4  : 1.;
+			vec2 cellCenterUVCover = (cellCenterUV * uCoverScale) + uCoverOffset;
+			vec3 texColor = texture2D(uTexture, mirrored(cellCenterUVCover)).rgb;
 
-        vec2 gridP = pDisplaced * grid;
-        float middle = digit(gridP, intensity * 1.3 * uStrength);
+			float intensity = dot(texColor, vec3(0.299, 0.587, 0.114));
+			intensity = pow(intensity, 2.8);
 
-        float off = 0.002;
-        float sum = 0.;
-        for (float i = -1.; i < 2.; i+=1.){
-            for (float j = -1.; j < 2.; j+=1.){
-                vec2 offsetGridP = gridP + vec2(off*i*grid.x, off*j*grid.y);
-                sum += digit(offsetGridP, intensity * 1.3 * uStrength);
-            }
-        }
+			float bar = mod(p.y + uTime * 20.0, 1.0) < 0.2 ? 1.4 : 1.0;
 
-        vec3 emission = vec3(0.6)*middle + sum/15.*uColor * bar;
-        vec3 final = uBackgroundColor + emission;
+			vec2 gridP = pDisplaced * grid;
+			float middle = digit(gridP, intensity * 1.3 * uStrength);
 
-        gl_FragColor = vec4(final, 1.0);
-        #include <colorspace_fragment>
-    }
-  `;
+			float off = 0.002;
+			float sum = 0.0;
+			for (float i = -1.0; i < 2.0; i += 1.0) {
+				for (float j = -1.0; j < 2.0; j += 1.0) {
+					vec2 offsetGridP = gridP + vec2(off * i * grid.x, off * j * grid.y);
+					sum += digit(offsetGridP, intensity * 1.3 * uStrength);
+				}
+			}
 
-	const texture = $derived(
-		useTexture(image, {
-			transform: (tex) => {
-				tex.wrapS = MirroredRepeatWrapping;
-				tex.wrapT = MirroredRepeatWrapping;
-				tex.minFilter = LinearFilter;
-				tex.magFilter = LinearFilter;
-				tex.anisotropy = renderer
-					? renderer.capabilities.getMaxAnisotropy()
-					: 1;
-				return tex;
-			},
-		}),
-	);
+			vec3 emission = vec3(0.6) * middle + sum / 15.0 * uColor * bar;
+			vec3 finalColor = uBackgroundColor + emission;
 
-	let imageWidth = $derived($texture?.image?.width ?? 1);
-	let imageHeight = $derived($texture?.image?.height ?? 1);
+			gl_FragColor = vec4(linearToSrgb(finalColor), 1.0);
+		}
+	`;
 
 	$effect(() => {
-		updateCoverUniforms();
+		if (!uniforms) return;
+		uniforms.uDensity.value = density;
 	});
 
-	let material = $state<ShaderMaterial>();
+	$effect(() => {
+		if (!uniforms) return;
+		uniforms.uStrength.value = strength;
+	});
 
-	useTask((delta) => {
-		time += delta;
-		if (material) {
-			material.uniforms.uTime.value = time;
-			material.uniforms.uResolution.value.set($size.width, $size.height);
-			material.uniforms.uCoverScale.value = coverScaleUniform;
-			material.uniforms.uCoverOffset.value = coverOffsetUniform;
-			material.uniforms.uDensity.value = density;
-			material.uniforms.uStrength.value = strength;
-		}
+	$effect(() => {
+		const [r, g, b] = toLinearRgb(color, [0, 1, 0]);
+		colorUniform.set(r, g, b);
+	});
+
+	$effect(() => {
+		const [r, g, b] = toLinearRgb(backgroundColor, [
+			23 / 255,
+			24 / 255,
+			26 / 255,
+		]);
+		backgroundColorUniform.set(r, g, b);
+	});
+
+	$effect(() => {
+		if (!setImageSource) return;
+		setImageSource(image);
+	});
+
+	onMount(() => {
+		const targetCanvas = canvas;
+		if (!targetCanvas) return;
+
+		const renderer = new Renderer({
+			canvas: targetCanvas,
+			alpha: true,
+			dpr: typeof window !== "undefined" ? window.devicePixelRatio : 1,
+		});
+		const gl = renderer.gl;
+		gl.clearColor(0, 0, 0, 0);
+
+		const camera = new Camera(gl);
+		camera.position.z = 1;
+
+		const scene = new Transform();
+		const geometry = new Triangle(gl);
+
+		const imageTexture = new Texture(gl, {
+			image: new Uint8Array([0, 0, 0, 255]),
+			width: 1,
+			height: 1,
+			format: gl.RGBA,
+			type: gl.UNSIGNED_BYTE,
+			minFilter: gl.LINEAR,
+			magFilter: gl.LINEAR,
+			wrapS: gl.CLAMP_TO_EDGE,
+			wrapT: gl.CLAMP_TO_EDGE,
+			generateMipmaps: false,
+			flipY: true,
+		});
+
+		const localUniforms: UniformState = {
+			uTime: { value: 0 },
+			uResolution: { value: resolutionUniform },
+			uTexture: { value: imageTexture },
+			uCoverScale: { value: coverScaleUniform },
+			uCoverOffset: { value: coverOffsetUniform },
+			uDensity: { value: density },
+			uStrength: { value: strength },
+			uColor: { value: colorUniform },
+			uBackgroundColor: { value: backgroundColorUniform },
+		};
+		uniforms = localUniforms;
+
+		let imageLoadToken = 0;
+		let disposed = false;
+		const loadImage = (source: string) => {
+			imageLoadToken += 1;
+			const token = imageLoadToken;
+			const img = new Image();
+			img.crossOrigin = "anonymous";
+			img.decoding = "async";
+			img.onload = () => {
+				if (disposed || token !== imageLoadToken) return;
+				imageTexture.image = img;
+				imageWidth = img.naturalWidth || img.width || 1;
+				imageHeight = img.naturalHeight || img.height || 1;
+				updateCoverUniforms();
+			};
+			img.src = source;
+		};
+		setImageSource = loadImage;
+
+		const program = new Program(gl, {
+			vertex: vertexShader,
+			fragment: fragmentShader,
+			uniforms: localUniforms,
+			transparent: true,
+			depthTest: false,
+			depthWrite: false,
+		});
+
+		const mesh = new Mesh(gl, { geometry, program, frustumCulled: false });
+		mesh.setParent(scene);
+
+		const resize = () => {
+			const host = targetCanvas.parentElement ?? targetCanvas;
+			const { width: hostWidth, height: hostHeight } =
+				host.getBoundingClientRect();
+			const width = Math.max(1, Math.round(hostWidth));
+			const height = Math.max(1, Math.round(hostHeight));
+
+			renderer.setSize(width, height);
+			canvasWidth = width;
+			canvasHeight = height;
+			resolutionUniform.set(width, height);
+			updateCoverUniforms();
+		};
+
+		resize();
+
+		const observer = new ResizeObserver(resize);
+		observer.observe(targetCanvas);
+		if (targetCanvas.parentElement)
+			observer.observe(targetCanvas.parentElement);
+
+		let raf = 0;
+		let previous = 0;
+		const tick = (now: number) => {
+			const delta = previous ? (now - previous) / 1000 : 0;
+			previous = now;
+			localUniforms.uTime.value += delta;
+			renderer.render({ scene, camera });
+			raf = window.requestAnimationFrame(tick);
+		};
+
+		raf = window.requestAnimationFrame(tick);
+
+		return () => {
+			disposed = true;
+			imageLoadToken += 1;
+			window.cancelAnimationFrame(raf);
+			observer.disconnect();
+			setImageSource = undefined;
+			program.remove();
+			geometry.remove();
+			if (imageTexture.texture) gl.deleteTexture(imageTexture.texture);
+		};
 	});
 </script>
 
-{#if $texture}
-	<T.Mesh>
-		<T.PlaneGeometry args={[2, 2]} />
-		<T.ShaderMaterial
-			bind:ref={material}
-			{vertexShader}
-			{fragmentShader}
-			uniforms={{
-				uTime: { value: 0 },
-				uResolution: { value: new Vector2(1, 1) },
-				uTexture: { value: $texture },
-				uCoverScale: { value: coverScaleUniform },
-				uCoverOffset: { value: coverOffsetUniform },
-				uDensity: { value: density },
-				uStrength: { value: strength },
-				uColor: { value: colorUniform },
-				uBackgroundColor: { value: backgroundColorUniform },
-			}}
-		/>
-	</T.Mesh>
-{/if}
+<canvas
+	bind:this={canvas}
+	class="absolute inset-0 block h-full w-full"
+	style="width:100%;height:100%;"
+	aria-hidden="true"
+></canvas>

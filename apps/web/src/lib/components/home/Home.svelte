@@ -84,7 +84,7 @@
 		<p
 			class="max-w-xl text-center text-base font-normal tracking-normal text-pretty text-foreground-muted sm:text-lg"
 		>
-			Animated Svelte component library powered by GSAP and Three.js. Drop-in
+			Animated Svelte component library powered by GSAP and OGL. Drop-in
 			solutions for motion design, 3D canvases, and interactive animations.
 		</p>
 		<div data-reveal="actions" class="flex items-center gap-2">

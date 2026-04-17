@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./LavaLampScene.svelte";
 	import { cn } from "../../utils/cn";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 
 	type SceneProps = ComponentProps<typeof Scene>;
@@ -14,7 +12,7 @@
 		class?: string;
 		/**
 		 * Base color of the lava blobs.
-		 * @default "#18181b"
+		 * @default "#17181A"
 		 */
 		color?: SceneProps["color"];
 		/**
@@ -47,7 +45,7 @@
 
 	let {
 		class: className = "",
-		color = "#18181b",
+		color = "#17181A",
 		fresnelColor = "#ff6900",
 		speed = 1.0,
 		fresnelPower = 3.0,
@@ -55,21 +53,17 @@
 		smoothness = 0.1,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{color}
-				{fresnelColor}
-				{speed}
-				{fresnelPower}
-				{radius}
-				{smoothness}
-			/>
-		</Canvas>
+		<Scene
+			{color}
+			{fresnelColor}
+			{speed}
+			{fresnelPower}
+			{radius}
+			{smoothness}
+		/>
 	</div>
 </div>

@@ -12,6 +12,7 @@ description: A retro-styled renderer that converts images into character-based v
 	from "motion-core/components/ascii-renderer/AsciiRenderer.svelte?raw"; import
 	sceneSource from
 	"motion-core/components/ascii-renderer/AsciiRendererScene.svelte?raw"; import
+	colorHelperSource from "motion-core/helpers/color.ts?raw"; import
 	AsciiRendererDemo from "./AsciiRendererDemo.svelte"; import
 	asciiRendererDemoSource from "./AsciiRendererDemo.svelte?raw";
 </script>
@@ -49,6 +50,7 @@ import { AsciiRenderer } from "$lib/motion-core";
 			code: sceneSource,
 			language: "svelte",
 		},
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<AsciiRendererDemo />
@@ -78,21 +80,21 @@ import { AsciiRenderer } from "$lib/motion-core";
 		{
 			prop: "strength",
 			type: "number",
-			default: "25.0",
+			default: "3.0",
 			description: "Intensity of the ASCII character generation threshold.",
 		},
 		{
 			prop: "color",
-			type: "string",
+			type: 'string | number | [number, number, number] | { r: number; g: number; b: number }',
 			default: '"#00ff00"',
-			description: "Color of the ASCII characters (hex string).",
+			description: "Color of the ASCII characters.",
 		},
-		{
-			prop: "backgroundColor",
-			type: "string",
-			default: '"#000000"',
-			description: "Background color of the canvas (hex string).",
-		},
+			{
+				prop: "backgroundColor",
+				type: 'string | number | [number, number, number] | { r: number; g: number; b: number }',
+				default: '"#17181A"',
+				description: "Background color of the canvas.",
+			},
 		{
 			prop: "class",
 			type: "string",

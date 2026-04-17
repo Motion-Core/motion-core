@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 	import Scene from "./GodRaysScene.svelte";
 	import { cn } from "../../utils/cn";
@@ -19,7 +17,7 @@
 		color?: SceneProps["color"];
 		/**
 		 * Color of the background.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
 		/**
@@ -93,7 +91,7 @@
 	let {
 		class: className = "",
 		color = "#FFFFFF",
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		anchorX = 0.5,
 		anchorY = 1.2,
 		directionX = 0.0,
@@ -109,30 +107,26 @@
 		intensity = 1.0,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{color}
-				{backgroundColor}
-				{anchorX}
-				{anchorY}
-				{directionX}
-				{directionY}
-				{speed}
-				{lightSpread}
-				{rayLength}
-				{pulsating}
-				{fadeDistance}
-				{saturation}
-				{noiseAmount}
-				{distortion}
-				{intensity}
-			/>
-		</Canvas>
+		<Scene
+			{color}
+			{backgroundColor}
+			{anchorX}
+			{anchorY}
+			{directionX}
+			{directionY}
+			{speed}
+			{lightSpread}
+			{rayLength}
+			{pulsating}
+			{fadeDistance}
+			{saturation}
+			{noiseAmount}
+			{distortion}
+			{intensity}
+		/>
 	</div>
 </div>

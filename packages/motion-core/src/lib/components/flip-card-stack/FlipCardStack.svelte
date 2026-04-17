@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
 	import { onDestroy } from "svelte";
-	import { gsap } from "gsap/dist/gsap";
+	import { gsap } from "gsap";
 	import { cn } from "../../utils/cn";
 	import type { Snippet } from "svelte";
 

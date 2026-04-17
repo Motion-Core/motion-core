@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./DitheredImageScene.svelte";
 	import { cn } from "../../utils/cn";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 
 	type SceneProps = ComponentProps<typeof Scene>;
@@ -33,7 +31,7 @@
 		color?: SceneProps["color"];
 		/**
 		 * Background color.
-		 * @default "#111113"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
 		/**
@@ -51,25 +49,21 @@
 		ditherMap = "bayer4x4",
 		pixelSize = 1,
 		color = "#ff6900",
-		backgroundColor = "#111113",
+		backgroundColor = "#17181A",
 		threshold = 0.0,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				image={src}
-				{ditherMap}
-				{pixelSize}
-				{color}
-				{backgroundColor}
-				{threshold}
-			/>
-		</Canvas>
+		<Scene
+			image={src}
+			{ditherMap}
+			{pixelSize}
+			{color}
+			{backgroundColor}
+			{threshold}
+		/>
 	</div>
 </div>

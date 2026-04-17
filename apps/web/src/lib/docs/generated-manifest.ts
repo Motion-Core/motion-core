@@ -15,9 +15,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "ASCII Renderer",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -25,10 +23,8 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Card 3D",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.0.0",
 			"@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -44,9 +40,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Dithered Image",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -55,9 +49,7 @@ export const docsManifest: ComponentInfo[] = [
 		category: "canvas",
 		introducedAt: "2026-04-02",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -91,9 +83,7 @@ export const docsManifest: ComponentInfo[] = [
 		category: "canvas",
 		introducedAt: "2026-04-04",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -101,8 +91,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Fluid Simulation",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -110,9 +99,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Glass Pane",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -120,10 +107,8 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Glass Slideshow",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
 			gsap: "^3.14.2",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -131,8 +116,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Glitter Cloth",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -140,10 +124,8 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Globe",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
 			gsap: "^3.14.2",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -152,8 +134,7 @@ export const docsManifest: ComponentInfo[] = [
 		category: "canvas",
 		introducedAt: "2026-03-18",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -162,8 +143,7 @@ export const docsManifest: ComponentInfo[] = [
 		category: "canvas",
 		introducedAt: "2026-03-18",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -179,9 +159,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Infinite Gallery",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -198,9 +176,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Interactive Grid",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -208,8 +184,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Lava Lamp",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -249,8 +224,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Neural Noise",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -258,9 +232,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Pixelated Image",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -268,8 +240,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Plasma Grid",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -293,9 +264,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Rubiks Cube",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -312,8 +281,7 @@ export const docsManifest: ComponentInfo[] = [
 		category: "canvas",
 		introducedAt: "2026-03-18",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{
@@ -370,9 +338,7 @@ export const docsManifest: ComponentInfo[] = [
 		name: "Water Ripple",
 		category: "canvas",
 		dependencies: {
-			"@threlte/core": "^8.3.1",
-			"@threlte/extras": "^9.7.1",
-			three: "^0.182.0",
+			ogl: "^1.0.11",
 		},
 	},
 	{

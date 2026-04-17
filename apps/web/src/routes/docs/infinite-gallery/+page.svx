@@ -74,7 +74,7 @@ import { InfiniteGallery } from "$lib/motion-core";
 		{
 			prop: "speed",
 			type: "number",
-			default: "1.0",
+			default: "1",
 			description: "Multiplier for scroll and auto-play speed.",
 		},
 		{
@@ -113,25 +113,25 @@ import { InfiniteGallery } from "$lib/motion-core";
 		{
 			key: "fadeIn.start",
 			type: "number",
-			default: "0.01",
+			default: "0.05",
 			description: "Z-position where images start fading in.",
 		},
 		{
 			key: "fadeIn.end",
 			type: "number",
-			default: "0.25",
+			default: "0.15",
 			description: "Z-position where images are fully opaque.",
 		},
 		{
 			key: "fadeOut.start",
 			type: "number",
-			default: "0.43",
+			default: "0.85",
 			description: "Z-position where images start fading out.",
 		},
 		{
 			key: "fadeOut.end",
 			type: "number",
-			default: "0.46",
+			default: "0.95",
 			description: "Z-position where images are fully transparent.",
 		},
 	]}
@@ -152,25 +152,25 @@ import { InfiniteGallery } from "$lib/motion-core";
 		{
 			key: "blurIn.end",
 			type: "number",
-			default: "0.2",
+			default: "0.1",
 			description: "Z-position where images are sharp (no blur).",
 		},
 		{
 			key: "blurOut.start",
 			type: "number",
-			default: "0.43",
+			default: "0.9",
 			description: "Z-position where blur starts increasing again.",
 		},
 		{
 			key: "blurOut.end",
 			type: "number",
-			default: "0.46",
+			default: "1.0",
 			description: "Z-position where images are max blurred.",
 		},
 		{
 			key: "maxBlur",
 			type: "number",
-			default: "8.0",
+			default: "3.0",
 			description: "Maximum blur radius applied to images.",
 		},
 	]}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { untrack } from "svelte";
-	import { gsap } from "gsap/dist/gsap";
-	import { SplitText } from "gsap/dist/SplitText";
+	import { gsap } from "gsap";
+	import { SplitText } from "gsap/SplitText";
 	import { onMount } from "svelte";
 	import type { ClassValue } from "clsx";
 

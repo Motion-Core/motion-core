@@ -12,6 +12,7 @@ description: A physics-based fluid simulation with pointer interaction.
 	from "motion-core/components/fluid-simulation/FluidSimulation.svelte?raw";
 	import sceneSource from
 	"motion-core/components/fluid-simulation/FluidSimulationScene.svelte?raw";
+	import colorHelperSource from "motion-core/helpers/color.ts?raw";
 	import FluidSimulationDemo from "./FluidSimulationDemo.svelte"; import
 	fluidSimulationDemoSource from "./FluidSimulationDemo.svelte?raw";
 </script>
@@ -49,6 +50,7 @@ import { FluidSimulation } from "$lib/motion-core";
 			code: sceneSource,
 			language: "svelte",
 		},
+		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
 	<FluidSimulationDemo />
@@ -77,10 +79,10 @@ import { FluidSimulation } from "$lib/motion-core";
 		},
 		{
 			prop: "color",
-			type: "THREE.ColorRepresentation",
+			type: "string | number | [number, number, number] | { r: number; g: number; b: number }",
 			default: '"#ff6900"',
 			description:
-				"Color of the fluid splat. Accepts any valid Three.js color representation.",
+				"Color of the fluid splat. Accepts string, number, RGB tuple, or { r, g, b } object.",
 		},
 		{
 			prop: "velocityDissipation",

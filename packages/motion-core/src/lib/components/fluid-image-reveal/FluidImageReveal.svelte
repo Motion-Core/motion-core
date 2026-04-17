@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 	import Scene from "./FluidImageRevealScene.svelte";
 	import { cn } from "../../utils/cn";
@@ -59,22 +57,18 @@
 		blendSoftness = 0.22,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{baseImage}
-				{revealImage}
-				{dissipation}
-				{pointerSize}
-				{velocityDissipation}
-				{pressureIterations}
-				{blendSoftness}
-			/>
-		</Canvas>
+		<Scene
+			{baseImage}
+			{revealImage}
+			{dissipation}
+			{pointerSize}
+			{velocityDissipation}
+			{pressureIterations}
+			{blendSoftness}
+		/>
 	</div>
 </div>

@@ -9,7 +9,8 @@ description: A hover-reactive text effect that smoothly increases glyph weight w
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
 	from "$lib/components/docs/markdown/Step.svelte"; import weightWaveSource from
-	"motion-core/components/weight-wave/WeightWave.svelte?raw"; import
+	"motion-core/components/weight-wave/WeightWave.svelte?raw"; import gsapHelperSource
+	from "motion-core/helpers/gsap.ts?raw"; import
 	WeightWaveDemo from "./WeightWaveDemo.svelte"; import weightWaveDemoSource
 	from "./WeightWaveDemo.svelte?raw";
 </script>
@@ -38,6 +39,7 @@ import { WeightWave } from "$lib/motion-core";
 	sources={[
 		{ name: "Example", code: weightWaveDemoSource, language: "svelte" },
 		{ name: "WeightWave.svelte", code: weightWaveSource, language: "svelte" },
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 	]}
 >
 	<WeightWaveDemo />

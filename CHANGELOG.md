@@ -6,6 +6,61 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-04-16
+
+### Changed
+
+- **Canvas / ASCII Renderer**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Card 3D**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Dithered Image**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Fake 3D Image**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Fluid Image Reveal**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Fluid Simulation**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Glass Pane**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Glass Slideshow**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Glitter Cloth**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Globe**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / God Rays**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Halo**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Infinite Gallery**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Interactive Grid**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Lava Lamp**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Neural Noise**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Pixelated Image**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Plasma Grid**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Rubiks Cube**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Specular Band**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Water Ripple**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Helpers**: Added shared `color` and `fluid-pointer` helpers for unified color conversion and pointer handling.
+- **Canvas / Defaults**: Standardized default `backgroundColor` to `#17181A` and aligned default prop values across migrated OGL components.
+- **Showcase / Card Stack**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Pointer / Flip Card Stack**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Layout / Flip Grid**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Navigation / Floating Menu**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Canvas / Glass Slideshow**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Canvas / Globe**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Pointer / Image Trail**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Infinite Physics Gallery**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Logo Carousel**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Pointer / MacOS Dock**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Pointer / Magnetic**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Marquee**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Transition / Preloader**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Radial Gallery**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Slideshow**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Split Hover**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Split Reveal**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Stacking Words**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Text Loop**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Text Scramble**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Video Player**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Video Slider**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Weight Wave**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Helpers / GSAP**: Switched helper imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+
+### Removed
+
+- **Runtime / Dependencies**: Removed `three`, `@threlte/core`, `@threlte/extras`, and `@types/three` from `motion-core` package dependencies and switched to `ogl`.
 
 ## [0.10.0] - 2026-04-04
 

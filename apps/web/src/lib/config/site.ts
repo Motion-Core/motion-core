@@ -11,7 +11,7 @@ export const siteConfig = {
 	url: "https://motion-core.dev",
 	/** Default SEO description for the homepage and fallback metadata. */
 	description:
-		"Svelte-native motion toolkit with GSAP and Three.js powered components, demos, and CLI-driven workflows.",
+		"Svelte-native motion toolkit with GSAP and OGL-powered components, demos, and CLI-driven workflows.",
 	/** Author shown in metadata and structured data. */
 	author: "Marek Jóźwiak",
 	/** Primary SEO keywords for indexing and discovery. */
@@ -19,7 +19,7 @@ export const siteConfig = {
 		"motion core",
 		"svelte animation",
 		"gsap",
-		"three.js",
+		"ogl",
 		"component library",
 		"svelte components",
 		"motion toolkit",

@@ -11,7 +11,8 @@ description: A refined video player component with a progress slider and smooth 
 	from "$lib/components/docs/markdown/Step.svelte"; import videoPlayerSource
 	from "motion-core/components/video-player/VideoPlayer.svelte?raw"; import
 	videoSliderSource from
-	"motion-core/components/video-player/VideoSlider.svelte?raw"; import
+	"motion-core/components/video-player/VideoSlider.svelte?raw"; import gsapHelperSource
+	from "motion-core/helpers/gsap.ts?raw"; import
 	VideoPlayerDemo from "./VideoPlayerDemo.svelte"; import videoPlayerDemoSource
 	from "./VideoPlayerDemo.svelte?raw";
 </script>
@@ -41,6 +42,7 @@ import { VideoPlayer } from "$lib/motion-core";
 		{ name: "Example", code: videoPlayerDemoSource, language: "svelte" },
 		{ name: "VideoPlayer.svelte", code: videoPlayerSource, language: "svelte" },
 		{ name: "VideoSlider.svelte", code: videoSliderSource, language: "svelte" },
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 	]}
 >
 	<VideoPlayerDemo />
@@ -87,9 +89,16 @@ import { VideoPlayer } from "$lib/motion-core";
 				"Whether the video should start over again every time it is finished.",
 		},
 		{
+			prop: "hideControls",
+			type: "boolean",
+			default: "false",
+			description:
+				"Whether to permanently hide controls and disable interaction.",
+		},
+		{
 			prop: "class",
 			type: "string",
-			default: '""',
+			default: "undefined",
 			description: "Additional CSS classes for the container.",
 		},
 	]}

@@ -1,7 +1,16 @@
 <script lang="ts">
-	import { T, useTask, useThrelte } from "@threlte/core";
-	import { useTexture } from "@threlte/extras";
-	import * as THREE from "three";
+	import { onMount } from "svelte";
+	import {
+		Mesh,
+		Program,
+		RenderTarget,
+		Renderer,
+		Texture,
+		Triangle,
+		Vec2,
+		Vec3,
+	} from "ogl";
+	import { updateFluidPointerState } from "../../helpers/fluid-pointer";
 
 	interface Props {
 		/**
@@ -53,6 +62,12 @@
 		height: number;
 	};
 
+	type DoubleFBO = {
+		read: RenderTarget;
+		write: RenderTarget;
+		swap: () => void;
+	};
+
 	let {
 		baseImage,
 		revealImage,
@@ -63,7 +78,10 @@
 		blendSoftness = 0.22,
 	}: Props = $props();
 
-	const { renderer, size } = useThrelte();
+	let canvas = $state<HTMLCanvasElement>();
+	let setBaseSource = $state<(source: string) => void>();
+	let setRevealSource = $state<(source: string) => void>();
+
 	const pointerState = $state<PointerState>({
 		x: 0,
 		y: 0,
@@ -77,30 +95,13 @@
 		height: 1,
 	});
 
-	const pointerUv = new THREE.Vector2();
-	const baseTextureSize = new THREE.Vector2(1, 1);
-	const revealTextureSize = new THREE.Vector2(1, 1);
+	const pointerUv = new Vec2();
+	const baseTextureSize = new Vec2(1, 1);
+	const revealTextureSize = new Vec2(1, 1);
 
 	const pointerForceClamp = 450;
 	const pointerForceInitialLerp = 0.2;
 	const pointerForceLerp = 0.55;
-
-	const baseTexture = $derived(useTexture(baseImage));
-	const revealTexture = $derived(useTexture(revealImage));
-
-	$effect(() => {
-		const tex = $baseTexture;
-		if (tex?.image) {
-			baseTextureSize.set(tex.image.width || 1, tex.image.height || 1);
-		}
-	});
-
-	$effect(() => {
-		const tex = $revealTexture;
-		if (tex?.image) {
-			revealTextureSize.set(tex.image.width || 1, tex.image.height || 1);
-		}
-	});
 
 	const updatePointerPosition = (
 		px: number,
@@ -108,43 +109,22 @@
 		width: number,
 		height: number,
 	) => {
-		const prevX = pointerState.x;
-		const prevY = pointerState.y;
-		const targetDx = THREE.MathUtils.clamp(
-			5 * (px - prevX),
-			-pointerForceClamp,
-			pointerForceClamp,
-		);
-		const targetDy = THREE.MathUtils.clamp(
-			5 * (py - prevY),
-			-pointerForceClamp,
-			pointerForceClamp,
-		);
-		const lerpFactor = pointerState.initialized
-			? pointerForceLerp
-			: pointerForceInitialLerp;
-
-		pointerState.moved = true;
-		pointerState.dx = THREE.MathUtils.lerp(
-			pointerState.dx,
-			targetDx,
-			lerpFactor,
-		);
-		pointerState.dy = THREE.MathUtils.lerp(
-			pointerState.dy,
-			targetDy,
-			lerpFactor,
-		);
-		pointerState.x = px;
-		pointerState.y = py;
-		pointerState.initialized = true;
-
-		if (width > 0 && height > 0) {
-			pointerUv.set(px / width, 1 - py / height);
-		}
+		updateFluidPointerState({
+			state: pointerState,
+			uv: pointerUv,
+			x: px,
+			y: py,
+			width,
+			height,
+			forceClamp: pointerForceClamp,
+			initialLerp: pointerForceInitialLerp,
+			lerp: pointerForceLerp,
+		});
 	};
 
 	const vertexShader = `
+		attribute vec2 uv;
+		attribute vec2 position;
 		varying vec2 vUv;
 		varying vec2 vL;
 		varying vec2 vR;
@@ -158,11 +138,12 @@
 			vR = vUv + vec2(uTexel.x, 0.);
 			vT = vUv + vec2(0., uTexel.y);
 			vB = vUv - vec2(0., uTexel.y);
-			gl_Position = vec4(position, 1.0);
+			gl_Position = vec4(position, 0.0, 1.0);
 		}
 	`;
 
 	const advectionShader = `
+		precision highp float;
 		varying vec2 vUv;
 		uniform sampler2D uVelocity;
 		uniform sampler2D uInput;
@@ -189,11 +170,11 @@
 	`;
 
 	const divergenceShader = `
-		varying highp vec2 vUv;
-		varying highp vec2 vL;
-		varying highp vec2 vR;
-		varying highp vec2 vT;
-		varying highp vec2 vB;
+		precision highp float;
+		varying vec2 vL;
+		varying vec2 vR;
+		varying vec2 vT;
+		varying vec2 vB;
 		uniform sampler2D uVelocity;
 
 		void main () {
@@ -207,11 +188,12 @@
 	`;
 
 	const pressureShader = `
-		varying highp vec2 vUv;
-		varying highp vec2 vL;
-		varying highp vec2 vR;
-		varying highp vec2 vT;
-		varying highp vec2 vB;
+		precision highp float;
+		varying vec2 vUv;
+		varying vec2 vL;
+		varying vec2 vR;
+		varying vec2 vT;
+		varying vec2 vB;
 		uniform sampler2D uPressure;
 		uniform sampler2D uDivergence;
 
@@ -227,11 +209,12 @@
 	`;
 
 	const gradientSubtractShader = `
-		varying highp vec2 vUv;
-		varying highp vec2 vL;
-		varying highp vec2 vR;
-		varying highp vec2 vT;
-		varying highp vec2 vB;
+		precision highp float;
+		varying vec2 vUv;
+		varying vec2 vL;
+		varying vec2 vR;
+		varying vec2 vT;
+		varying vec2 vB;
 		uniform sampler2D uPressure;
 		uniform sampler2D uVelocity;
 
@@ -247,6 +230,7 @@
 	`;
 
 	const splatShader = `
+		precision highp float;
 		varying vec2 vUv;
 		uniform sampler2D uInput;
 		uniform float uRatio;
@@ -263,7 +247,19 @@
 		}
 	`;
 
+	const outputVertexShader = `
+		attribute vec2 uv;
+		attribute vec2 position;
+		varying vec2 vUv;
+
+		void main() {
+			vUv = uv;
+			gl_Position = vec4(position, 0.0, 1.0);
+		}
+	`;
+
 	const outputShader = `
+		precision highp float;
 		varying vec2 vUv;
 		uniform sampler2D uMaskTexture;
 		uniform sampler2D uBaseTexture;
@@ -275,9 +271,10 @@
 		uniform float uBlendSoftness;
 
 		vec2 getCoverUV(vec2 uv, vec2 textureSize) {
-			vec2 s = uResolution / textureSize;
+			vec2 safeTexture = max(textureSize, vec2(1.0));
+			vec2 s = uResolution / safeTexture;
 			float scale = max(s.x, s.y);
-			vec2 scaledSize = textureSize * scale;
+			vec2 scaledSize = safeTexture * scale;
 			vec2 offset = (uResolution - scaledSize) * 0.5;
 			return (uv * uResolution - offset) / scaledSize;
 		}
@@ -315,320 +312,420 @@
 
 			vec3 color = mix(baseColor, revealColor, mask);
 			gl_FragColor = vec4(color, 1.0);
-			#include <colorspace_fragment>
 		}
 	`;
 
-	const createFBO = (w: number, h: number) =>
-		new THREE.WebGLRenderTarget(w, h, {
-			type: THREE.FloatType,
-			minFilter: THREE.NearestFilter,
-			magFilter: THREE.NearestFilter,
-			format: THREE.RGBAFormat,
+	$effect(() => {
+		if (!setBaseSource) return;
+		setBaseSource(baseImage);
+	});
+
+	$effect(() => {
+		if (!setRevealSource) return;
+		setRevealSource(revealImage);
+	});
+
+	onMount(() => {
+		const targetCanvas = canvas;
+		if (!targetCanvas) return;
+
+		const renderer = new Renderer({
+			canvas: targetCanvas,
+			alpha: true,
+			dpr: typeof window !== "undefined" ? window.devicePixelRatio : 1,
+		});
+		const gl = renderer.gl;
+		gl.clearColor(0, 0, 0, 0);
+
+		const baseTexture = new Texture(gl, {
+			image: new Uint8Array([0, 0, 0, 255]),
+			width: 1,
+			height: 1,
+			format: gl.RGBA,
+			type: gl.UNSIGNED_BYTE,
+			minFilter: gl.LINEAR,
+			magFilter: gl.LINEAR,
+			wrapS: gl.CLAMP_TO_EDGE,
+			wrapT: gl.CLAMP_TO_EDGE,
+			generateMipmaps: true,
+			flipY: true,
 		});
 
-	let density = $state({
-		read: createFBO(128, 128),
-		write: createFBO(128, 128),
-		swap: () => {
-			const temp = density.read;
-			density.read = density.write;
-			density.write = temp;
-		},
-	});
+		const revealTexture = new Texture(gl, {
+			image: new Uint8Array([0, 0, 0, 255]),
+			width: 1,
+			height: 1,
+			format: gl.RGBA,
+			type: gl.UNSIGNED_BYTE,
+			minFilter: gl.LINEAR,
+			magFilter: gl.LINEAR,
+			wrapS: gl.CLAMP_TO_EDGE,
+			wrapT: gl.CLAMP_TO_EDGE,
+			generateMipmaps: true,
+			flipY: true,
+		});
 
-	let velocity = $state({
-		read: createFBO(128, 128),
-		write: createFBO(128, 128),
-		swap: () => {
-			const temp = velocity.read;
-			velocity.read = velocity.write;
-			velocity.write = temp;
-		},
-	});
+		let baseToken = 0;
+		const loadBaseImage = (source: string) => {
+			baseToken += 1;
+			const token = baseToken;
+			const image = new Image();
+			image.crossOrigin = "anonymous";
+			image.decoding = "async";
+			image.onload = () => {
+				if (token !== baseToken) return;
+				baseTexture.image = image;
+				baseTextureSize.set(
+					image.naturalWidth || image.width || 1,
+					image.naturalHeight || image.height || 1,
+				);
+			};
+			image.src = source;
+		};
 
-	let pressure = $state({
-		read: createFBO(128, 128),
-		write: createFBO(128, 128),
-		swap: () => {
-			const temp = pressure.read;
-			pressure.read = pressure.write;
-			pressure.write = temp;
-		},
-	});
+		let revealToken = 0;
+		const loadRevealImage = (source: string) => {
+			revealToken += 1;
+			const token = revealToken;
+			const image = new Image();
+			image.crossOrigin = "anonymous";
+			image.decoding = "async";
+			image.onload = () => {
+				if (token !== revealToken) return;
+				revealTexture.image = image;
+				revealTextureSize.set(
+					image.naturalWidth || image.width || 1,
+					image.naturalHeight || image.height || 1,
+				);
+			};
+			image.src = source;
+		};
 
-	let divergence = $state(createFBO(128, 128));
+		setBaseSource = loadBaseImage;
+		setRevealSource = loadRevealImage;
 
-	const advectionMat = new THREE.ShaderMaterial({
-		uniforms: {
-			uVelocity: { value: null },
-			uInput: { value: null },
-			uTexel: { value: new THREE.Vector2() },
-			uDt: { value: 0.016 },
-			uDissipation: { value: 0.96 },
-		},
-		vertexShader,
-		fragmentShader: advectionShader,
-	});
+		const halfFloatExt = gl.renderer.extensions["OES_texture_half_float"] as
+			| { HALF_FLOAT_OES: number }
+			| undefined;
+		const textureType = gl.renderer.isWebgl2
+			? (gl as WebGL2RenderingContext).HALF_FLOAT
+			: (halfFloatExt?.HALF_FLOAT_OES ?? gl.FLOAT);
+		const internalFormat = gl.renderer.isWebgl2
+			? textureType === gl.FLOAT
+				? (gl as WebGL2RenderingContext).RGBA32F
+				: (gl as WebGL2RenderingContext).RGBA16F
+			: gl.RGBA;
 
-	const divergenceMat = new THREE.ShaderMaterial({
-		uniforms: {
-			uVelocity: { value: null },
-			uTexel: { value: new THREE.Vector2() },
-		},
-		vertexShader,
-		fragmentShader: divergenceShader,
-	});
+		const createFBO = (w: number, h: number) =>
+			new RenderTarget(gl, {
+				width: w,
+				height: h,
+				type: textureType,
+				format: gl.RGBA,
+				internalFormat,
+				minFilter: gl.NEAREST,
+				magFilter: gl.NEAREST,
+				depth: false,
+				stencil: false,
+			});
 
-	const pressureMat = new THREE.ShaderMaterial({
-		uniforms: {
-			uPressure: { value: null },
-			uDivergence: { value: null },
-			uTexel: { value: new THREE.Vector2() },
-		},
-		vertexShader,
-		fragmentShader: pressureShader,
-	});
+		const createDoubleFBO = (w: number, h: number): DoubleFBO => {
+			const doubleFBO: DoubleFBO = {
+				read: createFBO(w, h),
+				write: createFBO(w, h),
+				swap: () => {
+					const temp = doubleFBO.read;
+					doubleFBO.read = doubleFBO.write;
+					doubleFBO.write = temp;
+				},
+			};
+			return doubleFBO;
+		};
 
-	const gradientSubtractMat = new THREE.ShaderMaterial({
-		uniforms: {
-			uPressure: { value: null },
-			uVelocity: { value: null },
-			uTexel: { value: new THREE.Vector2() },
-		},
-		vertexShader,
-		fragmentShader: gradientSubtractShader,
-	});
+		const density = createDoubleFBO(128, 128);
+		const velocity = createDoubleFBO(128, 128);
+		const pressure = createDoubleFBO(128, 128);
+		const divergence = createFBO(128, 128);
 
-	const splatMat = new THREE.ShaderMaterial({
-		uniforms: {
-			uInput: { value: null },
+		const texel = new Vec2(1 / 128, 1 / 128);
+		const advectionUniforms = {
+			uVelocity: { value: velocity.read.texture },
+			uInput: { value: velocity.read.texture },
+			uTexel: { value: texel },
+			uDt: { value: 1 / 60 },
+			uDissipation: { value: velocityDissipation },
+		};
+		const divergenceUniforms = {
+			uVelocity: { value: velocity.read.texture },
+			uTexel: { value: texel },
+		};
+		const pressureUniforms = {
+			uPressure: { value: pressure.read.texture },
+			uDivergence: { value: divergence.texture },
+			uTexel: { value: texel },
+		};
+		const gradientSubtractUniforms = {
+			uPressure: { value: pressure.read.texture },
+			uVelocity: { value: velocity.read.texture },
+			uTexel: { value: texel },
+		};
+		const splatUniforms = {
+			uInput: { value: velocity.read.texture },
 			uRatio: { value: 1 },
-			uPointValue: { value: new THREE.Vector3() },
-			uPoint: { value: new THREE.Vector2() },
-			uPointSize: { value: 0.01 },
-		},
-		vertexShader,
-		fragmentShader: splatShader,
-	});
-
-	let outputMat: THREE.ShaderMaterial | undefined = $state();
-
-	const simScene = new THREE.Scene();
-	const simCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-	const simMesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), advectionMat);
-	simScene.add(simMesh);
-
-	const handlePointerMove = (e: PointerEvent) => {
-		const rect = renderer.domElement.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
-		updatePointerPosition(x, y, rect.width, rect.height);
-	};
-
-	const handleTouchMove = (e: TouchEvent) => {
-		e.preventDefault();
-		const touch = e.touches[0];
-		if (!touch) return;
-		const rect = renderer.domElement.getBoundingClientRect();
-		const x = touch.clientX - rect.left;
-		const y = touch.clientY - rect.top;
-		updatePointerPosition(x, y, rect.width, rect.height);
-	};
-
-	$effect(() => {
-		const canvas = renderer.domElement;
-		canvas.addEventListener("pointermove", handlePointerMove);
-		canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
-		return () => {
-			canvas.removeEventListener("pointermove", handlePointerMove);
-			canvas.removeEventListener("touchmove", handleTouchMove);
+			uPointValue: { value: new Vec3() },
+			uPoint: { value: pointerUv },
+			uPointSize: { value: pointerSize },
 		};
-	});
-
-	$effect(() => {
-		const base = $baseTexture;
-		const reveal = $revealTexture;
-		if (!outputMat) return;
-		outputMat.uniforms.uBaseTexture.value = base ?? null;
-		outputMat.uniforms.uRevealTexture.value = reveal ?? null;
-	});
-
-	$effect(() => {
-		return () => {
-			density.read.dispose();
-			density.write.dispose();
-			velocity.read.dispose();
-			velocity.write.dispose();
-			pressure.read.dispose();
-			pressure.write.dispose();
-			divergence.dispose();
-
-			advectionMat.dispose();
-			divergenceMat.dispose();
-			pressureMat.dispose();
-			gradientSubtractMat.dispose();
-			splatMat.dispose();
-			simMesh.geometry.dispose();
-		};
-	});
-
-	$effect(() => {
-		const w = Math.max(1, $size.width || renderer.domElement.clientWidth || 1);
-		const h = Math.max(
-			1,
-			$size.height || renderer.domElement.clientHeight || 1,
-		);
-		canvasMetrics.width = w;
-		canvasMetrics.height = h;
-
-		const simResX = Math.max(1, Math.floor(w * 0.5));
-		const simResY = Math.max(1, Math.floor(h * 0.5));
-
-		const resizeFBO = (fbo: THREE.WebGLRenderTarget) => {
-			fbo.setSize(simResX, simResY);
+		const outputUniforms = {
+			uMaskTexture: { value: density.read.texture },
+			uBaseTexture: { value: baseTexture },
+			uRevealTexture: { value: revealTexture },
+			uResolution: { value: new Vec2(1, 1) },
+			uBaseTextureSize: { value: baseTextureSize },
+			uRevealTextureSize: { value: revealTextureSize },
+			uMaskTexel: { value: new Vec2(1 / 128, 1 / 128) },
+			uBlendSoftness: { value: blendSoftness },
 		};
 
-		resizeFBO(density.read);
-		resizeFBO(density.write);
-		resizeFBO(velocity.read);
-		resizeFBO(velocity.write);
-		resizeFBO(pressure.read);
-		resizeFBO(pressure.write);
-		resizeFBO(divergence);
+		const advectionProgram = new Program(gl, {
+			vertex: vertexShader,
+			fragment: advectionShader,
+			uniforms: advectionUniforms,
+			depthTest: false,
+			depthWrite: false,
+		});
+		const divergenceProgram = new Program(gl, {
+			vertex: vertexShader,
+			fragment: divergenceShader,
+			uniforms: divergenceUniforms,
+			depthTest: false,
+			depthWrite: false,
+		});
+		const pressureProgram = new Program(gl, {
+			vertex: vertexShader,
+			fragment: pressureShader,
+			uniforms: pressureUniforms,
+			depthTest: false,
+			depthWrite: false,
+		});
+		const gradientSubtractProgram = new Program(gl, {
+			vertex: vertexShader,
+			fragment: gradientSubtractShader,
+			uniforms: gradientSubtractUniforms,
+			depthTest: false,
+			depthWrite: false,
+		});
+		const splatProgram = new Program(gl, {
+			vertex: vertexShader,
+			fragment: splatShader,
+			uniforms: splatUniforms,
+			depthTest: false,
+			depthWrite: false,
+		});
+		const outputProgram = new Program(gl, {
+			vertex: outputVertexShader,
+			fragment: outputShader,
+			uniforms: outputUniforms,
+			depthTest: false,
+			depthWrite: false,
+		});
 
-		const texelX = 1.0 / simResX;
-		const texelY = 1.0 / simResY;
-		const texel = new THREE.Vector2(texelX, texelY);
+		const triangle = new Triangle(gl);
+		const simMesh = new Mesh(gl, {
+			geometry: triangle,
+			program: advectionProgram,
+		});
+		const outputMesh = new Mesh(gl, {
+			geometry: triangle,
+			program: outputProgram,
+		});
 
-		advectionMat.uniforms.uTexel.value = texel;
-		divergenceMat.uniforms.uTexel.value = texel;
-		pressureMat.uniforms.uTexel.value = texel;
-		gradientSubtractMat.uniforms.uTexel.value = texel;
+		const renderPass = (program: Program, target: RenderTarget) => {
+			simMesh.program = program;
+			renderer.render({ scene: simMesh, target, clear: true });
+		};
 
-		if (outputMat) {
-			outputMat.uniforms.uResolution.value.set(w, h);
-			outputMat.uniforms.uBaseTextureSize.value.copy(baseTextureSize);
-			outputMat.uniforms.uRevealTextureSize.value.copy(revealTextureSize);
-			outputMat.uniforms.uMaskTexel.value.set(texelX, texelY);
+		const handlePointerMove = (e: PointerEvent) => {
+			const rect = targetCanvas.getBoundingClientRect();
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+			updatePointerPosition(x, y, rect.width, rect.height);
+		};
+
+		const handleTouchMove = (e: TouchEvent) => {
+			e.preventDefault();
+			const touch = e.touches[0];
+			if (!touch) return;
+			const rect = targetCanvas.getBoundingClientRect();
+			const x = touch.clientX - rect.left;
+			const y = touch.clientY - rect.top;
+			updatePointerPosition(x, y, rect.width, rect.height);
+		};
+
+		targetCanvas.addEventListener("pointermove", handlePointerMove);
+		targetCanvas.addEventListener("touchmove", handleTouchMove, {
+			passive: false,
+		});
+
+		const resizeSimulation = () => {
+			const host = targetCanvas.parentElement ?? targetCanvas;
+			const { width: hostWidth, height: hostHeight } =
+				host.getBoundingClientRect();
+			const width = Math.max(1, Math.round(hostWidth));
+			const height = Math.max(1, Math.round(hostHeight));
+
+			renderer.setSize(width, height);
+			canvasMetrics.width = width;
+			canvasMetrics.height = height;
+
+			const simResX = Math.max(1, Math.floor(width * 0.5));
+			const simResY = Math.max(1, Math.floor(height * 0.5));
+
+			density.read.setSize(simResX, simResY);
+			density.write.setSize(simResX, simResY);
+			velocity.read.setSize(simResX, simResY);
+			velocity.write.setSize(simResX, simResY);
+			pressure.read.setSize(simResX, simResY);
+			pressure.write.setSize(simResX, simResY);
+			divergence.setSize(simResX, simResY);
+
+			const texelX = 1 / simResX;
+			const texelY = 1 / simResY;
+			texel.set(texelX, texelY);
+
+			outputUniforms.uResolution.value.set(gl.canvas.width, gl.canvas.height);
+			outputUniforms.uMaskTexel.value.set(texelX, texelY);
+
+			if (canvasMetrics.width > 0 && canvasMetrics.height > 0) {
+				pointerUv.set(
+					pointerState.x / canvasMetrics.width,
+					1 - pointerState.y / canvasMetrics.height,
+				);
+			}
+		};
+
+		resizeSimulation();
+
+		const resizeObserver = new ResizeObserver(resizeSimulation);
+		resizeObserver.observe(targetCanvas);
+		if (targetCanvas.parentElement) {
+			resizeObserver.observe(targetCanvas.parentElement);
 		}
 
-		if (canvasMetrics.width > 0 && canvasMetrics.height > 0) {
-			pointerUv.set(
-				pointerState.x / canvasMetrics.width,
-				1 - pointerState.y / canvasMetrics.height,
-			);
-		}
-	});
+		const disposeTarget = (target: RenderTarget) => {
+			target.textures.forEach((texture) => {
+				if (texture.texture) gl.deleteTexture(texture.texture);
+			});
+			if (target.depthTexture?.texture) {
+				gl.deleteTexture(target.depthTexture.texture);
+			}
+			if (target.depthBuffer) gl.deleteRenderbuffer(target.depthBuffer);
+			if (target.stencilBuffer) gl.deleteRenderbuffer(target.stencilBuffer);
+			if (target.depthStencilBuffer) {
+				gl.deleteRenderbuffer(target.depthStencilBuffer);
+			}
+			if (target.buffer) gl.deleteFramebuffer(target.buffer);
+		};
 
-	useTask(() => {
-		const dt = 1 / 60;
-		const width =
-			canvasMetrics.width ||
-			renderer.domElement.clientWidth ||
-			renderer.domElement.width ||
-			1;
-		const height =
-			canvasMetrics.height ||
-			renderer.domElement.clientHeight ||
-			renderer.domElement.height ||
-			1;
-		const aspect = height > 0 ? width / height : 1;
+		let raf = 0;
+		const tick = () => {
+			const dt = 1 / 60;
+			const width = canvasMetrics.width || targetCanvas.clientWidth || 1;
+			const height = canvasMetrics.height || targetCanvas.clientHeight || 1;
+			const aspect = height > 0 ? width / height : 1;
 
-		if (pointerState.moved) {
-			simMesh.material = splatMat;
-			splatMat.uniforms.uInput.value = velocity.read.texture;
-			splatMat.uniforms.uRatio.value = aspect;
-			splatMat.uniforms.uPoint.value = pointerUv;
-			splatMat.uniforms.uPointValue.value.set(
-				pointerState.dx,
-				-pointerState.dy,
-				1,
-			);
-			splatMat.uniforms.uPointSize.value = pointerSize ?? 0.005;
+			if (pointerState.moved) {
+				splatUniforms.uInput.value = velocity.read.texture;
+				splatUniforms.uRatio.value = aspect;
+				splatUniforms.uPoint.value.set(pointerUv.x, pointerUv.y);
+				splatUniforms.uPointValue.value.set(
+					pointerState.dx,
+					-pointerState.dy,
+					1,
+				);
+				splatUniforms.uPointSize.value = pointerSize;
+				renderPass(splatProgram, velocity.write);
+				velocity.swap();
 
-			renderer.setRenderTarget(velocity.write);
-			renderer.render(simScene, simCamera);
+				splatUniforms.uInput.value = density.read.texture;
+				splatUniforms.uPointValue.value.set(1, 1, 1);
+				renderPass(splatProgram, density.write);
+				density.swap();
+
+				pointerState.moved = false;
+			}
+
+			divergenceUniforms.uVelocity.value = velocity.read.texture;
+			renderPass(divergenceProgram, divergence);
+
+			pressureUniforms.uDivergence.value = divergence.texture;
+			const iterations = Math.max(0, Math.floor(pressureIterations));
+			for (let i = 0; i < iterations; i++) {
+				pressureUniforms.uPressure.value = pressure.read.texture;
+				renderPass(pressureProgram, pressure.write);
+				pressure.swap();
+			}
+
+			gradientSubtractUniforms.uPressure.value = pressure.read.texture;
+			gradientSubtractUniforms.uVelocity.value = velocity.read.texture;
+			renderPass(gradientSubtractProgram, velocity.write);
 			velocity.swap();
 
-			simMesh.material = splatMat;
-			splatMat.uniforms.uInput.value = density.read.texture;
-			splatMat.uniforms.uPointValue.value.set(1, 1, 1);
+			advectionUniforms.uDt.value = dt;
+			advectionUniforms.uVelocity.value = velocity.read.texture;
+			advectionUniforms.uInput.value = velocity.read.texture;
+			advectionUniforms.uDissipation.value = velocityDissipation;
+			renderPass(advectionProgram, velocity.write);
+			velocity.swap();
 
-			renderer.setRenderTarget(density.write);
-			renderer.render(simScene, simCamera);
+			advectionUniforms.uVelocity.value = velocity.read.texture;
+			advectionUniforms.uInput.value = density.read.texture;
+			advectionUniforms.uDissipation.value = dissipation;
+			renderPass(advectionProgram, density.write);
 			density.swap();
-			pointerState.moved = false;
-		}
 
-		simMesh.material = divergenceMat;
-		divergenceMat.uniforms.uVelocity.value = velocity.read.texture;
-		renderer.setRenderTarget(divergence);
-		renderer.render(simScene, simCamera);
+			outputUniforms.uMaskTexture.value = density.read.texture;
+			outputUniforms.uBlendSoftness.value = blendSoftness;
+			renderer.render({ scene: outputMesh, clear: true });
 
-		simMesh.material = pressureMat;
-		pressureMat.uniforms.uDivergence.value = divergence.texture;
-		for (let i = 0; i < pressureIterations; i++) {
-			pressureMat.uniforms.uPressure.value = pressure.read.texture;
-			renderer.setRenderTarget(pressure.write);
-			renderer.render(simScene, simCamera);
-			pressure.swap();
-		}
+			raf = window.requestAnimationFrame(tick);
+		};
 
-		simMesh.material = gradientSubtractMat;
-		gradientSubtractMat.uniforms.uPressure.value = pressure.read.texture;
-		gradientSubtractMat.uniforms.uVelocity.value = velocity.read.texture;
-		renderer.setRenderTarget(velocity.write);
-		renderer.render(simScene, simCamera);
-		velocity.swap();
+		raf = window.requestAnimationFrame(tick);
 
-		simMesh.material = advectionMat;
-		advectionMat.uniforms.uVelocity.value = velocity.read.texture;
-		advectionMat.uniforms.uInput.value = velocity.read.texture;
-		advectionMat.uniforms.uDissipation.value = velocityDissipation;
-		advectionMat.uniforms.uDt.value = dt;
-		renderer.setRenderTarget(velocity.write);
-		renderer.render(simScene, simCamera);
-		velocity.swap();
+		return () => {
+			window.cancelAnimationFrame(raf);
+			resizeObserver.disconnect();
+			targetCanvas.removeEventListener("pointermove", handlePointerMove);
+			targetCanvas.removeEventListener("touchmove", handleTouchMove);
+			setBaseSource = undefined;
+			setRevealSource = undefined;
 
-		simMesh.material = advectionMat;
-		advectionMat.uniforms.uVelocity.value = velocity.read.texture;
-		advectionMat.uniforms.uInput.value = density.read.texture;
-		advectionMat.uniforms.uDissipation.value = dissipation;
-		renderer.setRenderTarget(density.write);
-		renderer.render(simScene, simCamera);
-		density.swap();
+			disposeTarget(density.read);
+			disposeTarget(density.write);
+			disposeTarget(velocity.read);
+			disposeTarget(velocity.write);
+			disposeTarget(pressure.read);
+			disposeTarget(pressure.write);
+			disposeTarget(divergence);
 
-		renderer.setRenderTarget(null);
+			if (baseTexture.texture) gl.deleteTexture(baseTexture.texture);
+			if (revealTexture.texture) gl.deleteTexture(revealTexture.texture);
 
-		if (outputMat) {
-			outputMat.uniforms.uMaskTexture.value = density.read.texture;
-			outputMat.uniforms.uResolution.value.set(width, height);
-			outputMat.uniforms.uBaseTextureSize.value.copy(baseTextureSize);
-			outputMat.uniforms.uRevealTextureSize.value.copy(revealTextureSize);
-			outputMat.uniforms.uBlendSoftness.value = blendSoftness;
-		}
+			advectionProgram.remove();
+			divergenceProgram.remove();
+			pressureProgram.remove();
+			gradientSubtractProgram.remove();
+			splatProgram.remove();
+			outputProgram.remove();
+			triangle.remove();
+		};
 	});
 </script>
 
-{#if $baseTexture && $revealTexture}
-	<T.Mesh>
-		<T.PlaneGeometry args={[2, 2]} />
-		<T.ShaderMaterial
-			bind:ref={outputMat}
-			{vertexShader}
-			fragmentShader={outputShader}
-			uniforms={{
-				uMaskTexture: { value: null },
-				uBaseTexture: { value: $baseTexture },
-				uRevealTexture: { value: $revealTexture },
-				uResolution: { value: new THREE.Vector2(1, 1) },
-				uBaseTextureSize: { value: baseTextureSize },
-				uRevealTextureSize: { value: revealTextureSize },
-				uMaskTexel: { value: new THREE.Vector2(1, 1) },
-				uBlendSoftness: { value: blendSoftness },
-			}}
-			side={THREE.DoubleSide}
-		/>
-	</T.Mesh>
-{/if}
+<canvas
+	bind:this={canvas}
+	class="absolute inset-0 block h-full w-full"
+	style="width:100%;height:100%;"
+	aria-hidden="true"
+></canvas>

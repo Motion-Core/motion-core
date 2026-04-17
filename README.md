@@ -19,7 +19,7 @@ We don't package everything into a massive npm dependency. Instead, we follow a 
 ### Why Motion Core?
 
 - **Svelte 5 Native**: Leverages Runes and Snippets for a truly reactive and modern DX.
-- **Performance First**: Heavy lifting is done by GSAP and Three.js, ensuring buttery smooth 60fps experiences.
+- **Performance First**: Heavy lifting is done by GSAP and OGL, ensuring buttery smooth 60fps experiences.
 - **Aesthetic Focus**: From magnetic buttons to 3D infinite galleries with cloth distortion, every component is crafted with "feel" in mind.
 - **The "Un-Library"**: Use our CLI to scaffold components directly into your codebase. No black boxes.
 

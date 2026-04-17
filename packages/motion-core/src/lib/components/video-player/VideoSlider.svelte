@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gsap } from "gsap/dist/gsap";
+	import { gsap } from "gsap";
 	import { cn } from "../../utils/cn";
 
 	interface Props {

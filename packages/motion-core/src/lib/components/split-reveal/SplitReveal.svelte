@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { gsap } from "gsap/dist/gsap";
-	import { SplitText } from "gsap/dist/SplitText";
-	import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+	import { gsap } from "gsap";
+	import { SplitText } from "gsap/SplitText";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import type { Snippet } from "svelte";
 	import { onMount } from "svelte";
 	import { ensureMotionCoreEase, registerPluginOnce } from "../../helpers/gsap";

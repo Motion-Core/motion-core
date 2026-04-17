@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gsap } from "gsap/dist/gsap";
+	import { gsap } from "gsap";
 	import { onDestroy, onMount } from "svelte";
 	import { ensureMotionCoreEase } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";

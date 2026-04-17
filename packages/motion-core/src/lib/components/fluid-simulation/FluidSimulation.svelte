@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
 	import Scene from "./FluidSimulationScene.svelte";
 	import { cn } from "../../utils/cn";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 
 	type SceneProps = ComponentProps<typeof Scene>;
@@ -23,7 +21,7 @@
 		 */
 		pointerSize?: SceneProps["pointerSize"];
 		/**
-		 * Fluid splat color (any THREE.ColorRepresentation).
+		 * Fluid splat color.
 		 * @default "#ff6900"
 		 */
 		color?: SceneProps["color"];
@@ -50,20 +48,16 @@
 		pressureIterations = 10,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{dissipation}
-				{pointerSize}
-				{color}
-				{velocityDissipation}
-				{pressureIterations}
-			/>
-		</Canvas>
+		<Scene
+			{dissipation}
+			{pointerSize}
+			{color}
+			{velocityDissipation}
+			{pressureIterations}
+		/>
 	</div>
 </div>

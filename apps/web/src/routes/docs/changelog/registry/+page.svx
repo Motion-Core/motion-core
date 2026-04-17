@@ -5,6 +5,37 @@ description: All notable changes to Motion Core Component Registry.
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-04-16
+
+### Changed
+
+- **Canvas / ASCII Renderer**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Card 3D**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Dithered Image**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Fake 3D Image**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Fluid Image Reveal**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Fluid Simulation**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Glass Pane**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Glass Slideshow**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Glitter Cloth**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Globe**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / God Rays**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Halo**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Infinite Gallery**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Interactive Grid**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Lava Lamp**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Neural Noise**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Pixelated Image**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Plasma Grid**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Rubiks Cube**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Specular Band**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Water Ripple**: Migrated rendering pipeline from Three.js/Threlte to OGL.
+- **Canvas / Helpers**: Added shared `color` and `fluid-pointer` helpers for unified color conversion and pointer handling.
+- **Canvas / Defaults**: Standardized default `backgroundColor` to `#17181A` and aligned default prop values across migrated OGL components.
+
+### Removed
+
+- **Runtime / Dependencies**: Removed `three`, `@threlte/core`, `@threlte/extras`, and `@types/three` from `motion-core` package dependencies and switched to `ogl`.
 
 ## [0.10.0] - 2026-04-04
 

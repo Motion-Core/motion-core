@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Canvas } from "@threlte/core";
-	import { NoToneMapping } from "three";
 	import type { ComponentProps } from "svelte";
 	import Scene from "./HaloScene.svelte";
 	import { cn } from "../../utils/cn";
@@ -19,7 +17,7 @@
 		rotationSpeed?: SceneProps["rotationSpeed"];
 		/**
 		 * Color of the background.
-		 * @default "#000000"
+		 * @default "#17181A"
 		 */
 		backgroundColor?: SceneProps["backgroundColor"];
 		/**
@@ -58,7 +56,7 @@
 	let {
 		class: className = "",
 		rotationSpeed = 0.5,
-		backgroundColor = "#000000",
+		backgroundColor = "#17181A",
 		cameraDistance = 3.0,
 		fov = 55.0,
 		sunX = 0.0,
@@ -67,23 +65,19 @@
 		intensity = 1.0,
 		...rest
 	}: Props = $props();
-
-	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 </script>
 
 <div class={cn("relative h-full w-full overflow-hidden", className)} {...rest}>
 	<div class="absolute inset-0 z-0">
-		<Canvas {dpr} toneMapping={NoToneMapping}>
-			<Scene
-				{rotationSpeed}
-				{backgroundColor}
-				{cameraDistance}
-				{fov}
-				{sunX}
-				{sunY}
-				{sunZ}
-				{intensity}
-			/>
-		</Canvas>
+		<Scene
+			{rotationSpeed}
+			{backgroundColor}
+			{cameraDistance}
+			{fov}
+			{sunX}
+			{sunY}
+			{sunZ}
+			{intensity}
+		/>
 	</div>
 </div>

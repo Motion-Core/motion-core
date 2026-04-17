@@ -1,50 +1,27 @@
 <script lang="ts">
-	import { T } from "@threlte/core";
-	import * as THREE from "three";
-
 	interface Props {
 		/**
-		 * The texture to apply to the plane.
+		 * Legacy compatibility prop (unused in OGL migration).
 		 */
-		texture: THREE.Texture;
+		texture?: unknown;
 		/**
-		 * Position of the plane in 3D space [x, y, z].
+		 * Legacy compatibility prop (unused in OGL migration).
 		 */
-		position: [number, number, number];
+		position?: [number, number, number];
 		/**
-		 * Scale of the plane [x, y, z].
+		 * Legacy compatibility prop (unused in OGL migration).
 		 */
-		scale: [number, number, number];
+		scale?: [number, number, number];
 		/**
-		 * Shader material to use for the plane.
+		 * Legacy compatibility prop (unused in OGL migration).
 		 */
-		material: THREE.ShaderMaterial;
+		material?: unknown;
 	}
 
-	let { texture, position, scale, material }: Props = $props();
-
-	let isHovered = $state(false);
-
-	$effect(() => {
-		if (material && texture) {
-			material.uniforms.map.value = texture;
-			material.needsUpdate = true;
-		}
-	});
-
-	$effect(() => {
-		if (material && material.uniforms) {
-			material.uniforms.isHovered.value = isHovered ? 1.0 : 0.0;
-		}
-	});
+	let {
+		texture: _texture,
+		position: _position = [0, 0, 0],
+		scale: _scale = [1, 1, 1],
+		material: _material,
+	}: Props = $props();
 </script>
-
-<T.Mesh
-	{position}
-	{scale}
-	{material}
-	onpointerenter={() => (isHovered = true)}
-	onpointerleave={() => (isHovered = false)}
->
-	<T.PlaneGeometry args={[1, 1, 32, 32]} />
-</T.Mesh>
