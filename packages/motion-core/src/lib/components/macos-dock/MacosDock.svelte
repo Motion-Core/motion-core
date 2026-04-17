@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from "../../utils/cn";
-	import { gsap } from "gsap/dist/gsap";
+	import { gsap } from "gsap";
 
 	interface DockItem {
 		src: string;

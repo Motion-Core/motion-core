@@ -11,7 +11,7 @@
 		Vec2,
 		Vec3,
 	} from "ogl";
-	import { gsap } from "gsap/dist/gsap";
+	import { gsap } from "gsap";
 	import type { Snippet } from "svelte";
 	import landTextureUrl from "../../assets/land-texture.png";
 	import { type ColorRepresentation, toLinearRgb } from "../../helpers/color";

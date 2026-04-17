@@ -33,6 +33,30 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - **Canvas / Water Ripple**: Migrated rendering pipeline from Three.js/Threlte to OGL.
 - **Canvas / Helpers**: Added shared `color` and `fluid-pointer` helpers for unified color conversion and pointer handling.
 - **Canvas / Defaults**: Standardized default `backgroundColor` to `#17181A` and aligned default prop values across migrated OGL components.
+- **Showcase / Card Stack**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Pointer / Flip Card Stack**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Layout / Flip Grid**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Navigation / Floating Menu**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Canvas / Glass Slideshow**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Canvas / Globe**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Pointer / Image Trail**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Infinite Physics Gallery**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Logo Carousel**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Pointer / MacOS Dock**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Pointer / Magnetic**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Marquee**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Transition / Preloader**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Radial Gallery**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Slideshow**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Split Hover**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Split Reveal**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Stacking Words**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Text Loop**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Text Scramble**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Video Player**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Showcase / Video Slider**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Typography / Weight Wave**: Switched runtime GSAP imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
+- **Helpers / GSAP**: Switched helper imports from `gsap/dist/*` to package entry points (`gsap`, `gsap/<plugin>`).
 
 ### Removed
 

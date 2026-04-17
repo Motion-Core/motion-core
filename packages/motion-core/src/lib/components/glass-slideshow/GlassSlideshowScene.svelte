@@ -10,7 +10,7 @@
 		Triangle,
 		Vec2,
 	} from "ogl";
-	import { gsap } from "gsap/dist/gsap";
+	import { gsap } from "gsap";
 
 	interface Props {
 		/** Array of image URLs used for textures. */

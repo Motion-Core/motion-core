@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
 	import { onMount, tick } from "svelte";
-	import { Flip } from "gsap/dist/Flip";
-	import { gsap } from "gsap/dist/gsap";
+	import { Flip } from "gsap/Flip";
+	import { gsap } from "gsap";
 	import { cn } from "$lib/utils/cn";
 	import { getHighlighter } from "$lib/utils/highlighter";
 	import ScrollArea from "../ui/ScrollArea.svelte";
@@ -169,14 +169,14 @@
 
 <section
 	class={cn(
-		"inset-shadow relative w-full rounded-lg bg-background-inset p-1.5",
+		"relative w-full rounded-lg bg-background-inset p-1.5 inset-shadow",
 	)}
 	{...restProps}
 >
 	<div class="flex h-full flex-col rounded-md">
 		<div
 			bind:this={placeholderRef}
-			class="card relative flex min-h-96 flex-1 flex-col items-center justify-center rounded-md bg-background"
+			class="relative flex min-h-96 flex-1 flex-col items-center justify-center rounded-md bg-background card"
 		>
 			<div
 				bind:this={previewRef}
@@ -188,7 +188,7 @@
 			>
 				<button
 					onclick={reloadPreview}
-					class="inset-shadow absolute top-2 right-10 z-30 flex size-7 items-center justify-center rounded-sm bg-background-inset text-foreground transition-transform duration-150 ease-out active:scale-[0.95]"
+					class="absolute top-2 right-10 z-30 flex size-7 items-center justify-center rounded-sm bg-background-inset text-foreground inset-shadow transition-transform duration-150 ease-out active:scale-[0.95]"
 					aria-label="Reload Preview"
 				>
 					<svg
@@ -205,7 +205,7 @@
 				</button>
 				<button
 					onclick={toggleFullScreen}
-					class="inset-shadow absolute top-2 right-2 z-30 flex size-7 items-center justify-center rounded-sm bg-background-inset text-foreground transition-transform duration-150 ease-out active:scale-[0.95]"
+					class="absolute top-2 right-2 z-30 flex size-7 items-center justify-center rounded-sm bg-background-inset text-foreground inset-shadow transition-transform duration-150 ease-out active:scale-[0.95]"
 					aria-label={isFullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
 				>
 					{#if isFullScreen}
@@ -248,7 +248,7 @@
 			</div>
 		</div>
 		<div
-			class="card mt-2 flex flex-1 flex-col overflow-hidden rounded-md rounded-b-md bg-background"
+			class="mt-2 flex flex-1 flex-col overflow-hidden rounded-md rounded-b-md bg-background card"
 		>
 			{#if tabs.length}
 				<div

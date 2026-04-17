@@ -1,4 +1,4 @@
-import { gsap } from "gsap/dist/gsap";
+import { gsap } from "gsap";
 import { CustomEase } from "gsap/dist/CustomEase";
 
 const registeredPlugins = new Set<object>();

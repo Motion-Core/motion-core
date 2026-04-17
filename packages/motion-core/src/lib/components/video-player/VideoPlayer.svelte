@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy, tick } from "svelte";
-	import { gsap } from "gsap/dist/gsap";
-	import { Flip } from "gsap/dist/Flip";
+	import { gsap } from "gsap";
+	import { Flip } from "gsap/Flip";
 	import { MorphSVGPlugin } from "gsap/dist/MorphSVGPlugin";
 	import { registerPluginOnce } from "../../helpers/gsap";
 	import { cn } from "../../utils/cn";
