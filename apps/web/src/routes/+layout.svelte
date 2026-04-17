@@ -1,8 +1,8 @@
 <script lang="ts">
 	import "./layout.css";
 	import { page } from "$app/state";
-	import { CommandPalette, docsUiConfig, siteConfig } from "$lib";
-	import { FloatingMenu } from "motion-core";
+	import { siteConfig } from "$lib/config/site";
+	import FloatingMenu from "motion-core/components/floating-menu/FloatingMenu.svelte";
 	import { brandingConfig } from "$lib/config/branding";
 
 	const { children } = $props();
@@ -132,9 +132,6 @@
 	{/if}
 </svelte:head>
 
-{#if docsUiConfig.search.enabled}
-	<CommandPalette />
-{/if}
 {#if isHomeRoute}
 	<FloatingMenu
 		classes={{

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { brandLogoRaw } from "$lib";
+	import brandLogoRaw from "$lib/assets/motion-core-logo.svg?raw";
 	import { resolve } from "$app/paths";
 	import Book from "carbon-icons-svelte/lib/Book.svelte";
 	import LogoGithub from "carbon-icons-svelte/lib/LogoGithub.svelte";

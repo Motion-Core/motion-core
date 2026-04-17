@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {
 		DocNavigation,
+		CommandPalette,
 		DocShareActions,
 		DocsSidebar,
 		MobileDocShareActions,
@@ -227,6 +228,9 @@
 	{/if}
 </svelte:head>
 
+{#if docsUiConfig.search.enabled}
+	<CommandPalette />
+{/if}
 <main class="relative h-dvh bg-background text-foreground">
 	<MobileSidebar />
 
@@ -238,7 +242,7 @@
 		</aside>
 
 		<div
-			class="inset-shadow relative mx-auto h-full w-full max-w-4xl min-w-0 overflow-hidden bg-background-inset pt-12 lg:my-4 lg:mr-4 lg:max-h-[calc(100dvh-2rem)] lg:overflow-visible lg:rounded-xl lg:pt-0 xl:mr-0"
+			class="relative mx-auto h-full w-full max-w-4xl min-w-0 overflow-hidden bg-background-inset pt-12 inset-shadow lg:my-4 lg:mr-4 lg:max-h-[calc(100dvh-2rem)] lg:overflow-visible lg:rounded-xl lg:pt-0 xl:mr-0"
 		>
 			<ScrollArea
 				id="docs-content-container"
@@ -276,10 +280,10 @@
 											target="_blank"
 											rel="noreferrer"
 											aria-label={`Open ${dependency.name} on npm`}
-											class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 font-mono text-sm font-medium whitespace-nowrap text-foreground"
+											class="relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 font-mono text-sm font-medium whitespace-nowrap text-foreground inset-shadow"
 										>
 											<code
-												class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5 transition-colors duration-150 ease-out hover:bg-background-muted"
+												class="rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5 card transition-colors duration-150 ease-out hover:bg-background-muted"
 											>
 												{dependency.label}
 											</code>
