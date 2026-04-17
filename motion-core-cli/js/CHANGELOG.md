@@ -6,6 +6,12 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-04-17
+
+### Fixed
+
+- Reworked Tailwind token deduplication in `init` to use CLI-managed CSS block markers instead of content sentinels, making sync idempotent and resilient to future token bundle shape changes.
+
 ## [0.6.0] - 2026-03-20
 
 ### Fixed
