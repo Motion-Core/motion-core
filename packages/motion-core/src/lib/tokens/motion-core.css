@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+/* motion-core:tokens:start */
+
 @variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -84,3 +86,5 @@
 	--shadow-xl: var(--shadow-xl);
 	--shadow-2xl: var(--shadow-2xl);
 }
+
+/* motion-core:tokens:end */

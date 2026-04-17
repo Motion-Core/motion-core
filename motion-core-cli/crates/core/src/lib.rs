@@ -39,6 +39,6 @@ pub use registry::{
     RegistryClient, RegistryComponent, RegistryError, RegistrySummary,
 };
 pub use workspace::{
-    CSS_TOKEN_REGISTRY_PATH, CSS_TOKEN_SENTINEL, ScaffoldReport, TailwindSyncStatus,
-    WorkspaceError, scaffold_workspace, sync_tailwind_tokens,
+    CSS_TOKEN_BLOCK_END, CSS_TOKEN_BLOCK_START, CSS_TOKEN_REGISTRY_PATH, CSS_TOKEN_SENTINEL,
+    ScaffoldReport, TailwindSyncStatus, WorkspaceError, scaffold_workspace, sync_tailwind_tokens,
 };

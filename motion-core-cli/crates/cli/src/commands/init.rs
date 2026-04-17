@@ -251,8 +251,8 @@ mod tests {
     use crate::reporter::ConsoleReporter;
     use base64::{Engine as _, engine::general_purpose};
     use motion_core_cli_core::{
-        CONFIG_FILE_NAME, CSS_TOKEN_REGISTRY_PATH, CSS_TOKEN_SENTINEL, CacheStore, CommandContext,
-        Config, Registry, RegistryClient,
+        CONFIG_FILE_NAME, CSS_TOKEN_BLOCK_END, CSS_TOKEN_BLOCK_START, CSS_TOKEN_REGISTRY_PATH,
+        CacheStore, CommandContext, Config, Registry, RegistryClient,
     };
     use serde_json::json;
     use std::collections::HashMap;
@@ -398,7 +398,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 "#;
         let tokens = format!(
-            "@import \"tailwindcss\";\n\n{CSS_TOKEN_SENTINEL} {{\n    color: inherit;\n}}\n"
+            "@import \"tailwindcss\";\n\n{CSS_TOKEN_BLOCK_START}\n@theme {{\n    --color-accent: red;\n}}\n{CSS_TOKEN_BLOCK_END}\n"
         );
         let mut manifest = HashMap::new();
         manifest.insert(
