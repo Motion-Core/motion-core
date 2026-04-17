@@ -48,7 +48,7 @@ html {
 	--background-inset: oklch(0.9764 0.0013 var(--base-hue));
 	--background: oklch(1 0 0);
 	--background-muted: oklch(0.956 0.002 var(--base-hue));
-	--fixed-light: oklch(1 0 0);
+	--white-fixed: oklch(1 0 0);
 	--foreground: oklch(0.1881 0.006 var(--base-hue));
 	--foreground-muted: oklch(0.5493 0.0081 var(--base-hue));
 	--accent: oklch(0.6996 0.201959 44.4414);
@@ -85,7 +85,7 @@ html {
 .dark {
 	--background-inset: oklch(0.2099 0.0039 var(--base-hue));
 	--background: oklch(0.2574 0.0056 var(--base-hue));
-	--background-muted: oklch(0.283 0.0091 var(--base-hue));
+	--background-muted: oklch(0.3017 0.0073 var(--base-hue));
 	--foreground: oklch(0.9674 0.0013 var(--base-hue));
 	--foreground-muted: oklch(0.669 0.0107 var(--base-hue));
 	--accent: oklch(0.6996 0.181959 44.4414);
