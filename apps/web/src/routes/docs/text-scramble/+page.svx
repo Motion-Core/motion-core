@@ -10,6 +10,7 @@ description: A hover-triggered SplitText effect that scrambles characters before
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
 	from "$lib/components/docs/markdown/Step.svelte"; import textScrambleSource
 	from "motion-core/components/text-scramble/TextScramble.svelte?raw"; import
+	gsapHelperSource from "motion-core/helpers/gsap.ts?raw"; import
 	TextScrambleDemo from "./TextScrambleDemo.svelte"; import
 	textScrambleDemoSource from "./TextScrambleDemo.svelte?raw";
 </script>
@@ -37,12 +38,13 @@ import { TextScramble } from "$lib/motion-core";
 <ComponentPreview
 	sources={[
 		{ name: "Example", code: textScrambleDemoSource, language: "svelte" },
-		{
-			name: "TextScramble.svelte",
-			code: textScrambleSource,
-			language: "svelte",
-		},
-	]}
+			{
+				name: "TextScramble.svelte",
+				code: textScrambleSource,
+				language: "svelte",
+			},
+			{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
+		]}
 >
 	<TextScrambleDemo />
 </ComponentPreview>

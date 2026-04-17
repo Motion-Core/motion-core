@@ -11,7 +11,8 @@ description: A scrolling content loop that accelerates, reverses, or syncs with 
 	from "$lib/components/docs/markdown/Step.svelte"; import MarqueeDemo from
 	"./MarqueeDemo.svelte"; import marqueeDemoSource from
 	"./MarqueeDemo.svelte?raw"; import marqueeSource from
-	"motion-core/components/marquee/Marquee.svelte?raw";
+	"motion-core/components/marquee/Marquee.svelte?raw"; import gsapHelperSource from
+	"motion-core/helpers/gsap.ts?raw";
 </script>
 
 ## Installation
@@ -38,6 +39,7 @@ import { Marquee } from "$lib/motion-core";
 	sources={[
 		{ name: "Example", code: marqueeDemoSource, language: "svelte" },
 		{ name: "Marquee.svelte", code: marqueeSource, language: "svelte" },
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 	]}
 >
 	<MarqueeDemo />

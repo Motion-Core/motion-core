@@ -10,6 +10,7 @@ description: A floating interaction menu with a GSAP timeline animation, featuri
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
 	from "$lib/components/docs/markdown/Step.svelte"; import floatingMenuSource
 	from "motion-core/components/floating-menu/FloatingMenu.svelte?raw"; import
+	gsapHelperSource from "motion-core/helpers/gsap.ts?raw"; import
 	FloatingMenuDemo from "./FloatingMenuDemo.svelte"; import
 	floatingMenuDemoSource from "./FloatingMenuDemo.svelte?raw";
 </script>
@@ -37,12 +38,13 @@ import { FloatingMenu } from "$lib/motion-core";
 <ComponentPreview
 	sources={[
 		{ name: "Example", code: floatingMenuDemoSource, language: "svelte" },
-		{
-			name: "FloatingMenu.svelte",
-			code: floatingMenuSource,
-			language: "svelte",
-		},
-	]}
+			{
+				name: "FloatingMenu.svelte",
+				code: floatingMenuSource,
+				language: "svelte",
+			},
+			{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
+		]}
 >
 	<FloatingMenuDemo />
 </ComponentPreview>

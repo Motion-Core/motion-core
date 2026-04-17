@@ -11,7 +11,8 @@ description: A layout component that smoothly animates its children when the gri
 	from "$lib/components/docs/markdown/Step.svelte"; import flipGridSource from
 	"motion-core/components/flip-grid/FlipGrid.svelte?raw"; import
 	flipGridItemSource from
-	"motion-core/components/flip-grid/FlipGridItem.svelte?raw"; import
+	"motion-core/components/flip-grid/FlipGridItem.svelte?raw"; import gsapHelperSource
+	from "motion-core/helpers/gsap.ts?raw"; import
 	FlipGridDemo from "./FlipGridDemo.svelte"; import flipGridDemoSource from
 	"./FlipGridDemo.svelte?raw";
 </script>
@@ -44,12 +45,13 @@ import { FlipGrid, FlipGridItem } from "$lib/motion-core";
 			code: flipGridSource,
 			language: "svelte",
 		},
-		{
-			name: "FlipGridItem.svelte",
-			code: flipGridItemSource,
-			language: "svelte",
-		},
-	]}
+			{
+				name: "FlipGridItem.svelte",
+				code: flipGridItemSource,
+				language: "svelte",
+			},
+			{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
+		]}
 >
 	<FlipGridDemo />
 </ComponentPreview>

@@ -11,7 +11,8 @@ description: A stack of cards that stick to the top and scale down as you scroll
 	from "$lib/components/docs/markdown/Step.svelte"; import cardStackSource from
 	"motion-core/components/card-stack/CardStack.svelte?raw"; import
 	cardStackItemSource from
-	"motion-core/components/card-stack/CardStackItem.svelte?raw"; import
+	"motion-core/components/card-stack/CardStackItem.svelte?raw"; import gsapHelperSource
+	from "motion-core/helpers/gsap.ts?raw"; import
 	CardStackDemo from "./CardStackDemo.svelte"; import cardStackDemoSource from
 	"./CardStackDemo.svelte?raw";
 </script>
@@ -42,13 +43,14 @@ import { CardStack, CardStackItem } from "motion-core";
 	sources={[
 		{ name: "Example", code: cardStackDemoSource, language: "svelte" },
 		{ name: "CardStack.svelte", code: cardStackSource, language: "svelte" },
-		{
-			name: "CardStackItem.svelte",
-			code: cardStackItemSource,
-			language: "svelte",
-		},
-	]}
->
+			{
+				name: "CardStackItem.svelte",
+				code: cardStackItemSource,
+				language: "svelte",
+			},
+			{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
+		]}
+	>
 	<CardStackDemo />
 </ComponentPreview>
 

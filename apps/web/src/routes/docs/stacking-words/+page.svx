@@ -10,6 +10,7 @@ description: A scroll-synced SplitText reveal where words in each line travel in
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
 	import Step from "$lib/components/docs/markdown/Step.svelte";
 	import stackingWordsSource from "motion-core/components/stacking-words/StackingWords.svelte?raw";
+	import gsapHelperSource from "motion-core/helpers/gsap.ts?raw";
 	import StackingWordsDemo from "./StackingWordsDemo.svelte";
 	import stackingWordsDemoSource from "./StackingWordsDemo.svelte?raw";
 </script>
@@ -38,6 +39,7 @@ import { StackingWords } from "$lib/motion-core";
 	sources={[
 		{ name: "Example", code: stackingWordsDemoSource, language: "svelte" },
 		{ name: "StackingWords.svelte", code: stackingWordsSource, language: "svelte" },
+		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 	]}
 >
 	<StackingWordsDemo />
