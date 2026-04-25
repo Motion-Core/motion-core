@@ -5,6 +5,7 @@ description: An interactive effect that spawns a trail of images following the c
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -35,12 +36,15 @@ import { ImageTrail } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["image-trail"]}
 	sources={[
 		{ name: "Example", code: imageTrailDemoSource, language: "svelte" },
 		{ name: "ImageTrail.svelte", code: imageTrailSource, language: "svelte" },
 	]}
 >
-	<ImageTrailDemo />
+	{#snippet children(props)}
+		<ImageTrailDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -5,6 +5,7 @@ description: A smooth and organic lava lamp effect using raymarching shaders and
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -37,6 +38,8 @@ import { LavaLamp } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["lava-lamp"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: lavaLampDemoSource, language: "svelte" },
 		{
@@ -52,7 +55,9 @@ import { LavaLamp } from "$lib/motion-core";
 		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
-	<LavaLampDemo />
+	{#snippet children(props)}
+		<LavaLampDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

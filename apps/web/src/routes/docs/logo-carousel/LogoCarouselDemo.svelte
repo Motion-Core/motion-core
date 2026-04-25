@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { LogoCarousel } from "motion-core";
+	import type { ComponentProps } from "svelte";
 	import Apple from "./logos/Apple.svelte";
 	import Supabase from "./logos/Supabase.svelte";
 	import Ally from "./logos/Ally.svelte";
@@ -9,6 +10,8 @@
 	import Typescript from "./logos/Typescript.svelte";
 	import Stripe from "./logos/Stripe.svelte";
 	import OpenAI from "./logos/OpenAI.svelte";
+
+	type Props = Partial<ComponentProps<typeof LogoCarousel>>;
 
 	const allLogos = [
 		{ name: "Apple", id: 1, component: Apple },
@@ -21,6 +24,8 @@
 		{ name: "Stripe", id: 8, component: Stripe },
 		{ name: "OpenAI", id: 9, component: OpenAI },
 	];
+
+	let { columnCount = 3, cycleInterval = 2000 }: Props = $props();
 </script>
 
-<LogoCarousel columnCount={3} logos={allLogos} />
+<LogoCarousel {columnCount} logos={allLogos} {cycleInterval} />

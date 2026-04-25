@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { MacosDock } from "motion-core";
+	import type { ComponentProps } from "svelte";
+
+	type Props = Partial<ComponentProps<typeof MacosDock>>;
 
 	const items = [
 		{
@@ -57,12 +60,14 @@
 			href: "#",
 		},
 	];
+
+	let { baseWidth = 4, magnification = 1.5, distance = 3 }: Props = $props();
 </script>
 
 <div
 	class="relative flex h-full min-h-96 w-full items-center justify-center overflow-hidden"
 >
 	<div class="absolute bottom-0">
-		<MacosDock {items} />
+		<MacosDock {items} {baseWidth} {magnification} {distance} />
 	</div>
 </div>

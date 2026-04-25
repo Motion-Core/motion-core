@@ -5,6 +5,18 @@
 		type GlobeMarkerTooltipContext,
 	} from "motion-core";
 	import { cn } from "$lib/utils/cn";
+	import type { ComponentProps } from "svelte";
+
+	type Props = Partial<ComponentProps<typeof Globe>>;
+
+	let {
+		radius = 2,
+		pointCount = 25000,
+		pointSize = 0.05,
+		landPointColor = "#f77114",
+		autoRotate = true,
+		lockedPolarAngle = false,
+	}: Props = $props();
 
 	const locations: (GlobeMarker & { name: string })[] = [
 		{
@@ -42,13 +54,16 @@
 {/snippet}
 
 <Globe
-	pointCount={25000}
 	class="h-full min-h-96 w-full"
 	markers={locations}
 	{markerTooltip}
 	{focusOn}
-	autoRotate={!focusOn}
-	lockedPolarAngle={false}
+	{radius}
+	{pointCount}
+	{pointSize}
+	{landPointColor}
+	autoRotate={autoRotate && !focusOn}
+	{lockedPolarAngle}
 />
 <div
 	class="absolute bottom-4 left-1/2 z-10 flex w-fit -translate-x-1/2 justify-center gap-1 rounded-sm bg-background-inset p-1 inset-shadow"
@@ -57,7 +72,7 @@
 		class={cn(
 			"gap-1.5 rounded-xs px-3 py-1 text-xs font-medium tracking-wide whitespace-nowrap uppercase transition-all duration-150 ease-out",
 			focusOn === null
-				? "light:text-card bg-background-muted  shadow-md card dark:text-foreground"
+				? "text-card bg-background card dark:bg-background-muted dark:text-foreground"
 				: "text-foreground-muted hover:text-foreground",
 		)}
 		onclick={() => (focusOn = null)}
@@ -69,7 +84,7 @@
 			class={cn(
 				"gap-1.5 rounded-xs px-3 py-1 text-xs font-medium tracking-wide whitespace-nowrap uppercase transition-colors duration-150 ease-out",
 				focusOn?.[0] === loc.location[0] && focusOn?.[1] === loc.location[1]
-					? "light:text-card bg-background-muted  shadow-md card dark:text-foreground"
+					? "text-card bg-background card dark:bg-background-muted dark:text-foreground"
 					: "text-foreground-muted hover:text-foreground",
 			)}
 			onclick={() => (focusOn = loc.location)}

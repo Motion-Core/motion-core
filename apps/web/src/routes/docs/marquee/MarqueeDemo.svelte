@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { Marquee } from "motion-core";
+	import type { ComponentProps } from "svelte";
+
+	type Props = Partial<ComponentProps<typeof Marquee>>;
 
 	const texts = [
 		"Motion・",
@@ -12,6 +15,8 @@
 		"Playground・",
 		"Journey・",
 	];
+
+	let { duration = 20, velocity = 1, repeat = 3, gap = 0 }: Props = $props();
 </script>
 
 <div
@@ -19,9 +24,10 @@
 >
 	<Marquee
 		class="h-fit"
-		gap={0}
-		duration={20}
-		velocity={1}
+		{gap}
+		{duration}
+		{velocity}
+		{repeat}
 		scrollElement="#docs-content-container"
 	>
 		{#each texts as text (text)}
@@ -33,9 +39,10 @@
 
 	<Marquee
 		class="h-fit"
-		gap={0}
-		duration={20}
-		velocity={1}
+		{gap}
+		{duration}
+		{velocity}
+		{repeat}
 		reversed
 		scrollElement="#docs-content-container"
 	>

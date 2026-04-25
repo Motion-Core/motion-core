@@ -5,6 +5,7 @@ description: A 3D gallery that endlessly scrolls through textured planes with cl
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -39,6 +40,8 @@ import { InfiniteGallery } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["infinite-gallery"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: infiniteGalleryDemoSource, language: "svelte" },
 		{
@@ -54,7 +57,9 @@ import { InfiniteGallery } from "$lib/motion-core";
 		{ name: "ImagePlane.svelte", code: imagePlaneSource, language: "svelte" },
 	]}
 >
-	<InfiniteGalleryDemo />
+	{#snippet children(props)}
+		<InfiniteGalleryDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

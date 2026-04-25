@@ -5,6 +5,7 @@ description: A retro-styled renderer that converts images into character-based v
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -38,6 +39,8 @@ import { AsciiRenderer } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["ascii-renderer"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: asciiRendererDemoSource, language: "svelte" },
 		{
@@ -53,7 +56,9 @@ import { AsciiRenderer } from "$lib/motion-core";
 		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
-	<AsciiRendererDemo />
+	{#snippet children(props)}
+		<AsciiRendererDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -5,6 +5,7 @@ description: A Fresnel-lit globe with rim glow, haloed atmosphere, land mesh det
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -39,6 +40,8 @@ import { Globe } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["globe"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: globeDemoSource, language: "svelte" },
 		{ name: "Globe.svelte", code: globeSource, language: "svelte" },
@@ -52,7 +55,9 @@ import { Globe } from "$lib/motion-core";
 		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
-	<GlobeDemo />
+	{#snippet children(props)}
+		<GlobeDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -5,6 +5,7 @@ description: High-performance procedural god rays (crepuscular rays) effect with
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
@@ -37,6 +38,8 @@ import { GodRays } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["god-rays"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: godRaysDemoSource, language: "svelte" },
 		{
@@ -48,7 +51,9 @@ import { GodRays } from "$lib/motion-core";
 		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
-	<GodRaysDemo />
+	{#snippet children(props)}
+		<GodRaysDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -8,6 +8,13 @@
 		description: string;
 	};
 
+	type Props = {
+		stackOffset?: number;
+		stackRotation?: number;
+		dragThreshold?: number;
+		duration?: number;
+	};
+
 	const items: DemoCard[] = [
 		{
 			image: "/images/demos/sample-9.jpg",
@@ -28,10 +35,23 @@
 			description: "Content layout is fully controlled in the snippet.",
 		},
 	];
+
+	let {
+		stackOffset = 10,
+		stackRotation = -8,
+		dragThreshold = 80,
+		duration = 0.3,
+	}: Props = $props();
 </script>
 
 <div class="flex min-h-150 w-full items-center justify-center p-8">
-	<FlipCardStack {items} stackOffset={10} stackRotation={-8}>
+	<FlipCardStack
+		{items}
+		{stackOffset}
+		{stackRotation}
+		{dragThreshold}
+		{duration}
+	>
 		{#snippet children(item)}
 			<div class="relative h-96 w-[320px] overflow-hidden rounded-lg">
 				<img

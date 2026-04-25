@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { StackingWords } from "motion-core";
 	import { onMount } from "svelte";
+	import type { ComponentProps } from "svelte";
+
+	type Props = Partial<ComponentProps<typeof StackingWords>>;
 
 	let scrollElement = $state<HTMLElement | null>(null);
+	let { scrub = 1.234, stagger = 0.21 }: Props = $props();
 
 	onMount(() => {
 		scrollElement = document.getElementById("component-preview-live");
@@ -17,6 +21,8 @@
 
 <StackingWords
 	{scrollElement}
+	{scrub}
+	{stagger}
 	class="mx-auto w-sm p-4 text-2xl md:w-3xl md:text-5xl"
 >
 	<p>

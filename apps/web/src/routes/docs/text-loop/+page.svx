@@ -5,6 +5,7 @@ description: A text animator that cycles through phrases with blurred vertical t
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -35,12 +36,16 @@ import { TextLoop } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["text-loop"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: textLoopDemoSource, language: "svelte" },
 		{ name: "TextLoop.svelte", code: textLoopSource, language: "svelte" },
 	]}
 >
-	<TextLoopDemo />
+	{#snippet children(props)}
+		<TextLoopDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

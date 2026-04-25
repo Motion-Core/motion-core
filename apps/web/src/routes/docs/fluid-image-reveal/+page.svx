@@ -5,6 +5,7 @@ description: A fluid simulation mask that reveals a second image through pointer
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
@@ -36,6 +37,8 @@ import { FluidImageReveal } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["fluid-image-reveal"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: fluidImageRevealDemoSource, language: "svelte" },
 		{
@@ -50,7 +53,9 @@ import { FluidImageReveal } from "$lib/motion-core";
 		},
 	]}
 >
-	<FluidImageRevealDemo />
+	{#snippet children(props)}
+		<FluidImageRevealDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -5,6 +5,7 @@ description: Animated silk-like cloth shader with fine glitter noise and subtle 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -38,6 +39,8 @@ import { GlitterCloth } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["glitter-cloth"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: glitterClothDemoSource, language: "svelte" },
 		{
@@ -49,7 +52,9 @@ import { GlitterCloth } from "$lib/motion-core";
 		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
-	<GlitterClothDemo />
+	{#snippet children(props)}
+		<GlitterClothDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

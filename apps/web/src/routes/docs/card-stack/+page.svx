@@ -5,6 +5,7 @@ description: A stack of cards that stick to the top and scale down as you scroll
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -39,6 +40,7 @@ import { CardStack, CardStackItem } from "motion-core";
 
 <ComponentPreview
 	class="max-h-150"
+	controls={componentPreviewControls["card-stack"]}
 	refreshOnFullScreen={true}
 	sources={[
 		{ name: "Example", code: cardStackDemoSource, language: "svelte" },
@@ -51,7 +53,9 @@ import { CardStack, CardStackItem } from "motion-core";
 			{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 		]}
 	>
-	<CardStackDemo />
+	{#snippet children(props)}
+		<CardStackDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## API Reference

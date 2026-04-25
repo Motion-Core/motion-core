@@ -5,6 +5,7 @@ description: A generative organic pattern using Compositional Pattern Producing 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -37,13 +38,17 @@ import { NeuralNoise } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["neural-noise"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: neuralNoiseDemoSource, language: "svelte" },
 		{ name: "NeuralNoise.svelte", code: neuralNoiseSource, language: "svelte" },
 		{ name: "NeuralNoiseScene.svelte", code: sceneSource, language: "svelte" },
 	]}
 >
-	<NeuralNoiseDemo />
+	{#snippet children(props)}
+		<NeuralNoiseDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

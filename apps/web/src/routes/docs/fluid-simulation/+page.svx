@@ -5,6 +5,7 @@ description: A physics-based fluid simulation with pointer interaction.
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -38,6 +39,8 @@ import { FluidSimulation } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["fluid-simulation"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: fluidSimulationDemoSource, language: "svelte" },
 		{
@@ -53,7 +56,9 @@ import { FluidSimulation } from "$lib/motion-core";
 		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
-	<FluidSimulationDemo />
+	{#snippet children(props)}
+		<FluidSimulationDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -5,6 +5,7 @@ description: A slideshow component featuring organic glass bubble transitions wi
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -37,6 +38,8 @@ import { GlassSlideshow } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["glass-slideshow"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: glassSlideshowDemoSource, language: "svelte" },
 		{
@@ -51,7 +54,9 @@ import { GlassSlideshow } from "$lib/motion-core";
 		},
 	]}
 >
-	<GlassSlideshowDemo />
+	{#snippet children(props)}
+		<GlassSlideshowDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

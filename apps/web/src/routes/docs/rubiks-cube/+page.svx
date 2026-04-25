@@ -5,6 +5,7 @@ description: A dynamic Rubik's Cube that continuously rotates while a Fresnel ri
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -37,6 +38,8 @@ import { RubiksCube } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["rubiks-cube"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: demoSource, language: "svelte" },
 		{ name: "RubiksCube.svelte", code: rubiksCubeSource, language: "svelte" },
@@ -44,7 +47,9 @@ import { RubiksCube } from "$lib/motion-core";
 		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
-	<RubiksCubeDemo />
+	{#snippet children(props)}
+		<RubiksCubeDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

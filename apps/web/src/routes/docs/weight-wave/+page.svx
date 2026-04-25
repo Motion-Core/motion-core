@@ -5,6 +5,7 @@ description: A hover-reactive text effect that smoothly increases glyph weight w
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -36,13 +37,16 @@ import { WeightWave } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["weight-wave"]}
 	sources={[
 		{ name: "Example", code: weightWaveDemoSource, language: "svelte" },
 		{ name: "WeightWave.svelte", code: weightWaveSource, language: "svelte" },
 		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 	]}
 >
-	<WeightWaveDemo />
+	{#snippet children(props)}
+		<WeightWaveDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -5,6 +5,7 @@ description: A physics-based grid simulation that distorts an image in response 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -37,6 +38,8 @@ import { InteractiveGrid } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["interactive-grid"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: interactiveGridDemoSource, language: "svelte" },
 		{
@@ -51,7 +54,9 @@ import { InteractiveGrid } from "$lib/motion-core";
 		},
 	]}
 >
-	<InteractiveGridDemo />
+	{#snippet children(props)}
+		<InteractiveGridDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

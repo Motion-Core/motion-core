@@ -5,6 +5,7 @@ description: A draggable stack where the top card snaps to the back after a thre
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
@@ -35,6 +36,7 @@ import { FlipCardStack } from "motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["flip-card-stack"]}
 	sources={[
 		{ name: "Example", code: flipCardStackDemoSource, language: "svelte" },
 		{
@@ -44,7 +46,9 @@ import { FlipCardStack } from "motion-core";
 		},
 	]}
 >
-	<FlipCardStackDemo />
+	{#snippet children(props)}
+		<FlipCardStackDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -5,6 +5,7 @@ description: An image display component that applies various ordered dithering a
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -38,6 +39,8 @@ import { DitheredImage } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["dithered-image"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: ditheredImageDemoSource, language: "svelte" },
 		{
@@ -53,7 +56,9 @@ import { DitheredImage } from "$lib/motion-core";
 		{ name: "helpers/color.ts", code: colorHelperSource, language: "typescript" },
 	]}
 >
-	<DitheredImageDemo />
+	{#snippet children(props)}
+		<DitheredImageDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

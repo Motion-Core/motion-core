@@ -5,6 +5,7 @@ description: A rotating circular gallery that creates an arch/rainbow layout, pe
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -35,6 +36,7 @@ import { RadialGallery } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["radial-gallery"]}
 	sources={[
 		{ name: "Example", code: radialGalleryDemoSource, language: "svelte" },
 		{
@@ -44,7 +46,9 @@ import { RadialGallery } from "$lib/motion-core";
 		},
 	]}
 >
-	<RadialGalleryDemo />
+	{#snippet children(props)}
+		<RadialGalleryDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

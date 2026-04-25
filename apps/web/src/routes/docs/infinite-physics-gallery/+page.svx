@@ -5,6 +5,7 @@ description: A bidirectional infinite gallery with drag inertia, wheel momentum,
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
@@ -37,6 +38,7 @@ import { InfinitePhysicsGallery } from "motion-core";
 
 <ComponentPreview
 	class="max-h-175"
+	controls={componentPreviewControls["infinite-physics-gallery"]}
 	sources={[
 		{ name: "Example", code: infinitePhysicsGalleryDemoSource, language: "svelte" },
 		{
@@ -51,7 +53,9 @@ import { InfinitePhysicsGallery } from "motion-core";
 		},
 	]}
 >
-	<InfinitePhysicsGalleryDemo />
+	{#snippet children(props)}
+		<InfinitePhysicsGalleryDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

@@ -5,6 +5,7 @@ description: A depth-map parallax background that reacts to pointer movement.
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
@@ -63,6 +64,8 @@ import { Fake3DImage } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["fake-3d-image"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: fake3DImageDemoSource, language: "svelte" },
 		{
@@ -77,7 +80,9 @@ import { Fake3DImage } from "$lib/motion-core";
 		},
 	]}
 >
-	<Fake3DImageDemo />
+	{#snippet children(props)}
+		<Fake3DImageDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

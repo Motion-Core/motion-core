@@ -5,6 +5,7 @@ description: A hover-triggered SplitText effect that scrambles characters before
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -36,6 +37,7 @@ import { TextScramble } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["text-scramble"]}
 	sources={[
 		{ name: "Example", code: textScrambleDemoSource, language: "svelte" },
 			{
@@ -46,7 +48,9 @@ import { TextScramble } from "$lib/motion-core";
 			{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 		]}
 >
-	<TextScrambleDemo />
+	{#snippet children(props)}
+		<TextScrambleDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

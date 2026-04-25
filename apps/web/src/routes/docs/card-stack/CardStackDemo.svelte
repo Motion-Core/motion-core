@@ -2,6 +2,12 @@
 	import { CardStack, CardStackItem } from "motion-core";
 	import { onMount } from "svelte";
 
+	type Props = {
+		scaleFactor?: number;
+		offset?: number;
+		topOffset?: number;
+	};
+
 	const items = [
 		"/images/demos/sample-9.jpg",
 		"/images/demos/sample-12.jpg",
@@ -9,6 +15,7 @@
 		"/images/demos/sample-5.jpg",
 	];
 	let scrollElement = $state<HTMLElement | null>(null);
+	let { scaleFactor = 0.05, offset = 32, topOffset = 32 }: Props = $props();
 
 	onMount(() => {
 		scrollElement = document.getElementById("component-preview-live");
@@ -22,15 +29,16 @@
 </div>
 <CardStack
 	{scrollElement}
-	offset={32}
-	topOffset={32}
+	{scaleFactor}
+	{offset}
+	{topOffset}
 	class="flex flex-col gap-8"
 >
 	{#each items as item (item)}
 		<CardStackItem
-			class="inset-shadow mx-auto flex h-96 w-80 flex-col rounded-lg bg-background-inset p-1.5 md:w-120 md:group-data-[fullscreen=true]/preview:h-dvh md:group-data-[fullscreen=true]/preview:w-7xl"
+			class="mx-auto flex h-96 w-80 flex-col rounded-lg bg-background-inset p-1.5 inset-shadow md:w-120 md:group-data-[fullscreen=true]/preview:h-dvh md:group-data-[fullscreen=true]/preview:w-7xl"
 		>
-			<div class="card relative flex-1 overflow-hidden rounded-md">
+			<div class="relative flex-1 overflow-hidden rounded-md card">
 				<img
 					src={item}
 					alt="Sample"

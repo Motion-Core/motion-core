@@ -5,6 +5,7 @@ description: A scroll-synced SplitText reveal where words in each line travel in
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte";
 	import InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte";
@@ -36,13 +37,16 @@ import { StackingWords } from "$lib/motion-core";
 
 <ComponentPreview
 	class="max-h-150"
+	controls={componentPreviewControls["stacking-words"]}
 	sources={[
 		{ name: "Example", code: stackingWordsDemoSource, language: "svelte" },
 		{ name: "StackingWords.svelte", code: stackingWordsSource, language: "svelte" },
 		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 	]}
 >
-	<StackingWordsDemo />
+	{#snippet children(props)}
+		<StackingWordsDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

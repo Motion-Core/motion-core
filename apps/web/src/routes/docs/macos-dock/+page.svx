@@ -5,6 +5,7 @@ description: A navigation bar that simulates magnification physics and smooth ea
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -35,12 +36,15 @@ import { MacosDock } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["macos-dock"]}
 	sources={[
 		{ name: "Example", code: macosDockDemoSource, language: "svelte" },
 		{ name: "MacosDock.svelte", code: macosDockSource, language: "svelte" },
 	]}
 >
-	<MacosDockDemo />
+	{#snippet children(props)}
+		<MacosDockDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

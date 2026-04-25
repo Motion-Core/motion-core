@@ -4,6 +4,16 @@
 		type InfinitePhysicsGalleryItem,
 	} from "motion-core";
 
+	type Props = {
+		cellWidth?: number;
+		cellHeight?: number;
+		gap?: number;
+		friction?: number;
+		wheelSpeed?: number;
+		edgeThreshold?: number;
+		edgeScrollSpeed?: number;
+	};
+
 	const items: InfinitePhysicsGalleryItem[] = [
 		{
 			id: "img-1",
@@ -38,20 +48,30 @@
 			},
 		},
 	];
+
+	let {
+		cellWidth = 280,
+		cellHeight = 360,
+		gap = 20,
+		friction = 0.95,
+		wheelSpeed = 1.4,
+		edgeThreshold = 120,
+		edgeScrollSpeed = 1.6,
+	}: Props = $props();
 </script>
 
 <InfinitePhysicsGallery
 	class="h-full min-h-160 w-full"
 	{items}
-	cellWidth={280}
-	cellHeight={360}
-	gap={20}
+	{cellWidth}
+	{cellHeight}
+	{gap}
 	cellClass="rounded-md"
-	friction={0.95}
+	{friction}
 	scrollSettings={{
-		wheelSpeed: 1.4,
-		friction: 0.94,
-		edgeThreshold: 120,
-		edgeScrollSpeed: 1.6,
+		wheelSpeed,
+		friction,
+		edgeThreshold,
+		edgeScrollSpeed,
 	}}
 />

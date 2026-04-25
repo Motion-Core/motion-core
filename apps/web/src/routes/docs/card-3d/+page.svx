@@ -5,6 +5,7 @@ description: A 3D card with rounded corners that displays an image and responds 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -40,6 +41,8 @@ import { Card3D } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["card-3d"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: demoSource, language: "svelte" },
 		{ name: "Card3D.svelte", code: card3DSource, language: "svelte" },
@@ -51,7 +54,9 @@ import { Card3D } from "$lib/motion-core";
 		},
 	]}
 >
-	<Card3DDemo />
+	{#snippet children(props)}
+		<Card3DDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

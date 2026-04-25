@@ -5,6 +5,7 @@ description: A layout component that smoothly animates its children when the gri
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -38,6 +39,7 @@ import { FlipGrid, FlipGridItem } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["flip-grid"]}
 	sources={[
 		{ name: "Example", code: flipGridDemoSource, language: "svelte" },
 		{
@@ -53,7 +55,9 @@ import { FlipGrid, FlipGridItem } from "$lib/motion-core";
 			{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 		]}
 >
-	<FlipGridDemo />
+	{#snippet children(props)}
+		<FlipGridDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

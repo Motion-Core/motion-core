@@ -5,6 +5,7 @@ description: A multi-column display that shuffles brand logos infinitely with ve
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -37,6 +38,8 @@ import { LogoCarousel } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["logo-carousel"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: logoCarouselDemoSource, language: "svelte" },
 		{
@@ -47,7 +50,9 @@ import { LogoCarousel } from "$lib/motion-core";
 		{ name: "LogoColumn.svelte", code: logoColumnSource, language: "svelte" },
 	]}
 >
-	<LogoCarouselDemo />
+	{#snippet children(props)}
+		<LogoCarouselDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

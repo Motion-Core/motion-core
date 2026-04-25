@@ -5,6 +5,7 @@ description: A media revealer that animates blocky pixel grids which progressive
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -37,6 +38,8 @@ import { PixelatedImage } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["pixelated-image"]}
+	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: pixelatedImageDemoSource, language: "svelte" },
 		{
@@ -51,7 +54,9 @@ import { PixelatedImage } from "$lib/motion-core";
 		},
 	]}
 >
-	<PixelatedImageDemo />
+	{#snippet children(props)}
+		<PixelatedImageDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props

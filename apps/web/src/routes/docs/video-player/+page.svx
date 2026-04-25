@@ -5,6 +5,7 @@ description: A refined video player component with a progress slider and smooth 
 
 <script lang="ts">
 	import ComponentPreview from "$lib/components/docs/ComponentPreview.svelte";
+	import { componentPreviewControls } from "$lib/components/docs/component-preview/presets";
 	import ApiTable from "$lib/components/docs/ApiTable.svelte"; import
 	InstallationTabs from "$lib/components/docs/LegacyInstallationTabs.svelte";
 	import Steps from "$lib/components/docs/markdown/Steps.svelte"; import Step
@@ -38,6 +39,7 @@ import { VideoPlayer } from "$lib/motion-core";
 ## Usage
 
 <ComponentPreview
+	controls={componentPreviewControls["video-player"]}
 	sources={[
 		{ name: "Example", code: videoPlayerDemoSource, language: "svelte" },
 		{ name: "VideoPlayer.svelte", code: videoPlayerSource, language: "svelte" },
@@ -45,7 +47,9 @@ import { VideoPlayer } from "$lib/motion-core";
 		{ name: "helpers/gsap.ts", code: gsapHelperSource, language: "typescript" },
 	]}
 >
-	<VideoPlayerDemo />
+	{#snippet children(props)}
+		<VideoPlayerDemo {...props} />
+	{/snippet}
 </ComponentPreview>
 
 ## Props
