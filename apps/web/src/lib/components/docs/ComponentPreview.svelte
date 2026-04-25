@@ -14,6 +14,10 @@
 		type ComponentPreviewValues,
 		type SourceTab,
 	} from "./component-preview/types";
+	import {
+		readControlValuesFromSearch,
+		writeControlValuesToSearch,
+	} from "./component-preview/url-state";
 
 	type ComponentProps = {
 		code?: string;
@@ -50,6 +54,7 @@
 	let previewRef = $state<HTMLElement>();
 	let placeholderRef = $state<HTMLElement>();
 	let controlValues = $state<ComponentPreviewValues>({});
+	let hasInitializedUrlState = $state(false);
 	let controlRefreshTimer: ReturnType<typeof setTimeout> | null = null;
 
 	const controls = $derived(providedControls);
@@ -103,44 +108,100 @@
 		}, controlRefreshDelay);
 	};
 
+	const mergeValues = (
+		nextValues: ComponentPreviewValues,
+	): { values: ComponentPreviewValues; changed: boolean } => {
+		const defaults = buildDefaultValues();
+		const mergedValues: ComponentPreviewValues = {};
+		let changed = false;
+
+		for (const [name, defaultValue] of Object.entries(defaults)) {
+			const nextValue = nextValues[name] ?? defaultValue;
+			mergedValues[name] = nextValue;
+
+			if (controlValues[name] !== nextValue) {
+				changed = true;
+			}
+		}
+
+		if (
+			Object.keys(controlValues).length !== Object.keys(mergedValues).length
+		) {
+			changed = true;
+		}
+
+		return { values: mergedValues, changed };
+	};
+
+	const applyControlValues = (
+		nextValues: ComponentPreviewValues,
+		options: { refresh?: boolean } = {},
+	) => {
+		const { values, changed } = mergeValues(nextValues);
+		if (!changed) return;
+
+		controlValues = values;
+
+		if (options.refresh) {
+			scheduleControlRefresh();
+		}
+	};
+
+	const readUrlState = () => {
+		if (typeof window === "undefined") return buildDefaultValues();
+		return readControlValuesFromSearch(controls, window.location.search);
+	};
+
+	const writeUrlState = () => {
+		if (typeof window === "undefined" || !hasInitializedUrlState) return;
+
+		const nextSearch = writeControlValuesToSearch(
+			controls,
+			controlValues,
+			window.location.search,
+		);
+		const nextUrl = `${window.location.pathname}${nextSearch}${window.location.hash}`;
+		const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+
+		if (nextUrl === currentUrl) return;
+		window.history.replaceState(window.history.state, "", nextUrl);
+	};
+
 	const resetControls = () => {
-		controlValues = buildDefaultValues();
+		applyControlValues(buildDefaultValues());
 		scheduleControlRefresh();
 	};
 
 	const updateControl = (name: string, value: ComponentPreviewValue) => {
-		controlValues = {
+		applyControlValues({
 			...controlValues,
 			[name]: value,
-		};
+		});
 		scheduleControlRefresh();
 	};
 
 	$effect(() => {
-		const defaults = buildDefaultValues();
-		const nextValues: ComponentPreviewValues = {};
-		let changed = false;
+		applyControlValues(controlValues);
+	});
 
-		for (const [name, defaultValue] of Object.entries(defaults)) {
-			if (controlValues[name] === undefined) {
-				nextValues[name] = defaultValue;
-				changed = true;
-			} else {
-				nextValues[name] = controlValues[name];
-			}
-		}
-
-		if (Object.keys(controlValues).length !== Object.keys(nextValues).length) {
-			changed = true;
-		}
-
-		if (changed) {
-			controlValues = nextValues;
-		}
+	$effect(() => {
+		writeUrlState();
 	});
 
 	onMount(() => {
 		gsap.registerPlugin(Flip);
+		applyControlValues(readUrlState(), { refresh: refreshOnControlChange });
+		hasInitializedUrlState = true;
+
+		const handlePopState = () => {
+			applyControlValues(readUrlState(), { refresh: refreshOnControlChange });
+		};
+
+		window.addEventListener("popstate", handlePopState);
+
+		return () => {
+			window.removeEventListener("popstate", handlePopState);
+		};
 	});
 
 	onDestroy(() => {
