@@ -47,11 +47,11 @@
 								{#each row[key].split("|") as type, i (type + i)}
 									<code
 										class={cn(
-											"inset-shadow relative inline-flex rounded-sm border border-border bg-background-inset px-px py-0.5 text-sm font-medium whitespace-nowrap text-foreground",
+											"relative inline-flex rounded-sm bg-background-inset p-1 text-sm font-medium text-foreground inset-shadow",
 										)}
 									>
 										<span
-											class="rounded-[calc(var(--radius-base)*1.5)] border border-border bg-background px-1.5 py-0.5 font-mono shadow-sm"
+											class="rounded-[calc(var(--radius-base)*1.25)] bg-background px-1 py-0.5 font-mono card"
 										>
 											{type.trim()}
 										</span>
@@ -60,11 +60,11 @@
 							{:else}
 								<code
 									class={cn(
-										"inset-shadow relative inline-flex rounded-sm bg-background-inset p-0.75 text-sm font-medium text-foreground",
+										"relative inline-flex rounded-sm bg-background-inset p-1 text-sm font-medium text-foreground inset-shadow",
 									)}
 								>
 									<span
-										class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5 font-mono"
+										class="rounded-[calc(var(--radius-base)*1.25)] bg-background px-1 py-0.5 font-mono card"
 									>
 										{row[key]}
 									</span>

@@ -280,10 +280,10 @@
 											target="_blank"
 											rel="noreferrer"
 											aria-label={`Open ${dependency.name} on npm`}
-											class="relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 font-mono text-sm font-medium whitespace-nowrap text-foreground inset-shadow"
+											class="relative inline-flex w-fit rounded-sm bg-background-inset p-1 font-mono text-sm font-medium whitespace-nowrap text-foreground inset-shadow"
 										>
 											<code
-												class="rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5 card transition-colors duration-150 ease-out hover:bg-background-muted"
+												class="rounded-[calc(var(--radius-base)*1.25)] bg-background px-1 py-0.5 card transition-colors duration-150 ease-out hover:bg-background-muted"
 											>
 												{dependency.label}
 											</code>

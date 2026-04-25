@@ -196,7 +196,7 @@
 {#if hasActions}
 	<div class="relative z-20 mt-8 flex w-full gap-2 lg:hidden">
 		{#if canShowCopy}
-			<div class="inset-shadow w-full rounded-md bg-background-inset p-1.5">
+			<div class="w-full rounded-md bg-background-inset p-1.5 inset-shadow">
 				<button
 					type="button"
 					onclick={handleCopy}
@@ -245,7 +245,7 @@
 		{/if}
 
 		{#if hasMenuActions}
-			<div class="inset-shadow relative rounded-md bg-background-inset p-1.5">
+			<div class="relative rounded-md bg-background-inset p-1.5 inset-shadow">
 				<button
 					bind:this={triggerRef}
 					type="button"
@@ -263,7 +263,7 @@
 						use:portal
 						bind:this={dropdownRef}
 						style={dropdownStyle}
-						class="card z-50 flex w-48 origin-top-right flex-col gap-0.5 rounded-md bg-background p-1"
+						class="z-50 flex w-48 origin-top-right flex-col gap-0.5 rounded-md bg-background p-1 card"
 						in:fly={{ y: -5, duration: 200, easing: backOut }}
 						out:fly={{ y: -5, duration: 150, easing: backOut }}
 					>

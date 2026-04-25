@@ -131,10 +131,10 @@
 										<span>{item.name}</span>
 										{#if isNew}
 											<div
-												class="inset-shadow relative inline-flex rounded-sm bg-background-inset p-0.75 text-[10px] font-medium text-foreground"
+												class="relative inline-flex rounded-sm bg-background-inset p-1 text-[10px] font-medium text-foreground inset-shadow"
 											>
 												<span
-													class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"
+													class="rounded-[calc(var(--radius-base)*1.25)] bg-background px-1 py-0.5 card"
 												>
 													{docsUiConfig.sidebar.newBadge.label}
 												</span>
@@ -160,10 +160,10 @@
 							<span>{doc.name}</span>
 							{#if isNew}
 								<div
-									class="inset-shadow relative inline-block w-fit rounded-sm bg-background-inset px-0.75 py-1 text-[10px] font-medium whitespace-nowrap text-foreground"
+									class="relative inline-flex w-fit rounded-sm bg-background-inset p-1 text-[10px] font-medium whitespace-nowrap text-foreground inset-shadow"
 								>
 									<span
-										class="card rounded-[calc(var(--radius-base)*1.25)] bg-background px-1.5 py-0.5"
+										class="bg-backgroundp-1 rounded-[calc(var(--radius-base)*1.25)] card"
 									>
 										{docsUiConfig.sidebar.newBadge.label}
 									</span>
@@ -182,7 +182,7 @@
 		{/if}
 		{#if docsUiConfig.sidebar.showRepositoryLink}
 			<a
-				class="group transition-scale inset-shadow relative inline-flex size-7 cursor-pointer items-center justify-center rounded-sm bg-background-inset text-foreground duration-150 ease-out active:scale-[0.95]"
+				class="group transition-scale relative inline-flex size-7 cursor-pointer items-center justify-center rounded-sm bg-background-inset text-foreground inset-shadow duration-150 ease-out active:scale-[0.95]"
 				href={githubUrl}
 				target="_blank"
 				rel="noreferrer"
