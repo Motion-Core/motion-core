@@ -153,6 +153,9 @@
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 
+		targetCanvas.style.width = "100%";
+		targetCanvas.style.height = "100%";
+
 		const camera = new Camera(gl);
 		camera.position.z = 1;
 
@@ -338,36 +341,29 @@
 
 		targetCanvas.addEventListener("pointermove", onPointerMove);
 
-		const resize = () => {
-			const host = targetCanvas.parentElement ?? targetCanvas;
-			const { width: hostWidth, height: hostHeight } =
-				host.getBoundingClientRect();
-			const width = Math.max(1, Math.round(hostWidth));
-			const height = Math.max(1, Math.round(hostHeight));
-
-			renderer.setSize(width, height);
-			resolutionUniform.set(width, height);
-
-			brushCamera.left = -width / 2;
-			brushCamera.right = width / 2;
-			brushCamera.top = height / 2;
-			brushCamera.bottom = -height / 2;
-			brushCamera.updateProjectionMatrix();
-
-			displacementTarget.setSize(width, height);
-		};
-
-		resize();
 		loadBrush(brushUrl);
-
-		const observer = new ResizeObserver(resize);
-		observer.observe(targetCanvas);
-		if (targetCanvas.parentElement)
-			observer.observe(targetCanvas.parentElement);
 
 		let raf = 0;
 		let previousTime = 0;
 		const tick = (now: number) => {
+			const w = Math.max(1, targetCanvas.clientWidth);
+			const h = Math.max(1, targetCanvas.clientHeight);
+			const bufW = Math.round(w * renderer.dpr);
+			const bufH = Math.round(h * renderer.dpr);
+			if (targetCanvas.width !== bufW || targetCanvas.height !== bufH) {
+				targetCanvas.width = bufW;
+				targetCanvas.height = bufH;
+				renderer.width = w;
+				renderer.height = h;
+				renderer.state.viewport = { x: 0, y: 0, width: null, height: null };
+				resolutionUniform.set(w, h);
+				brushCamera.left = -w / 2;
+				brushCamera.right = w / 2;
+				brushCamera.top = h / 2;
+				brushCamera.bottom = -h / 2;
+				brushCamera.updateProjectionMatrix();
+				displacementTarget.setSize(w, h);
+			}
 			const delta = previousTime ? (now - previousTime) / 1000 : 0;
 			previousTime = now;
 			const timeScale = delta * 60;
@@ -409,7 +405,6 @@
 			imageToken += 1;
 			brushToken += 1;
 			window.cancelAnimationFrame(raf);
-			observer.disconnect();
 			targetCanvas.removeEventListener("pointermove", onPointerMove);
 			setImageSource = undefined;
 			setBrushSize = undefined;

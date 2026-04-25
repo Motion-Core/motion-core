@@ -290,6 +290,9 @@
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 
+		targetCanvas.style.width = "100%";
+		targetCanvas.style.height = "100%";
+
 		const halfFloatExt = gl.renderer.extensions["OES_texture_half_float"] as
 			| { HALF_FLOAT_OES: number }
 			| undefined;
@@ -361,6 +364,7 @@
 			uPointValue: { value: new Vec3() },
 			uPoint: { value: pointerUv },
 			uPointSize: { value: pointerSize },
+			uTexel: { value: texel },
 		};
 		const outputUniforms = {
 			uTexture: { value: density.read.texture },
@@ -463,46 +467,28 @@
 			passive: false,
 		});
 
-		const resizeSimulation = () => {
-			const host = targetCanvas.parentElement ?? targetCanvas;
-			const { width: hostWidth, height: hostHeight } =
-				host.getBoundingClientRect();
-			const width = Math.max(1, Math.round(hostWidth));
-			const height = Math.max(1, Math.round(hostHeight));
+		const resizeSimulation = (w: number, h: number) => {
+			const simResX = Math.max(1, Math.floor(w * 0.5));
+			const simResY = Math.max(1, Math.floor(h * 0.5));
 
-			renderer.setSize(width, height);
-			canvasMetrics.width = width;
-			canvasMetrics.height = height;
+			if (simResX > density.read.width || simResY > density.read.height) {
+				density.read.setSize(simResX, simResY);
+				density.write.setSize(simResX, simResY);
+				velocity.read.setSize(simResX, simResY);
+				velocity.write.setSize(simResX, simResY);
+				pressure.read.setSize(simResX, simResY);
+				pressure.write.setSize(simResX, simResY);
+				divergence.setSize(simResX, simResY);
+			}
 
-			const simResX = Math.max(1, Math.floor(width * 0.5));
-			const simResY = Math.max(1, Math.floor(height * 0.5));
+			const fboW = density.read.width;
+			const fboH = density.read.height;
+			texel.set(1 / fboW, 1 / fboH);
 
-			density.read.setSize(simResX, simResY);
-			density.write.setSize(simResX, simResY);
-			velocity.read.setSize(simResX, simResY);
-			velocity.write.setSize(simResX, simResY);
-			pressure.read.setSize(simResX, simResY);
-			pressure.write.setSize(simResX, simResY);
-			divergence.setSize(simResX, simResY);
-
-			const texelX = 1 / simResX;
-			const texelY = 1 / simResY;
-			texel.set(texelX, texelY);
-
-			if (canvasMetrics.width > 0 && canvasMetrics.height > 0) {
-				pointerUv.set(
-					pointerState.x / canvasMetrics.width,
-					1 - pointerState.y / canvasMetrics.height,
-				);
+			if (w > 0 && h > 0) {
+				pointerUv.set(pointerState.x / w, 1 - pointerState.y / h);
 			}
 		};
-
-		resizeSimulation();
-		const resizeObserver = new ResizeObserver(resizeSimulation);
-		resizeObserver.observe(targetCanvas);
-		if (targetCanvas.parentElement) {
-			resizeObserver.observe(targetCanvas.parentElement);
-		}
 
 		const disposeTarget = (target: RenderTarget) => {
 			target.textures.forEach((texture) => {
@@ -519,7 +505,30 @@
 
 		let raf = 0;
 		let previous = 0;
+		let pendingSimW = 0;
+		let pendingSimH = 0;
+		let resizeTimer = 0;
 		const tick = (now: number) => {
+			const w = Math.max(1, targetCanvas.clientWidth);
+			const h = Math.max(1, targetCanvas.clientHeight);
+			const bufW = Math.round(w * renderer.dpr);
+			const bufH = Math.round(h * renderer.dpr);
+			if (targetCanvas.width !== bufW || targetCanvas.height !== bufH) {
+				targetCanvas.width = bufW;
+				targetCanvas.height = bufH;
+				renderer.width = w;
+				renderer.height = h;
+				renderer.state.viewport = { x: 0, y: 0, width: null, height: null };
+				canvasMetrics.width = w;
+				canvasMetrics.height = h;
+				pendingSimW = w;
+				pendingSimH = h;
+				clearTimeout(resizeTimer);
+				resizeTimer = window.setTimeout(
+					() => resizeSimulation(pendingSimW, pendingSimH),
+					150,
+				);
+			}
 			const delta = previous ? (now - previous) / 1000 : 0;
 			previous = now;
 			const dt = 1 / 60;
@@ -605,7 +614,7 @@
 
 		return () => {
 			window.cancelAnimationFrame(raf);
-			resizeObserver.disconnect();
+			clearTimeout(resizeTimer);
 			targetCanvas.removeEventListener("pointermove", handlePointerMove);
 			targetCanvas.removeEventListener("touchmove", handleTouchMove);
 

@@ -286,6 +286,9 @@
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 
+		targetCanvas.style.width = "100%";
+		targetCanvas.style.height = "100%";
+
 		const camera = new Camera(gl);
 		camera.position.z = 1;
 
@@ -382,31 +385,21 @@
 		const mesh = new Mesh(gl, { geometry, program });
 		mesh.setParent(scene);
 
-		const resize = () => {
-			const host = targetCanvas.parentElement ?? targetCanvas;
-			const { width: hostWidth, height: hostHeight } =
-				host.getBoundingClientRect();
-			const width = Math.max(1, Math.round(hostWidth));
-			const height = Math.max(1, Math.round(hostHeight));
-			renderer.setSize(width, height);
-			resolutionUniform.set(gl.canvas.width, gl.canvas.height);
-			updateCoverUniforms(
-				resolutionUniform.x,
-				resolutionUniform.y,
-				currentImageWidth,
-				currentImageHeight,
-			);
-		};
-
-		resize();
-
-		const observer = new ResizeObserver(resize);
-		observer.observe(targetCanvas);
-		if (targetCanvas.parentElement)
-			observer.observe(targetCanvas.parentElement);
-
 		let raf = 0;
 		const tick = () => {
+			const w = Math.max(1, targetCanvas.clientWidth);
+			const h = Math.max(1, targetCanvas.clientHeight);
+			const bufW = Math.round(w * renderer.dpr);
+			const bufH = Math.round(h * renderer.dpr);
+			if (targetCanvas.width !== bufW || targetCanvas.height !== bufH) {
+				targetCanvas.width = bufW;
+				targetCanvas.height = bufH;
+				renderer.width = w;
+				renderer.height = h;
+				renderer.state.viewport = { x: 0, y: 0, width: null, height: null };
+				resolutionUniform.set(bufW, bufH);
+				updateCoverUniforms(bufW, bufH, currentImageWidth, currentImageHeight);
+			}
 			renderer.render({ scene, camera });
 			raf = window.requestAnimationFrame(tick);
 		};
@@ -415,7 +408,6 @@
 
 		return () => {
 			window.cancelAnimationFrame(raf);
-			observer.disconnect();
 			setImageSource = undefined;
 			setDitherMap = undefined;
 			if (thresholdState.texture.texture) {

@@ -28,10 +28,10 @@
 
 	let canvas = $state<HTMLCanvasElement>();
 	let uniforms = $state.raw<{
-		u_time: { value: number };
-		u_resolution: { value: Vec3 };
-		u_baseColor: { value: Vec3 };
-		u_gradientColor: { value: Vec3 };
+		uTime: { value: number };
+		uResolution: { value: Vec3 };
+		uBaseColor: { value: Vec3 };
+		uGradientColor: { value: Vec3 };
 	}>();
 
 	const applyColor = (
@@ -57,10 +57,10 @@
 	const fragmentShader = `
 		precision highp float;
 		varying vec2 vUv;
-		uniform float u_time;
-		uniform vec3 u_resolution;
-		uniform vec3 u_baseColor;
-		uniform vec3 u_gradientColor;
+		uniform float uTime;
+		uniform vec3 uResolution;
+		uniform vec3 uBaseColor;
+		uniform vec3 uGradientColor;
 
 		float rand(vec2 p) {
 			return fract(sin(dot(p, vec2(12.543,514.123)))*4732.12);
@@ -78,15 +78,15 @@
 
 		void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
 			float n = 2.0;
-			vec2 uv = fragCoord/u_resolution.y;
-			vec2 uvp = fragCoord/u_resolution.xy;
-			uv += 0.75*noise(uv*3.0+u_time/2.0+noise(uv*7.0-u_time/3.0)/2.0)/2.0;
+			vec2 uv = fragCoord/uResolution.y;
+			vec2 uvp = fragCoord/uResolution.xy;
+			uv += 0.75*noise(uv*3.0+uTime/2.0+noise(uv*7.0-uTime/3.0)/2.0)/2.0;
 
-			float grid = (mod(floor((uvp.x)*u_resolution.x/n),2.0)==0.0?1.0:0.0) *
-						 (mod(floor((uvp.y)*u_resolution.y/n),2.0)==0.0?1.0:0.0);
+			float grid = (mod(floor((uvp.x)*uResolution.x/n),2.0)==0.0?1.0:0.0) *
+						 (mod(floor((uvp.y)*uResolution.y/n),2.0)==0.0?1.0:0.0);
 
-			vec3 col = mix(u_baseColor, u_gradientColor,
-						   5.0 * vec3(pow(1.0-noise(uv*4.0-vec2(0.0, u_time/2.0)), 5.0)));
+			vec3 col = mix(uBaseColor, uGradientColor,
+						   5.0 * vec3(pow(1.0-noise(uv*4.0-vec2(0.0, uTime/2.0)), 5.0)));
 
 			col = pow(col, vec3(1.0));
 			float alpha = grid;
@@ -103,7 +103,7 @@
 
 		void main() {
 			vec4 fragColor;
-			vec2 fragCoord = vUv * u_resolution.xy;
+			vec2 fragCoord = vUv * uResolution.xy;
 			mainImage(fragColor, fragCoord);
 			fragColor.rgb = linearToSrgb(fragColor.rgb);
 			gl_FragColor = fragColor;
@@ -112,12 +112,12 @@
 
 	$effect(() => {
 		if (!uniforms) return;
-		applyColor(uniforms.u_baseColor.value, color, [
+		applyColor(uniforms.uBaseColor.value, color, [
 			17 / 255,
 			17 / 255,
 			19 / 255,
 		]);
-		applyColor(uniforms.u_gradientColor.value, highlightColor, [
+		applyColor(uniforms.uGradientColor.value, highlightColor, [
 			1,
 			105 / 255,
 			0,
@@ -136,6 +136,9 @@
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 
+		targetCanvas.style.width = "100%";
+		targetCanvas.style.height = "100%";
+
 		const camera = new Camera(gl);
 		camera.position.z = 1;
 
@@ -150,16 +153,16 @@
 		]);
 
 		const localUniforms = {
-			u_time: { value: 0 },
-			u_resolution: { value: new Vec3(1, 1, 1) },
-			u_baseColor: {
+			uTime: { value: 0 },
+			uResolution: { value: new Vec3(1, 1, 1) },
+			uBaseColor: {
 				value: new Vec3(
 					initialBaseColor[0],
 					initialBaseColor[1],
 					initialBaseColor[2],
 				),
 			},
-			u_gradientColor: {
+			uGradientColor: {
 				value: new Vec3(
 					initialHighlightColor[0],
 					initialHighlightColor[1],
@@ -182,29 +185,25 @@
 		const mesh = new Mesh(gl, { geometry, program });
 		mesh.setParent(scene);
 
-		const resize = () => {
-			const host = targetCanvas.parentElement ?? targetCanvas;
-			const { width: hostWidth, height: hostHeight } =
-				host.getBoundingClientRect();
-			const width = Math.max(1, Math.round(hostWidth));
-			const height = Math.max(1, Math.round(hostHeight));
-			renderer.setSize(width, height);
-			localUniforms.u_resolution.value.set(width, height, 1);
-		};
-
-		resize();
-		const observer = new ResizeObserver(resize);
-		observer.observe(targetCanvas);
-		if (targetCanvas.parentElement)
-			observer.observe(targetCanvas.parentElement);
-
 		let raf = 0;
 		let previous = 0;
 		const tick = (now: number) => {
+			const w = Math.max(1, targetCanvas.clientWidth);
+			const h = Math.max(1, targetCanvas.clientHeight);
+			const bufW = Math.round(w * renderer.dpr);
+			const bufH = Math.round(h * renderer.dpr);
+			if (targetCanvas.width !== bufW || targetCanvas.height !== bufH) {
+				targetCanvas.width = bufW;
+				targetCanvas.height = bufH;
+				renderer.width = w;
+				renderer.height = h;
+				renderer.state.viewport = { x: 0, y: 0, width: null, height: null };
+				localUniforms.uResolution.value.set(w, h, 1);
+			}
+
 			const delta = previous ? (now - previous) / 1000 : 0;
 			previous = now;
-			localUniforms.u_time.value += delta * 0.5;
-
+			localUniforms.uTime.value += delta * 0.5;
 			renderer.render({ scene, camera });
 			raf = window.requestAnimationFrame(tick);
 		};
@@ -213,7 +212,6 @@
 
 		return () => {
 			window.cancelAnimationFrame(raf);
-			observer.disconnect();
 		};
 	});
 </script>

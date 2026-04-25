@@ -1,0 +1,277 @@
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - complementary [ref=e5]:
+      - complementary [ref=e6]:
+        - generic [ref=e7]:
+          - link "Motion Core" [ref=e8] [cursor=pointer]:
+            - /url: /
+            - img [ref=e10]
+            - generic [ref=e12]: Motion Core
+          - button "Search... ⌘ K" [ref=e13]:
+            - img [ref=e14]
+            - generic [ref=e16]: Search...
+            - generic: ⌘ K
+        - generic [ref=e17]:
+          - navigation [ref=e19]:
+            - heading "Docs" [level=4] [ref=e20]
+            - button "Getting Started" [ref=e21]:
+              - generic [ref=e22]: Getting Started
+              - img [ref=e23]
+            - button "Resources" [ref=e25]:
+              - generic [ref=e26]: Resources
+              - img [ref=e27]
+            - heading "Components" [level=4] [ref=e29]
+            - button "Canvas" [ref=e30]:
+              - generic [ref=e31]: Canvas
+              - img [ref=e32]
+            - generic [ref=e34]:
+              - link "ASCII Renderer" [ref=e35] [cursor=pointer]:
+                - /url: /docs/ascii-renderer
+                - generic [ref=e36]: ASCII Renderer
+              - link "Card 3D" [ref=e37] [cursor=pointer]:
+                - /url: /docs/card-3d
+                - generic [ref=e38]: Card 3D
+              - link "Dithered Image" [ref=e39] [cursor=pointer]:
+                - /url: /docs/dithered-image
+                - generic [ref=e40]: Dithered Image
+              - link "Fake 3D Image NEW" [ref=e41] [cursor=pointer]:
+                - /url: /docs/fake-3d-image
+                - generic [ref=e42]: Fake 3D Image
+                - generic [ref=e44]: NEW
+              - link "Fluid Image Reveal NEW" [ref=e45] [cursor=pointer]:
+                - /url: /docs/fluid-image-reveal
+                - generic [ref=e46]: Fluid Image Reveal
+                - generic [ref=e48]: NEW
+              - link "Fluid Simulation" [ref=e49] [cursor=pointer]:
+                - /url: /docs/fluid-simulation
+                - generic [ref=e50]: Fluid Simulation
+              - link "Glass Pane" [ref=e51] [cursor=pointer]:
+                - /url: /docs/glass-pane
+                - generic [ref=e52]: Glass Pane
+              - link "Glass Slideshow" [ref=e53] [cursor=pointer]:
+                - /url: /docs/glass-slideshow
+                - generic [ref=e54]: Glass Slideshow
+              - link "Glitter Cloth" [ref=e55] [cursor=pointer]:
+                - /url: /docs/glitter-cloth
+                - generic [ref=e56]: Glitter Cloth
+              - link "Globe" [ref=e57] [cursor=pointer]:
+                - /url: /docs/globe
+                - generic [ref=e58]: Globe
+              - link "God Rays NEW" [ref=e59] [cursor=pointer]:
+                - /url: /docs/god-rays
+                - generic [ref=e60]: God Rays
+                - generic [ref=e62]: NEW
+              - link "Halo NEW" [ref=e63] [cursor=pointer]:
+                - /url: /docs/halo
+                - generic [ref=e64]: Halo
+                - generic [ref=e66]: NEW
+              - link "Infinite Gallery" [ref=e67] [cursor=pointer]:
+                - /url: /docs/infinite-gallery
+                - generic [ref=e68]: Infinite Gallery
+              - link "Interactive Grid" [ref=e69] [cursor=pointer]:
+                - /url: /docs/interactive-grid
+                - generic [ref=e70]: Interactive Grid
+              - link "Lava Lamp" [ref=e71] [cursor=pointer]:
+                - /url: /docs/lava-lamp
+                - generic [ref=e72]: Lava Lamp
+              - link "Neural Noise" [ref=e73] [cursor=pointer]:
+                - /url: /docs/neural-noise
+                - generic [ref=e74]: Neural Noise
+              - link "Pixelated Image" [ref=e75] [cursor=pointer]:
+                - /url: /docs/pixelated-image
+                - generic [ref=e76]: Pixelated Image
+              - link "Plasma Grid" [ref=e77] [cursor=pointer]:
+                - /url: /docs/plasma-grid
+                - generic [ref=e78]: Plasma Grid
+              - link "Rubiks Cube" [ref=e79] [cursor=pointer]:
+                - /url: /docs/rubiks-cube
+                - generic [ref=e80]: Rubiks Cube
+              - link "Specular Band NEW" [ref=e81] [cursor=pointer]:
+                - /url: /docs/specular-band
+                - generic [ref=e82]: Specular Band
+                - generic [ref=e84]: NEW
+              - link "Water Ripple" [ref=e85] [cursor=pointer]:
+                - /url: /docs/water-ripple
+                - generic [ref=e86]: Water Ripple
+            - button "Layout" [ref=e87]:
+              - generic [ref=e88]: Layout
+              - img [ref=e89]
+            - button "Navigation" [ref=e91]:
+              - generic [ref=e92]: Navigation
+              - img [ref=e93]
+            - button "Pointer" [ref=e95]:
+              - generic [ref=e96]: Pointer
+              - img [ref=e97]
+            - button "Showcase" [ref=e99]:
+              - generic [ref=e100]: Showcase
+              - img [ref=e101]
+            - button "Transition" [ref=e103]:
+              - generic [ref=e104]: Transition
+              - img [ref=e105]
+            - button "Typography" [ref=e107]:
+              - generic [ref=e108]: Typography
+              - img [ref=e109]
+          - scrollbar [ref=e336]
+        - generic [ref=e111]:
+          - button "Switch to dark mode" [ref=e112]:
+            - generic [ref=e113]: Switch to dark mode
+            - img [ref=e115]
+          - link "Open project repository" [ref=e125] [cursor=pointer]:
+            - /url: https://github.com/motion-core/motion-core
+            - img [ref=e126]
+    - generic [ref=e129]:
+      - generic [ref=e131]:
+        - generic [ref=e132]:
+          - paragraph [ref=e133]: Canvas
+          - heading "Plasma Grid" [level=1] [ref=e134]
+          - paragraph [ref=e135]: A fluid, pixelated noise pattern useful for backgrounds.
+          - link "Open ogl on npm" [ref=e137] [cursor=pointer]:
+            - /url: https://www.npmjs.com/package/ogl
+            - code [ref=e138]: ogl
+        - separator [ref=e139]
+        - generic [ref=e140]:
+          - article [ref=e141]:
+            - heading "Installation" [level=2] [ref=e142]
+            - generic [ref=e143]:
+              - generic [ref=e144]:
+                - heading "Install the component" [level=3] [ref=e148]
+                - generic [ref=e149]:
+                  - text: "Run the following command to install the component and its dependencies:"
+                  - generic [ref=e151]:
+                    - generic [ref=e152]:
+                      - generic [ref=e153]:
+                        - button "npm" [ref=e154]: npm
+                        - button "pnpm" [ref=e156]
+                        - button "bun" [ref=e157]
+                        - button "yarn" [ref=e158]
+                      - button "Copy code" [ref=e159]:
+                        - generic [ref=e160]: Copy code
+                        - img [ref=e162]
+                    - code [ref=e343]:
+                      - generic [ref=e344]: npx @motion-core/cli add plasma-grid
+              - generic [ref=e167]:
+                - heading "Import the component" [level=3] [ref=e171]
+                - generic [ref=e172]:
+                  - text: "Import the component into your Svelte file:"
+                  - generic [ref=e174]:
+                    - code [ref=e179]:
+                      - generic [ref=e180]: "import { PlasmaGrid } from \"$lib/motion-core\";"
+                    - button "Copy code" [ref=e181]:
+                      - generic [ref=e182]: Copy code
+                      - img [ref=e184]
+            - heading "Usage" [level=2] [ref=e187]
+            - generic [ref=e189]:
+              - generic [ref=e191]:
+                - button "Reload Preview" [ref=e192]:
+                  - img [ref=e193]
+                - button "Enter Fullscreen" [ref=e195]:
+                  - img [ref=e196]
+              - generic "Component props" [ref=e205]:
+                - generic [ref=e206]:
+                  - heading "Props" [level=2] [ref=e207]
+                  - button "Reset Settings" [ref=e208]:
+                    - img [ref=e209]
+                - generic [ref=e211]:
+                  - generic [ref=e212]:
+                    - generic [ref=e213]: Background
+                    - button "Background" [ref=e216]:
+                      - generic [ref=e218]: "#17181a"
+                  - generic [ref=e219]:
+                    - generic [ref=e220]: Highlight
+                    - button "Highlight" [ref=e223]:
+                      - generic [ref=e225]: "#572400"
+              - generic [ref=e226]:
+                - generic [ref=e227]:
+                  - generic [ref=e228]:
+                    - button "Example" [ref=e229]
+                    - button "PlasmaGrid.svelte" [ref=e230]
+                    - button "PlasmaGridScene.svelte" [ref=e231]
+                    - button "helpers/color.ts" [ref=e232]
+                  - button "Copy code" [ref=e234]:
+                    - generic [ref=e235]: Copy code
+                    - img [ref=e237]
+                - code [ref=e351]:
+                  - generic [ref=e352]: <script lang="ts">
+                  - generic [ref=e353]: "import { PlasmaGrid } from \"motion-core\";"
+                  - generic [ref=e354]: "import type { ComponentProps } from \"svelte\";"
+                  - generic [ref=e355]: type Props = Partial<ComponentProps<typeof PlasmaGrid>>;
+                  - generic [ref=e356]: "let { color = \"#17181A\", highlightColor = \"#572400\" }: Props = $props();"
+                  - generic [ref=e357]: </script>
+                  - generic [ref=e358]: <PlasmaGrid
+                  - generic [ref=e359]: class="h-full min-h-96 w-full bg-[#17181A]"
+                  - generic [ref=e360]: "{color}"
+                  - generic [ref=e361]: "{highlightColor}"
+                  - generic [ref=e362]: />
+            - heading "Props" [level=2] [ref=e244]
+            - heading "PlasmaGrid" [level=3] [ref=e245]
+            - table [ref=e250]:
+              - rowgroup [ref=e251]:
+                - row "Prop Type Default" [ref=e252]:
+                  - columnheader "Prop" [ref=e253]
+                  - columnheader "Type" [ref=e254]
+                  - columnheader "Default" [ref=e255]
+              - rowgroup [ref=e256]:
+                - 'row "color More info string number [number, number, number] { r: number; g: number; b: number } \"#17181A\"" [ref=e257]':
+                  - cell "color More info" [ref=e258]:
+                    - generic [ref=e259]:
+                      - code [ref=e260]:
+                        - generic [ref=e261]: color
+                      - button "More info" [ref=e263]:
+                        - img [ref=e264]
+                  - 'cell "string number [number, number, number] { r: number; g: number; b: number }" [ref=e268]':
+                    - generic [ref=e269]:
+                      - code [ref=e270]:
+                        - generic [ref=e271]: string
+                      - code [ref=e272]:
+                        - generic [ref=e273]: number
+                      - code [ref=e274]:
+                        - generic [ref=e275]: "[number, number, number]"
+                      - code [ref=e276]:
+                        - generic [ref=e277]: "{ r: number; g: number; b: number }"
+                  - cell "\"#17181A\"" [ref=e278]:
+                    - code [ref=e280]:
+                      - generic [ref=e281]: "\"#17181A\""
+                - 'row "highlightColor More info string number [number, number, number] { r: number; g: number; b: number } \"#FF6900\"" [ref=e282]':
+                  - cell "highlightColor More info" [ref=e283]:
+                    - generic [ref=e284]:
+                      - code [ref=e285]:
+                        - generic [ref=e286]: highlightColor
+                      - button "More info" [ref=e288]:
+                        - img [ref=e289]
+                  - 'cell "string number [number, number, number] { r: number; g: number; b: number }" [ref=e293]':
+                    - generic [ref=e294]:
+                      - code [ref=e295]:
+                        - generic [ref=e296]: string
+                      - code [ref=e297]:
+                        - generic [ref=e298]: number
+                      - code [ref=e299]:
+                        - generic [ref=e300]: "[number, number, number]"
+                      - code [ref=e301]:
+                        - generic [ref=e302]: "{ r: number; g: number; b: number }"
+                  - cell "\"#FF6900\"" [ref=e303]:
+                    - code [ref=e305]:
+                      - generic [ref=e306]: "\"#FF6900\""
+                - row "class More info string \"\"" [ref=e307]:
+                  - cell "class More info" [ref=e308]:
+                    - generic [ref=e309]:
+                      - code [ref=e310]:
+                        - generic [ref=e311]: class
+                      - button "More info" [ref=e313]:
+                        - img [ref=e314]
+                  - cell "string" [ref=e318]:
+                    - code [ref=e320]:
+                      - generic [ref=e321]: string
+                  - cell "\"\"" [ref=e322]:
+                    - code [ref=e324]:
+                      - generic [ref=e325]: "\"\""
+          - navigation [ref=e326]:
+            - generic [ref=e327]:
+              - link "Previous Pixelated Image" [ref=e329] [cursor=pointer]:
+                - /url: /docs/pixelated-image
+                - generic [ref=e330]: Previous
+                - generic [ref=e331]: Pixelated Image
+              - link "Next Rubiks Cube" [ref=e333] [cursor=pointer]:
+                - /url: /docs/rubiks-cube
+                - generic [ref=e334]: Next
+                - generic [ref=e335]: Rubiks Cube
+      - scrollbar [ref=e363]

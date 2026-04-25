@@ -316,6 +316,9 @@
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 
+		targetCanvas.style.width = "100%";
+		targetCanvas.style.height = "100%";
+
 		const camera = new Camera(gl);
 		camera.position.z = 1;
 
@@ -420,24 +423,20 @@
 		const mesh = new Mesh(gl, { geometry, program, frustumCulled: false });
 		mesh.setParent(scene);
 
-		const resize = () => {
-			const host = targetCanvas.parentElement ?? targetCanvas;
-			const { width: hostWidth, height: hostHeight } =
-				host.getBoundingClientRect();
-			const width = Math.max(1, Math.round(hostWidth));
-			const height = Math.max(1, Math.round(hostHeight));
-			renderer.setSize(width, height);
-			localUniforms.uResolution.value.set(width, height);
-		};
-
-		resize();
-		const observer = new ResizeObserver(resize);
-		observer.observe(targetCanvas);
-		if (targetCanvas.parentElement)
-			observer.observe(targetCanvas.parentElement);
-
 		let raf = 0;
 		const tick = () => {
+			const w = Math.max(1, targetCanvas.clientWidth);
+			const h = Math.max(1, targetCanvas.clientHeight);
+			const bufW = Math.round(w * renderer.dpr);
+			const bufH = Math.round(h * renderer.dpr);
+			if (targetCanvas.width !== bufW || targetCanvas.height !== bufH) {
+				targetCanvas.width = bufW;
+				targetCanvas.height = bufH;
+				renderer.width = w;
+				renderer.height = h;
+				renderer.state.viewport = { x: 0, y: 0, width: null, height: null };
+				localUniforms.uResolution.value.set(w, h);
+			}
 			const total = slideTextures.length;
 			const safeCurrent =
 				total > 0 ? ((currentIndex % total) + total) % total : 0;
@@ -464,7 +463,6 @@
 
 		return () => {
 			window.cancelAnimationFrame(raf);
-			observer.disconnect();
 			setImageSources = undefined;
 			setUniformParams = undefined;
 			imageLoadToken += 1;

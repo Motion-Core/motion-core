@@ -6,6 +6,13 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Canvas / All**: Replaced `ResizeObserver` + `renderer.setSize()` with tick-based resize detection across all OGL Scene components. `renderer.setSize()` was overwriting `canvas.style.width/height` with fixed pixel values, breaking GSAP Flip animations by making the canvas go blank during layout transitions. Canvas buffer dimensions are now updated every RAF frame from `clientWidth`/`clientHeight`, keeping CSS layout fully in control.
+- **Canvas / Fluid Simulation**: FBO resize is now debounced and only triggered when the canvas grows beyond the current FBO capacity — fluid state is preserved during and after GSAP Flip animations.
+- **Canvas / Fluid Image Reveal**: Same FBO grow-only strategy as Fluid Simulation. Additionally, `uResolution` is updated immediately on every frame so cover UV proportions remain correct throughout resize animations.
+- **Canvas / Fluid Simulation, Fluid Image Reveal**: Fixed a pre-existing warning ("Active uniform uTexel has not been supplied") caused by the splat vertex shader declaring `uTexel` while `splatUniforms` did not supply it.
+
 ## [0.11.1] - 2026-04-25
 
 ### Fixed

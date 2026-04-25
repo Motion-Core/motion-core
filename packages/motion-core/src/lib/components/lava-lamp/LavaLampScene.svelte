@@ -212,6 +212,9 @@
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 
+		targetCanvas.style.width = "100%";
+		targetCanvas.style.height = "100%";
+
 		const camera = new Camera(gl);
 		camera.position.z = 1;
 
@@ -250,38 +253,32 @@
 		const mesh = new Mesh(gl, { geometry, program });
 		mesh.setParent(scene);
 
-		const updateResolution = () => {
-			const host = targetCanvas.parentElement ?? targetCanvas;
-			const { width: hostWidth, height: hostHeight } =
-				host.getBoundingClientRect();
-			const width = Math.max(1, Math.round(hostWidth));
-			const height = Math.max(1, Math.round(hostHeight));
-
-			const imageAspect = 1;
-			let a1 = 1;
-			let a2 = 1;
-			if (height / width > imageAspect) {
-				a1 = (width / height) * imageAspect;
-				a2 = 1;
-			} else {
-				a1 = 1;
-				a2 = height / width / imageAspect;
-			}
-
-			renderer.setSize(width, height);
-			localUniforms.uResolution.value.set(width, height, a1, a2);
-		};
-
-		updateResolution();
-		const observer = new ResizeObserver(updateResolution);
-		observer.observe(targetCanvas);
-		if (targetCanvas.parentElement)
-			observer.observe(targetCanvas.parentElement);
-
 		let raf = 0;
 		let previous = 0;
 		let time = 0;
 		const tick = (now: number) => {
+			const w = Math.max(1, targetCanvas.clientWidth);
+			const h = Math.max(1, targetCanvas.clientHeight);
+			const bufW = Math.round(w * renderer.dpr);
+			const bufH = Math.round(h * renderer.dpr);
+			if (targetCanvas.width !== bufW || targetCanvas.height !== bufH) {
+				targetCanvas.width = bufW;
+				targetCanvas.height = bufH;
+				renderer.width = w;
+				renderer.height = h;
+				renderer.state.viewport = { x: 0, y: 0, width: null, height: null };
+				const imageAspect = 1;
+				let a1 = 1;
+				let a2 = 1;
+				if (h / w > imageAspect) {
+					a1 = (w / h) * imageAspect;
+					a2 = 1;
+				} else {
+					a1 = 1;
+					a2 = h / w / imageAspect;
+				}
+				localUniforms.uResolution.value.set(w, h, a1, a2);
+			}
 			const delta = previous ? (now - previous) / 1000 : 0;
 			previous = now;
 			time += delta * speed;
@@ -295,7 +292,6 @@
 
 		return () => {
 			window.cancelAnimationFrame(raf);
-			observer.disconnect();
 		};
 	});
 </script>

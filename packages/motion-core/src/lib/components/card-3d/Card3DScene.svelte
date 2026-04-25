@@ -227,6 +227,9 @@
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 
+		targetCanvas.style.width = "100%";
+		targetCanvas.style.height = "100%";
+
 		const camera = new Camera(gl, {
 			fov: 50,
 			aspect: 1,
@@ -395,29 +398,25 @@
 		};
 		setDimensions = updateDimensions;
 
-		const resize = () => {
-			const host = targetCanvas.parentElement ?? targetCanvas;
-			const { width: hostWidth, height: hostHeight } =
-				host.getBoundingClientRect();
-			const nextWidth = Math.max(1, Math.round(hostWidth));
-			const nextHeight = Math.max(1, Math.round(hostHeight));
-			renderer.setSize(nextWidth, nextHeight);
-			camera.perspective({
-				fov: 50,
-				aspect: nextWidth / Math.max(1, nextHeight),
-				near: 0.1,
-				far: 100,
-			});
-		};
-
-		resize();
-		const observer = new ResizeObserver(resize);
-		observer.observe(targetCanvas);
-		if (targetCanvas.parentElement)
-			observer.observe(targetCanvas.parentElement);
-
 		let raf = 0;
 		const tick = () => {
+			const w = Math.max(1, targetCanvas.clientWidth);
+			const h = Math.max(1, targetCanvas.clientHeight);
+			const bufW = Math.round(w * renderer.dpr);
+			const bufH = Math.round(h * renderer.dpr);
+			if (targetCanvas.width !== bufW || targetCanvas.height !== bufH) {
+				targetCanvas.width = bufW;
+				targetCanvas.height = bufH;
+				renderer.width = w;
+				renderer.height = h;
+				renderer.state.viewport = { x: 0, y: 0, width: null, height: null };
+				camera.perspective({
+					fov: 50,
+					aspect: w / Math.max(1, h),
+					near: 0.1,
+					far: 100,
+				});
+			}
 			const targetRotationY = -headPosition.x * 0.5;
 			const targetRotationX = headPosition.y * 0.4;
 
@@ -435,7 +434,6 @@
 
 		return () => {
 			window.cancelAnimationFrame(raf);
-			observer.disconnect();
 			setDimensions = undefined;
 			setImageSource = undefined;
 			imageLoadToken += 1;

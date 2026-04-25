@@ -142,6 +142,9 @@
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 
+		targetCanvas.style.width = "100%";
+		targetCanvas.style.height = "100%";
+
 		const camera = new Camera(gl);
 		camera.position.z = 1;
 
@@ -244,16 +247,6 @@
 		const mesh = new Mesh(gl, { geometry, program });
 		mesh.setParent(scene);
 
-		const resize = () => {
-			const host = targetCanvas.parentElement ?? targetCanvas;
-			const { width: hostWidth, height: hostHeight } =
-				host.getBoundingClientRect();
-			const width = Math.max(1, Math.round(hostWidth));
-			const height = Math.max(1, Math.round(hostHeight));
-			renderer.setSize(width, height);
-			resolutionUniform.set(gl.canvas.width, gl.canvas.height);
-		};
-
 		const handlePointerMove = (event: PointerEvent) => {
 			const rect = targetCanvas.getBoundingClientRect();
 			const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -268,16 +261,21 @@
 		targetCanvas.addEventListener("pointermove", handlePointerMove);
 		targetCanvas.addEventListener("pointerleave", handlePointerLeave);
 
-		resize();
-
-		const observer = new ResizeObserver(resize);
-		observer.observe(targetCanvas);
-		if (targetCanvas.parentElement)
-			observer.observe(targetCanvas.parentElement);
-
 		let raf = 0;
 		let previous = 0;
 		const tick = (now: number) => {
+			const w = Math.max(1, targetCanvas.clientWidth);
+			const h = Math.max(1, targetCanvas.clientHeight);
+			const bufW = Math.round(w * renderer.dpr);
+			const bufH = Math.round(h * renderer.dpr);
+			if (targetCanvas.width !== bufW || targetCanvas.height !== bufH) {
+				targetCanvas.width = bufW;
+				targetCanvas.height = bufH;
+				renderer.width = w;
+				renderer.height = h;
+				renderer.state.viewport = { x: 0, y: 0, width: null, height: null };
+				resolutionUniform.set(w, h);
+			}
 			const delta = previous ? (now - previous) / 1000 : 0;
 			previous = now;
 
@@ -296,7 +294,6 @@
 
 		return () => {
 			window.cancelAnimationFrame(raf);
-			observer.disconnect();
 			targetCanvas.removeEventListener("pointermove", handlePointerMove);
 			targetCanvas.removeEventListener("pointerleave", handlePointerLeave);
 			setColorSource = undefined;
