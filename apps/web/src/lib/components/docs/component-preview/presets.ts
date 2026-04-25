@@ -653,12 +653,11 @@ export const componentPreviewControls = {
 		}),
 	],
 	"flip-grid": [
-		number("columns", "Columns", {
-			defaultValue: 4,
-			min: 1,
-			max: 4,
-			step: 1,
-		}),
+		select("columns", "Columns", 4, [
+			{ label: "4", value: 4 },
+			{ label: "3", value: 3 },
+			{ label: "2", value: 2 },
+		]),
 		number("duration", "Duration", {
 			defaultValue: 0.5,
 			min: 0.05,

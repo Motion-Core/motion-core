@@ -294,7 +294,7 @@
 					onchange={(event) => updateSelect(event.currentTarget.value)}
 				>
 					{#each control.options as option (option.value)}
-						<option value={option.value}>{option.label}</option>
+						<option value={String(option.value)}>{option.label}</option>
 					{/each}
 				</select>
 				<span
