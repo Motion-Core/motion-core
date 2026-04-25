@@ -290,7 +290,7 @@
 				<select
 					id={inputId}
 					value={stringValue}
-					class="h-8 appearance-none rounded-sm bg-background pr-8 pl-3 text-right text-sm font-medium text-foreground card transition-colors duration-150 ease-out focus:outline-none"
+					class="h-8 appearance-none rounded-sm bg-background pr-8 pl-3 text-left text-sm font-medium text-foreground card transition-colors duration-150 ease-out focus-visible:outline-transparent focus-visible:transition-none"
 					onchange={(event) => updateSelect(event.currentTarget.value)}
 				>
 					{#each control.options as option (option.value)}
