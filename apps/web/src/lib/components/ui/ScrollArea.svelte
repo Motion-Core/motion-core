@@ -7,6 +7,7 @@
 		class?: string;
 		id?: string;
 		children?: Snippet;
+		mode?: "vertical" | "horizontal" | "both";
 		style?: string;
 		viewportClass?: string;
 		viewportStyle?: string;
@@ -16,11 +17,19 @@
 		class: className,
 		id,
 		children,
+		mode = "vertical",
 		style,
 		viewportClass,
 		viewportStyle,
 	}: Props = $props();
 	const viewportId = $derived(id ?? undefined);
+	const overflowClass = $derived(
+		mode === "horizontal"
+			? "overflow-x-auto overflow-y-hidden"
+			: mode === "both"
+				? "overflow-auto"
+				: "overflow-x-hidden overflow-y-auto",
+	);
 
 	let viewport = $state<HTMLDivElement | null>(null);
 	let isDragging = $state(false);
@@ -161,7 +170,8 @@
 		bind:this={viewport}
 		id={viewportId}
 		class={cn(
-			"scrollbar-hide min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto",
+			"scrollbar-hide min-h-0 w-full flex-1",
+			overflowClass,
 			viewportClass,
 		)}
 		style={viewportStyle}
