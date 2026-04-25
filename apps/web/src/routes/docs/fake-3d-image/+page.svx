@@ -65,7 +65,6 @@ import { Fake3DImage } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["fake-3d-image"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: fake3DImageDemoSource, language: "svelte" },
 		{

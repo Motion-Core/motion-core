@@ -84,6 +84,10 @@
 		uniforms: PlaneUniforms;
 	};
 
+	type RuntimeConfig = {
+		visibleCount: number;
+	};
+
 	const DEFAULT_DEPTH_RANGE = 50;
 	const MAX_HORIZONTAL_OFFSET = 8;
 	const MAX_VERTICAL_OFFSET = 8;
@@ -185,20 +189,26 @@
 
 	let canvas = $state<HTMLCanvasElement>();
 	let setImageItems = $state<(items: ImageItem[]) => void>();
+	let setRuntimeConfig = $state<(config: RuntimeConfig) => void>();
 
 	$effect(() => {
 		if (!setImageItems) return;
 		setImageItems(images);
 	});
 
+	$effect(() => {
+		if (!setRuntimeConfig) return;
+		setRuntimeConfig({ visibleCount });
+	});
+
 	onMount(() => {
 		const targetCanvas = canvas;
 		if (!targetCanvas) return;
 
-		const count = Math.max(1, Math.floor(visibleCount));
 		const depthRange = DEFAULT_DEPTH_RANGE;
 		const totalRange = depthRange;
-		const spatialPositions = makeSpatialPositions(count);
+		let count = Math.max(1, Math.floor(visibleCount));
+		let spatialPositions = makeSpatialPositions(count);
 
 		const renderer = new Renderer({
 			canvas: targetCanvas,
@@ -288,15 +298,7 @@
 		};
 		setImageItems = setTexturesFromImages;
 
-		const planesData: PlaneData[] = Array.from({ length: count }, (_, i) => ({
-			index: i,
-			z: count > 0 ? ((depthRange / count) * i) % depthRange : 0,
-			imageIndex: normalizedImages.length > 0 ? i % normalizedImages.length : 0,
-			x: spatialPositions[i]?.x ?? 0,
-			y: spatialPositions[i]?.y ?? 0,
-		}));
-
-		const planes: PlaneRuntime[] = Array.from({ length: count }, () => {
+		const createPlane = (): PlaneRuntime => {
 			const uniforms: PlaneUniforms = {
 				map: { value: fallbackTexture },
 				opacity: { value: 1 },
@@ -322,7 +324,38 @@
 			mesh.setParent(scene);
 
 			return { mesh, program, uniforms };
-		});
+		};
+
+		let planesData: PlaneData[] = [];
+		let planes: PlaneRuntime[] = [];
+
+		const disposePlane = (plane: PlaneRuntime) => {
+			plane.mesh.setParent(null);
+			plane.program.remove();
+		};
+
+		const resetPlanes = (nextVisibleCount: number) => {
+			planes.forEach(disposePlane);
+			count = Math.max(1, Math.floor(nextVisibleCount));
+			spatialPositions = makeSpatialPositions(count);
+			planesData = Array.from({ length: count }, (_, i) => ({
+				index: i,
+				z: count > 0 ? ((depthRange / count) * i) % depthRange : 0,
+				imageIndex:
+					normalizedImages.length > 0 ? i % normalizedImages.length : 0,
+				x: spatialPositions[i]?.x ?? 0,
+				y: spatialPositions[i]?.y ?? 0,
+			}));
+			planes = Array.from({ length: count }, createPlane);
+		};
+
+		resetPlanes(count);
+
+		setRuntimeConfig = (config) => {
+			const nextCount = Math.max(1, Math.floor(config.visibleCount));
+			if (nextCount === count) return;
+			resetPlanes(nextCount);
+		};
 
 		let scrollVelocity = 0;
 		let autoPlay = true;
@@ -528,10 +561,9 @@
 			targetCanvas.removeEventListener("wheel", handleWheel);
 			window.removeEventListener("keydown", handleKeyDown);
 			setImageItems = undefined;
+			setRuntimeConfig = undefined;
 
-			for (let i = 0; i < planes.length; i++) {
-				planes[i].program.remove();
-			}
+			planes.forEach(disposePlane);
 			geometry.remove();
 			textures.forEach(disposeTexture);
 			disposeTexture(fallbackTexture);

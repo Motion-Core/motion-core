@@ -141,6 +141,7 @@ export const componentPreviewControls = {
 				{ label: "Halftone", value: "halftone" },
 				{ label: "Bayer 4x4", value: "bayer4x4" },
 				{ label: "Bayer 8x8", value: "bayer8x8" },
+				{ label: "Void & Cluster", value: "voidAndCluster" },
 			],
 		},
 		number("pixelSize", "Pixel Size", {

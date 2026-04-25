@@ -27,7 +27,7 @@
 	let { color = "#17181A", highlightColor = "#FF6900" }: Props = $props();
 
 	let canvas = $state<HTMLCanvasElement>();
-	let uniforms = $state<{
+	let uniforms = $state.raw<{
 		u_time: { value: number };
 		u_resolution: { value: Vec3 };
 		u_baseColor: { value: Vec3 };

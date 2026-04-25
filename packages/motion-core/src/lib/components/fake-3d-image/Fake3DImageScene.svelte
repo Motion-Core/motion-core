@@ -56,7 +56,7 @@
 	};
 
 	let canvas = $state<HTMLCanvasElement>();
-	let uniforms = $state<UniformState>();
+	let uniforms = $state.raw<UniformState>();
 	let setColorSource = $state<(source: string) => void>();
 	let setDepthSource = $state<(source: string) => void>();
 

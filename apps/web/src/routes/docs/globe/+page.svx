@@ -41,7 +41,6 @@ import { Globe } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["globe"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: globeDemoSource, language: "svelte" },
 		{ name: "Globe.svelte", code: globeSource, language: "svelte" },

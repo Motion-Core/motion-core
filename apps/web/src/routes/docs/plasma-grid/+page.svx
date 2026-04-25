@@ -39,7 +39,6 @@ import { PlasmaGrid } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["plasma-grid"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: plasmaGridDemoSource, language: "svelte" },
 		{ name: "PlasmaGrid.svelte", code: plasmaGridSource, language: "svelte" },

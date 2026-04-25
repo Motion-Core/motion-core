@@ -92,7 +92,7 @@
 	const DEFAULT_PRIMARY: [number, number, number] = [1, 105 / 255, 0];
 
 	let canvas = $state<HTMLCanvasElement>();
-	let uniforms = $state<UniformState>();
+	let uniforms = $state.raw<UniformState>();
 
 	const toLinearTriplet = (
 		value: [number, number, number],

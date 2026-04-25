@@ -105,7 +105,7 @@
 	};
 
 	let canvas = $state<HTMLCanvasElement>();
-	let uniforms = $state<UniformState>();
+	let uniforms = $state.raw<UniformState>();
 	let setImageSource = $state<(source: string) => void>();
 	let setDitherMap = $state<(map: DitherMap) => void>();
 

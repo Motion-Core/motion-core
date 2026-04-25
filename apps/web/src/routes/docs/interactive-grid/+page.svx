@@ -39,7 +39,6 @@ import { InteractiveGrid } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["interactive-grid"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: interactiveGridDemoSource, language: "svelte" },
 		{

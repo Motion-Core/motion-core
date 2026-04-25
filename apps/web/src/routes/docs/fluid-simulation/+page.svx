@@ -40,7 +40,6 @@ import { FluidSimulation } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["fluid-simulation"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: fluidSimulationDemoSource, language: "svelte" },
 		{

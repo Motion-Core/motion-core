@@ -40,7 +40,6 @@ import { DitheredImage } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["dithered-image"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: ditheredImageDemoSource, language: "svelte" },
 		{

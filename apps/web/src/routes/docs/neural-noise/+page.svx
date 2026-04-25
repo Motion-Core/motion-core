@@ -39,7 +39,6 @@ import { NeuralNoise } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["neural-noise"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: neuralNoiseDemoSource, language: "svelte" },
 		{ name: "NeuralNoise.svelte", code: neuralNoiseSource, language: "svelte" },

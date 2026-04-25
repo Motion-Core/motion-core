@@ -61,7 +61,7 @@
 	};
 
 	let canvas = $state<HTMLCanvasElement>();
-	let uniforms = $state<UniformState>();
+	let uniforms = $state.raw<UniformState>();
 	let setImageSource = $state<(source: string) => void>();
 
 	const resolutionUniform = new Vec2(1, 1);

@@ -39,7 +39,6 @@ import { LavaLamp } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["lava-lamp"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: lavaLampDemoSource, language: "svelte" },
 		{

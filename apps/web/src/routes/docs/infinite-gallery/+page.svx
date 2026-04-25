@@ -41,7 +41,6 @@ import { InfiniteGallery } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["infinite-gallery"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: infiniteGalleryDemoSource, language: "svelte" },
 		{

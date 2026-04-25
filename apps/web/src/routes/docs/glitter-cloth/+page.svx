@@ -40,7 +40,6 @@ import { GlitterCloth } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["glitter-cloth"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: glitterClothDemoSource, language: "svelte" },
 		{

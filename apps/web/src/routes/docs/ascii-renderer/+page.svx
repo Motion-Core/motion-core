@@ -40,7 +40,6 @@ import { AsciiRenderer } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["ascii-renderer"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: asciiRendererDemoSource, language: "svelte" },
 		{

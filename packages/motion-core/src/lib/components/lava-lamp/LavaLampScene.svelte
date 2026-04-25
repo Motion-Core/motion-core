@@ -55,7 +55,7 @@
 	}: Props = $props();
 
 	let canvas = $state<HTMLCanvasElement>();
-	let uniforms = $state<{
+	let uniforms = $state.raw<{
 		uTime: { value: number };
 		uResolution: { value: Vec4 };
 		uColor: { value: Vec3 };

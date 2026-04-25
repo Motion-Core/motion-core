@@ -38,7 +38,6 @@ import { FluidImageReveal } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["fluid-image-reveal"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: fluidImageRevealDemoSource, language: "svelte" },
 		{

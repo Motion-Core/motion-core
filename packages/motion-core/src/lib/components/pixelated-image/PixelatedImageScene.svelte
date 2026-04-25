@@ -38,9 +38,14 @@
 		uIsDone: { value: number };
 	};
 
+	type RuntimeConfig = {
+		initialGridSize: number;
+		stepDuration: number;
+	};
+
 	let canvas = $state<HTMLCanvasElement>();
 	let setImageSource = $state<(source: string) => void>();
-	let resetAnimation = $state<() => void>();
+	let setRuntimeConfig = $state<(config: RuntimeConfig) => void>();
 
 	const vertexShader = `
 		attribute vec2 uv;
@@ -92,8 +97,8 @@
 	});
 
 	$effect(() => {
-		if (!resetAnimation) return;
-		resetAnimation();
+		if (!setRuntimeConfig) return;
+		setRuntimeConfig({ initialGridSize, stepDuration });
 	});
 
 	onMount(() => {
@@ -138,12 +143,14 @@
 			uIsDone: { value: 0 },
 		};
 
-		let currentGridSize = Math.max(1, initialGridSize);
+		let currentInitialGridSize = Math.max(1, initialGridSize);
+		let currentStepDuration = Math.max(0.0001, stepDuration);
+		let currentGridSize = currentInitialGridSize;
 		let isDone = false;
 		let elapsed = 0;
 
 		const resetState = () => {
-			currentGridSize = Math.max(1, initialGridSize);
+			currentGridSize = currentInitialGridSize;
 			isDone = false;
 			elapsed = 0;
 			imageTexture.minFilter = gl.NEAREST;
@@ -152,7 +159,20 @@
 			localUniforms.uGridSize.value = currentGridSize;
 			localUniforms.uIsDone.value = 0;
 		};
-		resetAnimation = resetState;
+		setRuntimeConfig = (config) => {
+			const nextInitialGridSize = Math.max(1, config.initialGridSize);
+			const nextStepDuration = Math.max(0.0001, config.stepDuration);
+			const shouldReset =
+				nextInitialGridSize !== currentInitialGridSize ||
+				nextStepDuration !== currentStepDuration;
+
+			currentInitialGridSize = nextInitialGridSize;
+			currentStepDuration = nextStepDuration;
+
+			if (shouldReset) {
+				resetState();
+			}
+		};
 
 		let imageToken = 0;
 		const loadImage = (source: string) => {
@@ -211,9 +231,11 @@
 
 			if (!isDone) {
 				elapsed += delta;
-				const safeStepDuration = Math.max(0.0001, stepDuration);
-				const step = Math.floor(elapsed / safeStepDuration);
-				const nextGrid = Math.max(1, initialGridSize * Math.pow(2, step));
+				const step = Math.floor(elapsed / currentStepDuration);
+				const nextGrid = Math.max(
+					1,
+					currentInitialGridSize * Math.pow(2, step),
+				);
 				currentGridSize = nextGrid;
 
 				if (currentGridSize > resolutionUniform.y) {
@@ -237,7 +259,7 @@
 			window.cancelAnimationFrame(raf);
 			observer.disconnect();
 			setImageSource = undefined;
-			resetAnimation = undefined;
+			setRuntimeConfig = undefined;
 			if (imageTexture.texture) {
 				gl.deleteTexture(imageTexture.texture);
 			}

@@ -39,7 +39,6 @@ import { WaterRipple } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["water-ripple"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: waterRippleDemoSource, language: "svelte" },
 		{

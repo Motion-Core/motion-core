@@ -39,7 +39,6 @@ import { GodRays } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["god-rays"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: godRaysDemoSource, language: "svelte" },
 		{

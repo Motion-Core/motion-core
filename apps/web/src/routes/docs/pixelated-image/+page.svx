@@ -39,7 +39,6 @@ import { PixelatedImage } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["pixelated-image"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: pixelatedImageDemoSource, language: "svelte" },
 		{

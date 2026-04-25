@@ -38,7 +38,6 @@ import { GlassPane } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["glass-pane"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: glassPaneDemoSource, language: "svelte" },
 		{ name: "GlassPane.svelte", code: glassPaneSource, language: "svelte" },

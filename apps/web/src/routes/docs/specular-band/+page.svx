@@ -39,7 +39,6 @@ import { SpecularBand } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["specular-band"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: specularBandDemoSource, language: "svelte" },
 		{

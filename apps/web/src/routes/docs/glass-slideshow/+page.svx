@@ -39,7 +39,6 @@ import { GlassSlideshow } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["glass-slideshow"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: glassSlideshowDemoSource, language: "svelte" },
 		{

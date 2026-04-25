@@ -39,7 +39,6 @@ import { Halo } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["halo"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: haloDemoSource, language: "svelte" },
 		{

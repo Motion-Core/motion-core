@@ -6,6 +6,11 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Canvas / Runtime**: Fixed live prop updates for OGL shader uniforms by avoiding deeply proxied Svelte state for runtime uniform objects.
+- **Canvas / Infinite Gallery**: Updated `visibleCount` changes to rebuild gallery planes inside the existing WebGL runtime instead of requiring a component remount.
+
 ## [0.11.0] - 2026-04-16
 
 ### Changed

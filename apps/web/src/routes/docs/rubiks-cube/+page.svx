@@ -39,7 +39,6 @@ import { RubiksCube } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["rubiks-cube"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: demoSource, language: "svelte" },
 		{ name: "RubiksCube.svelte", code: rubiksCubeSource, language: "svelte" },

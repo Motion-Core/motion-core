@@ -42,7 +42,6 @@ import { Card3D } from "$lib/motion-core";
 
 <ComponentPreview
 	controls={componentPreviewControls["card-3d"]}
-	refreshOnControlChange
 	sources={[
 		{ name: "Example", code: demoSource, language: "svelte" },
 		{ name: "Card3D.svelte", code: card3DSource, language: "svelte" },
