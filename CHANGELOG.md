@@ -6,6 +6,8 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.2] - 2026-04-26
+
 ### Fixed
 
 - **Canvas / All**: Replaced `ResizeObserver` + `renderer.setSize()` with tick-based resize detection across all OGL Scene components. `renderer.setSize()` was overwriting `canvas.style.width/height` with fixed pixel values, breaking GSAP Flip animations by making the canvas go blank during layout transitions. Canvas buffer dimensions are now updated every RAF frame from `clientWidth`/`clientHeight`, keeping CSS layout fully in control.
