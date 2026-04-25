@@ -6,6 +6,8 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-04-25
+
 ### Fixed
 
 - **Canvas / Runtime**: Fixed live prop updates for OGL shader uniforms by avoiding deeply proxied Svelte state for runtime uniform objects.
