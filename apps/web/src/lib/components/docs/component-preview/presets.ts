@@ -335,7 +335,7 @@ export const componentPreviewControls = {
 		number("pointCount", "Point Count", {
 			defaultValue: 25000,
 			min: 5000,
-			max: 60000,
+			max: 32000,
 			step: 1000,
 		}),
 		number("pointSize", "Point Size", {
