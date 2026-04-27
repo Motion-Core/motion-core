@@ -129,7 +129,7 @@ html {
 
 @layer base {
 	body {
-		@apply bg-background-inset font-sans text-foreground;
+		@apply bg-background-inset font-sans text-foreground antialiased;
 	}
 
 	* {
