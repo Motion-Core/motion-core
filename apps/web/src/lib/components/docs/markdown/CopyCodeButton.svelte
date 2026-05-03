@@ -74,16 +74,20 @@
 	<span class="sr-only">{copied ? "Copied code" : "Copy code"}</span>
 	<span
 		class={cn(
-			"transition-transform duration-150 ease-out",
-			copied && "scale-0 blur-[2px]",
+			"absolute transition-[opacity,filter,scale] duration-150 ease-out will-change-[opacity,filter,scale]",
+			copied
+				? "scale-[0.25] opacity-0 blur-xs"
+				: "blur-0 scale-100 opacity-100",
 		)}
 	>
 		<Copy size={16} />
 	</span>
 	<span
 		class={cn(
-			"absolute transition-transform duration-150 ease-out",
-			!copied && "scale-0 blur-[2px]",
+			"absolute transition-[opacity,filter,scale] duration-150 ease-out will-change-[opacity,filter,scale]",
+			copied
+				? "blur-0 scale-100 opacity-100"
+				: " scale-[0.25] opacity-0 blur-xs",
 		)}
 	>
 		<Checkmark size={16} />

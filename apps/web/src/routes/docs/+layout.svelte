@@ -242,7 +242,7 @@
 		</aside>
 
 		<div
-			class="relative mx-auto h-full w-full max-w-4xl min-w-0 overflow-hidden bg-background-inset pt-12 inset-shadow lg:my-4 lg:mr-4 lg:max-h-[calc(100dvh-2rem)] lg:overflow-visible lg:rounded-xl lg:pt-0 xl:mr-0"
+			class="inset-shadow relative mx-auto h-full w-full max-w-4xl min-w-0 overflow-hidden bg-background-inset pt-12 lg:my-4 lg:mr-4 lg:max-h-[calc(100dvh-2rem)] lg:overflow-visible lg:rounded-xl lg:pt-0 xl:mr-0"
 		>
 			<ScrollArea
 				id="docs-content-container"
@@ -280,7 +280,7 @@
 											target="_blank"
 											rel="noreferrer"
 											aria-label={`Open ${dependency.name} on npm`}
-											class="relative inline-flex w-fit rounded-sm bg-background-inset p-1 font-mono text-sm font-medium whitespace-nowrap text-foreground inset-shadow"
+											class="inset-shadow relative inline-flex w-fit rounded-sm bg-background-inset p-1 font-mono text-sm font-medium whitespace-nowrap text-foreground"
 										>
 											<code
 												class="rounded-[calc(var(--radius-base)*1.25)] bg-background px-1 py-0.5 card transition-colors duration-150 ease-out hover:bg-background-muted"
@@ -296,7 +296,9 @@
 								<MobileDocShareActions {rawPath} {rawUrl} {githubUrl} />
 							{/if}
 						</div>
-						<hr class="text-border" />
+						<hr
+							class="h-px border-0 bg-border shadow-2xs shadow-white dark:bg-black dark:shadow-border"
+						/>
 					{/if}
 
 					<div>

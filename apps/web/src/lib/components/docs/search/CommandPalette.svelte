@@ -131,7 +131,7 @@
 		onkeydown={(e) => e.key === "Escape" && close()}
 	>
 		<div
-			class="card relative w-full max-w-164 transform-gpu rounded-lg bg-background"
+			class="relative w-full max-w-164 transform-gpu rounded-lg bg-background card"
 			role="document"
 			transition:scale={{
 				duration: 300,
